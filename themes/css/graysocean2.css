@@ -1,0 +1,26 @@
+@import url("https://1nf1n1t3sm4sh3r.github.io/mm-playtest/themes/css/graysocean1.css");
+
+.playerSlot--icons {
+	display: none !important;
+}
+
+#kill-death-box .killed h3,
+#kill-death-box .died h2 {
+	text-indent: -9999px;
+	line-height: 0;
+}
+
+#kill-death-box .killed h3:after,
+#kill-death-box .died h2:after {
+	text-indent: 0;
+	line-height: initial;
+	display: block;
+}
+
+#kill-death-box .killed h3:after {
+	font-size: 0.8em;
+	content: "🌊ELIMINATED CONTESTANT🌊";
+}
+#kill-death-box .died h2:after {
+	content: "🌊RIP OCEAN MAN🌊";
+}

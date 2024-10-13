@@ -1,0 +1,703 @@
+:root {
+	--ss-yolk0: #001d47;
+	--ss-yolk: #001d47;
+	--ss-yolk2: #001d47;
+	--ss-red0: #00000000;
+	--ss-red: #001d47;
+	--ss-red2: #001d47;
+	--ss-pink: #478ef8;
+	--ss-pink1: #0d4d8c;
+	--ss-pink-light: #8ed3f5;
+	--ss-pink-dark: #0d4d8c;
+	--ss-brown: #001d47;
+	--ss-blue00: #ffffff;
+	--ss-blue0: #ffffff;
+	--ss-blue1: #ffffff;
+	--ss-blue2: #478ef8;
+	--ss-blue3: #0d4d8c;
+	--ss-blue4: #478ef8;
+	--ss-blue5: #001d47;
+	--ss-blue6: #478ef8;
+	--ss-blue7: #478ef8;
+	--ss-blue8: #0d4d8c;
+	--ss-green0: #001d47;
+	--ss-green1: #001d47;
+	--ss-green2: #001d47;
+	--ss-vip-yellow: #001d47;
+	--ss-green-login: #001d47;
+	--ss-orange1: #001d47;
+
+	/* Redsign colors */
+	--ss-red-btn-fill: #000000;
+	--ss-red-btn-outline: #000000;
+
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/boolet_bg1.jpeg');
+	--bg2: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/boolet_bg2.png');
+	--ss-me-player-bg: var(--bg2);
+
+	/* shadows */
+	--ss-box-shadow-1:  .16em .16em 0 #001d477d;
+
+	/* store */
+	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
+	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
+	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
+	--boolet-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/boolet_logo.svg");
+}
+
+.media-tab-container {
+	 background: var(--bg2);
+}
+
+#bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
+	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4));
+	border: var(--ss-common-border-width) solid var(--ss-blue4);
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header:before {
+	background-color: var(--ss-blue4);
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header {
+	 background-color: var(--ss-blue4);
+	 color: var(--ss-blue5);
+}
+
+.ss_select,
+.ss_field {
+	border-color: var(--ss-blue5) !important;
+}
+
+.ss_select,
+.ss_keybind,
+.ss_checkbox .checkmark,
+#grenadeThrow {
+	background: var(--ss-blue2);
+}
+.ss_checkbox .checkmark:after {
+	border-color: var(--ss-blue5);
+}
+
+.ss_select {
+	box-shadow: none;
+}
+
+.ss_keybind:hover,
+.ss_checkbox:hover input ~ .checkmark {
+	background-color: var(--ss-blue3);
+}
+
+.ss_checkbox.label {
+	color: var(--ss-blue2) !important;
+}
+
+.ss_keybind,
+.ss_select,
+.text_blue3,
+.settings-section .f_col i,
+.ss_field::placeholder {
+	color: var(--ss-blue5) !important;
+}
+
+#popupInnards .label {
+	color: var(--ss-blue2) !important;
+}
+
+.settings-section .f_col i:hover {
+	color: var(--ss-blue2) !important;
+}
+
+.popup_close {
+    text-shadow: .15em .15em 0 rgba(0, 29, 71, .9) !important;
+}
+
+.popup_close:hover {
+    text-shadow: .15em .15em 0 rgba(71, 142, 248, .9) !important;
+}
+
+.ss_slider::-webkit-slider-runnable-track {
+	background: var(--ss-blue2) !important;
+}
+
+.ss_slider::-webkit-slider-thumb {
+	border-color: var(--ss-blue2) !important;
+}
+
+.pause-bg {
+	background-origin: center;
+	background-size: cover;
+}
+
+#progress-container,
+.load_screen {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#progress-outer {
+	background: var(--ss-blue5) !important;
+}
+
+#progress-outer div {
+    background: var(--ss-blue2) !important;
+}
+
+#progressBar {
+	background: var(--ss-blue5) !important;
+}
+
+#logo-svg {
+	content: var(--boolet-logo) !important;
+}
+
+#megaModLogo {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/boolet_megaMod.png');
+}
+
+.is-paused .pause-ui-element,
+.profile-page-content,
+.popup_window:not(#joinPrivateGamePopup, #subStorePopup, #settingsPopup, #changelogPopup, #chicknWinner, #goldChickenPopup, #gameOptionsPopup, #tutorialPopup, #notificationPopup),
+#notificationPopup .notify-group,
+.play-panel-panels,
+.weapon-grid .weapon_img.weapon_selected,
+#weapon_select .weapon_img.weapon_selected,
+#equip_grid .grid-item.highlight:not(.customtheme, .is-premium, .is-vip, .item-tag-limited),
+#equip_itemtype .ico_itemtype.selected,
+.egg-color-select,
+.ss_bigtab.btn_toggleon,
+.ss_bigtab.selected,
+.limited-un-vaulted {
+	background: var(--bg2) !important;
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+.notify-group-challenges .text_white {
+    color: var(--ss-blue2) !important;
+}
+
+.ss_bigtab:not(.btn_toggleon, .selected),
+.stats-container .bg_blue2,
+.profile-stat-wrap,
+.weapon-grid .weapon_img:not(.weapon_selected, .weapon_disabled),
+#weapon_select .weapon_img:not(.weapon_selected, .weapon_disabled),
+#weapon_select,
+#equip_itemtype .ico_itemtype:not(.selected) {
+	background: none !important;
+}
+
+.weapon_disabled {
+	 background-color: var(--ss-blue3);
+}
+
+#weapon_select .text_blue8, 
+#weapon_select .text_blue3,
+.item-name {
+	color: var(--ss-white) !important;
+}
+
+#profileScreen .bg_blue3 {
+	background: var(--ss-blue5) !important;
+}
+
+.stat-grid-main-header {
+	 border-bottom: .2em solid var(--ss-blue2);
+}
+
+#settingsPopup,
+#changelogPopup,
+#chicknWinner,
+#gameOptionsPopup,
+#tutorialPopup,
+#equip_grid .grid-item:not(.customtheme, .is-premium, .is-vip, .item-tag-limited) {
+	background: #0015337d !important;
+}
+
+#equip_grid .grid-item:not(.customtheme, .is-premium, .is-vip, .item-tag-limited) .equip_icon {
+	filter: none;
+}
+
+#equip_itemtype .ico_itemtype,
+#equip_grid .grid-item:not(.customtheme, .is-premium, .is-vip, .item-tag-limited) {
+	border-width: 0 !important;
+}
+
+#item_type_selector .ico_itemtype {
+	 padding-left: .1em !important;
+}
+
+#weapon_select .weapon_img,
+.weapon-grid .weapon_img {
+	border: none !important;
+}
+
+.pause-game-weapon-select #weapon_select .text_blue8 {
+	color: var(--ss-white) !important;
+}
+
+.settings-section h3.margin-bottom-none,
+.settings-section h4.margin-bottom-none,
+.settings-section p,
+#settingsPopup .modsettings-icon,
+.limited-un-vaulted .text_blue5 {
+	color: var(--ss-blue2) !important;
+}
+
+#themeDesc,
+.mod-msg.info p {
+	color: var(--ss-blue5) !important;
+}
+
+.profile-page-content .bg_blue3 {
+	border-bottom: .2em solid var(--ss-blue5);
+}
+
+.badge-separator {
+	color: var(--ss-blue5) !important;
+}
+
+.media-tab-container h4 {
+	box-shadow: none;
+}
+
+#ico-checkmark path {
+	fill: var(--sss-blue5) !important;
+}
+
+.stat-wrapper .stat:nth-child(even) > div {
+	background-color: var(--ss-blue5);
+}
+
+.stat-wrapper .stat:nth-child(odd) > div {
+	background-color: var(--ss-blue2);
+}
+
+#settings .grid-column-3-eq .btn_red,
+#settings .grid-column-3-eq .btn_yolk {
+	border-color: var(--ss-blue3);  
+}
+
+#settings .grid-column-3-eq .btn_green {
+	border-color: var(--ss-blue5);  
+}
+
+.bevel_red {
+	box-shadow: 
+		var(--ss-box-shadow-1),
+		var(--ss-btn-dark-bevel) #001d47,
+		var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.bevel_green {
+	 box-shadow: var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) #001d47,
+	var(--ss-btn-light-bevel) var(--ss-green0);
+}
+
+#logo a {
+	content: var(--boolet-logo) !important;
+	/* width: 13em; */
+	filter: drop-shadow(1mm 2mm 0mm rgba(0, 0 , 0, .3));
+}
+
+/*
+.egg_icon,
+.btn_buy_item img,
+.egg-price-egg {
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_goldenEgg.svg");
+}
+*/
+
+#themeDesc,
+.mod-msg {
+	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3) 60%);
+}
+
+#badgeInfoPopup tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}
+
+.egg-price-egg {
+	 scale: 80%;
+}
+
+.tab-content .media-item:nth-child(even) {
+	background: #2e7df5
+}
+.main-nav-item-bg {
+	fill: var(--ss-blue4);
+}
+
+.main-menu-button {
+	  color: var(--ss-blue5);
+}
+
+.main-menu-button .menu-icon {
+	fill: var(--ss-blue5);
+}
+
+.load_message {
+	color: var(--ss-blue2);
+}
+
+.social_icons:after { /* Added Code  */ 
+	content: 'Theme By Boolet & Infinite Smasher' !important;
+	text-wrap: wrap;
+	font-size: .8em;
+	font-family: 'Sigmar One';
+	color: var(--ss-blue2);
+	margin-left: -22.6em;
+	margin-top: -3.8em;
+	letter-spacing: 0.01em;
+}
+
+.changelog_content {
+	background: none;
+	border: .2em solid var(--ss-blue2);
+}
+
+.changelog_content section > h3 {
+	color: var(--ss-blue2);
+	border: .1em solid var(--ss-blue2);
+	padding: .2em .5em .2em .5em !important;
+	border-radius: var(--ss-space-lg);
+	max-width: fit-content;
+}
+
+.changelog_content h3 {
+	color: var(--ss-blue5);
+}
+
+#item_mask {
+	background: none;
+}
+
+h1,
+.shadow_blue4 { 
+	text-shadow: var(--ss-space-xs) var(--ss-space-xs) var(--ss-blue5) !important; 
+}
+
+.footer-nav,
+#footer_links_panel a,
+#footer_links_panel button {
+	color: var(--ss-blue2) !important;
+}
+
+.social-icons .social_icons .icon-wrap {
+	background: linear-gradient(to bottom right, var(--ss-white), var(--ss-blue2)) !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover .fa-steam,
+.social-icons .social_icons .icon-wrap:hover .fa-instagram {
+	background: var(--ss-blue2);
+}
+
+.social-icons .social_icons .icon-wrap:hover {
+	background: var(--ss-blue5) !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover i:not(.fa-instagram, .fa-steam) {
+	color: var(--ss-blue2) !important;
+}
+
+/* ------------------------------------ game.css ------------------------------------ */
+
+.healthBar {
+	transform-origin: center;
+	transform: rotate(90deg);
+	fill: transparent;
+	stroke: #478ef8 !important;
+	stroke-width: 1em;
+	stroke-dasharray: 14.4513em;
+	transition: all 0.3s ease-in-out;
+}
+
+#healthContainer {
+	position: absolute;
+	left: 50%; bottom: 1em;
+	transform: translateX(-50%);
+	display: inline-block;
+	width: 6em; height: 6em;
+	background: var(--bg2);
+	border-radius: 90% 50%;
+	text-align: center;
+}
+
+.healthYolk {
+	fill: #478ef8;
+}
+
+#healthHp {
+	 font-family: 'Nunito', sans-serif;
+	 font-weight: bold;
+	 color: var(--ss-white);
+	 font-size: 1.2em;
+}
+
+#chatIn {
+	color: var(--ss-blue2);
+}
+
+#inGameUI .title {
+	color: var(--ss-blue2);
+}
+
+#inGameUI {
+	background: var(--bg2);
+}
+
+#maskmiddle {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/boolet_scope.png') center center no-repeat;
+	background-size: contain;
+	width: 100vh;
+	height: 100vh;
+}
+
+.crosshair {
+	position: absolute;
+	transform-origin: 50% top;
+	top: 50%;
+	border: solid 0.05em #478ef8;
+	height: 0.8em;
+	margin-bottom: 0.12em;
+	opacity: 0.7;
+}
+
+#redDotReticle,
+#reticleDot {
+	background: #478ef8;
+	border: solid 0.05em #478ef8;
+}
+
+.crosshair.normal {
+	left: calc(50% - 0.15em);
+	background: #478ef8;
+	width: 0.3em;
+}
+
+.crosshair.powerful {
+	animation: backgroundAnim 10s linear 1s infinite;
+	border: solid 0.05em #478ef8;
+	background: backgroundAnim !important;
+}
+@keyframes backgroundAnim
+{
+	100%, 
+	00% { background: #001d47 }
+	08% { background: #001d47; }
+	16% { background: #478ef8; }
+	25% { background: #478ef8; }
+	33% { background: #001d47; }
+	41% { background: #001d47; }
+	50% { background: #478ef8; }
+	58% { background: #478ef8; }
+	66% { background: #001d47; }
+	75% { background: #001d47; }
+	83% { background: #478ef8; }
+	91% { background: #478ef8; }
+}
+
+.shotReticle.fill.normal {
+	border-color: #478ef8;
+	border-left: solid transparent;
+	border-right: solid transparent
+}
+
+.shotReticle.fill.powerful {
+	animation: borderAnim 10s linear 1s infinite;
+	border-color: borderAnim !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+@keyframes borderAnim {
+	100%, 
+	00% { border-color: #001d47 }
+	08% { border-color: #001d47; }
+	16% { border-color: #478ef8; }
+	25% { border-color: #478ef8; }
+	33% { border-color: #001d47; }
+	41% { border-color: #001d47; }
+	50% { border-color: #478ef8; }
+	58% { border-color: #478ef8; }
+	66% { border-color: #001d47; }
+	75% { border-color: #001d47; }
+	83% { border-color: #478ef8; }
+	91% { border-color: #478ef8; }
+}
+
+.shotReticle.border.normal {
+	border-color: #478ef8;
+	border-left: solid transparent;
+	border-right: solid transparent;
+}
+
+.shotReticle.border.powerful {
+	animation: borderAnim 10s linear 1s infinite;
+	border-color: borderAnim !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+.playerSlot--icons {
+	color: #478ef8 !important; 
+}
+
+.playerSlot--icons i {
+	margin-right: .2em;
+}
+
+.playerSlot--icons .vip-egg {
+	text-shadow: 10px 10px 2px rgb(0 0 0 / 50%);
+	content: url(https://shellshock.io/img/rickroll.gif) !important;
+	max-height: 1.4em;
+}
+
+.btn-respawn.bevel_red {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #001d47, var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.btn-respawn.bevel_green {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #001d47, var(--ss-btn-light-bevel) #0d4d8c;
+}
+
+.bevel_blue_light {
+	 box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) #478ef8,var(--ss-btn-light-bevel) #478ef8;
+}
+
+.bevel_blue {
+	 box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) #0d4d8c,var(--ss-btn-light-bevel) #478ef8;
+}
+
+.chw-progress-bar-inner {
+	background: var(--ss-blue3);
+}
+
+.chw-circular-timer-container-shadow {
+	background: var(--ss-blue2);
+}
+
+/* New UI */
+.kill-death-box-img {
+	content: url(https://shellshock.io/img/rickroll.gif);
+}
+
+.egg-breaker-timer {
+	color: var(--ss-blue5);
+}
+
+@keyframes fillAnim
+{
+	100%, 
+	00% { fill: #001d47 }
+	08% { fill: #001d47; }
+	16% { fill: #478ef8; }
+	25% { fill: #478ef8; }
+	33% { fill: #001d47; }
+	41% { fill: #001d47; }
+	50% { fill: #478ef8; }
+	58% { fill: #478ef8; }
+	66% { fill: #001d47; }
+	75% { fill: #001d47; }
+	83% { fill: #478ef8; }
+	91% { fill: #478ef8; }
+}
+
+.egg-breaker-icon {
+	animation: fillAnim 10s linear 1s infinite;
+	fill: fillAnim !important; 
+}
+
+.egg-breaker-msg {
+	color: #478ef8 !important;
+}
+
+#shellStreakCaption,
+#kill-death-box .killed h3, #kill-death-box .died h2 {
+	color: var(--ss-blue3);
+}
+
+#kill-death-box .killed h3,
+#kill-death-box .died h2 {
+	text-indent: -9999px;
+	line-height: 0;
+}
+
+#kill-death-box .killed h3:after,
+#kill-death-box .died h2:after {
+	text-indent: 0;
+	line-height: initial;
+	display: block;
+}
+
+#kill-death-box .killed h3:after {
+	content: "You Clapped";
+}
+#kill-death-box .died h2:after {
+	content: "You Got Clapped By";
+}
+
+
+#shellStreakCaptionStreak,
+#kill-death-box .text_yellow {
+	color: var(--ss-blue2);
+}
+
+.player-challenges-container {
+	background: linear-gradient(-124deg, var(--ss-blue2) 0%, var(--ss-blue3) 80%, var(--ss-blue5) 100%) !important;
+}
+
+.player-challenge-single-action-claimed {
+	background: var(--ss-blue2);
+}
+.player-challenge-claimed {
+	 color: var(--ss-blue5) !important;
+	 text-shadow: none !important;
+}
+
+#respawn-menu .media-tab-challenges .info-btn {
+	color: var(--ss-white) !important;
+}
+.media-tab-container .info-btn,
+.text_yellow_bright {
+	 color: #FFFC00 !important;
+}
+.bg_yellow {
+	 background-color: var(--ss-blue2) !important
+}
+
+.game-info,
+.game-info h1,
+.game-info h2 {
+	 color: var(--ss-white) !important;
+}
+
+.player-challenge-single .checkmark-wrap {
+	 border-top-color: var(--ss-blue2);
+}
+
+@keyframes strokeAnim
+{
+	100%, 
+	00% { stroke: #001d47 }
+	08% { stroke: #001d47; }
+	16% { stroke: #478ef8; }
+	25% { stroke: #478ef8; }
+	33% { stroke: #001d47; }
+	41% { stroke: #001d47; }
+	50% { stroke: #478ef8; }
+	58% { stroke: #478ef8; }
+	66% { stroke: #001d47; }
+	75% { stroke: #001d47; }
+	83% { stroke: #478ef8; }
+	91% { stroke: #478ef8; }
+}
+
+.healthBar-hardBoiled {
+	animation: strokeAnim 10s linear 1s infinite;
+	stroke: strokeAnim !important; 
+}
+
+.megamod-popup tbody tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}

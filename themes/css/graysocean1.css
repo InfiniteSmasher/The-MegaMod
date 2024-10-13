@@ -1,0 +1,590 @@
+:root {
+	--ss-yolk0: #022741;
+	--ss-yolk: #022741;
+	--ss-yolk2: #022741;
+	--ss-red0: #00000000;
+	--ss-red: #022741;
+	--ss-red2: #022741;
+	--ss-pink: #09c9d8;
+	--ss-pink1: #0584a4;
+	--ss-pink-light: #ffffff;
+	--ss-pink-dark: #0584a4;
+	--ss-brown: #022741;
+	--ss-blue00: #ffffff;
+	--ss-blue0: #ffffff;
+	--ss-blue1: #ffffff;
+	--ss-blue2: #09c9d8;
+	--ss-blue3: #0584a4;
+	--ss-blue4: #09c9d8;
+	--ss-blue5: #022741;
+	--ss-blue6: #09c9d8;
+	--ss-blue7: #09c9d8;
+	--ss-blue8: #1192BC;
+	--ss-green0: #00000000;
+	--ss-green1: #0584a4;
+	--ss-green2: #0584a4;
+	--ss-vip-yellow: #022741;
+	--ss-green-login: #0584a4;
+	--ss-orange1: #022741;
+
+	/* Redsign colors */
+	--ss-red-btn-fill: #022741;
+	--ss-red-btn-outline: #022741;
+
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_bg1.jpeg');
+	--ss-me-player-bg: linear-gradient(to right, #022741, #0584a4, #09c9d8);
+
+	/* shadows */
+	--ss-box-shadow-1:  .16em .16em 0 #0227417d;
+
+	/* store */
+	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
+	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
+	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
+	--ocean-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_logo.svg");
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header {
+	background-color: var(--ss-blue4);
+	color: var(--ss-blue5);
+}
+
+#bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
+	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4));
+	border: var(--ss-common-border-width) solid var(--ss-blue4)
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header:before {
+	background-color: var(--ss-blue4);
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header {
+	 background-color: var(--ss-blue4);
+	 color: var(--ss-blue5);
+}
+
+.ss_select,
+.ss_field {
+	border-color: var(--ss-blue5) !important;
+}
+
+.popup_close {
+    text-shadow: .15em .15em 0 rgba(2, 39, 65 ,.9) !important;
+}
+
+.popup_close:hover {
+    text-shadow: .15em .15em 0 rgba(9, 201, 216, .9) !important;
+}
+
+.ss_select,
+.ss_keybind,
+.ss_checkbox .checkmark,
+#grenadeThrow {
+	background: var(--ss-blue2);
+}
+.ss_checkbox .checkmark:after {
+	border-color: var(--ss-blue5);
+}
+
+.ss_select {
+	box-shadow: none;
+}
+
+.ss_keybind:hover,
+.ss_checkbox:hover input ~ .checkmark {
+	background-color: var(--ss-blue3);
+}
+
+.ss_checkbox.label {
+	color: var(--ss-blue2) !important;
+}
+
+.ss_keybind,
+.ss_select,
+.text_blue3,
+.settings-section .f_col i,
+.ss_field::placeholder {
+	color: var(--ss-blue5) !important;
+}
+
+#popupInnards .label {
+	color: var(--ss-blue2) !important;
+}
+
+.settings-section .f_col i:hover {
+	color: var(--ss-blue2) !important;
+}
+
+.ss_slider::-webkit-slider-runnable-track {
+	background: var(--ss-blue2) !important;
+}
+
+.ss_slider::-webkit-slider-thumb {
+	border-color: var(--ss-blue2) !important;
+}
+
+.pause-bg {
+	background-size: cover;
+}
+
+#progress-container,
+.load_screen {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#progress-outer {
+	background: var(--ss-blue5) !important;
+}
+
+#progressBar {
+	background: var(--ss-blue2) !important;
+}
+
+#logo-svg {
+	content: var(--ocean-logo) !important;
+}
+
+#megaModLogo {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_megaMod.png');
+}
+
+.is-paused .pause-ui-element,
+.profile-page-content,
+.profile-stat-wrap,
+.popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
+#notificationPopup .notify-group,
+.play-panel-panels {
+	background: linear-gradient(var(--ss-blue3), var(--ss-blue5)) !important;
+}
+
+.notify-group-challenges .text_white {
+    color: var(--ss-blue5) !important;
+    text-shadow: none !important;
+}
+
+.notify-group-challenges .text_blue5 {
+    color: var(--ss-blue2) !important;
+}
+
+.profile-page-content .bg_blue3 {
+	border-bottom: .2em solid var(--ss-blue5)
+}
+
+.media-tab-container h4 {
+	box-shadow: none;
+}
+
+#ico-checkmark path {
+	fill: var(--ss-blue5) !important;
+}
+
+.stat-wrapper .stat:nth-child(even) > div {
+	background-color: var(--ss-blue5);
+}
+
+#weapon_select .text_blue8 {
+	color: var(--ss-blue5) !important;
+}
+
+#settings .grid-column-3-eq .btn_red,
+#settings .grid-column-3-eq .btn_yolk {
+	border-color: var(--ss-blue3);  
+}
+
+#settings .grid-column-3-eq .btn_green {
+	border-color: var(--ss-blue5);  
+}
+
+.bevel_red {
+	box-shadow: 
+		var(--ss-box-shadow-1),
+		var(--ss-btn-dark-bevel) #022741,
+		var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.bevel_green {
+	 box-shadow: var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) #1192BC,
+	var(--ss-btn-light-bevel) var(--ss-green0);
+}
+
+.bevel_blue_light {
+	box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) var(--ss-blue3),var(--ss-btn-light-bevel) var(--ss-blue2);
+}
+
+#logo a {
+	content: var(--ocean-logo) !important;
+	/* width: 13em; */
+	filter: drop-shadow(1mm 2mm 0mm rgba(0, 0 , 0, .3));
+}
+
+.egg_icon,
+.btn_buy_item img,
+.egg-price-egg {
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_eggIcon.png");
+}
+
+#themeDesc,
+.mod-msg {
+	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3) 60%);
+}
+
+#badgeInfoPopup tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}
+
+.egg-color-select {
+	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3), var(--ss-blue5));
+}
+
+#equip_grid .grid-item:not(.morestuff, .is-premium, .item-tag-limited, .is-vip, .customtheme) {
+	 background: linear-gradient(to right bottom, white, var(--ss-blue2), var(--ss-blue5));
+}
+
+#equip_grid .grid-item:not(.morestuff, .is-premium, .item-tag-limited, .is-vip, .customtheme).highlight {
+	 background: radial-gradient(white, var(--ss-blue2), var(--ss-blue5)) !important;
+}
+
+.egg-price-egg {
+	 scale: 80%;
+}
+
+.tab-content .media-item:nth-child(even) {
+	background: #09c9d8;
+}
+.main-nav-item-bg {
+	fill: var(--ss-blue4);
+}
+
+.main-menu-button {
+	  color: var(--ss-blue5);
+}
+
+.main-menu-button .menu-icon {
+	fill: var(--ss-blue5);
+}
+
+.load_message {
+	color: var(--ss-blue3);
+}
+
+.social_icons:after { /* Added Code  */ 
+	content: 'Theme By Infinite Smasher' !important;
+	font-family: 'Sigmar One';
+	color: var(--ss-blue5);
+	margin-left: -16.7em;
+	margin-top: -3.8em;
+	letter-spacing: 0.01em;
+}
+
+.changelog_content {
+	background: none;
+	border: .2em solid var(--ss-blue2);
+}
+
+.changelog_content section > h3 {
+	color: var(--ss-blue2);
+	border: .1em solid var(--ss-blue2);
+	padding: .2em .5em .2em .5em !important;
+	border-radius: var(--ss-space-lg);
+	max-width: fit-content;
+}
+
+.changelog_content h3 {
+	color: var(--ss-blue5);
+}
+
+#item_mask {
+	background: none;
+}
+
+h1,
+.shadow_blue4 { 
+	text-shadow: var(--ss-space-xs) var(--ss-space-xs) var(--ss-blue5) !important; 
+}
+
+.footer-nav,
+.footer-nav .ss_button_as_text,
+.item-name {
+	color: var(--ss-blue2) !important;
+}
+
+.social-icons .social_icons .icon-wrap {
+	background: none !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover .fa-steam,
+.social-icons .social_icons .icon-wrap:hover .fa-instagram {
+	background: var(--ss-blue2);
+}
+
+.social-icons .social_icons .icon-wrap:hover {
+	background: var(--ss-blue5) !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover i:not(.fa-instagram, .fa-steam) {
+	color: var(--ss-blue2) !important;
+}
+
+/* ------------------------------------ game.css ------------------------------------ */
+
+.healthBar {
+	stroke: #0584a4 !important;
+}
+
+.healthYolk {
+	fill: #09c9d8;
+}
+
+#chatIn {
+	color: #09c9d8;
+}
+
+#inGameUI .title {
+	font-size: .8em;
+	color: #09c9d8;
+}
+
+#maskmiddle {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_scope.png') center center no-repeat;
+	background-size: contain;
+	width: 100vh;
+	height: 100vh;
+}
+
+.crosshair {
+	position: absolute;
+	transform-origin: 50% top;
+	top: 50%;
+	border: solid 0.05em var(--ss-blue5);
+	height: 0.8em;
+	margin-bottom: 0.12em;
+	opacity: 0.7;
+}
+
+#redDotReticle,
+#reticleDot {
+	background: var(--ss-blue2);
+	border: solid 0.05em var(--ss-blue5);
+}
+
+.crosshair.normal {
+	left: calc(50% - 0.15em);
+	background: var(--ss-blue2);
+	width: 0.3em;
+}
+
+.crosshair.powerful {
+	animation: rainbowBackground 10s linear 1s infinite;
+	border: solid 0.05em var(--ss-blue5);
+	background: rainbowBackground !important;
+}
+@keyframes rainbowBackground
+{
+	100%, 
+	00% { background: rgb(255,000,000); }
+	08% { background: rgb(255,127,000); }
+	16% { background: rgb(255,255,000); }
+	25% { background: rgb(127,255,000); }
+	33% { background: rgb(000,255,000); }
+	41% { background: rgb(000,255,127); }
+	50% { background: rgb(000,255,255); }
+	58% { background: rgb(000,127,255); }
+	66% { background: rgb(000,000,255); }
+	75% { background: rgb(127,000,255); }
+	83% { background: rgb(255,000,255); }
+	91% { background: rgb(255,000,127); }
+}
+
+.shotReticle.fill.normal {
+	border-color: var(--ss-blue2);
+	border-left: solid transparent;
+	border-right: solid transparent
+}
+
+.shotReticle.fill.powerful {
+	animation: rainbowBorder 10s linear 1s infinite;
+	border-color: rainbowBorder !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+@keyframes rainbowBorder {
+	100%, 
+	00% { border-color: rgb(255,000,000); }
+	08% { border-color: rgb(255,127,000); }
+	16% { border-color: rgb(255,255,000); }
+	25% { border-color: rgb(127,255,000); }
+	33% { border-color: rgb(000,255,000); }
+	41% { border-color: rgb(000,255,127); }
+	50% { border-color: rgb(000,255,255); }
+	58% { border-color: rgb(000,127,255); }
+	66% { border-color: rgb(000,000,255); }
+	75% { border-color: rgb(127,000,255); }
+	83% { border-color: rgb(255,000,255); }
+	91% { border-color: rgb(255,000,127); }
+}
+
+.shotReticle.border.normal {
+	border-color: var(--ss-blue2);
+	border-left: solid transparent;
+	border-right: solid transparent;
+}
+
+.shotReticle.border.powerful {
+	animation: rainbowBorder 10s linear 1s infinite;
+	border-color: rainbowBorder !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+.playerSlot--icons {
+	animation: rainbowColor 10s linear 1s infinite;
+	color: rainbowColor !important; 
+}
+@keyframes rainbowColor
+{
+	100%, 
+	00% { color: rgb(255,000,000); }
+	08% { color: rgb(255,127,000); }
+	16% { color: rgb(255,255,000); }
+	25% { color: rgb(127,255,000); }
+	33% { color: rgb(000,255,000); }
+	41% { color: rgb(000,255,127); }
+	50% { color: rgb(000,255,255); }
+	58% { color: rgb(000,127,255); }
+	66% { color: rgb(000,000,255); }
+	75% { color: rgb(127,000,255); }
+	83% { color: rgb(255,000,255); }
+	91% { color: rgb(255,000,127); }
+}
+
+.playerSlot--icons i {
+	margin-right: .2em;
+}
+
+.playerSlot--icons .vip-egg {
+	text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_vipIcon.png') !important;
+	max-height: 1.1em;
+	max-width: 1.1em;
+}
+
+.btn-respawn.bevel_red {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #022741, var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.btn-respawn.bevel_green {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) rgb(8,110,141), var(--ss-btn-light-bevel) rgb(0,173,230);
+}
+
+.chw-progress-bar-inner {
+	background: var(--ss-blue3);
+}
+
+.chw-circular-timer-container-shadow {
+	background: var(--ss-blue2);
+}
+
+/* New UI */
+.kill-death-box-img {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_ghost.gif');
+}
+
+.egg-breaker-timer {
+	color: var(--ss-blue5);
+}
+
+@keyframes rainbowFill
+{
+	100%, 
+	00% { fill: rgb(255,000,000); }
+	08% { fill: rgb(255,127,000); }
+	16% { fill: rgb(255,255,000); }
+	25% { fill: rgb(127,255,000); }
+	33% { fill: rgb(000,255,000); }
+	41% { fill: rgb(000,255,127); }
+	50% { fill: rgb(000,255,255); }
+	58% { fill: rgb(000,127,255); }
+	66% { fill: rgb(000,000,255); }
+	75% { fill: rgb(127,000,255); }
+	83% { fill: rgb(255,000,255); }
+	91% { fill: rgb(255,000,127); }
+}
+
+.egg-breaker-icon {
+	animation: rainbowFill 10s linear 1s infinite;
+	fill: rainbowFill !important; 
+}
+
+.egg-breaker-msg {
+	animation: rainbowColor 10s linear 1s infinite;
+	color: rainbowColor !important;
+}
+
+#shellStreakCaption,
+#kill-death-box .killed h3, #kill-death-box .died h2 {
+	color: var(--ss-blue3);
+}
+
+
+#shellStreakCaptionStreak,
+#kill-death-box .text_yellow {
+	color: var(--ss-blue2);
+}
+
+.player-challenges-container {
+	background: linear-gradient(-124deg, var(--ss-blue2) 0%, var(--ss-blue3) 80%, var(--ss-blue5) 100%) !important;
+}
+
+.player-challenge-single-action-claimed {
+	background: var(--ss-blue2);
+}
+.player-challenge-claimed {
+	 color: var(--ss-blue5) !important;
+	 text-shadow: none !important;
+}
+
+.media-tab-container .info-btn,
+.text_yellow_bright {
+	 color: #FFFC00 !important;
+}
+
+.player-challenge-single-progress-bar.bg_yellow {
+    background-color: var(--ss-blue2) !important;
+}
+
+#respawn-menu .media-tab-challenges .info-btn {
+	color: var(--ss-white) !important;
+}
+
+.player-challenge-single .checkmark-wrap {
+	 border-top-color: var(--ss-blue2);
+}
+
+@keyframes rainbowStroke
+{
+	100%, 
+	00% { stroke: rgb(255,000,000); }
+	08% { stroke: rgb(255,127,000); }
+	16% { stroke: rgb(255,255,000); }
+	25% { stroke: rgb(127,255,000); }
+	33% { stroke: rgb(000,255,000); }
+	41% { stroke: rgb(000,255,127); }
+	50% { stroke: rgb(000,255,255); }
+	58% { stroke: rgb(000,127,255); }
+	66% { stroke: rgb(000,000,255); }
+	75% { stroke: rgb(127,000,255); }
+	83% { stroke: rgb(255,000,255); }
+	91% { stroke: rgb(255,000,127); }
+}
+
+.healthBar-hardBoiled {
+	animation: rainbowStroke 10s linear 1s infinite;
+	stroke: rainbowStroke !important; 
+}
+
+.megamod-popup tbody tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}

@@ -1,0 +1,611 @@
+:root {
+	--ss-yolk0: #0a1633;
+	--ss-yolk: #0a1633;
+	--ss-yolk2: #0a1633;
+	--ss-red0: #00000000;
+	--ss-red: #0a1633;
+	--ss-red2: #0a1633;
+	--ss-pink: #1795d2;
+	--ss-pink1: #0d4d8c;
+	--ss-pink-light: #8ed3f5;
+	--ss-pink-dark: #0d4d8c;
+	--ss-brown: #0a1633;
+	--ss-blue00: #ffffff;
+	--ss-blue0: #ffffff;
+	--ss-blue1: #ffffff;
+	--ss-blue2: #1795d2;
+	--ss-blue3: #0d4d8c;
+	--ss-blue4: #1795d2;
+	--ss-blue5: #0a1633;
+	--ss-blue6: #1795d2;
+	--ss-blue7: #1795d2;
+	--ss-blue8: #0d4d8c;
+	--ss-green0: #00000000;
+	--ss-green1: #0d4d8c;
+	--ss-green2: #0d4d8c;
+	--ss-vip-yellow: #0a1633;
+	--ss-green-login: #0d4d8c;
+	--ss-orange1: #0a1633;
+
+	/* Redsign colors */
+	--ss-red-btn-fill: #000000;
+	--ss-red-btn-outline: #000000;
+
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_bg.png');
+	--ss-me-player-bg: linear-gradient(to bottom right, var(--ss-blue5), var(--ss-blue3), var(--ss-blue2));
+
+	/* shadows */
+	--ss-box-shadow-1:  .16em .16em 0 rgba(10,22, 51, .5);
+
+	/* store */
+	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
+	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
+	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
+	--infinite-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_logo.png");
+}
+
+#bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
+	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4));
+	border: var(--ss-common-border-width) solid var(--ss-blue4);
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header:before {
+	background-color: var(--ss-blue4);
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header {
+	 background-color: var(--ss-blue4);
+	 color: var(--ss-blue5);
+}
+
+.ss_select,
+.ss_field {
+	border-color: var(--ss-blue5) !important;
+}
+
+.ss_select,
+.ss_keybind,
+.ss_checkbox .checkmark,
+#grenadeThrow {
+	background: var(--ss-blue2);
+}
+.ss_checkbox .checkmark:after {
+	border-color: var(--ss-blue5);
+}
+
+.ss_select {
+	box-shadow: none;
+}
+
+.ss_keybind:hover,
+.ss_checkbox:hover input ~ .checkmark {
+	background-color: var(--ss-blue3);
+}
+
+.ss_checkbox.label {
+	color: var(--ss-blue2) !important;
+}
+
+.ss_keybind,
+.ss_select,
+.text_blue3,
+.settings-section .f_col i,
+.ss_field::placeholder {
+	color: var(--ss-blue5) !important;
+}
+
+#popupInnards .label {
+	color: var(--ss-blue2) !important;
+}
+
+.settings-section .f_col i:hover {
+	color: var(--ss-blue2) !important;
+}
+
+.ss_slider::-webkit-slider-runnable-track {
+	background: var(--ss-blue2) !important;
+}
+
+.ss_slider::-webkit-slider-thumb {
+	border-color: var(--ss-blue2) !important;
+}
+
+.pause-bg {
+	background-origin: center;
+	background-size: cover;
+}
+
+#progress-container,
+.load_screen {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#progress-outer {
+	background: var(--ss-blue5) !important;
+}
+
+#progress-outer div {
+    background: var(--ss-blue2) !important;
+}
+
+#progressBar {
+	background: var(--ss-blue5) !important;
+}
+
+#logo-svg {
+	content: var(--infinite-logo) !important;
+}
+
+#megaModLogo {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_megaMod.png');
+}
+
+.is-paused .pause-ui-element,
+.profile-page-content,
+.profile-stat-wrap,
+.popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
+#notificationPopup .notify-group,
+.play-panel-panels {
+	background: linear-gradient(var(--ss-blue3), var(--ss-blue5)) !important;
+}
+
+.notify-group-challenges .text_white {
+    color: var(--ss-blue5) !important;
+    text-shadow: none !important;
+}
+
+.notify-group-challenges .text_blue5 {
+    color: var(--ss-blue2) !important;
+}
+
+.popup_close {
+    text-shadow: .15em .15em 0 rgba(10, 22, 51, .9) !important;
+}
+
+.popup_close:hover {
+    text-shadow: .15em .15em 0 rgba(23, 149, 210, .9) !important;
+}
+
+.profile-page-content .bg_blue3 {
+	border-bottom: .2em solid var(--ss-blue5)
+}
+
+.media-tab-container h4 {
+	box-shadow: none;
+}
+
+#ico-checkmark path {
+	fill: var(--ss-blue5) !important;
+}
+
+.stat-wrapper .stat:nth-child(even) > div {
+	background-color: var(--ss-blue5);
+}
+
+#weapon_select .text_blue8 {
+	color: var(--ss-blue5) !important;
+}
+
+#settings .grid-column-3-eq .btn_red,
+#settings .grid-column-3-eq .btn_yolk {
+	border-color: var(--ss-blue3);  
+}
+
+#settings .grid-column-3-eq .btn_green {
+	border-color: var(--ss-blue5);  
+}
+
+.bevel_red {
+	box-shadow: 
+		var(--ss-box-shadow-1),
+		var(--ss-btn-dark-bevel) #0a1633,
+		var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.bevel_green {
+	 box-shadow: var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) #0d4d8c,
+	var(--ss-btn-light-bevel) var(--ss-green0);
+}
+
+#logo a {
+	content: var(--infinite-logo) !important;
+	width: 13em;
+	filter: drop-shadow(1mm 2mm 0mm rgba(0, 0 , 0, .3));
+}
+
+.egg_icon,
+.btn_buy_item img,
+.egg-price-egg {
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_goldenEgg.svg");
+}
+
+#themeDesc,
+.mod-msg {
+	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3) 60%);
+}
+
+#badgeInfoPopup tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}
+
+.egg-color-select {
+	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3), var(--ss-blue5));
+}
+
+#equip_grid .grid-item:not(.morestuff, .is-premium, .item-tag-limited, .is-vip, .customtheme) {
+	 background: linear-gradient(to right bottom, white, var(--ss-blue2), var(--ss-blue5));
+}
+
+#equip_grid .grid-item:not(.morestuff, .is-premium, .item-tag-limited, .is-vip, .customtheme).highlight {
+	 background: radial-gradient(white, var(--ss-blue2), var(--ss-blue5)) !important;
+}
+
+.egg-price-egg {
+	 scale: 80%;
+}
+
+.tab-content .media-item:nth-child(even) {
+	background: #1795d2;
+}
+.main-nav-item-bg {
+	fill: var(--ss-blue4);
+}
+
+.main-menu-button {
+	  color: var(--ss-blue5);
+}
+
+.main-menu-button .menu-icon {
+	fill: var(--ss-blue5);
+}
+
+.load_message {
+	color: var(--ss-blue2);
+}
+
+.social_icons:after { /* Added Code  */ 
+	content: 'Theme By Infinite Smasher' !important;
+	font-family: 'Sigmar One';
+	color: var(--ss-blue5);
+	margin-left: -16.7em;
+	margin-top: -3.8em;
+	letter-spacing: 0.01em;
+}
+
+.changelog_content {
+	background: none;
+	border: .2em solid var(--ss-blue2);
+}
+
+.changelog_content section > h3 {
+	color: var(--ss-blue2);
+	border: .1em solid var(--ss-blue2);
+	padding: .2em .5em .2em .5em !important;
+	border-radius: var(--ss-space-lg);
+	max-width: fit-content;
+}
+
+.changelog_content h3 {
+	color: var(--ss-blue5);
+}
+
+#item_mask {
+	background: none;
+}
+
+h1,
+.shadow_blue4 { 
+	text-shadow: var(--ss-space-xs) var(--ss-space-xs) var(--ss-blue5) !important; 
+}
+
+.footer-nav,
+.footer-nav .ss_button_as_text,
+.item-name {
+	color: var(--ss-blue2) !important;
+}
+
+.social-icons .social_icons .icon-wrap {
+	background: linear-gradient(to bottom right, var(--ss-white), var(--ss-blue2)) !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover .fa-steam,
+.social-icons .social_icons .icon-wrap:hover .fa-instagram {
+	background: var(--ss-blue2);
+}
+
+.social-icons .social_icons .icon-wrap:hover {
+	background: var(--ss-blue5) !important;
+}
+
+.social-icons .social_icons .icon-wrap:hover i:not(.fa-instagram, .fa-steam) {
+	color: var(--ss-blue2) !important;
+}
+
+/* ------------------------------------ game.css ------------------------------------ */
+
+.healthBar {
+	stroke: var(--ss-yolk0) !important;
+}
+
+#healthContainer {
+	background: rgba(10,22, 51, .3);
+}
+
+.healthYolk {
+	fill: none;
+}
+
+#healthHp {
+	color: var(--ss-yolk0);
+}
+
+#chatIn {
+	color: var(--ss-blue2);
+}
+
+#inGameUI .title {
+	color: var(--ss-blue2);
+}
+
+#inGameUI {
+	  background-color: rgba(10,22, 51, .3) !important;
+}
+
+#maskmiddle {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_scope.png') center center no-repeat;
+	background-size: contain;
+	width: 100vh;
+	height: 100vh;
+}
+
+.crosshair {
+	position: absolute;
+	transform-origin: 50% top;
+	top: 50%;
+	border: solid 0.05em #0a1633;
+	height: 0.8em;
+	margin-bottom: 0.12em;
+	opacity: 0.7;
+}
+
+#redDotReticle,
+#reticleDot {
+	background: #1795d2;
+	border: solid 0.05em #0a1633;
+}
+
+.crosshair.normal {
+	left: calc(50% - 0.15em);
+	background: #1795d2;
+	width: 0.3em;
+}
+
+.crosshair.powerful {
+	animation: backgroundAnim 10s linear 1s infinite;
+	border: solid 0.05em #0a1633;
+	background: backgroundAnim !important;
+}
+@keyframes backgroundAnim
+{
+	100%, 
+	00% { background: #0a1633 }
+	08% { background: #0a1633; }
+	16% { background: #1795d2; }
+	25% { background: #1795d2; }
+	33% { background: #0a1633; }
+	41% { background: #0a1633; }
+	50% { background: #1795d2; }
+	58% { background: #1795d2; }
+	66% { background: #0a1633; }
+	75% { background: #0a1633; }
+	83% { background: #1795d2; }
+	91% { background: #1795d2; }
+}
+
+.shotReticle.fill.normal {
+	border-color: #55acee;
+	border-left: solid transparent;
+	border-right: solid transparent
+}
+
+.shotReticle.fill.powerful {
+	animation: borderAnim 10s linear 1s infinite;
+	border-color: borderAnim !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+@keyframes borderAnim {
+	100%, 
+	00% { border-color: #0a1633; }
+	08% { border-color: #0a1633; }
+	16% { border-color: #1795d2; }
+	25% { border-color: #1795d2; }
+	33% { border-color: #0a1633; }
+	41% { border-color: #0a1633; }
+	50% { border-color: #1795d2; }
+	58% { border-color: #1795d2; }
+	66% { border-color: #0a1633; }
+	75% { border-color: #0a1633; }
+	83% { border-color: #1795d2; }
+	91% { border-color: #1795d2; }
+}
+
+.shotReticle.border.normal {
+	border-color: #55acee;
+	border-left: solid transparent;
+	border-right: solid transparent;
+}
+
+.shotReticle.border.powerful {
+	animation: borderAnim 10s linear 1s infinite;
+	border-color: borderAnim !important;
+	border-left: solid transparent !important;
+	border-right: solid transparent !important;
+}
+
+.playerSlot--icons {
+	animation: colorAnim 10s linear 1s infinite;
+	color: colorAnim !important; 
+}
+@keyframes colorAnim
+{
+	100%, 
+	00% { color: #0a1633 }
+	08% { color: #0a1633; }
+	16% { color: #1795d2; }
+	25% { color: #1795d2; }
+	33% { color: #0a1633; }
+	41% { color: #0a1633; }
+	50% { color: #1795d2; }
+	58% { color: #1795d2; }
+	66% { color: #0a1633; }
+	75% { color: #0a1633; }
+	83% { color: #1795d2; }
+	91% { color: #1795d2; }
+}
+
+.playerSlot--icons i {
+	margin-right: .2em;
+}
+
+.playerSlot--icons .vip-egg {
+	text-shadow: 10px 10px 2px rgb(0 0 0 / 50%);
+	content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_goldenEgg.svg") !important;
+	max-height: 1.4em;
+}
+
+.btn-respawn.bevel_red {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #0a1633, var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.btn-respawn.bevel_green {
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #0d4d8c, var(--ss-btn-light-bevel) #1161b0;
+}
+
+.bevel_blue_light {
+	 box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) #1795d2,var(--ss-btn-light-bevel) #1795d2;
+}
+
+.bevel_blue {
+	 box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) #0d4d8c,var(--ss-btn-light-bevel) #1795d2;
+}
+
+.chw-progress-bar-inner {
+	background: var(--ss-blue3);
+}
+
+.chw-circular-timer-container-shadow {
+	background: var(--ss-blue2);
+}
+
+/* New UI */
+.kill-death-box-img {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_wolf.png');
+}
+
+.egg-breaker-timer {
+	color: var(--ss-blue5);
+}
+
+@keyframes fillAnim
+{
+	100%, 
+	00% { fill: #0a1633 }
+	08% { fill: #0a1633; }
+	16% { fill: #1795d2; }
+	25% { fill: #1795d2; }
+	33% { fill: #0a1633; }
+	41% { fill: #0a1633; }
+	50% { fill: #1795d2; }
+	58% { fill: #1795d2; }
+	66% { fill: #0a1633; }
+	75% { fill: #0a1633; }
+	83% { fill: #1795d2; }
+	91% { fill: #1795d2; }
+}
+
+.egg-breaker-icon {
+	animation: fillAnim 10s linear 1s infinite;
+	fill: fillAnim !important; 
+}
+
+.egg-breaker-msg {
+	animation: colorAnim 10s linear 1s infinite;
+	color: colorAnim !important;
+}
+
+#shellStreakCaption,
+#kill-death-box .killed h3, #kill-death-box .died h2 {
+	color: var(--ss-blue3);
+}
+
+
+#shellStreakCaptionStreak,
+#kill-death-box .text_yellow {
+	color: var(--ss-blue2);
+}
+
+.player-challenges-container {
+	background: linear-gradient(-124deg, var(--ss-blue2) 0%, var(--ss-blue3) 80%, var(--ss-blue5) 100%) !important;
+}
+
+.player-challenge-single-action-claimed {
+	background: var(--ss-blue2);
+}
+.player-challenge-claimed {
+	 color: var(--ss-blue5) !important;
+	 text-shadow: none !important;
+}
+
+#respawn-menu .media-tab-challenges .info-btn {
+	color: var(--ss-white) !important;
+}
+.media-tab-container .info-btn,
+.text_yellow_bright {
+	 color: #FFFC00 !important;
+}
+.bg_yellow {
+	 background-color: var(--ss-blue2) !important
+}
+
+.game-info,
+.game-info h1,
+.game-info h2,
+#footer_links_panel a,
+#footer_links_panel button,
+.footer-nav {
+	 color: var(--ss-white) !important;
+}
+
+.player-challenge-single .checkmark-wrap {
+	 border-top-color: var(--ss-blue2);
+}
+
+@keyframes strokeAnim
+{
+	100%, 
+	00% { stroke: #0a1633 }
+	08% { stroke: #0a1633; }
+	16% { stroke: #1795d2; }
+	25% { stroke: #1795d2; }
+	33% { stroke: #0a1633; }
+	41% { stroke: #0a1633; }
+	50% { stroke: #1795d2; }
+	58% { stroke: #1795d2; }
+	66% { stroke: #0a1633; }
+	75% { stroke: #0a1633; }
+	83% { stroke: #1795d2; }
+	91% { stroke: #1795d2; }
+}
+
+.healthBar-hardBoiled {
+	animation: strokeAnim 10s linear 1s infinite;
+	stroke: strokeAnim !important; 
+}
+
+.megamod-popup tbody tr:nth-child(even) {
+	background: var(--ss-blue6) !important;
+}
