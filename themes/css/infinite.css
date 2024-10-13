@@ -31,7 +31,7 @@
 	--ss-red-btn-fill: #000000;
 	--ss-red-btn-outline: #000000;
 
-	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_bg.png');
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_bg.png');
 	--ss-me-player-bg: linear-gradient(to bottom right, var(--ss-blue5), var(--ss-blue3), var(--ss-blue2));
 
 	/* shadows */
@@ -41,7 +41,7 @@
 	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
 	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
 	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
-	--infinite-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_logo.png");
+	--infinite-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_logo.png");
 }
 
 #bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
@@ -138,7 +138,7 @@
 }
 
 #megaModLogo {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_megaMod.png');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_megaMod.png');
 }
 
 .is-paused .pause-ui-element,
@@ -218,7 +218,7 @@
 .egg_icon,
 .btn_buy_item img,
 .egg-price-egg {
-	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_goldenEgg.svg");
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg");
 }
 
 #themeDesc,
@@ -354,7 +354,7 @@ h1,
 }
 
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;
@@ -473,7 +473,7 @@ h1,
 
 .playerSlot--icons .vip-egg {
 	text-shadow: 10px 10px 2px rgb(0 0 0 / 50%);
-	content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_goldenEgg.svg") !important;
+	content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg") !important;
 	max-height: 1.4em;
 }
 
@@ -503,7 +503,7 @@ h1,
 
 /* New UI */
 .kill-death-box-img {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/infinite_wolf.png');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_wolf.png');
 }
 
 .egg-breaker-timer {

@@ -31,7 +31,7 @@
 	--ss-red-btn-fill: #022741;
 	--ss-red-btn-outline: #022741;
 
-	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_bg1.jpeg');
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_bg1.jpeg');
 	--ss-me-player-bg: linear-gradient(to right, #022741, #0584a4, #09c9d8);
 
 	/* shadows */
@@ -41,7 +41,7 @@
 	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
 	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
 	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
-	--ocean-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_logo.svg");
+	--ocean-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_logo.svg");
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header {
@@ -146,7 +146,7 @@
 }
 
 #megaModLogo {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_megaMod.png');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_megaMod.png');
 }
 
 .is-paused .pause-ui-element,
@@ -222,7 +222,7 @@
 .egg_icon,
 .btn_buy_item img,
 .egg-price-egg {
-	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_eggIcon.png");
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_eggIcon.png");
 }
 
 #themeDesc,
@@ -347,7 +347,7 @@ h1,
 }
 
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;
@@ -466,7 +466,7 @@ h1,
 
 .playerSlot--icons .vip-egg {
 	text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_vipIcon.png') !important;
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_vipIcon.png') !important;
 	max-height: 1.1em;
 	max-width: 1.1em;
 }
@@ -489,7 +489,7 @@ h1,
 
 /* New UI */
 .kill-death-box-img {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mm-playtest/main/themes/img/graysocean_ghost.gif');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_ghost.gif');
 }
 
 .egg-breaker-timer {
