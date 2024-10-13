@@ -1,0 +1,17 @@
+{
+	"health": ["healthContainer", "egg-breaker-wrap"],
+	"crosshair": ["reticleDot", "reticleContainer"],
+	"grenadethrow": ["grenadeThrowContainer"],
+	"gamemode": ["captureIconWrap", "captureContainer", "teamScores", "spatulaPlayer", "cts-message"],
+	"ammo": ["weaponBox"],
+	"eggcount": ["account_panel"],
+	"chat": ["chatIn", "chatOut"],
+	"playerlist": ["playerList"],
+	"gametext": ["bigMessageContainer", "gameMessage"],
+	"killtext": ["kill-death-box"],
+	"readouts": ["inGameUI"],
+	"killfeed": ["killTicker"],
+	"streak": ["shellStreakContainer"],
+	"spectate": ["spectate"],
+	"misc": ["chickenBadge"]
+}

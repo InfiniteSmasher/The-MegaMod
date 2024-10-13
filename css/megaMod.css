@@ -1,0 +1,405 @@
+@import url("https://1nf1n1t3sm4sh3r.github.io/mmTest/mods/css/slider.css");
+@import url("https://1nf1n1t3sm4sh3r.github.io/mmTest/css/icons.css");
+
+/* Centered (Vertical) Checkbox Labels */ 
+.ss_checkbox.label {
+	padding-top: .29em !important;
+}
+
+/* MegaMod UI Stuff */
+#popupInnards {
+	min-height: 10em;
+}
+
+.grid-column-5-custom {
+	grid-template-columns: repeat(4, 1fr) 0.25fr;
+}
+
+@keyframes rotating {
+  from {
+	 -ms-transform: rotate(0deg);
+	 -moz-transform: rotate(0deg);
+	 -webkit-transform: rotate(0deg);
+	 -o-transform: rotate(0deg);
+	 transform: rotate(0deg);
+  }
+  to {
+	 -ms-transform: rotate(360deg);
+	 -moz-transform: rotate(360deg);
+	 -webkit-transform: rotate(360deg);
+	 -o-transform: rotate(360deg);
+	 transform: rotate(360deg);
+  }
+}
+
+.ss_bigtab.settingstab.selected i {
+	opacity: 1;
+	animation: rotating 2s linear infinite;
+}
+
+#mod_button.selected i {
+	opacity: 1;
+	filter: drop-shadow(.08em .08em 0 rgb(0 0 0 / 30%));
+}
+
+#mod_button i {
+	color: var(--ss-white);
+	opacity: 0.5;
+	scale: 115%;
+}
+
+#mod_button:hover:not(.selected) i {
+	opacity: 0.75;
+}
+
+#mainFooter,
+.main-footer {
+	 width: 120%;
+}
+
+#mainFooter .serverIcon {
+    width: 1.25em;
+    opacity: .7;
+    margin-bottom: -0.35em;
+}
+
+.ss_button_as_text.modServer {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ss_bigtab.settingstab {
+	min-width: 3em;
+	color: var(--ss-white);
+	cursor: default;
+}
+
+.ss_bigtab.settingstab i {
+	opacity: 0.5;
+	scale: 105%;
+}
+
+.ss_bigtab.settingstab:hover:not(.selected) i {
+	transition: all 1s ease-out;
+	transform: rotate(360deg);
+}
+
+.modsettings-icon {
+	color: var(--ss-blue4);
+	margin-left: 0.4em;
+	transition: all .2s ease-out;
+	transform: scale(1);
+}
+
+.modsettings-icon:hover {
+	opacity: 0.75;
+	transition: all .4s ease-out;
+	transform: rotate(180deg) scale(1.2);
+}
+
+.has-settings {
+	display: flex;
+	align-items: center;
+}
+
+.mod-msg {
+	padding: 1em;
+	border: .2em solid;
+	background: var(--ss-blue00);
+	width: 36.5em;
+	color: var(--ss-blue5);
+	margin-bottom: 0em !important;
+}
+
+.mod-msg h4 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.mod-msg p { 
+	margin-top: .5em;
+	margin-bottom: .5em;
+}
+
+.mod-msg.info h4 {
+	font-size: .9em;
+}
+
+.mod-msg.info p {
+	font-size: .8em;
+}
+
+.mod-msg.info a,
+.mod-msg.info i { 
+	font-size: 1em;
+}
+
+#settings_mods .margin-bottom-none {
+	margin-bottom: .5em !important;
+}
+
+#settings_modSettings {
+	min-height: 25em;
+}
+
+.mod-msg.reload {
+	color: red;
+}
+
+.mod-msg.reload h4 {
+	color: red !important;
+}
+
+.mod-msg.reload .ss_button {
+	background-color: #E81616;
+	border-color: #881A1A;
+	box-shadow: var(--ss-box-shadow-1),var(--ss-btn-dark-bevel) #d11414,var(--ss-btn-light-bevel) var(--ss-red0);
+}
+
+.mod-msg p i:hover,
+.mod-desc i:hover {
+	transition: all .2s ease-out;
+	transform: scale(1.2);
+}
+
+
+.dismiss_btn {
+	color: red;
+	position: absolute;
+	right: 3.7em;
+	padding: 0;
+	background-color: transparent;
+	border: none;
+	width: 2em;
+	height: 2em;
+	text-shadow: var(--ss-btn-common-txt-shadow);
+	transition: all .2s ease-in-out;
+}
+
+.dismiss_btn:hover {
+	text-shadow: var(--ss-btn-dark-shadow) !important;
+}
+
+.no-additional-settings {
+	font-family: 'Sigmar One';
+	margin-top: -1em !important;
+	padding-bottom: 1em !important;
+}
+
+@keyframes icon-alert-anim {
+  0% {
+	 transform: scale(1);
+  }
+  10% {
+	 transform: scale(1.2) rotate(10deg);
+	 color: var(--ss-white) !important;
+  }
+  20% {
+	 transform: scale(1);
+  }
+  40% {
+	 transform: scale(1.2) rotate(-10deg);
+	 color: var(--ss-white) !important;
+  }
+  60% {
+	 transform: scale(1);
+  }
+  100% {
+	 transform: scale(1);
+  }
+}
+
+.icon-alert {
+  transition: all .2s;
+  animation: 1.5s alternate icon-alert-anim;
+}
+
+.discord-logo {
+	color: #5539CC;
+}
+
+#legacyMode_weaponSelect {
+	width: 93%;
+}
+
+/* Killstreak Info */
+#killTicker { top: 13em !important; }
+
+/* Random Color Button */
+#equip_free_colors button {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#themeDesc {
+	color: var(--ss-blue5);
+	background: var(--ss-blue00);
+	border: .2em solid var(--ss-blue5);
+	padding: .2em .5em .2em .5em !important;
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
+
+.changelog-link {
+	opacity: .85;
+	text-decoration: underline;
+}
+
+.changelog-link:hover {
+	color: var(--ss-white);
+}
+
+
+/* Challenge Icon - Lazy hack to make it invisible! :D */
+.player-challenge-single .player-challenge-tool-tip.status {
+	display: none;
+}
+
+
+/* Popup Tables */
+.megamod-popup h1 {
+	text-shadow: var(--ss-space-xs) var(--ss-space-xs) var(--ss-blue4);
+}
+
+.megamod-popup h3 {
+	color: var(--ss-blue5);
+}
+
+.megamod-popup h1,
+.megamod-popup h3 {
+	margin-bottom: 0em;
+}
+
+.megamod-popup h1,
+.megamod-popup p {
+	margin-top: 0em;
+}
+
+.megamod-popup table {
+	width: 100%;
+	background-color: var(--ss-blue5);
+}
+
+.megamod-popup tbody tr:last-child td:first-child {
+	border-bottom-left-radius: var(--ss-space-md);
+}
+
+.megamod-popup tbody tr:last-child td:last-child {
+	border-bottom-right-radius: var(--ss-space-md);
+}
+
+.megamod-popup tbody tr td:first-child,
+.megamod-popup tbody tr td:nth-child(2) {
+	width: 1%;
+	white-space: nowrap;
+}
+
+.megamod-popup th {
+	position: sticky;
+	top: 0;
+	background: var(--ss-blue3);
+	color: var(--ss-white);
+	padding: 3px;
+	font-family: 'Sigmar One';
+	z-index: 1;
+	border-bottom: 2px solid var(--ss-blue5);
+}
+
+.megamod-popup th i {
+	color: var(--ss-white);
+}
+
+.megamod-popup .table-div {
+	width: 100%;
+	border-radius: var(--ss-space-md);
+	overflow-y: scroll;
+	outline: 1px solid var(--ss-blue5);
+	background:  var(--ss-blue5);
+}
+
+.megamod-popup tbody tr:nth-child(even) {
+	background: var(--ss-blue1);
+}
+
+.megamod-popup tbody tr:nth-child(odd) {
+	background: var(--ss-blue6);
+}
+
+.megamod-popup tbody tr:hover {
+	opacity: .7;
+}
+
+.megamod-popup tbody tr td {
+	color: var(--ss-blue5);
+	font-size: .85em;
+	padding: .6em .5em .6em .5em;
+}
+
+.megamod-popup th:first-child {
+	border-top-left-radius: calc(var(--ss-space-md) * 0.75);
+}
+
+.megamod-popup th:last-child {
+	border-top-right-radius: calc(var(--ss-space-md) * 0.75);
+}
+
+/* Chat Upgrade Icons */
+.chat-event,
+.chat-icon {
+	display: none;
+}
+
+/* Info Buttons */
+.info-btn {
+	color: var(--ss-blue5);
+	text-shadow: none;
+}
+
+.info-btn:hover {
+	color: white;
+}
+
+@keyframes icon-alert-idle {
+  50% {
+	 transform: scale(1);
+  }
+  51.25% {
+	 transform: scale(1.2) rotate(10deg);
+  }
+  52.5% {
+	 transform: scale(1);
+  }
+  55% {
+	 transform: scale(1.2) rotate(-10deg);
+  }
+  57.5% {
+	 transform: scale(1);
+  }
+  100% {
+	 transform: scale(1);
+  }
+}
+
+.info-btn {
+	transition: all .2s linear;
+	transform: scale(1.0);
+}
+
+.info-btn:hover {
+	transform: scale(1.3);
+}
+
+/* Hides chw in phootbooth (blocks photobooth spin buttons) */
+.photo-booth #chw-home {
+    display: none;
+}
+
+#modUpdatedPopup h3 {
+	margin-bottom: .25em;
+}
+
+#modUpdatedPopup .changelog_content {
+	height: fit-content;
+	max-height: 20em;
+	text-align: left;
+}

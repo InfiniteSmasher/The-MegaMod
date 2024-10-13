@@ -1,0 +1,378 @@
+/*------------------- Profile Edit Stuff -------------------*/
+#player_photo {
+	margin-top: var(--ss-space-sm); 
+	margin-right: var(--ss-space-lg);
+}
+
+#player_photo img {
+	max-width: 4em; 
+	max-height: 4em; 
+	border: 2px solid var(--ss-blue5) !important;
+}
+
+.profile-page-content aside {
+	text-align: right;
+}
+
+#profileScreen.has-badges section.display-grid {
+	 padding-bottom: .5em;
+}
+
+#profileScreen.has-badges #account-button {
+	 margin-top: 0.7em;
+}
+
+.profile-badge-container {
+	text-align: center; 
+	background: var(--ss-blue2); 
+	margin-top: 0.1em; 
+	margin-bottom: 0.3em; 
+	padding: 0.35em 0.6em 0.3em;
+	min-width: 10.3em;
+	display: inline-block;
+}
+
+.profile-badge-container h4 {
+	margin: 0em .5em .0em 0em;
+	font-size: .75em;
+}
+
+.info-btn-span {
+	display: flex;
+	align-items: center;
+}
+
+.profile-stat-wrap {
+	min-height: 27em !important;
+	max-height: 27em !important;
+}
+
+.stats-container-pfp {
+	height: 27.75em;
+}
+
+.shorter-stats-container-1 {
+	height: 26.75em !important;
+}
+
+.shorter-stats-container-2 {
+	height: 24.5em !important;
+}
+
+.shorter-stats-container-3 {
+	height: 22em !important;
+}
+
+.shorter-stats-container-4 {
+	height: 19.5em !important;
+}
+
+.profile-page-content .grid-column-2-eq {
+	grid-template-columns: 39% 61% !important;
+}
+
+.profile-page-content header h1 {
+	font-size: 1.4em;
+}
+
+/*------------------- Main Badges -------------------*/
+.badge-separator {
+	color: var(--ss-blue3);
+	margin-left: 0.75em; 
+	margin-right: 0.75em;
+	margin-top: 2px;
+	scale: 225%;
+}
+
+.main-badges .badge:not(:last-child),
+.tier-badges .badge:not(:last-child) {
+	margin-right: 0.5em;
+}
+
+.badge-vip {
+	color: gold;
+}
+
+.badge-wizard {
+	color: var(--ss-blue5);
+}
+
+.badge-mod {
+	background: linear-gradient( to bottom right, #7289da, #424549);
+}
+
+.badge-eggforcer {
+	background: linear-gradient( to bottom right, white, #eee, #bcc6cc, #a5b0b6);
+}
+
+.badge-og {
+	background: linear-gradient( to bottom right, #BA9368, #C49E76, #CEA984, #D9B393, #E3BEA1);
+}
+
+.badge-pandemic {
+	background: linear-gradient( to bottom right, #b9e1f9, #98d4f7, #88CFF9);
+}
+
+.badge-newbie {
+	background: linear-gradient( to bottom, #68e36e, #10850c);
+}
+
+.badge-eggorg20 {
+	background: radial-gradient(#171717, #B42F2B 80%);
+}
+
+.badge-eggorg21 {
+	background: linear-gradient( to bottom, black, gray);
+}
+
+.badge-eggorg22 {
+	background: linear-gradient( to bottom, #D46C36, #F6C846 75%);
+}
+
+.badge-eggorg23 {
+	background: linear-gradient( to bottom, #EBBBBC, #DA7273, #E373AA, #E25099, #AD2D4C, #801C20);
+}
+
+.badge-eggorg24 {
+	background: linear-gradient( to bottom right, #FDF251, #dbce1a);
+}
+
+.badge-scavenger22 {
+	background: radial-gradient(#DCDCD3, #D0CABC, #B6987E);
+}
+
+.badge-tester {
+	background: linear-gradient( to bottom right, #ffdc00 25%, #00ffb5, #00d4ff, #009dff 90%);
+}
+
+.main-badges i:not(.badge-vip, .badge-wizard),
+#badgeInfoPopup .table-div td i:not(.badge-vip, .badge-wizard),
+.tier-badges i {
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	-webkit-text-fill-color: transparent;
+	padding: .05em;
+}
+
+.tier1 {
+	background: linear-gradient( to bottom right, #cd7f32, #8c6239);
+}
+
+.tier2 {
+	background: linear-gradient( to bottom right, white, #eee, #bcc6cc, #a5b0b6);
+}
+
+.tier3,
+.tier4 {
+	background: linear-gradient( to bottom right, #ffd700, #daa520);
+}
+
+
+/* Boring! */
+/*
+@keyframes rainbowBadge
+{
+	0%   {background: #ff0000;}
+	20%  {background: #ad00ff;}
+	40%  {background: #0033ff;}
+	60%  {background: #00d7ff;}
+	80%  {background: #2fff00;}
+	100% {background: #ffd800;}
+}
+*/
+
+@keyframes rainbowBadge
+{
+	0%   {background: linear-gradient( to bottom right, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800);}
+	20%  {background: linear-gradient( to bottom right, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00);}
+	40%  {background: linear-gradient( to bottom right, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff);}
+	60%  {background: linear-gradient( to bottom right, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff);}
+	80%  {background: linear-gradient( to bottom right, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff);}
+	100% {background: linear-gradient( to bottom right, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000);}
+}
+
+.tier5:not(
+	.badge-premium, .badge-limited, 
+	.badge-yolker, .badge-egglite, 
+	.badge-drops, .badge-league, 
+	.badge-uniquechlg, .badge-totalchlg, 
+	.badge-kdr, .badge-modekills, 
+	.badge-modekdr
+) {
+	animation: rainbowBadge .3s linear .1s infinite;
+	background: rainbowBadge;
+}
+
+.badge-premium.tier5 {
+	background: linear-gradient( to bottom right, #3e9c35, #168118, #157811, #036704, #084f09);
+}
+
+.badge-limited.tier5 {
+	background: linear-gradient( to bottom right, #ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #f32ebc, #ed00b3, #e000a9, #d2009f, #c50095, #b8008b);
+}
+
+.badge-yolker.tier5 {
+	background: linear-gradient( to bottom right, #F1C59A, #D97611);
+}
+
+.badge-egglite.tier5 {
+	background: linear-gradient( to bottom right, #A2A2A2, #434343, black);
+}
+
+.badge-promo.tier5 {
+	background: linear-gradient( to right, var(--ss-blue4), var(--ss-blue3));
+}
+
+.badge-drops.tier5 {
+	background: linear-gradient( to bottom right, var(--twitch-lt-purple), var(--ss-twitch), var(--twitch-dk-purple));
+}
+
+.badge-league.tier5 {
+	background: linear-gradient( to bottom right, #FF1A1A, #400202);
+}
+
+.badge-uniquechlg.tier5 {
+	background: linear-gradient( to bottom, red, #982626);
+}
+
+.badge-totalchlg.tier5 {
+	background: linear-gradient( to bottom, white, #535961 60%, #323639);
+}
+
+.badge-kdr.tier5 {
+	background: linear-gradient( to bottom right, #f9f8f4, #e9e1d4, #e3dac9) !important;
+}
+
+.badge-modekills.tier5 {
+	background: linear-gradient(to top, #40281a 15%, #a5b0b6, #bcc6cc);
+}
+
+.badge-modekdr.tier5 {
+	background: linear-gradient(to bottom right, lime, #61f261);
+}
+
+/*
+.somefuturebadge.tier1 {
+	background: linear-gradient(135deg, #FF0000 0%, #FF6347 100%);
+}
+
+.somefuturebadge.tier2 {
+	background: linear-gradient(135deg, #1E90FF 0%, #4682B4 100%);
+}
+
+.somefuturebadge.tier3 {
+	background: linear-gradient(135deg, #00A86B 0%, #1ABC9C 100%);
+}
+
+.somefuturebadge.tier4 {
+	background: linear-gradient(135deg, #b81fff 0%, #d080f5 100%);
+}
+*/
+
+/* Badge Animations */
+.badge-hover:hover {
+	transition: all .2s ease-out;
+	transform: translateY(-.1em) scale(1.1);
+}
+
+.badge-hover:hover:not(.badge-hover-alt) {
+	color: white;
+}
+
+.badge-hover {
+	transition: all .5s linear;
+	transform: scale(1.0);
+}
+
+.badge-hover-alt:hover {
+	background: white;
+}
+
+@keyframes badge-idle-animation {
+  0% {
+	 transform: scale(1);
+  }
+  83% {
+	 transform: scale(1);
+  }
+  84% {
+	 transform: scale(1.3) translateY(-.1em);
+  }
+  86% {
+	 transform: rotate(7deg) scale(1.2);
+  }
+  87% {
+	 transform: rotate(-7deg) scale(1.2) translateY(-.1em);
+  }
+  89% {
+	 transform: rotate(7deg) scale(1.2) translateY(-.1em);
+  }
+  92% {
+	 transform: rotate(-7deg) scale(1.2) translateY(-.1em);
+  }
+  97% {
+	 transform: scale(0.75) translateY(-.1em);
+  }
+  100% {
+	 transform: scale(1);
+  }
+}
+
+.player-challenge-tool-tip.badge {
+	display: inline-block;
+	width: fit-content;
+}
+
+.player-challenge-tool-tip.badge .tool-tip {
+	position: relative;
+	margin: 0;
+}
+
+.player-challenge-tool-tip.badge .tool-tip-text {
+	position: absolute;
+	top: -.6em;
+	right: -3.5em;
+	padding: .75em;
+	width: 12.5em;
+	white-space: nowrap;
+}
+
+.player-challenge-tool-tip.badge .tool-tip > span,
+.player-challenge-tool-tip.badge .tool-tip div.tool-tip--bubble {
+	color: var(--ss-blue2);
+	box-shadow: 0.1em 0.1em 0em 0.1em var(--ss-blue1);
+}
+
+.player-challenge-tool-tip.badge .tool-tip > span:after,
+.player-challenge-tool-tip.badge .tool-tip div.tool-tip--bubble:after {
+	filter: drop-shadow(-2px 4px 0 var(--ss-blue1));
+}
+
+/* Badge Info */
+#badgeInfoPopup .badge-hover:not(:hover),
+.profile-badge-container:not(:hover) .badge-hover:not(:hover) {
+	animation: badge-idle-animation 8s ease-in-out infinite;
+}
+
+#badgeInfoPopup p:not(.badgeDesc) {
+	margin-bottom: 0em;
+}
+
+.badgeDesc {
+	color: var(--ss-blue5);
+	font-size: 0.9em;
+}
+
+.badgeDesc b {
+	font-size: 0.95em;
+}
+
+#badgeInfoPopup .table-div {
+	max-height: 12em;
+}
+
+#badgeInfoPopup tbody tr td:first-child {
+	padding: .55em;
+	text-align: center;
+	background: var(--ss-blue2);
+}

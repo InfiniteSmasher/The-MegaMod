@@ -1,0 +1,8 @@
+{
+	"announcement": "<b>October X, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!.<br>Explore all the mods and have fun :)<br><br>-Infinite",
+    "updateInfo": [
+        "Fixed all the bugs caused by the Game Engine Update (0.50.0)",
+        "Added support for proxies (Alternate URLs) to MegaMod userscript",
+        "Fixed some minor UI bugs with inventory items and profile badges"
+    ]
+}

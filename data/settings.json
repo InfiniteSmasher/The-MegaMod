@@ -1,0 +1,895 @@
+[ 
+	{
+		"id": "megaMod",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_megaMod",
+		"defaultVal": true,
+		"settings": [
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "megaMod_sfx",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_megaMod_sfx",
+						"defaultVal": true
+					},
+					{
+						"type": 4,
+						"active": true,
+						"locKey": "p_settings_mods_megaMod_sfx_title",
+						"parentId": "megaMod_sfx",
+						"showCondition": "extern.modSettingEnabled('megaMod_sfx', true)",
+						"settings": [
+							{
+								"id": "megaMod_sfx_tabs",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_megaMod_sfx_tabs",
+								"defaultVal": true
+							},
+							{
+								"id": "megaMod_sfx_hover",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_megaMod_sfx_hover",
+								"defaultVal": true
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "megaMod_cssPreload",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_megaMod_cssPreload",
+				"defaultVal": true,
+				"refreshReq": true
+			}
+		]
+	},
+	{
+		"id": "betterUI",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_betterUI",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "betterUI_ui",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_ui",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_inventory",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_inventory",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_pfp",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_pfp",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_badges",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_badges",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_roundness",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_roundness",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_colors",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_colors",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_chat",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_chat",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_hitMarkers",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_hitMarkers",
+				"defaultVal": true
+			},
+			{
+				"type": 4,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_chatEvents",
+				"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+				"settings": [
+					{
+						"id": "betterUI_chatEvent_joinGame",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_chatEvent_joinGame",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_chatEvent_leaveGame",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_chatEvent_leaveGame",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_chatEvent_switchTeam",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_chatEvent_switchTeam",
+						"defaultVal": true
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": "colorSlider",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_colorSlider",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "colorSlider_unlock",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_colorSlider_unlock",
+				"defaultVal": true
+			},
+			{
+				"id": "colorSlider_autoSave",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_colorSlider_autoSave",
+				"defaultVal": true
+			},
+			{
+				"id": "colorSlider_randomizer",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_colorSlider_randomizer",
+				"defaultVal": true
+			}
+		]
+	},
+	{
+		"id": "legacyMode",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_legacyMode",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "legacyMode_skins",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_legacyMode_skins",
+				"defaultVal": true
+			},
+			{
+				"id": "legacyMode_sfx",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_legacyMode_sfx",
+				"defaultVal": true
+			},
+			{
+				"type": 4,
+				"active": true,
+				"locKey": "",
+				"showCondition": "extern.modSettingEnabled('legacyMode_sfx', true)",
+				"settings": [
+					{
+						"id": "legacyMode_weaponSelect",
+						"locKey": "p_settings_mods_legacyMode_weaponSelect",
+						"type": 3,
+						"active": true,
+						"options": [
+							{ "id": "cluck9mm",   "locKey": "weapon_cluck_9mm"        },
+							{ "id": "eggk47",     "locKey": "weapon_soldier_title"    },
+							{ "id": "dozenGauge", "locKey": "weapon_scrambler_title"  },
+							{ "id": "csg1",       "locKey": "weapon_ranger_title"     },
+							{ "id": "rpegg",      "locKey": "weapon_eggsploder_title" },
+							{ "id": "smg",        "locKey": "weapon_whipper_title"    },
+							{ "id": "m24",        "locKey": "weapon_crackshot_title"  }
+						],
+						"defaultVal": "cluck9mm"
+					},
+
+					{
+						"id": "legacyMode_sfx_cluck9mm_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('cluck9mm')"
+					},
+					{
+						"id": "legacyMode_sfx_cluck9mm_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('cluck9mm') && extern.modSettingEnabled('legacyMode_sfx_cluck9mm_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_cluck9mm_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('cluck9mm') && extern.modSettingEnabled('legacyMode_sfx_cluck9mm_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_cluck9mm_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_cluck9mm_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('cluck9mm') && extern.modSettingEnabled('legacyMode_sfx_cluck9mm_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_eggk47_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('eggk47')"
+					},
+					{
+						"id": "legacyMode_sfx_eggk47_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('eggk47') && extern.modSettingEnabled('legacyMode_sfx_eggk47_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_eggk47_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('eggk47') && extern.modSettingEnabled('legacyMode_sfx_eggk47_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_eggk47_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_eggk47_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('eggk47') && extern.modSettingEnabled('legacyMode_sfx_eggk47_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_dozenGauge_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('dozenGauge')"
+					},
+					{
+						"id": "legacyMode_sfx_dozenGauge_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('dozenGauge') && extern.modSettingEnabled('legacyMode_sfx_dozenGauge_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_dozenGauge_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('dozenGauge') && extern.modSettingEnabled('legacyMode_sfx_dozenGauge_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_dozenGauge_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_dozenGauge_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('dozenGauge') && extern.modSettingEnabled('legacyMode_sfx_dozenGauge_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_csg1_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('csg1')"
+					},
+					{
+						"id": "legacyMode_sfx_csg1_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('csg1') && extern.modSettingEnabled('legacyMode_sfx_csg1_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_csg1_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('csg1') && extern.modSettingEnabled('legacyMode_sfx_csg1_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_csg1_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_csg1_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('csg1') && extern.modSettingEnabled('legacyMode_sfx_csg1_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_rpegg_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('rpegg')"
+					},
+					{
+						"id": "legacyMode_sfx_rpegg_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('rpegg') && extern.modSettingEnabled('legacyMode_sfx_rpegg_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_rpegg_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('rpegg') && extern.modSettingEnabled('legacyMode_sfx_rpegg_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_rpegg_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_rpegg_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('rpegg') && extern.modSettingEnabled('legacyMode_sfx_rpegg_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_smg_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('smg')"
+					},
+					{
+						"id": "legacyMode_sfx_smg_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('smg') && extern.modSettingEnabled('legacyMode_sfx_smg_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_smg_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('smg') && extern.modSettingEnabled('legacyMode_sfx_smg_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_smg_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_smg_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('smg') && extern.modSettingEnabled('legacyMode_sfx_smg_enabled', true)"
+					},
+
+					{
+						"id": "legacyMode_sfx_m24_enabled",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_enabled",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('m24')"
+					},
+					{
+						"id": "legacyMode_sfx_m24_fire",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_fire",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('m24') && extern.modSettingEnabled('legacyMode_sfx_m24_enabled', true)"
+					},
+					{
+						"id": "legacyMode_sfx_m24_defaultonly",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_defaultonly",
+						"defaultVal": false,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('m24') && extern.modSettingEnabled('legacyMode_sfx_m24_enabled', true) && extern.modSettingEnabled('legacyMode_sfx_m24_fire')"
+					},
+					{
+						"id": "legacyMode_sfx_m24_reload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_weaponsfx_reload",
+						"defaultVal": true,
+						"showCondition": "window.megaMod.legacyMode.selectedLegacyGun('m24') && extern.modSettingEnabled('legacyMode_sfx_m24_enabled', true)"
+					}
+				]
+			},
+			{
+				"type": 4,
+				"active": true,
+				"showCondition": "extern.modSettingEnabled('legacyMode_sfx', true)",
+				"settings": [
+					{
+						"type": 4,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_grenade",
+						"settings": [
+							{
+								"id": "legacyMode_sfx_gthrow",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_gthrow",
+								"defaultVal": true
+							},
+							{
+								"id": "legacyMode_sfx_gbeep",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_gbeep",
+								"defaultVal": true
+							},
+							{
+								"id": "legacyMode_sfx_gexplode",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_gexplode",
+								"defaultVal": true
+							},
+							{
+								"id": "legacyMode_sfx_defaultgexplode",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_defaultgexplode",
+								"defaultVal": false,
+								"showCondition": "extern.modSettingEnabled('legacyMode_sfx_gexplode', true)"
+							}
+						]
+					},
+					{
+						"type": 4,
+						"active": true,
+						"locKey": "p_settings_mods_legacyMode_other",
+						"settings": [
+							{
+								"id": "legacyMode_sfx_pickup",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_pickup",
+								"defaultVal": true
+							},
+							{
+								"id": "legacyMode_sfx_swap",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_legacyMode_sfx_swap",
+								"defaultVal": true
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": "hideHUD",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_hideHUD",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "hideHUD_keybind",
+				"type": 2,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_keybind",
+				"defaultVal": "H"
+			},
+			{
+				"id": "hideHUD_health",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_health",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_playerlist",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_playerlist",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_crosshair",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_crosshair",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_gametext",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_gametext",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_grenadethrow",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_grenadethrow",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_killtext",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_killtext",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_gamemode",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_gamemode",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_readouts",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_readouts",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_ammo",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_ammo",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_killfeed",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_killfeed",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_eggcount",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_eggcount",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_streak",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_streak",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_chat",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_chat",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_spectate",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_spectate",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_nametags",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_nametags",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_pickups",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_pickups",
+				"defaultVal": true
+			},
+			{
+				"id": "hideHUD_outlines",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_hideHUD_outlines",
+				"defaultVal": true
+			}
+		]
+	},
+	{
+		"id": "killstreakInfo",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_killstreakInfo",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "killstreakInfo_keybind",
+				"type": 2,
+				"active": false,
+				"locKey": "p_settings_mods_killstreakInfo_keybind",
+				"defaultVal": "K"
+			}
+		]
+	},
+	{
+		"id": "matchGrenades",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_matchGrenades",
+		"defaultVal": true
+	},
+	{
+		"id": "changeFPS",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_changeFPS",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "changeFPS_slider",
+				"type": 0,
+				"active": true,
+				"locKey": "p_settings_mods_changeFPS_slider",
+				"min": 1,
+				"max": 1000,
+				"step": 1,
+				"defaultVal": 90
+			}
+		]
+	},
+	{
+		"id": "specTweaks",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_specTweaks",
+		"defaultVal": true,
+		"settings": [
+			{
+				"type": 4,
+				"active": true,
+				"locKey": "p_settings_mods_specTweaks_fpv",
+				"settings": [
+					{
+						"id": "specTweaks_health",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_health",
+						"defaultVal": true
+					},
+					{
+						"id": "specTweaks_crosshair_main",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_crosshair_main",
+						"defaultVal": true
+					},
+					{
+						"id": "specTweaks_crosshair_dot",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_crosshair_dot",
+						"defaultVal": true
+					},
+					{
+						"id": "specTweaks_updown",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_updown",
+						"defaultVal": true
+					}
+				]
+			},
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "specTweaks_speedSlider",
+						"type": 0,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_speedSlider",
+						"min": 1,
+						"max": 200,
+						"step": 1,
+						"defaultVal": 100
+					},
+					{
+						"id": "specTweaks_freezeKeybind",
+						"type": 2,
+						"active": true,
+						"locKey": "p_settings_mods_specTweaks_freezeKeybind",
+						"defaultVal": "F"
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": "pbSpin",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_pbSpin",
+		"defaultVal": true
+	},
+	{
+		"id": "themeManager",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_themeManager",
+		"defaultVal": true,
+		"settings": [
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "themeManager_themeSelect",
+						"type": 3,
+						"active": true,
+						"locKey": "p_settings_mods_themeManager_themeSelect",
+						"options": [
+							{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1" },
+							{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2" },
+							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"      },
+							{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite"    }
+						],
+						"defaultVal": "graysocean1"
+					},
+					{
+						"id": "themeManager_preload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_themeManager_preload",
+						"defaultVal": true,
+						"refreshReq": true
+					}
+				]
+			},
+			{
+				"type": 5,
+				"active": true,
+				"locKey": "p_settings_mods_themeManager_themeDesc",
+				"html": "<p id='themeDesc'>Loading Theme Description...</p>"
+			}
+		]
+	},
+	{
+		"id": "customSkybox",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_customSkybox",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "customSkybox_skyboxCategorySelect",
+				"type": 3,
+				"active": true,
+				"locKey": "p_settings_mods_customSkybox_skyboxCategorySelect",
+				"options": [
+					{ "id": "official",    "locKey": "p_settings_mods_customSkybox_category_official"    },
+					{ "id": "colors",      "locKey": "p_settings_mods_customSkybox_category_colors"      },
+					{ "id": "landscapes",  "locKey": "p_settings_mods_customSkybox_category_landscapes"  },
+					{ "id": "allSky",      "locKey": "p_settings_mods_customSkybox_category_allSky"      },
+					{ "id": "cloudyCrown", "locKey": "p_settings_mods_customSkybox_category_cloudyCrown" },
+					{ "id": "colorSkies",  "locKey": "p_settings_mods_customSkybox_category_colorSkies"  },
+					{ "id": "space",       "locKey": "p_settings_mods_customSkybox_category_space"       },
+					{ "id": "nebula",      "locKey": "p_settings_mods_customSkybox_category_nebula"      },
+					{ "id": "other",       "locKey": "p_settings_mods_customSkybox_category_other"       }
+
+				],
+				"defaultVal": "official"
+			},
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "customSkybox_skyboxSelect",
+						"type": 3,
+						"active": true,
+						"locKey": "p_settings_mods_customSkybox_skyboxSelect",
+						"showCondition": "!window.megaMod.customSkybox.usingSkyboxColor",
+						"options": [],
+						"defaultVal": "default"
+					},
+					{
+						"type": 4,
+						"active": true,
+						"locKey": "p_settings_mods_customSkybox_colorSlider",
+						"showCondition": "window.megaMod.customSkybox.usingSkyboxColor",
+						"settings": [
+							{
+								"id": "customSkybox_colorSlider_r",
+								"type": 0,
+								"active": true,
+								"locKey": "p_settings_mods_customSkybox_colorSlider_r",
+								"min": 0,
+								"max": 255,
+								"step": 1,
+								"defaultVal": 85
+							},
+							{
+								"id": "customSkybox_colorSlider_g",
+								"type": 0,
+								"active": true,
+								"locKey": "p_settings_mods_customSkybox_colorSlider_g",
+								"min": 0,
+								"max": 255,
+								"step": 1,
+								"defaultVal": 170
+							},
+							{
+								"id": "customSkybox_colorSlider_b",
+								"type": 0,
+								"active": true,
+								"locKey": "p_settings_mods_customSkybox_colorSlider_b",
+								"min": 0,
+								"max": 255,
+								"step": 1,
+								"defaultVal": 255
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]

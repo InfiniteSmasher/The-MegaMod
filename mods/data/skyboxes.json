@@ -1,0 +1,83 @@
+{
+	"official": [
+		{ "id": "default",   "locKey": "p_settings_mods_customSkybox_skybox_default",   "path": "shellshock.io/img/skyboxes/default"   },
+		{ "id": "moonbase",  "locKey": "p_settings_mods_customSkybox_skybox_moonbase",  "path": "shellshock.io/img/skyboxes/moonbase"  },
+		{ "id": "night",     "locKey": "p_settings_mods_customSkybox_skybox_night",     "path": "shellshock.io/img/skyboxes/night"     },
+		{ "id": "whimsical", "locKey": "p_settings_mods_customSkybox_skybox_whimsical", "path": "shellshock.io/img/skyboxes/whimsical" }
+	],
+	"landscapes": [
+		{ "id": "hot",    "locKey": "p_settings_mods_customSkybox_skybox_hot",    "path": "other/hotPlanet"    },
+		{ "id": "cave",   "locKey": "p_settings_mods_customSkybox_skybox_cave",   "path": "other/cave"         },
+		{ "id": "rHills", "locKey": "p_settings_mods_customSkybox_skybox_rHills", "path": "other/rainbowHills" },
+		{ "id": "sHills", "locKey": "p_settings_mods_customSkybox_skybox_sHills", "path": "other/sunnyHills"   }
+	],
+	"allSky": [
+		{ "id": "blueSky",     "locKey": "p_settings_mods_customSkybox_skybox_blueSky"     },
+		{ "id": "nightSky",    "locKey": "p_settings_mods_customSkybox_skybox_nightSky"    },
+		{ "id": "coldNight",   "locKey": "p_settings_mods_customSkybox_skybox_coldNight"   },
+		{ "id": "coldSunset",  "locKey": "p_settings_mods_customSkybox_skybox_coldSunset"  },
+		{ "id": "deepDusk",    "locKey": "p_settings_mods_customSkybox_skybox_deepDusk"    },
+		{ "id": "eBlueSunset", "locKey": "p_settings_mods_customSkybox_skybox_eBlueSunset" },
+		{ "id": "eGlorPink",   "locKey": "p_settings_mods_customSkybox_skybox_eGlorPink"   },
+		{ "id": "nMoonBurst",  "locKey": "p_settings_mods_customSkybox_skybox_nMoonBurst"  },
+		{ "id": "overcast",    "locKey": "p_settings_mods_customSkybox_skybox_overcast"    },
+		{ "id": "spacePlanet", "locKey": "p_settings_mods_customSkybox_skybox_spacePlanet" }
+	],
+	"cloudyCrown": [
+		{ "id": "daybreak", "locKey": "p_settings_mods_customSkybox_skybox_daybreak" },
+		{ "id": "midday",   "locKey": "p_settings_mods_customSkybox_skybox_midday"   },
+		{ "id": "evening",  "locKey": "p_settings_mods_customSkybox_skybox_evening"  },
+		{ "id": "sunset",   "locKey": "p_settings_mods_customSkybox_skybox_sunset"   },
+		{ "id": "midnight", "locKey": "p_settings_mods_customSkybox_skybox_midnight" }
+	],
+	"colorSkies": [
+		{ "id": "Skybox_1", "locKey": "p_settings_mods_customSkybox_skybox_cSky1" },
+		{ "id": "Skybox_2", "locKey": "p_settings_mods_customSkybox_skybox_cSky2" },
+		{ "id": "Skybox_3", "locKey": "p_settings_mods_customSkybox_skybox_cSky3" },
+		{ "id": "Skybox_4", "locKey": "p_settings_mods_customSkybox_skybox_cSky4" },
+		{ "id": "Skybox_5", "locKey": "p_settings_mods_customSkybox_skybox_cSky5" },
+		{ "id": "Skybox_6", "locKey": "p_settings_mods_customSkybox_skybox_cSky6" },
+		{ "id": "Skybox_7", "locKey": "p_settings_mods_customSkybox_skybox_cSky7" },
+		{ "id": "Skybox_8", "locKey": "p_settings_mods_customSkybox_skybox_cSky8" }
+	],
+	"space": [
+		{ "id": "skybox1",  "locKey": "p_settings_mods_customSkybox_skybox_space1"  },
+		{ "id": "skybox2",  "locKey": "p_settings_mods_customSkybox_skybox_space2"  },
+		{ "id": "skybox3",  "locKey": "p_settings_mods_customSkybox_skybox_space3"  },
+		{ "id": "skybox4",  "locKey": "p_settings_mods_customSkybox_skybox_space4"  },
+		{ "id": "skybox5",  "locKey": "p_settings_mods_customSkybox_skybox_space5"  },
+		{ "id": "skybox6",  "locKey": "p_settings_mods_customSkybox_skybox_space6"  },
+		{ "id": "skybox7",  "locKey": "p_settings_mods_customSkybox_skybox_space7"  },
+		{ "id": "skybox8",  "locKey": "p_settings_mods_customSkybox_skybox_space8"  },
+		{ "id": "skybox9",  "locKey": "p_settings_mods_customSkybox_skybox_space9"  },
+		{ "id": "skybox10", "locKey": "p_settings_mods_customSkybox_skybox_space10" },
+		{ "id": "skybox11", "locKey": "p_settings_mods_customSkybox_skybox_space11" },
+		{ "id": "skybox12", "locKey": "p_settings_mods_customSkybox_skybox_space12" },
+		{ "id": "skybox13", "locKey": "p_settings_mods_customSkybox_skybox_space13" },
+		{ "id": "skybox14", "locKey": "p_settings_mods_customSkybox_skybox_space14" },
+		{ "id": "skybox15", "locKey": "p_settings_mods_customSkybox_skybox_space15" },
+		{ "id": "skybox16", "locKey": "p_settings_mods_customSkybox_skybox_space16" },
+		{ "id": "skybox17", "locKey": "p_settings_mods_customSkybox_skybox_space17" },
+		{ "id": "skybox18", "locKey": "p_settings_mods_customSkybox_skybox_space18" },
+		{ "id": "skybox19", "locKey": "p_settings_mods_customSkybox_skybox_space19" },
+		{ "id": "skybox20", "locKey": "p_settings_mods_customSkybox_skybox_space20" },
+		{ "id": "skybox21", "locKey": "p_settings_mods_customSkybox_skybox_space21" },
+		{ "id": "skybox22", "locKey": "p_settings_mods_customSkybox_skybox_space22" },
+		{ "id": "skybox23", "locKey": "p_settings_mods_customSkybox_skybox_space23" }
+	],
+	"nebula": [
+		{ "id": "dsRed",         "locKey": "p_settings_mods_customSkybox_skybox_dsRed"         },
+		{ "id": "dsRedPlanet",   "locKey": "p_settings_mods_customSkybox_skybox_dsRedPlanet"   },
+		{ "id": "dsGreen",       "locKey": "p_settings_mods_customSkybox_skybox_dsGreen"       },
+		{ "id": "dsGreenPlanet", "locKey": "p_settings_mods_customSkybox_skybox_dsGreenPlanet" },
+		{ "id": "dsBlue",        "locKey": "p_settings_mods_customSkybox_skybox_dsBlue"        },
+		{ "id": "dsBluePlanet",  "locKey": "p_settings_mods_customSkybox_skybox_dsBluePlanet"  },
+		{ "id": "stars",         "locKey": "p_settings_mods_customSkybox_skybox_stars"         }
+	],
+	"other": [
+		{ "id": "tsd",   "locKey": "p_settings_mods_customSkybox_skybox_tsd",   "path": "bjs/tsd"     },
+		{ "id": "city",  "locKey": "p_settings_mods_customSkybox_skybox_city",  "path": "bjs/city"    },
+		{ "id": "space", "locKey": "p_settings_mods_customSkybox_skybox_space", "path": "bjs/space"   },
+		{ "id": "tron",  "locKey": "p_settings_mods_customSkybox_skybox_tron",  "path": "other/space" }
+	]
+}

@@ -1,0 +1,37 @@
+{
+	"guns": {
+		"gun_cluck9mm": {
+			"fire": ["gun_cluck9mm_fire"],
+			"reload": ["gun_cluck9mm_insert_mag", "gun_cluck9mm_remove_mag"]
+		},
+		"gun_eggk47": {
+			"fire": ["gun_eggk47_fire", "gun_eggk47_dry_fire"],
+			"reload": ["gun_eggk47_full_cycle", "gun_eggk47_insert_mag", "gun_eggk47_remove_mag"]
+		},
+		"gun_dozenGauge": {
+			"fire": ["gun_dozenGauge_fire"],
+			"reload": ["gun_dozenGauge_close", "gun_dozenGauge_load", "gun_dozenGauge_open"]
+		},
+		"gun_csg1": {
+			"fire": ["gun_csg1_fire"],
+			"reload": ["gun_csg1_pull_action", "gun_csg1_release_action"]
+		},
+		"gun_rpegg": {
+			"fire": ["gun_rpegg_rocket_fly", "gun_rpegg_rocket_hit"],
+			"reload": ["gun_rpegg_load"]
+		},
+		"gun_smg": {
+			"fire": ["gun_smg_fire"],
+			"reload": ["gun_smg_cycle"]
+		},
+		"gun_m24": {
+			"fire": ["gun_m24_fire"],
+			"reload": ["gun_m24_bolt_close", "gun_m24_bolt_open"]
+		}
+	},
+	"pickup": ["ammo", "pickup"],
+	"grenade_pin": ["grenade_pin"],
+	"grenade_beep": ["grenade_beep"],
+	"grenade": ["grenade"],
+	"weapon_swap": ["weapon_swap"]
+}

@@ -1,0 +1,143 @@
+/* Color Slider */
+:root {
+	--slider-selected-color: hsl(180, 100%, 50%);
+	--slider-accent-color: var(--ss-blue3);
+	--slider-lock-brightness: 100%;
+	--hueSlider-lock-pos: 14.285em; /* 6.13em to 22.44em*/
+	--saturationSlider-lock-pos: 4.75em; /* 0.85em to 4.75em */
+	--brightnessSlider-lock-pos: 25.8em; /* 23.87em to 27.73em*/
+	--saturationSlider-gradient: linear-gradient(90deg,
+			hsl(180, 0%, 50%),
+			hsl(180, 10%, 50%),
+			hsl(180, 20%, 50%),
+			hsl(180, 30%, 50%),
+			hsl(180, 40%, 50%),
+			hsl(180, 50%, 50%),
+			hsl(180, 60%, 50%),
+			hsl(180, 70%, 50%),
+			hsl(180, 80%, 50%),
+			hsl(180, 90%, 50%),
+			hsl(180, 100%, 50%));
+	--hueSlider-gradient: linear-gradient(90deg,
+			hsl(0, 100%, 50%),
+			hsl(45, 100%, 50%),
+			hsl(90, 100%, 50%),
+			hsl(135, 100%, 50%),
+			hsl(180, 100%, 50%),
+			hsl(225, 100%, 50%),
+			hsl(270, 100%, 50%),
+			hsl(315, 100%, 50%),
+			hsl(360, 100%, 50%));
+	--brightnessSlider-gradient: linear-gradient(90deg,
+			hsl(180, 100%, 0%),
+			hsl(180, 100%, 10%),
+			hsl(180, 100%, 20%),
+			hsl(180, 100%, 30%),
+			hsl(180, 100%, 40%),
+			hsl(180, 100%, 50%),
+			hsl(180, 100%, 60%),
+			hsl(180, 100%, 70%),
+			hsl(180, 100%, 80%),
+			hsl(180, 100%, 90%),
+			hsl(180, 100%, 100%));
+}
+
+.color-slider {
+	height: 3.4em;
+	display: flex;
+}
+
+.color-slider input[type='range'] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent;
+	cursor: pointer;
+	margin-top: 2em;
+}
+
+.color-slider input[type='range']::-webkit-slider-runnable-track {
+	height: 1em;
+	border-radius: 1em;
+	/* border: 0.2em solid hsl(0, 0%, var(--slider-lock-brightness)); */
+	border: 0.2em solid var(--ss-blue3);
+	/* border: 0.2em solid var(--slider-accent-color); */
+}
+
+#colorSlider_hue {
+	width: 60%;
+}
+
+#colorSlider_saturation,
+#colorSlider_brightness {
+	width: 20%;
+}
+
+#colorSlider_hue::-webkit-slider-runnable-track {
+	background: var(--hueSlider-gradient);
+}
+
+#colorSlider_saturation::-webkit-slider-runnable-track {
+	background: var(--saturationSlider-gradient);
+}
+
+#colorSlider_brightness::-webkit-slider-runnable-track {
+	background: var(--brightnessSlider-gradient);
+}
+
+.color-slider input[type='range']:disabled {
+	filter: grayscale(0.8);
+}
+
+.color-slider input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 1.75em;
+	height: 1.75em;
+	border-width: 0.2em;
+	/* border-color: hsl(0, 0%, var(--slider-lock-brightness)); */
+	border-color: var(--slider-accent-color);
+	border-radius: 85% 25% 60% 50% / 60% 25% 85% 50%;
+	transform: rotate(-45deg);
+	background: var(--slider-selected-color) !important;
+	margin-top: -0.5em;
+}
+
+.egg-color-select {
+	margin-bottom: calc(var(--ss-space-lg)) !important;
+}
+
+.screen-skins #equip_weapon_panel {
+	bottom: 5.2em !important;
+}
+
+.slider-locks {
+	position: absolute;
+	z-index: 1;
+}
+
+.slider-locks i {
+	font-size: 0.9em !important;
+	color: hsl(0, 0%, var(--slider-lock-brightness));
+	position: relative;
+	bottom: -2.2em;
+}
+
+.slider-hue-lock {
+	left: var(--hueSlider-lock-pos);
+}
+
+.slider-saturation-lock {
+	left: var(--saturationSlider-lock-pos);
+}
+
+.slider-brightness-lock {
+	left: var(--brightnessSlider-lock-pos);
+}
+
+.paper-doll-click-container {
+	top: 25em !important;
+}
+
+.egg-color-select {
+	margin-top: .2em !important;
+}

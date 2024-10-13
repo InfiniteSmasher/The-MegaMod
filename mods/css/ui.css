@@ -1,0 +1,395 @@
+:root {
+	/* Fix Short Scrollmask */
+	--ss-item-mask-width: calc(var(--ss-aside-panel-width));
+}
+
+/* Rounded Youtube Thumbnails */
+.ytube-item img {
+	border-radius: var(--ss-space-sm) !important;
+}
+
+/* Centered (Vertical) Checkbox Labels */ 
+.ss_checkbox.label {
+	padding-top: .29em !important;
+}
+
+.fa-twitter:before {
+	font-family: "Font Awesome 6 Brands";
+	content: "\e61b" !important;
+}
+
+.fa-discord:before {
+	font-family: "Font Awesome 6 Brands";
+	content: "\f392" !important;
+}
+
+/* News Icons */
+#news-tab i {
+	opacity: 0.5;
+}
+
+#news-tab:hover i,
+#news-tab.selected i {
+	opacity: 1;
+}
+
+#twitch-tab i {
+	opacity: 0.5;
+}
+
+#twitch-tab:hover i,
+#twitch-tab.selected i {
+	opacity: 1;
+}
+
+#video-tab i {
+	opacity: 0.5;
+}
+
+#video-tab:hover i,
+#video-tab.selected i {
+	opacity: 1;
+}
+
+/* Home UI Margin */
+.home-screen #account_panel,
+.home-screen .secondary-aside-wrap {
+	 margin-right: calc(var(--ss-space-md) * 1.3);
+}
+
+/* Chat Margin */
+.pause-ui-element {
+	 margin-left: var(--ss-space-sm);
+	 margin-bottom: var(--ss-space-sm);
+}
+
+/* Social Icons */
+.social_icons .icon-wrap {
+	background: var(--ss-blue00) !important;
+	border: 1px solid var(--ss-blue5) !important;
+}
+
+.social_icons {
+	margin-top: -2.6em !important;
+}
+
+.social_icons .icon-wrap:hover {
+	transition: all .2s ease-out;
+	transform: translateY(-.1em) scale(1.1);
+}
+
+.social_icons .icon-wrap:hover i:not(.fa-instagram, .fa-steam) {
+	color: white !important;
+}
+
+.social_icons .icon-wrap:hover {
+	border-color: white !important;
+}
+
+.social_icons .icon-wrap {
+	transition: all .5s linear;
+	transform: scale(1.0);
+}
+
+.social_icons i:not(.fa-instagram, .fa-steam) {
+	color: var(--ss-blue5) !important;
+}
+
+.social_icons .fa-steam {
+	padding-top: .04em;
+	padding-right: .1em;
+	margin-left: .125em;
+}
+
+.social_icons .fa-instagram {
+	padding-top: .04em;
+}
+
+.social_icons .fa-facebook {
+	padding-top: .04em;
+	padding-left: .05em;
+}
+
+.social_icons .fa-tiktok {
+	padding-top: .05em;
+}
+
+.social_icons .fa-twitch {
+	padding-top: .2em;
+	padding-left: .05em;
+}
+
+.social_icons .fa-steam,
+.social_icons .fa-instagram {
+	background-clip: text !important; 
+	-webkit-background-clip: text !important; 
+	-webkit-text-fill-color:transparent; 
+	background: var(--ss-blue5);
+}
+
+.social_icons .icon-wrap:hover .fa-steam,
+.social_icons .icon-wrap:hover .fa-instagram {
+	background: white;
+}
+
+/* Social Media Tooltip */
+.social-icons .tool-tip div.tool-tip--bubble {
+	bottom: 3.9em !important;
+}
+
+.social-icons .tool-tip div.tool-tip--bubble:after{
+	 top: auto !important;
+	 bottom: 0em !important;
+	 transform: rotate(0deg) translate(-11px,17px) !important;
+}
+
+/* Egg Shaped Sliders */
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  border-color: white;
+  border-width: 0.2em;
+  border-radius: 85% 25% 55% 50% / 55% 25% 85% 50%;
+  transform: rotate(-45deg);
+}
+
+/* Fix YT Box Height */
+.media-tab-scroll {
+	height: 18em;
+}
+
+.is-vip #yTube-scroll.media-tab-scroll {
+	 height: 31.8em;
+}
+
+/* Create Private Game Popup */
+.create-game-map-btn-random {
+	height: 2.5em;
+}
+
+.create-game-map-select .centered_y:not(.open-close) {
+	padding-bottom: .4em;
+}
+
+.create-game-map-select .ss_field {
+	height: 1em;
+}
+
+.create-game-map-select .grid-column-auto-1 {
+	top: .6em !important;
+}
+
+/* Egg Shaped Checkmark */
+.ss_checkbox .checkmark:after {
+	transform: rotate(90deg);
+}
+
+.checkmark {
+	border-radius: 85% 25% 55% 50% / 55% 25% 85% 50% !important;
+	transform: rotate(-45deg);
+}
+
+
+/* Fix Challenge Height Change After Reroll */
+.player-challenge-single-content .display-grid.grid-column-2-eq {
+	 min-height: 1.5em;
+}
+
+/* Challenge Status Icon */
+.player-challenge-single .player-challenge-tool-tip.status {
+	display: block;
+}
+
+/* Challenge Status Icon */
+.player-challenge-single .challenge-status {
+	position: absolute;
+	color: var(--ss-blue5);
+	right: 11.3em;
+}
+
+.player-challenge-single:not(.claimed) .challenge-status,
+#respawn-menu .player-challenge-single:not(.claimed) .challenge-status {
+	top: .35em;
+}
+
+.player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text,
+#respawn-menu .player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text {
+	top: 0em;
+}
+
+.player-challenge-single.claimed .challenge-status {
+	 top: .65em;
+}
+
+.player-challenge-tool-tip.status .tool-tip-text {
+	top: .25em;
+	right: 2.4em;
+}
+
+#respawn-menu .player-challenge-single:not(.claimed) .challenge-status {
+	left: 5.75em;
+}
+
+#respawn-menu .player-challenge-single.claimed .challenge-status {
+	top: .7em;
+	right: 12.8em;
+}
+
+#respawn-menu .player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text,
+#respawn-menu .player-challenge-single.claimed .player-challenge-tool-tip.status .tool-tip-text {
+	right: 4.2em;
+}
+
+#respawn-menu .player-challenge-single.claimed .player-challenge-tool-tip.status .tool-tip-text {
+	top: .3em;
+}
+
+.player-challenge-tool-tip.status .tool-tip > span:after,
+.player-challenge-tool-tip.status .tool-tip div.tool-tip--bubble:after {
+	filter: drop-shadow(3px 1px 0 var(--ss-blue4));
+	transform: rotate(90deg);
+	left: -.8rem;
+	top: auto;
+	bottom: .6rem;
+}
+
+.player-challenge-tool-tip.status .tool-tip > span,
+.player-challenge-tool-tip.status .tool-tip div.tool-tip--bubble{
+	color: var(--ss-blue4);
+	box-shadow: 0.1em 0.2em 0em 0.1em var(--ss-blue4);
+}
+
+/* Challenge Container Height Fix */
+.media-tabs-wrapper {
+	height: 19.2em;
+}
+
+.player-challenges-aside .news-container {
+	min-height: 12em;
+}
+
+/* Slightly Longer Stats Container */
+.stats-container {
+	max-height: 28.75em !important;
+}
+
+#challengeInfoPopup .table-div {
+	max-height: 30em;
+}
+
+#challengeInfoPopup td img {
+	 width: 4em;
+}
+
+#challengeInfoPopup .egg-icon {
+	 margin-top: 0em !important;
+}
+
+#challengeInfoPopup tbody tr td:not(:nth-child(3), :nth-child(4)) {
+	 text-align: center;
+}
+
+#challengeInfoPopup .egg-icon img {
+	 width: 1em;
+	 margin-right: .2em;
+}
+
+#challengeInfoPopup p {
+	 margin-top: .75em;
+}
+
+#challengeInfoPopup h3 {
+	 margin-top: 0em;
+}
+
+.media-tab-challenges .info-btn {
+	 color: var(--ss-white);
+}
+
+.secondary-aside .info-btn,
+.secondary-aside .info-btn:hover {
+	 color: var(--ss-vip-yellow);
+}
+
+.player-challenges-aside:not(:hover) .info-btn,
+.secondary-aside:not(:hover) .info-btn {
+	animation: icon-alert-idle 10s infinite;
+}
+
+/* Challenge "Claimed" Banner */
+.player-challenge-single-action-claimed {
+	 background: var(--ss-pink);
+}
+.player-challenge-claimed {
+	 color: var(--ss-vip-yellow) !important;
+	 text-shadow: var(--ss-space-micro) var(--ss-space-micro) var(--ss-blue5);
+}
+
+/* So the chick img doesn't get in the way of info button hitbox */
+.chw-progress-img {
+	top: -4.75em;
+}
+
+/* Theme Credit Position */
+.social_icons:after {
+	 margin-top: -2.5em !important;
+}
+
+/* Public Maps Button */
+.map_btn {
+	width: 3em !important;
+	height: 2.13em;
+	font-size: 1.75em;
+	position: absolute;
+	margin-left: 22.3em;
+	border-width: .12em;
+}
+
+#mapPopup .map-mode {
+	width: 10em;
+	text-align: center;
+}
+
+#mapPopup .table-div {
+	max-height: 35em;
+}
+
+#mapPopup .map-image {
+	 width: 20em;
+	 height: 10em;
+	 font-family: "Sigmar One";
+	 color: var(--ss-white) !important;
+	 text-align: center;
+}
+
+#mapPopup .map-image div {
+	 font-size: 1.5em;
+	 width: 100%;
+	 height: 100%;
+	 background-size: cover;
+	 padding-top: 2.2em;
+}
+
+.game-info h1 i {
+	 font-size: 1em;
+}
+
+/* Chick'n Winner Stretch (Despawn Menu) */
+.chw-progress-wrapper {
+	 width: 100% !important;
+}
+
+.chw-progress-bar-wrap {
+	width: 98.5% !important;
+}
+
+/* Challenge "Claimed" Banner Recolor */
+/*
+.player-challenge-single-action-claimed {
+	 background: var(--ss-pink);
+}
+
+.player-challenge-claimed {
+	 color: var(--ss-vip-yellow) !important;
+}
+*/

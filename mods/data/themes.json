@@ -1,0 +1,6 @@
+[
+	{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite_desc"    },
+	{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1_desc" },
+	{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2_desc" },
+	{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet_desc"      }
+]

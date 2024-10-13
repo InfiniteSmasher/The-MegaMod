@@ -1,0 +1,409 @@
+{
+	"megaMod_changelog_title": "Changelog | The MegaMod <i class='fas fa-tools fa-sm'></i>",
+	"megaMod_changelog_wtc": "What the cluck is The MegaMod?",
+	
+	"p_settings_mods_title": "Eggcellent Mods | The MegaMod <i class='fas fa-tools'></i>",
+	"p_settings_mods_reload_title": "<i class='fas fa-exclamation-triangle'></i> PAGE RELOAD REQUIRED!",
+	"p_settings_mods_reload_desc1": "Please reload the page so that your changed mod settings can take effect!",
+	"p_settings_mods_reload_desc2": "If you choose to dismiss this message, your changed settings will take effect the next time you open Shell Shockers.",
+	"p_settings_mods_info_title": "Info | The MegaMod <i class='fas fa-tools'></i>",
+	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with the MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all my mods (with new additions and features), is your one-stop solution!",
+	"p_settings_mods_info_desc2": "To view info about a mod or change its settings, press the <i onclick='vueApp.$refs.settings.flashSettingsIcons()' class='fas fa-cog'></i> icon next to its name.",
+	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
+	
+	"megaMod_disableModsPopup_title": "Disable Yo Mods!",
+	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod. <br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
+	"megaMod_modErrsPopup_title": "Uh Oh! Some Mods Broke...",
+	"megaMod_modErrsPopup_desc": "There was an error while starting The MegaMod!<br>Certain mods may not show up or work correctly.<h3>Affected Mods:</h3>{0}",
+
+	"megaMod_updatePopup_title": "New Update Available!",
+	"megaMod_updatePopup_desc": "<br>A new version of The MegaMod is available!<br><br>Please click \"Gimme Update!\" to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (old) version may lead to the game or mods not working properly!",
+	"megaMod_updatePopup_cancelBtn": "Nah :(",
+	"megaMod_updatePopup_okBtn": "Gimme Update!",
+	"megaMod_updatedPopup_title": "Updated Installed!",
+	"megaMod_updatedPopup_desc": "<br>The MegaMod has been updated to version {0}!<br><br>Thanks for installing the update and enjoy your enhanced Shell Shockers experience with the latest version of The MegaMod!",
+	"megaMod_updatedPopup_okBtn": "Poggers!",
+	"megaMod_updatePopup_infoTitle": "Update Info",
+
+	"megaMod_announcementPopup_title": "MegaMod Announcement <i class='fas6 fa-bullhorn fa-sm'></i>",
+	"megaMod_announcementPopup_okBtn": "Got it!",
+
+	"p_settings_mods_megaMod_title": "MegaMod Settings",
+	"p_settings_mods_megaMod_desc": "Here's where you can change settings for the MegaMod itself.",
+	"p_settings_mods_megaMod_sfx": "MegaMod UI Sound Effects",
+	"p_settings_mods_megaMod_sfx_title": "Specific Sounds",
+	"p_settings_mods_megaMod_sfx_tabs": "Tab Sounds",
+	"p_settings_mods_megaMod_sfx_hover": "Hover Sounds",
+	"p_settings_mods_megaMod_cssPreload": "Faster CSS Loading",
+
+	
+	"p_settings_mods_betterUI_title": "Better UI",
+	"p_settings_mods_betterUI_desc": "Inventory & Profile Upgrades - new item themes, skin randomizer, profile badges, UI improvements, and MOAR!<br>NOTE: Some people have profile pictures on their accounts and others don't - just deal with it :D",
+	"p_settings_mods_betterUI_ui": "General UI Tweaks",
+	"p_settings_mods_betterUI_inventory": "Better Inventory",
+	"p_settings_mods_betterUI_pfp": "Profile Picture",
+	"p_settings_mods_betterUI_badges": "Profile Badges",
+	"p_settings_mods_betterUI_roundness": "Eggstra Roundness",
+	"p_settings_mods_betterUI_colors": "MOAR Colored UI",
+	"p_settings_mods_betterUI_hitMarkers": "Yellow Hit Markers",
+	"p_settings_mods_betterUI_chat":  "Chat Upgrades",
+
+	"eq_search_items_new": "Search Items",
+	"p_bundle_item_banner_txt": "Bundle",
+	"p_premium_item_banner_txt": "Premium",
+	"p_vip_item_banner_txt": "VIP",
+	"p_merch_item_banner_txt": "Merch",
+	"p_drops_item_banner_txt": "Drops",
+	"p_notif_item_banner_txt": "Notif",
+	"p_league_item_banner_txt": "League",
+	"p_yolker_item_banner_txt": "Yolker",
+	"p_egglite_item_banner_txt": "Egglite",
+	"p_creatoryt_item_banner_txt": "YT CC",
+	"p_creatortwitch_item_banner_txt": "Twitch CC",
+	"p_creator_item_banner_txt": "Creator",
+	"p_limited_item_banner_txt": "Limited",
+	"p_social_item_banner_txt": "Social",
+	"p_promo_item_banner_txt": "Promo",
+	"p_event_item_banner_txt": "Event",
+	"p_legacy_item_banner_txt": "Legacy",
+
+	"challenges_repeat": "Repeated Challenge",
+	"challenges_new": "First-Time Challenge",
+
+	"megaMod_betterUI_noBadges": "No Profile Badges :(",
+	"megaMod_betterUI_badgePopup_title": "Profile Badge Information",
+	"megaMod_betterUI_badgePopup_desc": "Explore the complete collection of available profile badges! Each badge is shown below with its icon, name, and a brief description to help you understand its significance and how to earn it.",
+	"megaMod_betterUI_badgePopup_main_title": "Core Badges",
+	"megaMod_betterUI_badgePopup_main_desc": "<b>Core Badges</b> have unique requirements without any progressive tiers (levels).",
+	"megaMod_betterUI_badgePopup_tier_title": "Tier Badges",
+	"megaMod_betterUI_badgePopup_tier_desc": "<b>Tier Badges</b> are progressive achievements with multiple tiers (levels). Each tier has a specific requirement that you must meet. The highest tier of a particular badge will be shown on your profile.",
+	"megaMod_betterUI_badgePopup_header_badge": "",
+	"megaMod_betterUI_badgePopup_header_name": "Name",
+	"megaMod_betterUI_badgePopup_header_desc": "Description / Requirements",
+	
+	"megaMod_betterUI_badge_vip_title": "VIP Subscriber",
+	"megaMod_betterUI_badge_vip_desc": "Have an active VIP subscription",
+	
+	"megaMod_betterUI_badge_wizard_title": "Very Good Wizard",
+	"megaMod_betterUI_badge_wizard_desc": "Be one of the developers (Wizards)",
+	
+	"megaMod_betterUI_badge_mod_title": "BWD Discord Mod",
+	"megaMod_betterUI_badge_mod_desc": "Be one of the BWD Discord moderators",
+	
+	"megaMod_betterUI_badge_eggforcer_title": "Eggforcer",
+	"megaMod_betterUI_badge_eggforcer_desc": "Be one of the Shell moderators (Eggforcers)",
+	
+	"megaMod_betterUI_badge_og_title": "OG Player",
+	"megaMod_betterUI_badge_og_desc": "Account created in 2019 or earlier",
+	
+	"megaMod_betterUI_badge_pandemic_title": "Pandemic Player",
+	"megaMod_betterUI_badge_pandemic_desc": "Account created in 2020",
+
+	"megaMod_betterUI_badge_newbie_title": "Farm-Fresh Player",
+	"megaMod_betterUI_badge_newbie_desc": "Account less than a month old",
+	
+	"megaMod_betterUI_badge_eggorg20_title": "ATTN: EGG ORG.",
+	"megaMod_betterUI_badge_eggorg20_desc": "Participated in the first EGG ORG event (2020)",
+	
+	"megaMod_betterUI_badge_eggorg21_title": "Pablo > Diablo",
+	"megaMod_betterUI_badge_eggorg21_desc": "Participated in the \"EGG ORG: Phase II\" (EGG ORG 2021) event",
+	
+	"megaMod_betterUI_badge_eggorg22_title": "Pablo's Saviour",
+	"megaMod_betterUI_badge_eggorg22_desc": "Participated in the \"Timetwist\" (EGG ORG 2022) event",
+	
+	"megaMod_betterUI_badge_eggorg23_title": "Monsters Win!",
+	"megaMod_betterUI_badge_eggorg23_desc": "Participated in the \"EGG ORG & Eggventure\" (EGG ORG 2023) event",
+	
+	"megaMod_betterUI_badge_eggorg24_title": "N0 M0R3 R0B0T5",
+	"megaMod_betterUI_badge_eggorg24_desc": "Participated in the \"Rise of the Robots\" (EGG ORG 2024) event",
+	
+	"megaMod_betterUI_badge_scavenger22_title": "Treasure Hunter",
+	"megaMod_betterUI_badge_scavenger22_desc": "Participated in the 2022 Scavenger Hunt event",
+	
+	"megaMod_betterUI_badge_tester_title": "MegaMod Playtester",
+	"megaMod_betterUI_badge_tester_desc": "Helped playtest the MegaMod before its release - tysm!",
+	
+	"megaMod_betterUI_badge_premium_title": "Eggstra Spender {0}",
+	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of premium items",
+	
+	"megaMod_betterUI_badge_league_title": "Pro Egg Gamer {0}",
+	"megaMod_betterUI_badge_league_desc": "Own {0} league item{s}",
+	
+	"megaMod_betterUI_badge_uniquechlg_title": "Challenge Eggcepted {0}",
+	"megaMod_betterUI_badge_uniquechlg_desc": "Complete {0} unique challenge{s}",
+
+	"megaMod_betterUI_badge_totalchlg_title": "Overeggchiever {0}",
+	"megaMod_betterUI_badge_totalchlg_desc": "Complete {0} total challenge{s}",
+	
+	"megaMod_betterUI_badge_spenteggs_title": "Eggspenditure {0}",
+	"megaMod_betterUI_badge_spenteggs_desc": "Spend {0} golden egg{s}",
+	
+	"megaMod_betterUI_badge_totalkills_title": "Shell Scrambler {0}",
+	"megaMod_betterUI_badge_totalkills_desc": "Have {0} lifetime kill{s}",
+	
+	"megaMod_betterUI_badge_modekills_title": "Eggsecutioner {0}",
+	"megaMod_betterUI_badge_modekills_desc": "Have {0} lifetime kill{s} in every game mode",
+	
+	"megaMod_betterUI_badge_weaponkills_title": "Master of Arms {0}",
+	"megaMod_betterUI_badge_weaponkills_desc": "Have {0} lifetime kill{s} with every weapon",
+	
+	"megaMod_betterUI_badge_kdr_title": "Overkill {0}",
+	"megaMod_betterUI_badge_kdr_desc": "Have a {0} lifetime KDR",
+	
+	"megaMod_betterUI_badge_modekdr_title": "Eggsassin {0}",
+	"megaMod_betterUI_badge_modekdr_desc": "Have a {0} lifetime KDR in every game mode",
+	
+	"megaMod_betterUI_badge_kotc_title": "Rooster Royalty {0}",
+	"megaMod_betterUI_badge_kotc_desc": "Have {0} lifetime KoTC round win{s}",
+
+	"megaMod_betterUI_badge_coops_title": "Coop King {0}",
+	"megaMod_betterUI_badge_coops_desc": "Have {0} lifetime KoTC coop capture{s}",
+	
+	"megaMod_betterUI_badge_limited_title": "Eggsclusive {0}",
+	"megaMod_betterUI_badge_limited_desc": "Own {over}{0}% of the current update's Limited Edition items",
+	
+	"megaMod_betterUI_badge_yolker_title": "Colleggter {0}",
+	"megaMod_betterUI_badge_yolker_desc": "Own {over}{0}% of New Yolker items",
+	
+	"megaMod_betterUI_badge_egglite_title": "Egglitist {0}",
+	"megaMod_betterUI_badge_egglite_desc": "Own {over}{0}% of Egglite items",
+	
+	"megaMod_betterUI_badge_promo_title": "Poached Promoter {0}",
+	"megaMod_betterUI_badge_promo_desc": "Own {over}{0}% of Promotional items",
+	
+	"megaMod_betterUI_badge_drops_title": "Twitch Drops {0}",
+	"megaMod_betterUI_badge_drops_desc": "Own {over}{0}% of Twitch Drops items",
+
+	"megaMod_betterUI_badge_merch_title": "Yolky Merch {0}",
+	"megaMod_betterUI_badge_merch_desc": "Own {0}/3 Merch items",
+
+	"megaMod_betterUI_challengePopup_title": "Challenge List",
+	"megaMod_betterUI_challengePopup_desc": "Below is a complete list of all the available challenges in the game. You can view information about each challenge such as its icon, name, description, reward amount, the number of times you've claimed it, etc.",
+	"megaMod_betterUI_challengePopup_list_title": "All Unique Challenges",
+	"megaMod_betterUI_challengePopup_header_icon": "<i class='fas6 fa-image'></i>",
+	"megaMod_betterUI_challengePopup_header_name": "Name",
+	"megaMod_betterUI_challengePopup_header_desc": "Description",
+	"megaMod_betterUI_challengePopup_header_reward": "<i class='fas6 fa-egg'></i>",
+	"megaMod_betterUI_challengePopup_header_claims": "Claims",
+	"megaMod_betterUI_challengePopup_header_tier": "Tier",
+	"megaMod_betterUI_challengePopup_header_type": "Type",
+	"megaMod_betterUI_challengePopup_header_subtype": "SubType",
+
+	"p_settings_mods_betterUI_chatEvents": "Chat Events",
+	"p_settings_mods_betterUI_chatEvent_joinGame": "Join Game",
+	"p_settings_mods_betterUI_chatEvent_leaveGame": "Leave Game",
+	"p_settings_mods_betterUI_chatEvent_switchTeam": "Switch Team",
+
+	"megaMod_betterUI_chatEvent_joinGame": " joined the game.",
+	"megaMod_betterUI_chatEvent_leaveGame": " left the game.",
+	"megaMod_betterUI_chatEvent_switchTeam": " switched to {0} team.",
+
+	"megaMod_betterUI_maps": "Public Maps",
+	"megaMod_betterUI_mapPopup_title": "Public Maps",
+	"megaMod_betterUI_mapPopup_desc": "Below is a list of all the maps currently available in the public map pool as well as the game modes they're available in. The public map pool currently consists of {0} maps.",
+	"megaMod_betterUI_mapPopup_list_title": "Public Map Pool",
+
+	
+	"p_settings_mods_colorSlider_title": "VIP Color Slider",
+	"p_settings_mods_colorSlider_desc": "Adds working sliders (hue, saturation, and brightness) for selecting your egg color in the inventory. Also adds a color randomizer button because why not :) <br>NOTE: This is a client-sided mod so other players will see your egg color as white when you use custom colors.",
+	"p_settings_mods_colorSlider_unlock": "Unlock (for non-VIPs)",
+	"p_settings_mods_colorSlider_autoSave": "Auto-Apply Custom Color",
+	"p_settings_mods_colorSlider_randomizer": "Color Randomizer Button",
+
+
+	"p_settings_mods_legacyMode_title": "Legacy Mode",
+	"p_settings_mods_legacyMode_desc": "Go back in time with the return of the legacy default gun skins and old in-game sound effects from 2018/2019!",
+	"p_settings_mods_legacyMode_skins": "Legacy Default Skins",
+	"p_settings_mods_legacyMode_sfx": "Legacy Sound Effects",
+	"p_settings_mods_legacyMode_grenade": "Grenade Sounds",
+	"p_settings_mods_legacyMode_other": "Other Sounds",
+	"p_settings_mods_legacyMode_sfx_pickup": "Ammo/Grenade Pickup",
+	"p_settings_mods_legacyMode_sfx_swap": "Weapon Swap",
+	"p_settings_mods_legacyMode_sfx_gthrow": "Grenade Throw",
+	"p_settings_mods_legacyMode_sfx_gbeep": "Grenade Beep",
+	"p_settings_mods_legacyMode_sfx_gexplode": "Grenade Explosion",
+	"p_settings_mods_legacyMode_sfx_defaultgexplode": "Default-Only Explosion",
+	"p_settings_mods_legacyMode_weaponSelect": "Gun-Specific Sounds",
+	"p_settings_mods_legacyMode_weaponskin_enabled": "Skin Enabled",
+	"p_settings_mods_legacyMode_weaponsfx_enabled": "Sounds Enabled",
+	"p_settings_mods_legacyMode_weaponsfx_fire": "Fire Sound",
+	"p_settings_mods_legacyMode_weaponsfx_defaultonly": "Default-Only Fire Sound",
+	"p_settings_mods_legacyMode_weaponsfx_reload": "Reload Sound(s)",
+
+
+	"p_settings_mods_hideHUD_title": "Hide HUD",
+	"p_settings_mods_hideHUD_desc": "Hide/Show the HUD (In-Game UI) while playing or in spectate mode! Useful for cinematic shots and recording clean clips.",
+	"p_settings_mods_hideHUD_keybind": "Hide/Show In-Game UI",
+	"p_settings_mods_hideHUD_crosshair": "Hide Crosshair",
+	"p_settings_mods_hideHUD_gametext": "Hide Game Messages",
+	"p_settings_mods_hideHUD_grenadethrow": "Hide Grenade Power",
+	"p_settings_mods_hideHUD_health": "Hide Healthbar",
+	"p_settings_mods_hideHUD_chat": "Hide Game Chat",
+	"p_settings_mods_hideHUD_gamemode": "Hide Gamemode UI",
+	"p_settings_mods_hideHUD_ammo": "Hide Ammo Count",
+	"p_settings_mods_hideHUD_playerlist": "Hide Player List",
+	"p_settings_mods_hideHUD_readouts": "Hide Readouts (Ping, FPS, etc)",
+	"p_settings_mods_hideHUD_eggcount": "Hide Egg Count",
+	"p_settings_mods_hideHUD_killfeed": "Hide Kill/Death Log",
+	"p_settings_mods_hideHUD_killtext": "Hide Kill/Death Text",
+	"p_settings_mods_hideHUD_streak": "Hide Max Killstreak Indicator",
+	"p_settings_mods_hideHUD_spectate": "Hide Spectate Info",
+	"p_settings_mods_hideHUD_nametags": "Hide Player Nametags",
+	"p_settings_mods_hideHUD_outlines": "Hide Player Outlines",
+	"p_settings_mods_hideHUD_pickups": "Hide Grenade/Ammo Pickups",
+
+
+	"p_settings_mods_killstreakInfo_title": "Kilstreak Stats",
+	"p_settings_mods_killstreakInfo_desc": "Adds a stopwatch that starts when you spawn, along with a popup (COMING SOON) that can be toggled on/off to display useful stats about your kill streaks. Also useful for timed challenges.",
+	"p_settings_mods_killstreakInfo_keybind": "Hide/Show Info Popup",
+
+
+	"p_settings_mods_matchGrenades_title": "Match Grenade Pickups",
+	"p_settings_mods_matchGrenades_desc": "Sets the grenade pickups (on the ground) to the grenade skin that you're currently using. Also works when spectating another player in first-person spectate mode!",
+
+
+	"p_settings_mods_changeFPS_title": "Change FPS",
+	"p_settings_mods_changeFPS_desc": "Allows you to change your FPS! :O<br>NOTE: This is a bit buggy and you may reach a point where your device can't support any higher of a framerate so your FPS will max out.",
+	"p_settings_mods_changeFPS_slider": "FPS Slider",
+
+
+	"p_settings_mods_specTweaks_title": "Spectate Tweaks",
+	"p_settings_mods_specTweaks_desc": "Some useful tweaks related to spectate mode.",
+	"p_settings_mods_specTweaks_fpv": "First-Person Mode",
+	"p_settings_mods_specTweaks_health": "Show Healthbar",
+	"p_settings_mods_specTweaks_crosshair_main": "Hide Main Crosshair",
+	"p_settings_mods_specTweaks_crosshair_dot": "Hide Crosshair Dot",
+	"p_settings_mods_specTweaks_freezeKeybind": "Freeze Frame",
+	"p_settings_mods_specTweaks_speedSlider": "Spectate Speed (%)",
+	"p_settings_mods_specTweaks_updown": "Use Up/Down Keybinds",
+
+	"ui_game_spectate_controls_exit": "ESC : Exit<br>{0} :  Toggle First-Person",
+	"ui_game_spectate_controls_fp": "<br>{0} :  Toggle First-Person",
+	"ui_game_spectate_controls_hud": "<br>{0} : Toggle Hide HUD",
+	"ui_game_spectate_controls_freeze": "<br>{0} : Toggle Freeze Frame",
+
+
+	"p_settings_mods_pbSpin_title": "Photobooth Egg Spin",
+	"p_settings_mods_pbSpin_desc": "Want a better look at your loadout? This mod allows you to spin your egg 360° in the photobooth! The 360° spin can also be exported in GIF format.",
+
+	"screen_photo_booth_spin": "Spin Egg",
+	"screen_photo_booth_gif": "Save Spinning GIF (COMING SOON!)",
+	"screen_photo_booth_fps_title": "Spinning GIF FPS",
+	"screen_photo_booth_fps_low": "Low (15 FPS)",
+	"screen_photo_booth_fps_med": "Medium (30 FPS)",
+	"screen_photo_booth_fps_high": "High (60 FPS)",
+	"screen_photo_booth_speed_title": "Spin Speed",
+	"screen_photo_booth_speed_slow": "Slow",
+	"screen_photo_booth_speed_normal": "Normal",
+	"screen_photo_booth_speed_fast": "Fast",
+
+
+	"p_settings_mods_themeManager_title": "Custom Theme",
+	"p_settings_mods_themeManager_desc": "Allows you to select themes that change various parts of the UI such as the menu backgrounds, button/icon colors, crosshair, scope, and more!<br>Have a cool theme and want it featured in The MegaMod? Join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
+	"p_settings_mods_themeManager_themeSelect": "Select Theme",
+	"p_settings_mods_themeManager_themeDesc": "Theme Description",
+	"p_settings_mods_themeManager_preload": "Faster Theme Loading",
+	"p_settings_mods_themeManager_theme_infinite": "Infinite Smasher",
+	"p_settings_mods_themeManager_theme_infinite_desc": "Infinite Smasher's own theme! And yes...it's very blue...everywhere.",
+	"p_settings_mods_themeManager_theme_graysocean1": "graysocean (Main)",
+	"p_settings_mods_themeManager_theme_graysocean1_desc": "Theme for <a target='_blank' href='https://twitch.tv/graysocean'>graysocean</a>, created by Infinite Smasher. This theme used to be available on the Chrome WebStore as an extension but it isn't anymore. This is an updated and improved version of it!",
+	"p_settings_mods_themeManager_theme_graysocean2": "graysocean (Fashion Show)",
+	"p_settings_mods_themeManager_theme_graysocean2_desc": "Same as the Main graysocean theme but with a modified in-game UI. Content creator badges are hidden on the leaderboard and the \"killed by\" and \"you killed\" text is themed for fashion shows.",
+	"p_settings_mods_themeManager_theme_boolet": "Boolet x DeltaStorm",
+	"p_settings_mods_themeManager_theme_boolet_desc": "Play like a pro with the <a target='_blank' href='https://youtube.com/c/Boolet'>Boolet</a> x DeltaStorm theme! Created by <a target='_blank' href='https://youtube.com/c/Boolet'>boolet</a> and updated by Infinite Smasher. This theme used to be available on the Chrome WebStore as an extension but it isn't anymore. This is an updated and improved version of it!",
+
+
+	"p_settings_mods_customSkybox_title": "Custom Skybox",
+	"p_settings_mods_customSkybox_desc": "What's up?....The Skybox! Tired of looking at the same boring skies while shootin' eggs? Well now you can choose between over 60+ different skyboxes or any solid color for all maps to use!",
+	"p_settings_mods_customSkybox_skyboxCategorySelect": "Skybox Category",
+	"p_settings_mods_customSkybox_skyboxSelect": "Select Skybox",
+	"p_settings_mods_customSkybox_colorSlider_r": "Red",
+	"p_settings_mods_customSkybox_colorSlider_g": "Green",
+	"p_settings_mods_customSkybox_colorSlider_b": "Blue",
+	
+	"p_settings_mods_customSkybox_category_official": "Official (In-Game Skyboxes)",
+	"p_settings_mods_customSkybox_category_colors": "Solid Colors",
+	"p_settings_mods_customSkybox_category_landscapes": "Landscapes",
+	"p_settings_mods_customSkybox_category_allSky": "AllSky",
+	"p_settings_mods_customSkybox_category_colorSkies": "Color Skies",
+	"p_settings_mods_customSkybox_category_space": "Space",
+	"p_settings_mods_customSkybox_category_nebula": "Nebula",
+	"p_settings_mods_customSkybox_category_cloudyCrown": "Cartoon Clouds",
+	"p_settings_mods_customSkybox_category_other": "Other",
+
+	"p_settings_mods_customSkybox_skybox_default": "Default",
+	"p_settings_mods_customSkybox_skybox_moonbase": "Moonbase",
+	"p_settings_mods_customSkybox_skybox_night": "Night",
+	"p_settings_mods_customSkybox_skybox_whimsical": "Whimsical",
+
+	"p_settings_mods_customSkybox_skybox_hot": "Hot Planet",
+	"p_settings_mods_customSkybox_skybox_cave": "Cave",
+	"p_settings_mods_customSkybox_skybox_rHills": "Rainbow Hills",
+	"p_settings_mods_customSkybox_skybox_sHills": "Sunny Hills",
+
+	"p_settings_mods_customSkybox_skybox_tsd": "Tropical Sunny Day",
+	"p_settings_mods_customSkybox_skybox_city": "City Sunset",
+	"p_settings_mods_customSkybox_skybox_space": "Space",
+	"p_settings_mods_customSkybox_skybox_tron": "Tron",
+
+	"p_settings_mods_customSkybox_skybox_blueSky": "Blue Sky",
+	"p_settings_mods_customSkybox_skybox_nightSky": "Night Sky",
+	"p_settings_mods_customSkybox_skybox_coldNight": "Hazy Night",
+	"p_settings_mods_customSkybox_skybox_coldSunset": "Hazy Sunset",
+	"p_settings_mods_customSkybox_skybox_deepDusk": "Deep Dusk",
+	"p_settings_mods_customSkybox_skybox_eBlueSunset": "Epic Blue Sunset",
+	"p_settings_mods_customSkybox_skybox_eGlorPink": "Epic Pink Sunset",
+	"p_settings_mods_customSkybox_skybox_nMoonBurst": "Moonlit Night",
+	"p_settings_mods_customSkybox_skybox_overcast": "Overcast",
+	"p_settings_mods_customSkybox_skybox_spacePlanet": "Space Planet",
+
+	"p_settings_mods_customSkybox_skybox_daybreak": "Daybreak",
+	"p_settings_mods_customSkybox_skybox_midday": "Midday",
+	"p_settings_mods_customSkybox_skybox_evening": "Evening",
+	"p_settings_mods_customSkybox_skybox_sunset": "Sunset",
+	"p_settings_mods_customSkybox_skybox_midnight": "Midnight",
+	
+	"p_settings_mods_customSkybox_skybox_cSky1": "Sky 1",
+	"p_settings_mods_customSkybox_skybox_cSky2": "Sky 2",
+	"p_settings_mods_customSkybox_skybox_cSky3": "Sky 3",
+	"p_settings_mods_customSkybox_skybox_cSky4": "Sky 4",
+	"p_settings_mods_customSkybox_skybox_cSky5": "Sky 5",
+	"p_settings_mods_customSkybox_skybox_cSky6": "Sky 6",
+	"p_settings_mods_customSkybox_skybox_cSky7": "Sky 7",
+	"p_settings_mods_customSkybox_skybox_cSky8": "Sky 8",
+
+	"p_settings_mods_customSkybox_skybox_space1": "Space 1",
+	"p_settings_mods_customSkybox_skybox_space2": "Space 2",
+	"p_settings_mods_customSkybox_skybox_space3": "Space 3",
+	"p_settings_mods_customSkybox_skybox_space4": "Space 4",
+	"p_settings_mods_customSkybox_skybox_space5": "Space 5",
+	"p_settings_mods_customSkybox_skybox_space6": "Space 6",
+	"p_settings_mods_customSkybox_skybox_space7": "Space 7",
+	"p_settings_mods_customSkybox_skybox_space8": "Space 8",
+	"p_settings_mods_customSkybox_skybox_space9": "Space 9",
+	"p_settings_mods_customSkybox_skybox_space10": "Space 10",
+	"p_settings_mods_customSkybox_skybox_space11": "Space 11",
+	"p_settings_mods_customSkybox_skybox_space12": "Space 12",
+	"p_settings_mods_customSkybox_skybox_space13": "Space 13",
+	"p_settings_mods_customSkybox_skybox_space14": "Space 14",
+	"p_settings_mods_customSkybox_skybox_space15": "Space 15",
+	"p_settings_mods_customSkybox_skybox_space16": "Space 16",
+	"p_settings_mods_customSkybox_skybox_space17": "Space 17",
+	"p_settings_mods_customSkybox_skybox_space18": "Space 18",
+	"p_settings_mods_customSkybox_skybox_space19": "Space 19",
+	"p_settings_mods_customSkybox_skybox_space20": "Space 20",
+	"p_settings_mods_customSkybox_skybox_space21": "Space 21",
+	"p_settings_mods_customSkybox_skybox_space22": "Space 22",
+	"p_settings_mods_customSkybox_skybox_space23": "Space 23",
+	"p_settings_mods_customSkybox_skybox_space24": "Space 24",
+
+	"p_settings_mods_customSkybox_skybox_dsRed": "Deep Space Red",
+	"p_settings_mods_customSkybox_skybox_dsRedPlanet": "Deep Space Red w/ Planet",
+	"p_settings_mods_customSkybox_skybox_dsGreen": "Deep Space Green",
+	"p_settings_mods_customSkybox_skybox_dsGreenPlanet": "Deep Space Green w/ Planet",
+	"p_settings_mods_customSkybox_skybox_dsBlue": "Deep Space Blue",
+	"p_settings_mods_customSkybox_skybox_dsBluePlanet": "Deep Space Blue w/ Planet",
+	"p_settings_mods_customSkybox_skybox_stars": "Stars",
+
+	"p_settings_mods_customSkybox_colorSlider": "Skybox Color Picker"
+}

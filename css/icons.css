@@ -1,0 +1,159 @@
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2") format("woff2"), 
+		 url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.ttf") format("truetype"); 
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2") format("woff2"), 
+		 url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.ttf") format("truetype");
+}
+
+.fa-skull:before,
+.fa-gavel:before,
+.fa-hourglass:before,
+.fa-hat-wizard:before,
+.fa-shirt:before {
+	font-family: "Font Awesome 6 Free";
+}
+
+.fa-mask-face:before {
+	font-family: "Font Awesome 6 Free";
+	content: "\e1d7";
+}
+
+.fa-money-check-alt:before {
+	font-family: "Font Awesome 6 Free";
+}
+
+.fa-sack-dollar:before {
+	font-family: "Font Awesome 6 Free";
+	content: "\f81d";
+}
+
+.fa-gun:before {
+	font-family: "Font Awesome 6 Free";
+	content: "\e19b";
+}
+
+.fa-person-rifle:before {
+	font-family: "Font Awesome 6 Free";
+	content: "\e54e";
+}
+
+.fa-skull-crossbones:before {
+	font-family: "Font Awesome 6 Free";
+}
+
+.fa-crosshairs:before {
+	font-family: "Font Awesome 6 Free";
+}
+
+.fa-robot:before {
+	font-family: "Font Awesome 6 Free";
+}
+
+@font-face {
+	font-family: "Font Awesome 6";
+	font-weight: 900;
+	font-display: block;
+	src: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-solid-900.woff2") format("woff2"),
+		  url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-solid-900.ttf") format("truetype");
+}
+
+.fas6 {
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-family: "Font Awesome 6";
+}
+
+.fa-trophy-star:before {
+	content: "\f2eb";
+}
+
+.fa-egg-fried:before {
+	content: "\f7fc";
+}
+
+.fa-pan-frying:before {
+	content: "\e42c";
+}
+
+.fa-user-crown:before {
+	content: "\f6a4";
+}
+
+.fa-user-group-crown:before {
+	content: "\f6a5";
+}
+
+.fa-bow-arrow:before {
+	content: "\f6b9";
+}
+
+.fa-bullseye-arrow:before {
+	content: "\f648";
+}
+
+.fa-sword:before {
+	content: "\f71c";
+}
+
+.fa-swords:before {
+	content: "\f71d";
+}
+
+.fa-sparkles:before {
+	content: "\f890";
+}
+
+.fa-flask-gear:before {
+	content: "\e5f1";
+}
+
+.fa-crosshairs-simple:before {
+	content: "\e59f";
+}
+
+.fa-person-military-rifle:before {
+	content: "\e54b"
+}
+
+.fa-flask-round-poison:before {
+	content: "\f6e0";
+}
+
+.fa-face-cowboy-hat:before {
+	content: "\e36e";
+}
+
+.fa-sparkle:before {
+	content: "\e5d6";
+}
+
+.fa-mountains:before {
+	content: "\f6fd";
+}
+
+@font-face {
+	 font-family: "Font Awesome 6 Regular";
+	 font-weight: 400;
+	 font-display: block;
+	 src: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-regular-400.woff2") format("woff2"), 
+			url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-regular-400.ttf") format("truetype")
+}
+
+.far6 {
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-family: "Font Awesome 6 Regular";
+}

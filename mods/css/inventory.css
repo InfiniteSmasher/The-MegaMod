@@ -1,0 +1,925 @@
+@import url("https://1nf1n1t3sm4sh3r.github.io/mmTest/mods/css/profile.css");
+
+/* ---------------------------- [ Global ] */
+:root {
+	/* Change Border Width */
+	--ss-new-border-width: calc(var(--ss-space-sm) * 0.95);
+
+	/* Change VIP Accent */
+	--ss-vip: #f4c843;
+
+	/* Premium Shadow */
+	--ss-premium-shadow: rgba(32, 73, 8, 0.4); 
+
+	/* Limited Border */
+	--ss-limited-border: #89097D;
+	--ss-limited-shadow: rgba(137, 9, 125, 0.4);
+
+	/* Drops Shadow */
+	--ss-drops-shadow: rgba(64, 0, 143, 0.4);
+
+	/* Yolker Colors */
+	--ss-ny-dk: #D97611; /* ss-yolk2 */
+	--ss-ny-lt: #F1C59A; /* ss-yolk0 */
+	--ss-ny-shadow: rgba(217, 118, 17, 0.4);
+
+	/* Notif Colors */
+	--ss-notif-dk: #021340;
+	--ss-notif-lt: #1A64FF;
+
+	/* League Colors */
+	--ss-league-dk: #400202;
+	--ss-league-lt: #FF1A1A;
+
+	/* Manual Colors */
+	--ss-manual-dk1: black;
+	--ss-manual-dk2: #434343;
+	--ss-manual-lt1: #A2A2A2;
+	--ss-manual-lt2: #B1B1B1;
+	--ss-manual-shadow: rgba(0, 0, 0, .4);
+
+	/* Creator Colors */
+	--ss-ytcc-shadow: rgb(255, 0, 0, 0.4);
+	--ss-twitchcc-shadow: rgba(100, 65, 165, 0.4);
+
+	/* Legacy Colors */
+	--ss-legacy-gray: #3C3C3D;
+	--ss-legacy-dkgreen: #46442D;
+	--ss-legacy-ltgreen: #7D7A51;
+	--ss-legacy-orange: #D8712B;
+	--ss-legacy-shadow: rgba(70, 68, 45, .4);
+}
+
+/* --------------------------- [ Overrides ] */
+/* Forces White Border on Custom Item Grid Elements */
+#equip_grid .grid-item:hover,
+#equip_grid .highlight {
+	border-color: var(--ss-white) !important;
+}
+
+/* Makes Item Icon White */
+#equip_grid .highlight i {
+	color: var(--ss-white) !important;
+}
+
+/* Forces White Golden Egg Stroke on Custom Item Grid Elements */
+#equip_grid .highlight .egg-stroke {
+	fill: var(--ss-white) !important;
+}
+
+/* Brings Back Thick Corners! (Item Grid Elements) */
+#equip_grid .grid-item {
+	border-width: var(--ss-new-border-width) !important;
+	border-radius: var(--ss-space-lg) !important;
+}
+
+/* Brings Back Rounded Corners! (Weapon Class Buttons) */
+.weapon_img {
+	border-width: var(--ss-new-border-width) !important;
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* Brings Back Rounded Corners! (Egg Color Selector) */
+.egg-color-select {
+	border-width: calc(var(--ss-new-border-width) * 0.75);
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* Brings Back Rounded Corners! (Item Type Buttons) */
+.ico_itemtype {
+	border-width: var(--ss-new-border-width) !important;
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* White Banner on Highlighted Items */
+.highlight .equip-item-banner {
+	background: var(--ss-white) !important;
+}
+
+/* Fade In Item Icon + Banner */
+.highlight .equip-vip-icon,
+.highlight:not(.is-shop) .equip_smallprice i,
+.highlight:not(.is-shop) .equip_smallprice div,
+.highlight:not(.is-shop) .egg-stroke,
+.highlight .equip-item-banner,
+.highlight:not(.is-shop) .item-icon {
+	transition: all .3s linear;
+	z-index: 1 !important;
+}
+
+#equip_grid .grid-item:hover:not(.is-shop, .item-tag-default, .morestuff) {
+	transition: all .3s linear;
+}
+
+#equip_grid .grid-item.is-legacy:hover {
+	transition: all .3s linear !important;
+}
+
+/* --------------------------- [ Premium ] */
+/* --------- Grid Slot */
+/* Border */
+#equip_grid .grid-item.is-premium {
+	border-color: var(--ss-premium-txt);
+}
+/* $ Pricetag + Egg Spinner + Special Icon */
+.grid-item.is-premium div i:not(.fa-dollar-sign),
+.is-premium .item-icon,
+.premium-item-cost {
+	color: var(--ss-premium-txt);
+}
+/* Highlight */
+#equip_grid .is-premium.highlight {
+	background: radial-gradient(#f2f047, #d5ed40, #b7e93d, #97e53f, #71e044, #5ad744, #40cd44, #19c444, #14b43c, #0fa535, #0a962d, #048726) !important;
+}
+/* Item Shadow */
+.is-premium.secondary .equip_icon, 
+.is-premium.primary .equip_icon, 
+.is-premium.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-premium-shadow));
+}
+
+/* --------- Tooltip */
+/* Triangles */
+.tool-tip.premium > span:after,
+.tool-tip.premium div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-premium);
+	filter: drop-shadow(4px 4px 0 var(--ss-premium-txt)) !important; 
+}
+/* Text */
+.tool-tip.premium h4 {
+	color: var(--ss-premium-txt) !important;
+}
+
+/* Background */
+.tool-tip.premium span:not(.egg-price-egg) {
+	background: var(--ss-premium);
+}
+
+/* Background Shadow */
+.tool-tip.premium > span,
+.tool-tip.premium div.tool-tip--bubble,
+.tool-tip.premium > span:after,
+.tool-tip.premium div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-premium-txt);
+}
+
+/* --------------------------- [ Bundle ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-bundle {
+	background: linear-gradient(to bottom right, var(--bundle-color), #6a14d1 80%);
+	border-color: #6a14d1;
+}
+.is-bundle .equip-item-banner {
+	color: #6a14d1;
+	background: var(--bundle-color);
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-bundle.highlight {
+	background: radial-gradient(var(--bundle-color), #6a14d1) !important;
+}
+.grid-item.is-bundle div i,
+.is-bundle .item-icon {
+	color: #6a14d1;
+}
+
+/* --------- Tooltip */
+.tool-tip.bundle > span:after,
+.tool-tip.bundle div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--bundle-color);
+	filter: drop-shadow(4px 4px 0 var(--bundle-text-color)) !important; 
+}
+.tool-tip.bundle h4 {
+	color: var(--bundle-text-color) !important;
+}
+.tool-tip.bundle span {
+	background: var(--bundle-color);
+}
+.tool-tip.bundle > span,
+.tool-tip.bundle div.tool-tip--bubble,
+.tool-tip.bundle > span:after,
+.tool-tip.bundle div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--bundle-text-color);
+}
+
+
+/* --------------------------- [ VIP ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-vip {
+	border-color: var(--ss-vip-txt);
+}
+#equip_grid .is-vip.highlight {
+	background: radial-gradient(#ffe180, #ffd759, #f4c843, #eab82a, #dfa900, #c79200, #ae7d00) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.vip > span:after,
+.tool-tip.vip div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-vip);
+	filter: drop-shadow(4px 4px 0 var(--ss-vip-txt)) !important; 
+}
+.grid-item.is-vip div .item-icon,
+.grid-item.is-vip div i,
+.tool-tip.vip h4 {
+	color: var(--ss-vip-txt) !important;
+}
+.tool-tip.vip span.display-grid {
+	background: var(--ss-vip);
+}
+.tool-tip.vip > span,
+.tool-tip.vip div.tool-tip--bubble,
+.tool-tip.vip > span:after,
+.tool-tip.vip div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-vip-txt);
+}
+
+/* VIP ICON */
+#equip_grid .equip-vip-icon {
+	 width: 1.5em;
+	 height: 1.5em;
+	 margin-left: .15em;
+}
+
+#equip_grid .highlight .equip-vip-icon {
+	fill: var(--ss-white);
+}
+
+
+/* --------------------------- [ Merch ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-merch {
+	background: linear-gradient(var(--ss-yolk0), var(--ss-brown));
+	border-color: var(--ss-brown);
+}
+.is-merch .equip-item-banner {
+	color: var(--ss-brown);
+	background: var(--ss-yolk0);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-merch.highlight {
+	background: radial-gradient(var(--ss-yolk0), var(--ss-brown)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.merch > span:after,
+.tool-tip.merch div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-yolk0);
+	filter: drop-shadow(4px 4px 0 var(--ss-brown)) !important; 
+}
+.grid-item.is-merch div i,
+.is-merch .item-icon,
+.tool-tip.merch h4 {
+	color: var(--ss-brown) !important;
+}
+.tool-tip.merch span {
+	background: var(--ss-yolk0);
+}
+.tool-tip.merch > span,
+.tool-tip.merch div.tool-tip--bubble,
+.tool-tip.merch > span:after,
+.tool-tip.merch div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-brown);
+}
+
+
+
+/* --------------------------- [ Limited ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.item-tag-limited:not(.is-bundle) {
+	border-color: var(--ss-limited-border);
+}
+#equip_grid .item-tag-limited.highlight {
+	background: radial-gradient(#ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #e000a9, #d2009f, #c50095) !important;
+}
+.grid-item.item-tag-limited div i:not(.fa-dollar-sign),
+.item-tag-limited .item-icon,
+.item-tag-limited .equip_cost {
+	color: var(--ss-limited-border);
+}
+#equip_grid .item-tag-limited .egg-stroke {
+	fill: var(--ss-limited-border);
+}
+.item-tag-limited:not(.is-premium) .equip-item-banner {
+	padding: 0.3em 2.4em;
+}
+.item-tag-limited.secondary .equip_icon, 
+.item-tag-limited.primary .equip_icon, 
+.item-tag-limited.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-limited-shadow));
+}
+
+
+/* --------- Tooltip */
+.tool-tip.limited > span:after,
+.tool-tip.limited div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-limited);
+	filter: drop-shadow(4px 4px 0 var(--ss-limited-txt)) !important; 
+}
+.tool-tip.limited h4 {
+	color: var(--ss-limited-txt) !important;
+}
+.tool-tip.limited span:not(.egg-price-egg) {
+	background: var(--ss-limited);
+}
+.tool-tip.limited > span,
+.tool-tip.limited div.tool-tip--bubble,
+.tool-tip.limited > span:after,
+.tool-tip.limited div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-limited-txt);
+}
+
+/* --------------------------- [ Twitch Drops ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-drops {
+	background: linear-gradient(to bottom right, var(--twitch-lt-purple), var(--twitch-dk-purple));
+	border-color: var(--twitch-dk-purple);
+}
+.is-drops .equip-item-banner {
+	color: var(--twitch-dk-purple);
+	background: var(--twitch-lt-purple);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-drops.highlight {
+	background: radial-gradient(var(--twitch-lt-purple), var(--twitch-dk-purple)) !important;
+}
+.is-drops.secondary .equip_icon, 
+.is-drops.primary .equip_icon, 
+.is-drops.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-drops-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.drops > span:after,
+.tool-tip.drops div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--twitch-lt-purple);
+	filter: drop-shadow(4px 4px 0 var(--twitch-dk-purple)) !important; 
+}
+.grid-item.is-drops div i,
+.is-drops .item-icon,
+.tool-tip.drops h4 {
+	color: var(--twitch-dk-purple) !important;
+}
+.tool-tip.drops span {
+	background: var(--twitch-lt-purple);
+}
+.tool-tip.drops > span,
+.tool-tip.drops div.tool-tip--bubble,
+.tool-tip.drops > span:after,
+.tool-tip.drops div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--twitch-dk-purple);
+}
+
+
+
+/* --------------------------- [ New Yolker ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-ny {
+	background: linear-gradient(to bottom right, var(--ss-ny-lt), var(--ss-ny-dk));
+	border-color: var(--ss-ny-dk);
+}
+.is-ny .equip-item-banner {
+	color: var(--ss-ny-dk);
+	background: var(--ss-ny-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-ny.highlight {
+	background: radial-gradient(var(--ss-ny-lt), var(--ss-ny-dk)) !important;
+}
+.is-ny.secondary .equip_icon, 
+.is-ny.primary .equip_icon, 
+.is-ny.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-ny-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.ny > span:after,
+.tool-tip.ny div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-ny-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-ny-dk)) !important; 
+}
+.grid-item.is-ny div i,
+.is-ny .item-icon,
+.tool-tip.ny h4 {
+	color: var(--ss-ny-dk) !important;
+}
+.tool-tip.ny span {
+	background: var(--ss-ny-lt);
+}
+.tool-tip.ny > span,
+.tool-tip.ny div.tool-tip--bubble,
+.tool-tip.ny > span:after,
+.tool-tip.ny div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-ny-dk);
+}
+
+
+
+/* --------------------------- [ Notification ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-notif {
+	background: linear-gradient(to bottom right, var(--ss-notif-lt), var(--ss-notif-dk));
+	border-color: var(--ss-notif-dk);
+}
+.is-notif .equip-item-banner {
+	color: var(--ss-notif-dk);
+	background: var(--ss-notif-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-notif.highlight {
+	background: radial-gradient(var(--ss-notif-lt), var(--ss-notif-dk)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.notif > span:after,
+.tool-tip.notif div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-notif-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-notif-dk)) !important; 
+}
+.grid-item.is-notif div i,
+.is-notif .item-icon,
+.tool-tip.notif h4 {
+	color: var(--ss-notif-dk) !important;
+}
+.tool-tip.notif span {
+	background: var(--ss-notif-lt);
+}
+.tool-tip.notif > span,
+.tool-tip.notif div.tool-tip--bubble,
+.tool-tip.notif > span:after,
+.tool-tip.notif div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-notif-dk);
+}
+
+
+
+/* --------------------------- [ League ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-league {
+	background: linear-gradient(to bottom right, var(--ss-league-lt), var(--ss-league-dk));
+	border-color: var(--ss-league-dk);
+}
+.is-league .equip-item-banner {
+	color: var(--ss-league-dk);
+	background: var(--ss-league-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#equip_grid .is-league.highlight {
+	background: radial-gradient(var(--ss-league-lt), var(--ss-league-dk)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.league > span:after,
+.tool-tip.league div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-league-lt);
+	filter: drop-shadow(4px 4px 0 var(--league0)) !important; 
+}
+.grid-item.is-league div i,
+.league .item-icon,
+.tool-tip.league h4 {
+	color: var(--ss-league-dk) !important;
+}
+.tool-tip.league span {
+	background: var(--ss-league-lt);
+}
+.tool-tip.league > span,
+.tool-tip.league div.tool-tip--bubble,
+.tool-tip.league > span:after,
+.tool-tip.league div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-league-dk);
+}
+
+
+
+/* --------------------------- [ Egglite, Promo, Event, Social ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-egglite,
+#equip_grid .grid-item.is-promo,
+#equip_grid .grid-item.is-event,
+#equip_grid .grid-item.is-social {
+	background: linear-gradient(to bottom right, var(--ss-manual-lt2), var(--ss-manual-lt1), var(--ss-manual-dk2), var(--ss-manual-dk1));
+	border-color: var(--ss-manual-dk1);
+}
+.is-egglite .equip-item-banner,
+.is-promo .equip-item-banner,
+.is-event .equip-item-banner,
+.is-social .equip-item-banner {
+	color: var(--ss-manual-dk1);
+	background: var(--ss-manual-lt2);
+	padding-top: .4em 2.8em;
+}
+/* --- Specific Themes --- */
+.is-egglite .equip-item-banner {
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+}
+.is-event .equip-item-banner {
+	padding-left: 3em;
+	padding-right: 3em;
+}
+.is-promo .equip-item-banner {
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+}
+.is-social .equip-item-banner {
+	padding-left: 2.9em;
+	padding-right: 2.9em;
+}
+
+#equip_grid .is-egglite.highlight,
+#equip_grid .is-promo.highlight,
+#equip_grid .is-event.highlight,
+#equip_grid .is-social.highlight {
+	background: radial-gradient(var(--ss-manual-lt2), var(--ss-manual-lt1), var(--ss-manual-dk2), var(--ss-manual-dk1)) !important;
+}
+/* Changes manual Item Shadow Color to Black */
+.is-egglite.secondary .equip_icon, 
+.is-egglite.primary .equip_icon, 
+.is-egglite.giveStuffPopup-content .equip_icon,
+.is-promo.secondary .equip_icon, 
+.is-promo.primary .equip_icon, 
+.is-promo.giveStuffPopup-content .equip_icon,
+.is-event.secondary .equip_icon, 
+.is-event.primary .equip_icon, 
+.is-event.giveStuffPopup-content .equip_icon,
+.is-social.secondary .equip_icon, 
+.is-social.primary .equip_icon, 
+.is-social.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-manual-shadow)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.egglite > span:after,
+.tool-tip.egglite div.tool-tip--bubble:after,
+.tool-tip.promo > span:after,
+.tool-tip.promo div.tool-tip--bubble:after,
+.tool-tip.event > span:after,
+.tool-tip.event div.tool-tip--bubble:after,
+.tool-tip.social > span:after,
+.tool-tip.social div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-manual-lt1);
+	filter: drop-shadow(4px 4px 0 var(--ss-manual-dk1)) !important; 
+}
+.grid-item.is-egglite div i,
+.is-egglite .item-icon,
+.tool-tip.egglite h4,
+.grid-item.is-promo div i,
+.is-promo .item-icon,
+.tool-tip.promo h4,
+.grid-item.is-event div i,
+.is-event .item-icon,
+.tool-tip.event h4,
+.grid-item.is-social div i,
+.is-social .item-icon,
+.tool-tip.social h4 {
+	color: var(--ss-manual-dk1) !important;
+}
+.tool-tip.egglite span,
+.tool-tip.promo span,
+.tool-tip.event span,
+.tool-tip.social span {
+	background: var(--ss-manual-lt1);
+}
+.tool-tip.egglite > span,
+.tool-tip.egglite div.tool-tip--bubble,
+.tool-tip.egglite > span:after,
+.tool-tip.egglite div.tool-tip--bubble:after,
+.tool-tip.promo > span,
+.tool-tip.promo div.tool-tip--bubble,
+.tool-tip.promo > span:after,
+.tool-tip.promo div.tool-tip--bubble:after,
+.tool-tip.event > span,
+.tool-tip.event div.tool-tip--bubble,
+.tool-tip.event > span:after,
+.tool-tip.event div.tool-tip--bubble:after,
+.tool-tip.social > span,
+.tool-tip.social div.tool-tip--bubble,
+.tool-tip.social > span:after,
+.tool-tip.social div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-manual-dk1);
+}
+
+
+
+/* --------------------------- [ Content Creator ] */
+/* ---------------- [ Youtube ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-creator-yt {
+	background: linear-gradient(to bottom right, white, red);
+	border-color: red;
+}
+.is-creator-yt .equip-item-banner {
+	color: red;
+	background: white;
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+#equip_grid .is-creator-yt.highlight {
+	background: radial-gradient(white, red) !important;
+}
+.is-creator-yt .item-icon,
+.is-creator-yt .equip_cost {
+	color: red;
+}
+#equip_grid .is-creator-yt .egg-stroke {
+	fill: red;
+}
+.is-creator-yt.secondary .equip_icon, 
+.is-creator-yt.primary .equip_icon, 
+.is-creator-yt.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-ytcc-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.ytcc > span:after,
+.tool-tip.ytcc div.tool-tip--bubble:after {
+	border-top: 1rem solid white;
+	filter: drop-shadow(4px 4px 0 red) !important; 
+}
+.grid-item.is-creator-yt div i,
+.tool-tip.ytcc h4 {
+	color: red !important;
+}
+.tool-tip.ytcc span:not(.egg-price-egg) {
+	background: white;
+}
+.tool-tip.ytcc > span,
+.tool-tip.ytcc div.tool-tip--bubble,
+.tool-tip.ytcc > span:after,
+.tool-tip.ytcc div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em red;
+}
+
+
+/* ---------------- [ Twitch ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-creator-twitch {
+	background: linear-gradient(to bottom right, white, var(--ss-twitch));
+	border-color: var(--ss-twitch);
+}
+.is-creator-twitch .equip-item-banner {
+	color: var(--ss-twitch);
+	background: white;
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+#equip_grid .is-creator-twitch.highlight {
+	background: radial-gradient(white, var(--ss-twitch)) !important;
+}
+.is-creator-twitch .item-icon,
+.is-creator-twitch .equip_cost {
+	color: var(--ss-twitch);
+}
+#equip_grid .is-creator-twitch .egg-stroke {
+	fill: var(--ss-twitch);
+}
+.is-creator-twitch.secondary .equip_icon, 
+.is-creator-twitch.primary .equip_icon, 
+.is-creator-twitch.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-twitchcc-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.twitchcc > span:after,
+.tool-tip.twitchcc div.tool-tip--bubble:after {
+	border-top: 1rem solid white;
+	filter: drop-shadow(4px 4px 0 var(--ss-twitch)) !important; 
+}
+.grid-item.is-creator-twitch div i,
+.tool-tip.twitchcc h4 {
+	color: var(--ss-twitch) !important;
+}
+.tool-tip.twitchcc span:not(.egg-price-egg) {
+	background: white;
+}
+.tool-tip.twitchcc > span,
+.tool-tip.twitchcc div.tool-tip--bubble,
+.tool-tip.twitchcc > span:after,
+.tool-tip.twitchcc div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-twitch);
+}
+
+/* ---------------- [ Legacy ] */
+/* --------- Grid Slot */
+#equip_grid .grid-item.is-legacy {
+	background: linear-gradient(to bottom right, var(--ss-legacy-ltgreen), var(--ss-legacy-dkgreen));
+	border-color: var(--ss-legacy-gray);
+}
+.is-legacy .equip-item-banner {
+	color: var(--ss-legacy-gray);
+	background: var(--ss-legacy-orange);
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+.is-legacy.highlight .equip-item-banner {
+	color: var(--ss-legacy-dkgreen);
+}
+#equip_grid .is-legacy.highlight {
+	background: radial-gradient(var(--ss-legacy-ltgreen), var(--ss-legacy-dkgreen)) !important;
+}
+.is-legacy .item-icon {
+	color: var(--ss-legacy-orange);
+}
+.is-legacy.secondary .equip_icon, 
+.is-legacy.primary .equip_icon, 
+.is-legacy.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-legacy-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.legacy > span:after,
+.tool-tip.legacy div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-legacy-ltgreen);
+	filter: drop-shadow(4px 4px 0 var(--ss-legacy-dkgreen)) !important; 
+}
+.grid-item.is-legacy div i,
+.tool-tip.legacy h4 {
+	color: var(--ss-legacy-dkgreen) !important;
+}
+.tool-tip.legacy span:not(.egg-price-egg) {
+	background: var(--ss-legacy-ltgreen);
+}
+.tool-tip.legacy > span,
+.tool-tip.legacy div.tool-tip--bubble,
+.tool-tip.legacy > span:after,
+.tool-tip.legacy div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-legacy-dkgreen);
+}
+
+/* Fix Bundle Item Banners */
+#bundlePopup .grid-item .equip-item-banner {
+	padding-top: .1em !important;
+	padding-bottom: .1em !important;
+	clip-path: polygon(1% 0%, 101% 0%, 77% 100%, 25% 100%);
+}
+
+#bundlePopup .is-premium .equip-item-banner {
+	padding: 0.3em 2.4em;
+}
+
+#bundlePopup .is-bundle .equip-item-banner {
+	padding: 0.3em 2.9em;
+}
+
+#bundlePopup .equip-item-banner.shadow {
+	bottom: 0.5em !important;
+	right: -2.2em !important;
+}
+
+#bundlePopup .is-egglite .equip-item-banner,
+#bundlePopup .item-tag-limited:not(.is-premium) .equip-item-banner {
+	padding: 0.3em 2.8em;
+}
+
+/* Code Cracked Item Banner */
+#giveStuffPopup .equip-item-banner {
+	display: block !important;
+}
+
+
+/* ---------------- [ Normal Shop Item ] */
+/* --------- Grid Slot */
+.is-shop:not(.is-premium) .item-icon {
+	color: var(--ss-blue5);
+}
+
+/* ---------------------- [ Skin Search ] */
+.inventory-skin-search input {
+	width: 15.3em !important;
+}
+
+.shop-skin-search input {
+	width: 19em !important;
+}
+
+.shop-skin-search label i {
+	top: -0.8em;
+	right: 0.1em !important;
+}
+
+.inventory-skin-search label {
+	right: 4.2em !important;
+}
+
+.limited-msg-wrapper {
+	margin-bottom: .6em !important;
+}
+
+.inventory-skin-search button {
+		text-align: center !important;
+		margin-left: 0.5em;
+		width: 2.5em;
+		height: 2.5em;
+}
+
+.shop-skin-search input,
+.inventory-skin-search input {
+		margin-bottom: 1em;
+		border-width: calc(var(--ss-new-border-width) * 0.75) !important;
+		border-radius: var(--ss-space-lg) !important;
+}
+
+.random-button {
+	position: relative;
+	top: 0.122em;
+	right: 0.2em;
+}
+
+.equip_smallprice {
+	z-index: 1 !important;
+}
+
+.equip-vip-icon {
+	position: relative !important;
+}
+
+.item-icon {
+	margin-top: 0.3em;
+	margin-left: 0.2em;
+	position: relative !important;
+}
+
+.equip-vip-icon:hover,
+#equip_grid .item-icon.hover:hover {
+	transition: all .2s ease-out;
+	transform: translateY(.2em) translateX(.2em)  scale(1.2);
+}
+
+/* Hoverable Item Icon Jitter Effect */
+/*
+.grid-item:not(.highlight) .equip-vip-icon,
+.grid-item:not(.highlight) .item-icon.hover {
+	animation: attention 1000ms infinite;
+}
+
+@keyframes attention {
+	0% {
+		transform: scale(1);
+	}
+	10% {
+		transform: scale(1.2) rotate(10deg);
+	}
+	20% {
+		transform: scale(1);
+	}
+	40% {
+		transform: scale(1.2) rotate(-10deg);
+	}
+	60% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1);
+	}
+} */
+
+@keyframes icon-idle-animation {
+  0% {
+	 transform: scale(1);
+  }
+  83% {
+	 transform: scale(1);
+  }
+  84% {
+	 transform: scale(1.3) translateX(.1em) translateY(.1em);
+  }
+  86% {
+	 transform: rotate(7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  87% {
+	 transform: rotate(-7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  89% {
+	 transform: rotate(7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  92% {
+	 transform: rotate(-7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  97% {
+	 transform: scale(0.5) rotate(-360deg);
+  }
+  100% {
+	 transform: scale(1);
+  }
+}
+
+.grid-item.is-creator-yt:not(:hover) .item-icon.hover,
+.grid-item.is-creator-twitch:not(:hover) .item-icon.hover,
+.grid-item.highlight:not(:hover) .equip-vip-icon,
+.grid-item.highlight:not(:hover) .item-icon.hover {
+	animation: icon-idle-animation 8s ease-in-out infinite;
+}
+
+#bundlePopup .item-icon {
+	margin-left: -3em;
+}

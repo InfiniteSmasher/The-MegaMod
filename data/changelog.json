@@ -1,0 +1,34 @@
+{
+	"current": [{
+		"version": "1.0",
+		"date": "October ??? 2024",
+		"content": [
+			"<b>After waaaaaaay too long, <i>The MegaMod</i> is finally released!!!</b>",
+			"Special thanks to <b>(INSERT NAMES)</b> for their help with playtesting!",
+			"Mods and their settings are on the <b class='changelog-link' onclick='vueApp.showMegaModTab(true)'>brand new tabs</b> in the settings menu.",
+			"<b>Improved UI & Fixed Bugs</b> in the inventory, profile screen, and elsewhere!",
+			"<b>Profile Badges</b> added to the profile screen!",
+			"<b>Legacy default gun skins</b> and <b>sound effects</b> from 2018/2019 have returned!",
+			"<b>VIP color customization</b> with hue, saturation, and brightness sliders.",
+			"<b>Hide the HUD (in-game UI)</b> for cleaner recordings and cinematic shots.",
+			"Added a <b>stopwatch</b> while spawned. Detailled killstreak stats popup coming soon!",
+			"<b>Grenade pickups</b> match your equipped grenade skin - also works in first-person spectate mode!",
+			"Use the <b>FPS slider</b> to set a custom FPS cap and finally play like a pro.",
+			"Various features added to <b>spectate mode</b>:<ul><li>See a player's <b>health bar</b> in first-person spectate mode.</li><li>Effortlessly fly around maps with a slider to adjust <b>spectate speed</b>.</li><li><b>Freeze the game</b> in spectate mode for the perfect action shot.</li><li>...and more!</li></ul>",
+			"<b>Spin your egg 360°</b> in the Photobooth and export it as a GIF (coming soon).",
+			"Explore a handful of <b>custom themes</b> to customize the Shell Shockers UI.",
+			"Choose from <b>over 60 new skybox options</b> or <b>any solid color</b> for a unique in-game atmosphere!"
+		]
+	}],
+	"old": [		
+		{
+			"version": ":) ",
+			"date": "What do you think you're doing?",
+			"content": [
+				"There'll be stuff here...eventually... (MegaMod updates)",
+				"Now get out of here before <b>EGG ORG</b> sees you!",
+				"<b>Enjoy The MegaMod! :) - Infinite Smasher</b>"
+			]
+		}
+	]
+}

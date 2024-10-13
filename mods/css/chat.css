@@ -1,0 +1,14 @@
+:root {
+	--ss--chat-height: 20.5em;
+	--ss-chat-height-accouncement: 22.5em;
+}
+
+.chat-event,
+.chat-icon {
+	display: inherit !important;
+}
+
+.is-paused .chw-home-timer {
+    margin-left: 15em;
+    margin-bottom: -14em;
+}

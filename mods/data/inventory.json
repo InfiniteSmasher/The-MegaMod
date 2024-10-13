@@ -1,0 +1,226 @@
+{
+	"leagueTags": [
+		"sl",
+		"shell league",
+		"league",
+		"clan"
+	],
+	"tagEdits": [
+		{ "add": 0, "id": 1551, "tags": ["Oct24", "Limited"] },
+		{ "add": 1, "id": 1547,  "tags": ["Newsletter"] },
+		{ "add": 0, "id": 1474,  "tags": ["promo"] },
+		{ "add": 1, "id": 1517,  "tags": ["Newsletter"] },
+		{ "add": 1, "id": 2592,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1546,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2584,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2454,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2467,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1465,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2488,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2500,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1503,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2519,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1515,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2551,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2562,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1538,  "tags": ["bundle"] },
+		{ "add": 1, "id": 2573,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1001,  "tags": ["Default"] },
+		{ "add": 1, "id": 1002,  "tags": ["Default"] },
+		{ "add": 1, "id": 1003,  "tags": ["Default"] },
+		{ "add": 1, "id": 1004,  "tags": ["Default"] },
+		{ "add": 1, "id": 1005,  "tags": ["Default"] },
+		{ "add": 1, "id": 1006,  "tags": ["Default"] },
+		{ "add": 1, "id": 3000,  "tags": ["Default"] },
+		{ "add": 1, "id": 3100,  "tags": ["Default"] },
+		{ "add": 1, "id": 3400,  "tags": ["Default"] },
+		{ "add": 1, "id": 3600,  "tags": ["Default"] },
+		{ "add": 1, "id": 3800,  "tags": ["Default"] },
+		{ "add": 1, "id": 4000,  "tags": ["Default"] },
+		{ "add": 1, "id": 4200,  "tags": ["Default"] },
+		{ "add": 1, "id": 15000, "tags": ["Default"] },
+		{ "add": 1, "id": 15001, "tags": ["Default"] },
+		{ "add": 1, "id": 15002, "tags": ["Default"] },
+		{ "add": 1, "id": 16000, "tags": ["Default"] },
+		{ "add": 1, "id": 1340,  "tags": ["event"] },
+		{ "add": 1, "id": 2263,  "tags": ["event"] },
+		{ "add": 1, "id": 2388,  "tags": ["event"] },
+		{ "add": 1, "id": 2389,  "tags": ["event"] },
+		{ "add": 1, "id": 2540,  "tags": ["event"] },
+		{ "add": 1, "id": 1200,  "tags": ["social"] },
+		{ "add": 1, "id": 1208,  "tags": ["social"] },
+		{ "add": 1, "id": 1219,  "tags": ["social"] },
+		{ "add": 1, "id": 1223,  "tags": ["social"] },
+		{ "add": 1, "id": 1227,  "tags": ["social"] },
+		{ "add": 1, "id": 1234,  "tags": ["social"] },
+		{ "add": 1, "id": 1268,  "tags": ["social"] }
+	],
+	"tags": {
+		"promo": "promo",
+		"event": "event",
+		"social": "social",
+		"creator": "{0}Creator",
+		"bundle": "bundle"
+	},
+	"creatorTypes": ["Facebook", "Instagram", "TikTok", "Discord", "YouTube", "Twitter", "Twitch"],
+	"creatorData": [
+		{
+			"name": "Wero",
+			"type": 4,
+			"link": "youtube.com/c/Werooo",
+			"itemIds": [1187, 1189, 1240, 2143, 16029]
+		},
+		{
+			"name": "thee_owl",
+			"type": 6,
+			"link": "twitch.tv/thee_owl",
+			"itemIds": [1194, 2145]
+		},
+		{
+			"name": "C4bra",
+			"type": 6,
+			"link": "twitch.tv/c4bra",
+			"itemIds": [1196, 1197, 2147]
+		},
+		{
+			"name": "Hazmatt",
+			"type": 4,
+			"link": "youtube.com/@ItsHazmatt",
+			"itemIds": [1198, 2148, 2149]
+		},
+		{
+			"name": "RandomLife",
+			"type": 4,
+			"link": "youtube.com/@Miguelillo_RL",
+			"itemIds": [1221, 2183]
+		},
+		{
+			"name": "Ethan Gamer",
+			"type": 4,
+			"link": "youtube.com/@EthanGamerTV",
+			"itemIds": [1225, 2185]
+		},
+		{
+			"name": "JWBerry",
+			"type": 6,
+			"link": "twitch.tv/jwberry3d",
+			"itemIds": [1305, 3639]
+		},
+		{
+			"name": "graysocean",
+			"type": 6,
+			"link": "twitch.tv/graysocean",
+			"itemIds": [1306]
+		},
+		{
+			"name": "Kilzomatic",
+			"type": 4,
+			"link": "youtube.com/@Kilzomatic",
+			"itemIds": [1346, 3646]
+		},
+		{
+			"name": "Sharkbucks",
+			"type": 4,
+			"link": "youtube.com/@Sharkbucks",
+			"itemIds": [1347, 2315]
+		},
+		{
+			"name": "KJDCitsme",
+			"type": 6,
+			"link": "twitch.tv/kjdcitsme",
+			"itemIds": [1381]
+		},
+		{
+			"name": "Novosuper",
+			"type": 6,
+			"link": "twitch.tv/novosuper",
+			"itemIds": [1382]
+		},
+		{
+			"name": "Lyerpald",
+			"type": 6,
+			"link": "twitch.tv/lyerpald",
+			"itemIds": [2193, 3033]
+		},
+		{
+			"name": "Chanti GG",
+			"type": 4,
+			"link": "youtube.com/@chantigg",
+			"itemIds": [2199, 2200, 16026]
+		},
+		{
+			"name": "Polarized Moon",
+			"type": 4,
+			"link": "youtube.com/@PolarizedMoon",
+			"itemIds": [2262]
+		},
+		{
+			"name": "menoXD",
+			"type": 6,
+			"link": "twitch.tv/menoxd",
+			"itemIds": [2414, 3948, 15035]
+		}
+	],
+	"promoData": [
+		{
+			"name": "Ghost Cartridge",
+			"link": "3030.ca/ghostcartridge",
+			"itemIds": [1054]
+		},
+		{
+			"name": "Friday the 13th: Killer Puzzle",
+			"link": "f13killerpuzzle.com",
+			"itemIds": [1173]
+		},
+		{
+			"name": "Slashy Camp",
+			"link": "slashycamp.com",
+			"itemIds": [1199]
+		},
+		{
+			"name": "Merc Zone",
+			"link": "merc.zone",
+			"itemIds": [1161, 1162, 1163, 2114, 2115, 2116, 3053]
+		},
+		{
+			"name": "Cubic Castles",
+			"link": "castles.cc",
+			"itemIds": [3026]
+		},
+		{
+			"name": "KillStreak.tv",
+			"link": "store.steampowered.com/app/1053060/KillStreaktv/",
+			"itemIds": [3625]
+		},
+		{
+			"name": "Shell Shockers",
+			"link": "shellshock.io",
+			"itemIds": [16020]
+		},
+		{
+			"name": "Basket Bros",
+			"link": "basketbros.io",
+			"itemIds": [16039]
+		}
+	],
+	"themeOrder": [
+		{ "theme": "premium",  "custom": false },
+		{ "theme": "vip",      "custom": false },
+		{ "theme": "bundle",   "custom": true },
+		{ "theme": "physical", "custom": false },
+		{ "theme": "manual",   "custom": false },
+		{ "theme": "drops",    "custom": true },
+		{ "theme": "yolker",   "custom": true },
+		{ "theme": "league",   "custom": true },
+		{ "theme": "notif",    "custom": true },
+		{ "theme": "egglite",  "custom": true },
+		{ "theme": "promo",    "custom": true },
+		{ "theme": "event",    "custom": true },
+		{ "theme": "social",   "custom": true },
+		{ "theme": "default",  "custom": false },
+		{ "theme": "purchase", "custom": false },
+		{ "theme": "limited",  "custom": true },
+		{ "theme": "creator",  "custom": true },
+		{ "theme": "shop",     "custom": true }
+	]
+}

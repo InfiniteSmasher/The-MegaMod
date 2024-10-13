@@ -1,0 +1,255 @@
+{
+	"badgesPerRow": 12,
+	"playtesterIds": [20795141, 1945955,  970352],
+	"types": {
+		"0": {
+			"condition": "[{0}].some(x => extern.adminRoles & x)"
+		},
+		"1": {
+			"condition": "extern?.account?.isItemOwned?.(extern.catalog.findItemById({0}))"
+		},
+		"2": {
+			"condition": "extern?.account?.dateCreated && ((d) => {0})(new Date(extern.account.dateCreated))"
+		}
+	},
+	"badges": [
+		{
+			"condition": "extern?.account?.isSubscriber",
+			"locKey": "megaMod_betterUI_badge_vip",
+			"icon": "fas fa-egg",
+			"class": "badge-vip",
+			"clickFunc": "this.showSubStorePopup"
+		},
+		{
+			"type": 0,
+			"value": "1, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096",
+			"locKey": "megaMod_betterUI_badge_wizard",
+			"icon": "fas fa-hat-wizard",
+			"class": "badge-wizard",
+			"clickFunc": "() => { window.open('https://bluewizard.com/wizards/') }"
+		},
+		{
+			"type": 1,
+			"value": 2113,
+			"locKey": "megaMod_betterUI_badge_mod",
+			"icon": "fas fa-shield-alt",
+			"class": "badge-mod badge-hover-alt",
+			"clickFunc": "() => { window.open('https://discord.gg/bluewizard') }"
+		},
+		{
+			"type": 0,
+			"value": "2, 4, 8192",
+			"locKey": "megaMod_betterUI_badge_eggforcer",
+			"icon": "fas fa-gavel",
+			"class": "badge-eggforcer"
+		},
+		{
+			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id)",
+			"locKey": "megaMod_betterUI_badge_tester",
+			"icon": "fas6 fa-flask-gear",
+			"class": "badge-tester badge-hover-alt",
+			"clickFunc": "() => { navigator.clipboard.writeText(extern.account.id); alert('Your Shell Account\\'s ID has been copied to your clipboard\\n\\nSend it to @infintesmasher if you want this badge and and are ok with your Account ID being public in the MegaMod\\'s code.\\n\\nNOTE: Your Shell Account\\'s ID is just a number that uniquely identifies your account, which makes it possible for the MegaMod to exclusively give this badge to you. No one can steal your account or do anything bad using your Shell Account\\'s ID.'); }"
+		},
+		{
+			"type": 2,
+			"value": "d.getFullYear() <= 2019",
+			"locKey": "megaMod_betterUI_badge_og",
+			"icon": "fas fa-hourglass",
+			"class": "badge-og"
+		},
+		{
+			"type": 2,
+			"value": "d.getFullYear() == 2020",
+			"locKey": "megaMod_betterUI_badge_pandemic",
+			"icon": "fas fa-mask-face",
+			"class": "badge-pandemic"
+		},
+		{
+			"type": 2,
+			"value": "Math.abs((d - new Date()) / (1000 * 60 * 60 * 24 * 30)) < 1",
+			"locKey": "megaMod_betterUI_badge_newbie",
+			"icon": "fas6 fa-seedling",
+			"class": "badge-newbie"
+		},
+		{
+			"type": 1,
+			"value": 1350,
+			"locKey": "megaMod_betterUI_badge_scavenger22",
+			"icon": "fas fa-map-marked-alt",
+			"class": "badge-scavenger22"
+		},
+		{
+			"type": 2,
+			"value": "d <= new Date('2020-04-03')",
+			"condition": "&& extern.isItemOwned(extern.catalog.findItemById(2100))",
+			"locKey": "megaMod_betterUI_badge_eggorg20",
+			"icon": "fas6 fa-biohazard",
+			"class": "badge-eggorg20"
+		},
+		{
+			"type": 2,
+			"value": "d <= new Date('2021-04-15')",
+			"condition": "&& [16017, 16018].some(i => extern.isItemOwned(extern.catalog.findItemById(i)))",
+			"locKey": "megaMod_betterUI_badge_eggorg21",
+			"icon": "fas6 fa-frown",
+			"class": "badge-eggorg21"
+		},
+		{
+			"type": 1,
+			"value": 2263,
+			"locKey": "megaMod_betterUI_badge_eggorg22",
+			"icon": "fas6 fa-face-cowboy-hat",
+			"class": "badge-eggorg22"
+		},
+		{
+			"type": 1,
+			"value": 2389,
+			"locKey": "megaMod_betterUI_badge_eggorg23",
+			"icon": "fas6 fa-flask-round-poison",
+			"class": "badge-eggorg23"
+		},
+		{
+			"type": 1,
+			"value": 2540,
+			"locKey": "megaMod_betterUI_badge_eggorg24",
+			"icon": "fas6 fa-robot",
+			"class": "badge-eggorg24"
+		},
+
+		{
+			"condition": "extern?.account?.inventory.filter(i => i?.unlock === 'premium' && i.price !== 2147483647).reduce((sum, item) => sum + item.price, 0) >= {0}",
+			"locKey": "megaMod_betterUI_badge_premium",
+			"tierIcons": ["fas fa-dollar-sign", "fas fa-money-check-alt", "fas fa-credit-card", "fas fa-sack-dollar", "fas fa-sack-dollar"],
+			"tierValues": [50, 100, 150, 200, 250],
+			"class": "badge-premium"
+		},
+		{
+			"condition": "extern?.account?.challengesClaimedUnique.length >= {0}",
+			"locKey": "megaMod_betterUI_badge_uniquechlg",
+			"tierIcons": ["fas6 fa-bow-arrow", "fas6 fa-bow-arrow", "fas6 fa-bow-arrow", "fas6 fa-bullseye-arrow", "fas6 fa-bullseye-arrow"],
+			"tierValues": [10, 25, 50, 75, 100],
+			"class": "badge-uniquechlg"
+		},
+		{
+			"condition": "extern?.account?.challengesClaimed.length >= {0}",
+			"locKey": "megaMod_betterUI_badge_totalchlg",
+			"tierIcons": ["fas6 fa-mountain", "fas6 fa-mountain", "fas6 fa-mountain", "fas6 fa-mountains", "fas6 fa-mountains"],
+			"tierValues": [50, 100, 250, 500, 1000],
+			"class": "badge-totalchlg"
+		},
+		{
+			"condition": "extern?.account?.eggsSpent >= {0}",
+			"locKey": "megaMod_betterUI_badge_spenteggs",
+			"tierIcons": ["fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-cart", "fas fa-shopping-cart"],
+			"tierValues": [250000, 500000, 1000000, 2500000, 5000000],
+			"class": "badge-spender"
+		},
+		{
+			"condition": "extern?.account?.statsLifetime.kills.total >= {0}",
+			"locKey": "megaMod_betterUI_badge_totalkills",
+			"tierIcons": ["fas6 fa-egg-fried", "fas6 fa-egg-fried", "fas6 fa-egg-fried", "far6 fa-pan-frying", "far6 fa-pan-frying"],
+			"tierValues": [10000, 25000, 50000, 100000, 200000],
+			"class": "badge-totalkills"
+		},
+		{
+			"condition": "Object.values(extern?.account?.statsLifetime.kills.gameType || {}).every(v => v >= {0});",
+			"locKey": "megaMod_betterUI_badge_modekills",
+			"tierIcons": ["fas6 fa-sword", "fas6 fa-sword", "fas6 fa-sword", "fas6 fa-swords", "fas6 fa-swords"],
+			"tierValues": [500, 1000, 5000, 10000, 20000],
+			"class": "badge-modekills"
+		},
+		{
+			"condition": "Object.entries(extern?.account?.statsLifetime.kills.dmgType || {}).every(([k, v]) => k == 'fall' || v >= {0});",
+			"locKey": "megaMod_betterUI_badge_weaponkills",
+			"tierIcons": ["fas fa-gun", "fas fa-gun", "fas fa-gun", "fas6 fa-person-military-rifle", "fas6 fa-person-military-rifle"],
+			"tierValues": [250, 500, 750, 1000, 2500],
+			"class": "badge-weaponkills"
+		},
+		{
+			"condition": "extern?.account?.kdrLifetime >= {0}",
+			"locKey": "megaMod_betterUI_badge_kdr",
+			"tierIcons": ["fas fa-skull", "fas fa-skull", "fas fa-skull", "fas fa-skull-crossbones", "fas fa-skull-crossbones"],
+			"tierValues": [0.75, 1, 2, 3, 4],
+			"precision": 2,
+			"class": "badge-kdr"
+		},
+		{
+			"condition": "Object.entries(extern?.account?.statsLifetime.kills.gameType || {}).every(([k,v]) => Math.floor(v / Math.max(extern.account.statsLifetime.deaths.gameType[k], 1) * 100) / 100 >= {0})",
+			"locKey": "megaMod_betterUI_badge_modekdr",
+			"tierIcons": ["fas6 fa-crosshairs-simple", "fas6 fa-crosshairs-simple", "fas6 fa-crosshairs-simple", "fas fa-crosshairs", "fas6 fa-crosshairs"],
+			"tierValues": [0.75, 1, 2, 3, 4],
+			"precision": 2,
+			"class": "badge-modekdr"
+		},
+		{
+			"condition": "extern?.account?.statsLifetime.gameType.kotc.wins >= {0}",
+			"locKey": "megaMod_betterUI_badge_kotc",
+			"tierIcons": ["far6 fa-crown", "far6 fa-crown", "far6 fa-crown", "fas fa-crown", "fas fa-crown"],
+			"tierValues": [50, 100, 150, 250, 500],
+			"class": "badge-kotc"
+		},
+		{
+			"condition": "extern?.account?.statsLifetime.gameType.kotc.captured >= {0}",
+			"locKey": "megaMod_betterUI_badge_coops",
+			"tierIcons": ["fas6 fa-user-crown", "fas6 fa-user-crown", "fas6 fa-user-crown", "fas6 fa-user-group-crown", "fas6 fa-user-group-crown"],
+			"tierValues": [250, 500, 750, 1500, 2500],
+			"class": "badge-coops"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getTaggedItems(extern.specialItemsTag).filter(i => i.is_available)) >= ({0}/100)",
+			"locKey": "megaMod_betterUI_badge_limited",
+			"tierIcons": ["far fa-gem", "far fa-gem", "far fa-gem", "fas6 fa-gem", "fas6 fa-gem"],
+			"tierValues": [10, 20, 30, 50, 80],
+			"ignorePlus": true,
+			"class": "badge-limited badge-hover-alt",
+			"clickFunc": "() => { vueApp.openEquipSwitchTo(vueApp.equipMode.featured); vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(i => i.is_available && extern.isItemOwned(i)); }"
+		},
+		{
+			"condition": "extern.getThemedItems('merch').filter(extern.isItemOwned).length == {0}",
+			"locKey": "megaMod_betterUI_badge_merch",
+			"tierIcons": ["fas6 fa-tshirt", "fas6 fa-tshirt", "fas6 fa-tshirt"],
+			"tierValues": [1, 2, 3],
+			"ignorePlus": true,
+			"class": "badge-merch"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getThemedItems('drops')) >= ({0}/100)",
+			"locKey": "megaMod_betterUI_badge_drops",
+			"tierIcons": ["fab fa-twitch", "fab fa-twitch", "fab fa-twitch", "fas6 fa-parachute-box", "fas6 fa-parachute-box"],
+			"tierValues": [10, 25, 50, 75, 100],
+			"ignorePlus": true,
+			"class": "badge-drops"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getTaggedItems('Newsletter')) >= ({0}/100)",
+			"locKey": "megaMod_betterUI_badge_yolker",
+			"tierIcons": ["fas6 fa-envelope-open-text", "fas6 fa-envelope-open-text", "fas6 fa-envelope-open-text", "fas6 fa-mail-bulk", "fas6 fa-mail-bulk"],
+			"tierValues": [10, 25, 50, 75, 100],
+			"ignorePlus": true,
+			"class": "badge-yolker"
+		},
+		{
+			"condition": "extern.getThemedItems('league').filter(extern.isItemOwned).length >= {0}",
+			"locKey": "megaMod_betterUI_badge_league",
+			"tierIcons": ["fas fa-trophy", "fas fa-trophy", "fas fa-trophy", "fas6 fa-trophy-star", "fas6 fa-trophy-star"],
+			"tierValues": [1, 2, 3, 7, 9],
+			"class": "badge-league"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getThemedItems('egglite')) >= ({0}/100)",
+			"locKey": "megaMod_betterUI_badge_egglite",
+			"tierIcons": ["fas6 fa-sparkle", "fas6 fa-sparkle", "fas6 fa-sparkle", "fas6 fa-sparkles", "fas6 fa-sparkles"],
+			"tierValues": [10, 20, 30, 50, 90],
+			"ignorePlus": true,
+			"class": "badge-egglite"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getTaggedItems('promo')) >= ({0}/100)",
+			"locKey": "megaMod_betterUI_badge_promo",
+			"tierIcons": ["fas6 fa-ad", "fas6 fa-ad", "fas6 fa-ad", "fas6 fa-bullhorn", "fas6 fa-bullhorn"],
+			"tierValues": [10, 25, 50, 75, 100],
+			"ignorePlus": true,
+			"class": "badge-promo"
+		}
+	]
+}
