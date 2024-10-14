@@ -1,5 +1,5 @@
 class MegaMod {   
-    static debug = false;
+    static debug = false; // TODO: Add different debug levels
     static UPDATE_KEY = "megaMod_updated";
 
     static setDebug(debug) {
@@ -3363,7 +3363,6 @@ class CustomSkybox {
 
 // megaModHtml.js
 Object.assign(unsafeWindow, {
-    megaMod: new MegaMod(),
 	SettingType: {
 		Slider: 0,
 		Toggler: 1,
@@ -3418,7 +3417,7 @@ Object.assign(unsafeWindow, {
 	},
 	teamLocs: ['team_blue', 'team_red'],
 	rawPath: "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main", // https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main
-	cdnPath: "https://1nf1n1t3sm4sh3r.github.io/mmTest" // https://1nf1n1t3sm4sh3r.github.io/mmTest
+	cdnPath: "https://1nf1n1t3sm4sh3r.github.io/mmTest", // https://1nf1n1t3sm4sh3r.github.io/mmTest
 });
 unsafeWindow.ChatEventData = {
 	[ChatEvent.joinGame]: {
@@ -3434,6 +3433,8 @@ unsafeWindow.ChatEventData = {
 		setting: 'betterUI_chatEvent_switchTeam'
 	}
 };
+MegaMod.setDebug(true);
+unsafeWindow.megaMod = new MegaMod();
 
 String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
 	ids = Array.isArray(ids) ? ids : [ids];
@@ -3469,5 +3470,4 @@ Object.defineProperty(XMLHttpRequest.prototype, 'response', {
 	}
 });
 
-MegaMod.setDebug(true);
 MegaMod.log("Script Loaded:", `Page Status - ${document.readyState}`);

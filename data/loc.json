@@ -16,8 +16,8 @@
 	"megaMod_modErrsPopup_title": "Uh Oh! Some Mods Broke...",
 	"megaMod_modErrsPopup_desc": "There was an error while starting The MegaMod!<br>Certain mods may not show up or work correctly.<h3>Affected Mods:</h3>{0}",
 
-	"megaMod_updatePopup_title": "New Update Available!",
-	"megaMod_updatePopup_desc": "<br>A new version of The MegaMod is available!<br><br>Please click \"Gimme Update!\" to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (old) version may lead to the game or mods not working properly!",
+	"megaMod_updatePopup_title": "Update Available!",
+	"megaMod_updatePopup_desc": "<br>A new version of The MegaMod is available!<br><br>Please click \"Gimme Update!\" to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (outdated) version may lead to the Shell Shockers or The MegaMod not working properly!",
 	"megaMod_updatePopup_cancelBtn": "Nah :(",
 	"megaMod_updatePopup_okBtn": "Gimme Update!",
 	"megaMod_updatedPopup_title": "Updated Installed!",
