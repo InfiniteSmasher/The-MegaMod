@@ -3,6 +3,7 @@
     "updateInfo": [
         "Fixed all the bugs caused by the Game Engine Update (0.50.0)",
         "Added support for proxies (Alternate URLs) to MegaMod userscript",
-        "Fixed some minor UI bugs with inventory items and profile badges"
+        "Fixed some minor UI bugs with inventory items and profile badges",
+        "MegaMod startup <em>should</em> be more reliable now...hopefully"
     ]
 }
