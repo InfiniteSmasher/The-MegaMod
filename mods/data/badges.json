@@ -44,7 +44,7 @@
 			"class": "badge-eggforcer"
 		},
 		{
-			"condition": "extern?.account?.id && unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id.toString(16))",
+			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id?.toString(16))",
 			"locKey": "megaMod_betterUI_badge_tester",
 			"icon": "fas6 fa-flask-gear",
 			"class": "badge-tester badge-hover-alt",
