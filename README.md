@@ -1,22 +1,3 @@
-<head>
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="https://1nf1n1t3sm4sh3r.github.io/mmTest/img/assets/logos/modServer.png">
-
-  <!-- Open Graph Meta Tags for Embeds -->
-  <meta property="og:title" content="The MegaMod by Infinite Smasher" />
-  <meta property="og:description" content="Testing123" />
-  <meta property="og:url" content="https://1nf1n1t3sm4sh3r.github.io/mmTest/" />
-  <meta property="og:image" content="https://1nf1n1t3sm4sh3r.github.io/mmTest/img/docs/megaMod/The%20MegaMod%20Banner.png" />
-  <meta property="og:type" content="website" />
-  
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The MegaMod by Infinite Smasher" />
-  <meta name="twitter:description" content="Testing123" />
-  <meta name="twitter:image" content="https://1nf1n1t3sm4sh3r.github.io/mmTest/img/docs/megaMod/The%20MegaMod%20Banner.png" />
-
-</head>
-
 ![The MegaMod](img/docs/megaMod/The%20MegaMod%20Logo.png)
 # The MegaMod
 [![Shell Mods Discord](https://img.shields.io/discord/1273986972389474374?label=Infinite%27s%20Shell%20Mods%20Server&logo=discord&color=5865F2)](https://discord.gg/Cxggadazy4)
