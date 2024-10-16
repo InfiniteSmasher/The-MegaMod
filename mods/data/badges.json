@@ -1,6 +1,6 @@
 {
 	"badgesPerRow": 12,
-	"playtesterIds": ["13d4f05", "13d4f05",  "ece70"],
+	"playtesterIds": ["13d4f05", "13d4f05", "ece70", "2c299c5", "64dcc4a"],
 	"types": {
 		"0": {
 			"condition": "[{0}].some(x => extern.adminRoles & x)"
@@ -115,7 +115,6 @@
 			"icon": "fas6 fa-robot",
 			"class": "badge-eggorg24"
 		},
-
 		{
 			"condition": "extern?.account?.inventory.filter(i => i?.unlock === 'premium' && i.price !== 2147483647).reduce((sum, item) => sum + item.price, 0) >= {0}",
 			"locKey": "megaMod_betterUI_badge_premium",
@@ -164,6 +163,20 @@
 			"tierIcons": ["fas fa-gun", "fas fa-gun", "fas fa-gun", "fas6 fa-person-military-rifle", "fas6 fa-person-military-rifle"],
 			"tierValues": [250, 500, 750, 1000, 2500],
 			"class": "badge-weaponkills"
+		},
+		{
+			"condition": "extern?.account?.statsLifetime.deaths.total >= {0}",
+			"locKey": "megaMod_betterUI_badge_totaldeaths",
+			"tierIcons": ["fas6 fa-tombstone-blank", "fas6 fa-tombstone-blank", "fas6 fa-tombstone-blank", "fas6 fa-coffin", "fas6 fa-coffin"],
+			"tierValues": [10000, 25000, 50000, 100000, 200000],
+			"class": "badge-totaldeaths"
+		},
+		{
+			"condition": "extern?.account?.statsLifetime.deaths.dmgType.fall >= {0}",
+			"locKey": "megaMod_betterUI_badge_falldeaths",
+			"tierIcons": ["fas6 fa-person-falling", "fas6 fa-person-falling", "fas6 fa-person-falling", "fas6 fa-person-falling-burst", "fas6 fa-person-falling-burst"],
+			"tierValues": [10, 25, 50, 100, 250],
+			"class": "badge-falldeaths"
 		},
 		{
 			"condition": "extern?.account?.kdrLifetime >= {0}",

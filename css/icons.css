@@ -143,6 +143,22 @@
 	content: "\f6fd";
 }
 
+.fa-tombstone-blank:before {
+	content: "\f721";
+}
+
+.fa-coffin:before {
+	content: "\f6c6";
+}
+
+.fa-person-falling:before {
+	content: "\e546";
+}
+
+.fa-person-falling-burst:before {
+	content: "\e547";
+}
+
 @font-face {
 	 font-family: "Font Awesome 6 Regular";
 	 font-weight: 400;

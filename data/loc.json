@@ -128,6 +128,12 @@
 	
 	"megaMod_betterUI_badge_league_title": "Pro Egg Gamer {0}",
 	"megaMod_betterUI_badge_league_desc": "Own {0} league item{s}",
+
+	"megaMod_betterUI_badge_totaldeaths_title": "Splattered Yolk {0}",
+	"megaMod_betterUI_badge_totaldeaths_desc": "Have {0} lifetime death{s}",
+	
+	"megaMod_betterUI_badge_falldeaths_title": "Humpty's Fall {0}",
+	"megaMod_betterUI_badge_falldeaths_desc": "Have {0} lifetime fall death{s}",
 	
 	"megaMod_betterUI_badge_uniquechlg_title": "Challenge Eggcepted {0}",
 	"megaMod_betterUI_badge_uniquechlg_desc": "Complete {0} unique challenge{s}",

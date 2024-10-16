@@ -2683,7 +2683,7 @@ class BetterUI {
         ]).then(styles => {
             const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chatUpgradeStyle] = styles;
             Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chatUpgradeStyle });
-            this.switchBetterUI(true);
+            setTimeout(this.switchBetterUI.bind(this), 250, true);
         });
     }
 

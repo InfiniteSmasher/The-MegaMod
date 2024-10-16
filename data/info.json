@@ -1,12 +1,8 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Fixed all the bugs caused by the Game Engine Update (0.50.0)",
-        "Added support for proxies (Alternate URLs) to MegaMod userscript",
-        "Fixed some minor UI bugs with inventory items and profile badges",
-        "MegaMod startup <em>should</em> be more reliable now...hopefully",
-        "Fixed some typos in the UI",
-        "Fixed bug with skybox settings not saving properly",
-        "Themes load slightly faster"
+        "Fixed bug with Better UI enabling even when disabled",
+        "Added new tier badges: Splattered Yolk (lifetime deaths) and Humpty's Fall (fall deaths)",
+        "Ishmyster, Grinder, and Simsim - enjoy your Playtester Badges!"
     ]
 }

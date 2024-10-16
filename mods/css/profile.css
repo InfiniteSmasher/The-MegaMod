@@ -251,6 +251,10 @@
 	background: linear-gradient(to bottom right, lime, #61f261);
 }
 
+.badge-totaldeaths.tier5 {
+	background: #754224;
+}
+
 /*
 .somefuturebadge.tier1 {
 	background: linear-gradient(135deg, #FF0000 0%, #FF6347 100%);
