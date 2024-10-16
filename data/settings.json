@@ -681,7 +681,7 @@
 		"type": 1,
 		"active": true,
 		"locKey": "p_settings_mods_changeFPS",
-		"defaultVal": true,
+		"defaultVal": false,
 		"settings": [
 			{
 				"id": "changeFPS_slider",
@@ -774,7 +774,7 @@
 		"type": 1,
 		"active": true,
 		"locKey": "p_settings_mods_themeManager",
-		"defaultVal": true,
+		"defaultVal": false,
 		"settings": [
 			{
 				"type": 4,
@@ -835,7 +835,7 @@
 					{ "id": "other",       "locKey": "p_settings_mods_customSkybox_category_other"       }
 
 				],
-				"defaultVal": "official"
+				"defaultVal": "allSky"
 			},
 			{
 				"type": 4,
@@ -848,7 +848,7 @@
 						"locKey": "p_settings_mods_customSkybox_skyboxSelect",
 						"showCondition": "!window.megaMod.customSkybox.usingSkyboxColor",
 						"options": [],
-						"defaultVal": "default"
+						"defaultVal": "blueSky"
 					},
 					{
 						"type": 4,

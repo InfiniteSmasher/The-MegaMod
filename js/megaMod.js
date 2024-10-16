@@ -336,7 +336,7 @@ class MegaMod {
         equipScreen.innerHTML = equipScreen.innerHTML.replace(
             `" v-on:keyup="onItemSearchChange" class="ss_field font-nunito box_relative fullwidth">`,
             `" v-on:keyup="onItemSearchChange" class="ss_field font-nunito roundme_lg box_relative" :class="{'limited-input' : (${invEditsEnabled} && isOnEquipModeFeatured), 'fullwidth': !${invEditsEnabled}}">
-            <button id="randomize-button" onclick="unsafeWindow.megaMod.betterUI.randomizeSkin()" v-show="${invEditsEnabled} && isEquipModeInventory" class="ss_button roundme_lg btn_blue bevel_blue btn-account-w-icon random-button">
+            <button id="randomize-button" onclick="window.megaMod.betterUI.randomizeSkin()" v-show="${invEditsEnabled} && isEquipModeInventory" class="ss_button roundme_lg btn_blue bevel_blue btn-account-w-icon random-button">
                 <i v-show="${invEditsEnabled}" class="fas fa-random"></i>
             </button>`
         ).replace(
