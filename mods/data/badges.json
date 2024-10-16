@@ -1,6 +1,6 @@
 {
 	"badgesPerRow": 12,
-	"playtesterIds": [20795141, 1945955,  970352],
+	"playtesterIds": ["13d4f05", "13d4f05",  "ece70"],
 	"types": {
 		"0": {
 			"condition": "[{0}].some(x => extern.adminRoles & x)"
@@ -44,11 +44,11 @@
 			"class": "badge-eggforcer"
 		},
 		{
-			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id)",
+			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id.toString(16))",
 			"locKey": "megaMod_betterUI_badge_tester",
 			"icon": "fas6 fa-flask-gear",
 			"class": "badge-tester badge-hover-alt",
-			"clickFunc": "() => { navigator.clipboard.writeText(extern.account.id); alert('Your Shell Account\\'s ID has been copied to your clipboard\\n\\nSend it to @infintesmasher if you want this badge and and are ok with your Account ID being public in the MegaMod\\'s code.\\n\\nNOTE: Your Shell Account\\'s ID is just a number that uniquely identifies your account, which makes it possible for the MegaMod to exclusively give this badge to you. No one can steal your account or do anything bad using your Shell Account\\'s ID.'); }"
+			"clickFunc": "() => { navigator.clipboard.writeText(extern.account.id); alert('Your Shell Account\\'s ID has been copied to your clipboard\\n\\nDM it to @infintesmasher if you want this badge and and are ok with your Account ID being public in the MegaMod\\'s code (it\\'ll be stored as a hexadecmial string).\\n\\nNOTE: Your Shell Account\\'s ID is just a number that uniquely identifies your account (an id of 100 means its the 100th shell account), which makes it possible for the MegaMod to exclusively give this badge to you. No one can steal your account or do anything using your Shell Account\\'s ID.'); }"
 		},
 		{
 			"type": 2,

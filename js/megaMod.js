@@ -1,6 +1,5 @@
 class MegaMod {   
     static debug = false; // TODO: Add different debug levels
-    static UPDATE_KEY = "megaMod_updated";
 
     static setDebug(debug) {
         this.debug = debug;
@@ -395,22 +394,27 @@ class MegaMod {
             // Rewrote this function & fixed pistol not updating in photobooth when switching main weapon class
             poseEquippedItems() {
                 const items = { ...this.equipped };
-                const { showingWeaponType, posingStampPositionX, posingStampPositionY } = this.equip;
+                const { selectedItemType, showingWeaponType, posingStampPositionX, posingStampPositionY } = this.equip;
                 
                 if (!this.ui.showHomeEquipUi) {
                     Object.keys(items).forEach(key => {
                         key = parseInt(key, 10);
-                        const isPrimaryOrSecondary = this.equip.selectedItemType === ItemType.Primary && key === ItemType.Secondary;
+                        const isPrimaryOrSecondary = selectedItemType === ItemType.Primary && key === ItemType.Secondary;
                         const pistolHidden = !vueApp.$refs.photoBooth.egg.items.find(i => i.value == ItemType.Secondary).hidden;
-                        // Pistol was getting deleted from the array and thus wasn't updating
-                        if (key !== this.equip.selectedItemType && !(extern.modSettingEnabled("betterUI_inventory") && isPrimaryOrSecondary && pistolHidden)) delete items[key];
+                        // Pistol was getting deleted from the array and wasn't updating as a result
+                        if (key !== selectedItemType && !(extern.modSettingEnabled("betterUI_inventory") && isPrimaryOrSecondary && pistolHidden)) delete items[key];
                     });
                 } else {
-                    [ItemType.Melee, ItemType.Grenade].forEach(type => {
-                        if (showingWeaponType !== type) items[type] = null;
-                    });
+                    const exclusions = {
+                        [ItemType.Primary]: [ItemType.Melee, ItemType.Grenade],
+                        [ItemType.Secondary]: [ItemType.Melee, ItemType.Grenade],
+                        [ItemType.Melee]: [ItemType.Primary, ItemType.Grenade],
+                        [ItemType.Grenade]: [ItemType.Secondary, ItemType.Melee]
+                    };
+            
+                    const excludedItems = exclusions[showingWeaponType] || [ItemType.Melee, ItemType.Grenade];
+                    excludedItems.forEach(type => items[type] = null);
                 }
-                
                 extern.poseWithItems(items, posingStampPositionX, posingStampPositionY);
             },
             selectFirstItemInShop() {
@@ -1642,26 +1646,22 @@ class MegaMod {
         );
     }
 
-    static fetchJSON(subPath) {
+    static async fetchJSON(subPath) {
         this.log("Fetching JSON:", subPath);
 
         if (!subPath.startsWith('http')) subPath = `${rawPath}${subPath}`;
-        return fetch(subPath)
-            .then(res => {
-                if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
-                return res.json();
-            });
+        const res = await fetch(subPath);
+        if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+        return await res.json();
     }
 
-    static fetchCSS(subPath) {
+    static async fetchCSS(subPath) {
         this.log("Fetching CSS:", subPath);
 
         if (!subPath.startsWith('http')) subPath = `${rawPath}${subPath}`;
-        return fetch(subPath)
-        .then(res => {
-            if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
-            return res.text();
-        });
+        const res = await fetch(subPath);
+        if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
+        return await res.text();
     }
 
     constructor() {
@@ -1730,21 +1730,21 @@ class MegaMod {
 
 	newTogglerFunc(id, value) {
 		if (this.isModSetting(id)) this.updateModSetting(id, value);
-		const settingEnabled = extern.modSettingEnabled(id);
+		const settingEnabled = this.modSettingEnabled(id);
 		switch (id) {
 			case 'hideHUD':
 				if (!value) this.hideHUD.disableHideHUD();
 				vueApp.$refs.gameScreen.updateSpectateControls();
 				break;
 			case 'legacyMode':
-				this.legacyMode.switchLegacySkins(extern.modSettingEnabled("legacyMode_skins"));
-				this.legacyMode.switchLegacySounds(extern.modSettingEnabled("legacyMode_sfx"));
+				this.legacyMode.switchLegacySkins(this.modSettingEnabled("legacyMode_skins"));
+				this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode_sfx"));
 				break;
 			case 'legacyMode_skins':
-				if (extern.modSettingEnabled("legacyMode")) this.legacyMode.switchLegacySkins(value);
+				if (this.modSettingEnabled("legacyMode")) this.legacyMode.switchLegacySkins(value);
 				break;
 			case 'legacyMode_sfx':
-				if (extern.modSettingEnabled("legacyMode")) {
+				if (this.modSettingEnabled("legacyMode")) {
 					this.legacyMode.switchLegacySounds(settingEnabled);
 					BAWK.play(settingEnabled ? "ammo_Legacy" : "ammo");
 				}
@@ -1761,12 +1761,12 @@ class MegaMod {
 				break;
 			case 'colorSlider':
 				if (!value) extern.setShellColor(0);
-				else if (extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
+				else if (this.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
 				if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
 				break;
 			case 'colorSlider_unlock':
 				if (!value && !vueApp.isUpgraded) extern.setShellColor(0);
-				else if (extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
+				else if (this.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
 				break;
 			case 'colorSlider_randomizer':
 				extern.setShellColor(vueApp.equip.colorIdx);
@@ -1818,7 +1818,7 @@ class MegaMod {
 				break;
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
-		if (id.includes("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(extern.modSettingEnabled("legacyMode"));
+		if (id.includes("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode"));
 		if (id.includes("betterUI_chatEvent_")) {
 			const type = Object.keys(ChatEventData).find(k => ChatEventData[k].setting === id);
 			this.betterUI.switchChatEvent(type, settingEnabled);
@@ -1834,7 +1834,7 @@ class MegaMod {
 				break;
 		}
 		if (id.includes("customSkybox_colorSlider_")) extern.updateSkybox(
-			extern.modSettingEnabled("customSkybox"),
+			this.modSettingEnabled("customSkybox"),
 			this.getModSettingById('customSkybox_colorSlider_r').value,
 			this.getModSettingById('customSkybox_colorSlider_g').value,
 			this.getModSettingById('customSkybox_colorSlider_b').value
@@ -1856,10 +1856,10 @@ class MegaMod {
 
 	newSelectFunc(id, value) {
 		if (this.isModSetting(id)) this.updateModSetting(id, value);
-        const settingEnabled = extern.modSettingEnabled(id);
+        const settingEnabled = this.modSettingEnabled(id);
 		switch (id) {
 			case 'themeManager_themeSelect':
-				if (settingEnabled) this.customTheme.onThemeChanged(value);
+				this.customTheme.onThemeChanged(settingEnabled, value);
 				break;
 			case 'customSkybox_skyboxCategorySelect':
 				this.customSkybox.onSkyboxCategoryChanged(value);
@@ -1941,22 +1941,24 @@ class MegaMod {
         });
     }
 
+    modSettingEnabled(id, ignoreParent) {
+        const setting = this.getModSettingById(id);
+        const parent = this.getModSettingById(setting?.parentId);
+        return !this.modErrs.includes(id) 
+            && (setting?.value ?? false) && (!setting?.disabled ?? false) 
+            && (ignoreParent || (parent?.value ?? true) && (!parent?.disabled ?? true));
+    }
+
     addExternFuncs() {
         MegaMod.log("addExternFuncs() -", "Adding extern functions");
 
         Object.assign(extern, {
-            modSettingEnabled: (id, ignoreParent) => {
-                const setting = this.getModSettingById(id);
-                const parent = this.getModSettingById(setting?.parentId);
-                return !this.modErrs.includes(id) 
-                    && (setting?.value ?? false) && (!setting?.disabled ?? false) 
-                    && (ignoreParent || (parent?.value ?? true) && (!parent?.disabled ?? true));
-            }
+            modSettingEnabled: this.modSettingEnabled.bind(this),
         });
     }
 
     addSounds(soundData) {
-        MegaMod.log(`addSounds() - Adding ${soundData.length} sounds:`, soundData.join(", "));
+        MegaMod.log("addSounds()", `Adding ${soundData.length} sounds: ${soundData.join(", ")}`);
 
         const soundsInterval = setInterval(() => {
             const sounds = Object.values(BAWK?.sounds || {});
@@ -2016,6 +2018,7 @@ class MegaMod {
         if (!this.modErrs.includes("pbSpin")) this.photoboothEggSpin = new PhotoboothEggSpin();
         if (!this.modErrs.includes("changeFPS")) this.changeFPS = new ChangeFPS();
         
+        // TODO: Optimize so it doesn't fetch if error
         const dataFiles = [
             {  
                 path: '/data/sfx', 
@@ -2031,12 +2034,6 @@ class MegaMod {
                 path: '/mods/data/hideHUD', 
                 callback: data => { 
                     if (!this.modErrs.includes("hideHUD")) this.hideHUD = new HideHUD(data);
-                } 
-            },
-            { 
-                path: '/mods/data/themes', 
-                callback: data => { 
-                    if (!this.modErrs.includes("themeManager")) this.customTheme = new CustomTheme(data);
                 } 
             },
             { 
@@ -2114,15 +2111,16 @@ class MegaMod {
                 const localVersion = GM_info.script.version;
                 MegaMod.log("Current (Local) Version:", localVersion);
                 MegaMod.log("Latest (Remote) Version:", remoteVersion);
+                const UPDATE_KEY = "megaMod_updated";
                 if (remoteVersion !== localVersion) {
                     vueData.modUpdatePopupContent = vueData.loc['megaMod_updatePopup_desc'].format(remoteVersion);
                     vueApp.$refs.modUpdatePopup.show();
-                    localStorage.setItem(MegaMod.UPDATE_KEY, 'true');
-                } else if (localStorage.getItem(MegaMod.UPDATE_KEY)) {
+                    localStore.setItem(UPDATE_KEY, true);
+                } else if (localStore.getBoolItem(UPDATE_KEY)) {
                     vueData.modUpdatedPopupContent = vueData.loc['megaMod_updatedPopup_desc'].format(localVersion);
                     vueData.updateInfo = updateInfo;
                     vueApp.$refs.modUpdatedPopup.show();
-                    localStorage.removeItem(MegaMod.UPDATE_KEY);
+                    localStore.removeItem(UPDATE_KEY);
                 }
             });
     }
@@ -2190,10 +2188,13 @@ class MegaMod {
         MegaMod.fetchJSON('/data/info.json').then(data => {
             this.checkForUpdate(data.updateInfo);
             this.checkForAnnouncement(data.announcement);
-        })
+        });
         this.addChangelog();
         this.importLibs();
         this.addSettingsHooks();
+        MegaMod.fetchJSON('/mods/data/themes.json').then(data => {
+            if (!this.modErrs.includes("themeManager")) this.customTheme = new CustomTheme(data);
+        });
         vueApp.$refs.settings.initModSettings();
         const externInterval = setInterval(() => {
             if (!extern?.specialItemsTag) return;
@@ -2227,14 +2228,14 @@ class MegaMod {
         
         // Get loc data, get settings, init settings
         MegaMod.fetchJSON('/data/loc.json')
-        .then(data => { 
-            this.loc = data; 
-            const megaModInitInterval = setInterval(() => {
-                if (!vueApp) return;
-                clearInterval(megaModInitInterval);
-                MegaMod.fetchJSON('/data/settings.json').then(settings => this.init(settings));
-            }, 250);
-        });
+            .then(data => { 
+                this.loc = data; 
+                const megaModInitInterval = setInterval(() => {
+                    if (!vueApp) return;
+                    clearInterval(megaModInitInterval);
+                    MegaMod.fetchJSON('/data/settings.json').then(settings => this.init(settings));
+                }, 250);
+            });
     }
 }
 
@@ -3044,7 +3045,7 @@ class LegacyMode {
         if (extern.inGame) extern.updateLegacySkinsInGame(enabled);
         const origItems = vueApp.$refs.equipScreen.equip.showingItems;
         // POV: too lazy to think of something better :D
-        if (vueApp.currentEquipMode === vueApp.equipMode.inventory) {
+        if (vueApp.currentEquipMode === vueApp.equipMode.inventory && !([ItemType.Grenade, ItemType.Melee].includes(vueApp.$refs.equipScreen.equip.showingWeaponType) || vueApp.classIdx == CharClass.TriHard)) {
             vueApp.$refs.equipScreen.equip.showingItems = origItems.map(_ => extern.getItemsOfType(ItemType.Hat)[0]);
             setTimeout(() => { vueApp.$refs.equipScreen.equip.showingItems = origItems; }, 0);
         }
@@ -3289,10 +3290,10 @@ class CustomTheme {
         this.themes = themes;
         this.themes.forEach(theme => {
             theme.url = theme.url || `/themes/css/${theme.id}.css`;
-            const preload = extern.modSettingEnabled("themeManager_preload", true);
+            const preload = unsafeWindow.megaMod.modSettingEnabled("themeManager_preload", true);
             const style = document.createElement(preload ? 'style' : 'link');
             style.id = `themeCSS-${theme.id}`;
-            const disabled = !(extern.modSettingEnabled("themeManager") && theme.id === unsafeWindow.megaMod.getModSettingById("themeManager_themeSelect").value);
+            const disabled = !(unsafeWindow.megaMod.modSettingEnabled("themeManager") && theme.id === unsafeWindow.megaMod.getModSettingById("themeManager_themeSelect").value);
             if (preload) {
                 MegaMod.fetchCSS(theme.url)
                     .then(css => {
@@ -3306,8 +3307,8 @@ class CustomTheme {
         });
     }
 
-    onThemeChanged(themeId) {
-        this.themes.forEach(theme => document.getElementById(`themeCSS-${theme.id}`).disabled = theme.id !== themeId);
+    onThemeChanged(enabled, themeId) {
+        this.themes.forEach(theme => document.getElementById(`themeCSS-${theme.id}`).disabled = !enabled || theme.id !== themeId);
         this.setThemeDesc();
     }
     
@@ -3355,7 +3356,7 @@ class CustomSkybox {
             const select = unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxSelect');
             select.options = this.skyboxes[value];
             select.defaultVal = select.options[0].id;
-            if (!init) select.value = select.defaultVal;
+            if (!init) select.value = select.storedVal = select.defaultVal;
         }
         extern.updateSkybox(isCustomSkyboxEnabled, r, g, b);
     }
@@ -3447,7 +3448,7 @@ String.prototype.safeReplace = function(searchStr, replacement, ids, all = false
 	}
 	return all ? str.replaceAll(searchStr, replacement) : str.replace(searchStr, replacement);
 };
-RegExp.prototype.safeExec = function(src, ids, ignoreSymbols=false) {
+RegExp.prototype.safeExec = function(src, ids, ignoreSymbols = false) {
 	ids = Array.isArray(ids) ? ids : [ids];
 	const match = this.exec(src);
 	if (!match) {

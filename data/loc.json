@@ -7,7 +7,7 @@
 	"p_settings_mods_reload_desc1": "Please reload the page so that your changed mod settings can take effect!",
 	"p_settings_mods_reload_desc2": "If you choose to dismiss this message, your changed settings will take effect the next time you open Shell Shockers.",
 	"p_settings_mods_info_title": "Info | The MegaMod <i class='fas fa-tools'></i>",
-	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with the MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all my mods (with new additions and features), is your one-stop solution!",
+	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with The MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all my mods (with new additions and features), is your one-stop solution!",
 	"p_settings_mods_info_desc2": "To view info about a mod or change its settings, press the <i onclick='vueApp.$refs.settings.flashSettingsIcons()' class='fas fa-cog'></i> icon next to its name.",
 	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
 	
@@ -20,7 +20,7 @@
 	"megaMod_updatePopup_desc": "<br>A new version of The MegaMod is available!<br><br>Please click \"Gimme Update!\" to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (outdated) version may lead to Shell Shockers or The MegaMod not working properly!",
 	"megaMod_updatePopup_cancelBtn": "Nah :(",
 	"megaMod_updatePopup_okBtn": "Gimme Update!",
-	"megaMod_updatedPopup_title": "Updated Installed!",
+	"megaMod_updatedPopup_title": "Update Installed!",
 	"megaMod_updatedPopup_desc": "<br>The MegaMod has been updated to version {0}!<br><br>Thanks for installing the update and enjoy your enhanced Shell Shockers experience with the latest version of The MegaMod!",
 	"megaMod_updatedPopup_okBtn": "Poggers!",
 	"megaMod_updatePopup_infoTitle": "Update Info",
@@ -29,7 +29,7 @@
 	"megaMod_announcementPopup_okBtn": "Got it!",
 
 	"p_settings_mods_megaMod_title": "MegaMod Settings",
-	"p_settings_mods_megaMod_desc": "Here's where you can change settings for the MegaMod itself.",
+	"p_settings_mods_megaMod_desc": "Here's where you can change settings for The MegaMod itself.",
 	"p_settings_mods_megaMod_sfx": "MegaMod UI Sound Effects",
 	"p_settings_mods_megaMod_sfx_title": "Specific Sounds",
 	"p_settings_mods_megaMod_sfx_tabs": "Tab Sounds",
@@ -121,7 +121,7 @@
 	"megaMod_betterUI_badge_scavenger22_desc": "Participated in the 2022 Scavenger Hunt event",
 	
 	"megaMod_betterUI_badge_tester_title": "MegaMod Playtester",
-	"megaMod_betterUI_badge_tester_desc": "Helped playtest the MegaMod before its release - tysm!",
+	"megaMod_betterUI_badge_tester_desc": "Helped playtest The MegaMod before its release - tysm!",
 	
 	"megaMod_betterUI_badge_premium_title": "Eggstra Spender {0}",
 	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of premium items",
