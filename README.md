@@ -14,10 +14,10 @@ To install **The MegaMod** for Shell Shockers, follow these steps:
 You'll need a userscript manager to run The MegaMod on your browser. I recommend using one of the following:
 - **[Tampermonkey](https://www.tampermonkey.net/)**
 - **[Greasemonkey](https://www.greasespot.net/)**
-- **[Violentmonkey](https://violentmonkey.github.io/)**
+- **[Violentmonkey](https://violentmonkey.github.io/)** (Recommended)
 
 ### Step 2: Install The MegaMod Script
-1. After installing the userscript manager, click [here](https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js) to install **The MegaMod**:
+1. After installing the userscript manager, click [here](https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js) to install **The MegaMod**
 2. Follow the prompts to add the script to your userscript manager.
 
 ### Step 3: Enable the MegaMod
