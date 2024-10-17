@@ -2017,6 +2017,7 @@ class MegaMod {
         if (!this.modErrs.includes("killstreakInfo")) this.killstreakStats = new KillstreakStats();
         if (!this.modErrs.includes("pbSpin")) this.photoboothEggSpin = new PhotoboothEggSpin();
         if (!this.modErrs.includes("changeFPS")) this.changeFPS = new ChangeFPS();
+        if (!this.modErrs.includes("colorSlider")) this.colorSlider = new ColorSlider();
         
         // TODO: Optimize so it doesn't fetch if error
         const dataFiles = [
@@ -2046,7 +2047,6 @@ class MegaMod {
                 path: '/mods/data/inventory', 
                 callback: data => { 
                     if (!this.modErrs.includes("betterUI")) this.betterUI = new BetterUI(data);
-                    if (!this.modErrs.includes("colorSlider")) this.colorSlider = new ColorSlider();
                 } 
             }
         ];
@@ -2354,107 +2354,39 @@ class BetterUI {
 
         // Better Inventory - Item Properties
         Object.assign(comp_item.computed, {
-            // Bundle-Only Item Check
-            isBundle() {
-                return extern.isThemedItem(this.item, "bundle");
-            },
-            
-            // Merch ("physical" unlock) Item Check
-            isMerch() {
-                return extern.isThemedItem(this.item, "physical");
-            },
-
-            // Twitch Drops Item Check 
-            isDrops() {
-                return extern.isThemedItem(this.item, "drops");
-            },
-
-            // Notification Item Check
-            isNotif() {
-                return extern.isThemedItem(this.item, "notif");
-            },
-
-            // League Item Check
-            isLeague() {
-                return extern.isThemedItem(this.item, "league");
-            },
-
-            // New Yolker Item Check
-            isNewYolker() {
-                return extern.isThemedItem(this.item, "yolker");
-            },
-
-            // Manual (Non-Special) Item Check
-            isEgglite() {
-                return extern.isThemedItem(this.item, "egglite");
-            },
-
-            // Twitch Content Creator (shop) Item Check
-            isTwitchCreator() {
-                return extern.isThemedItem(this.item, "creatortwitch");
-            },
-
-            // YT Content Creator (shop) Item Check
-            isYTCreator() {
-                return extern.isThemedItem(this.item, "creatoryoutube");
-            },
-
-            // Cross-Promotional Item Check
-            isPromo() {
-                return extern.isThemedItem(this.item, "promo");
-            },
-
-            // Event Item Check
-            isEvent() {
-                return extern.isThemedItem(this.item, "event");
-            },
-
-            // Homepage Social Item Check
-            isSocial() {
-                return extern.isThemedItem(this.item, "social");
-            },
-
-            // Creator Item Check
-            isCreator() {
-                return extern.isThemedItem(this.item, "creator");
-            },
-
-            // Normal Shop Item Check
-            isNormalShop() {
-                return extern.isThemedItem(this.item, "shop");
-            },
-
-            // Legacy Item Check
-            isLegacy() {
-                return extern.isThemedItem(this.item, "legacy");
-            },
-
-            // Banner Check
+            isBundle() { return extern.isThemedItem(this.item, "bundle"); },
+            isMerch() { return extern.isThemedItem(this.item, "physical"); },
+            isDrops() { return extern.isThemedItem(this.item, "drops"); },
+            isNotif() { return extern.isThemedItem(this.item, "notif"); },
+            isLeague() { return extern.isThemedItem(this.item, "league"); },
+            isNewYolker() { return extern.isThemedItem(this.item, "yolker"); },
+            isEgglite() { return extern.isThemedItem(this.item, "egglite"); },
+            isTwitchCreator() { return extern.isThemedItem(this.item, "creatortwitch"); },
+            isYTCreator() { return extern.isThemedItem(this.item, "creatoryoutube"); },
+            isPromo() { return extern.isThemedItem(this.item, "promo"); },
+            isEvent() { return extern.isThemedItem(this.item, "event"); },
+            isSocial() { return extern.isThemedItem(this.item, "social"); },
+            isCreator() { return extern.isThemedItem(this.item, "creator"); },
+            isNormalShop() { return extern.isThemedItem(this.item, "shop"); },
+            isLegacy() { return extern.isThemedItem(this.item, "legacy"); },
+        
+            // Banner check
             hasBanner() {
+                const themedItems = [
+                    this.isLimited, this.isBundle, this.isMerch, this.isDrops, 
+                    this.isNotif, this.isLeague, this.isNewYolker, this.isEgglite, 
+                    this.isPromo, this.isEvent, this.isSocial, this.isCreator, 
+                    this.isLegacy
+                ];
                 return this.isPremium || this.isVipItem || this.isPremiumEggPurchase ||
-                        (extern.modSettingEnabled("betterUI_inventory") && (
-                            this.isLimited
-                            || this.isBundle
-                            || this.isMerch
-                            || this.isDrops
-                            || this.isNotif
-                            || this.isLeague
-                            || this.isNewYolker
-                            || this.isEgglite
-                            || this.isPromo
-                            || this.isEvent
-                            || this.isSocial
-                            || this.isCreator
-                            || this.isLegacy
-                        ));
+                    (extern.modSettingEnabled("betterUI_inventory") && themedItems.some(Boolean));
             },
-
+        
             // Banner Text
             bannerTxt() {
                 if (!this.hasBanner) return;
-                return (
-                    this.isBundle ? this.loc.p_bundle_item_banner_txt :
-                    (this.isPremium || this.isPremiumEggPurchase) ? this.loc.p_premium_item_banner_txt :
+                return this.isBundle ? this.loc.p_bundle_item_banner_txt :
+                    this.isPremium || this.isPremiumEggPurchase ? this.loc.p_premium_item_banner_txt :
                     this.isVipItem ? this.loc.p_vip_item_banner_txt :
                     this.isMerch ? this.loc.p_merch_item_banner_txt :
                     this.isDrops ? this.loc.p_drops_item_banner_txt :
@@ -2462,24 +2394,23 @@ class BetterUI {
                     this.isLeague ? this.loc.p_league_item_banner_txt :
                     this.isNewYolker ? this.loc.p_yolker_item_banner_txt :
                     this.isEgglite ? this.loc.p_egglite_item_banner_txt :
+                    this.isCreator ? this.loc.p_creator_item_banner_txt :
                     //this.isYTCreator ? this.loc.p_creatoryt_item_banner_txt :
                     //this.isTwitchCreator ? this.loc.p_creatortwitch_item_banner_txt :
-                    this.isCreator ? this.loc.p_creator_item_banner_txt :
                     this.isLimited ? this.loc.p_limited_item_banner_txt :
                     this.isSocial ? this.loc.p_social_item_banner_txt :
                     this.isPromo ? this.loc.p_promo_item_banner_txt :
                     this.isEvent ? this.loc.p_event_item_banner_txt :
-                    this.isLegacy ? this.loc.p_legacy_item_banner_txt :
-                '');
+                    this.isLegacy ? this.loc.p_legacy_item_banner_txt : '';
             },
-
+        
             // CSS Classes
             itemClass() {
                 const invEditsEnabled = extern.modSettingEnabled("betterUI_inventory");
                 return {
                     'highlight': this.isSelected,
                     'is-bundle': this.isBundle,
-                    'is-premium': (this.isPremium || this.isPremiumEggPurchase),
+                    'is-premium': this.isPremium || this.isPremiumEggPurchase,
                     'is-vip': this.isVipItem,
                     'is-merch': invEditsEnabled && this.isMerch,
                     'is-drops': invEditsEnabled && this.isDrops,
@@ -2494,59 +2425,45 @@ class BetterUI {
                     'is-creator-twitch': invEditsEnabled && this.isTwitchCreator,
                     'is-shop': invEditsEnabled && this.isNormalShop,
                     'is-legacy': invEditsEnabled && this.isLegacy,
-                    'customtheme': invEditsEnabled && (this.isMerch || this.isBundle || this.isDrops || this.isNewYolker || this.isNotif || this.isLeague || this.isEgglite || this.isPromo || this.isEvent || this.isSocial || this.isCreator || this.isLegacy),
+                    'customtheme': invEditsEnabled && (this.isBundle || this.isMerch || this.isDrops || 
+                                this.isNewYolker || this.isNotif || this.isLeague || this.isEgglite || 
+                                this.isPromo || this.isEvent || this.isSocial || this.isCreator || this.isLegacy)
                 };
             },
-
+        
             // Tooltips
             tooltip() {
-                if (this.showTooltip) {
-                    let type = "";
-                    if (extern.modSettingEnabled("betterUI_inventory")) {
-                        type = [
-                            this.isDrops && " drops",
-                            this.isBundle && " bundle",
-                            this.isLimited && " limited",
-                            (this.isPremium || this.isPremiumEggPurchase) && " premium",
-                            this.isVipItem && " vip",
-                            this.isMerch && " merch",
-                            this.isNewYolker && " ny",
-                            this.isNotif && " notif",
-                            this.isLeague && " league",
-                            this.isEgglite && " egglite",
-                            this.isPromo && " promo",
-                            this.isEvent && " event",
-                            this.isSocial && " social",
-                            this.isYTCreator && " ytcc",
-                            this.isTwitchCreator && " twitchcc",
-                            this.isLegacy && " legacy"
-                        ].find(Boolean) || "";
-                    }
-                    return 'tool-tip' + type;
-                }
+                if (!(this.showTooltip && extern.modSettingEnabled("betterUI_inventory"))) return "tool-tip";
+                const type = [
+                    this.isDrops && " drops",
+                    this.isBundle && " bundle",
+                    this.isLimited && " limited",
+                    (this.isPremium || this.isPremiumEggPurchase) && " premium",
+                    this.isVipItem && " vip",
+                    this.isMerch && " merch",
+                    this.isNewYolker && " ny",
+                    this.isNotif && " notif",
+                    this.isLeague && " league",
+                    this.isEgglite && " egglite",
+                    this.isPromo && " promo",
+                    this.isEvent && " event",
+                    this.isSocial && " social",
+                    this.isYTCreator && " ytcc",
+                    this.isTwitchCreator && " twitchcc",
+                    this.isLegacy && " legacy"
+                ].find(Boolean) || "";
+                return "tool-tip" + type;
             },
-
+        
             // Icon Check
             hasIcon() {
                 return this.isBundle || vueApp.currentEquipMode === vueApp.equipMode.inventory && (
-                    this.isPremium
-                    || this.isPremiumEggPurchase
-                    || this.isLeague
-                    || this.isEgglite
-                    || this.isLimited
-                    || this.isDrops
-                    || this.isNotif
-                    || this.isMerch
-                    || this.isCreator
-                    || this.isNewYolker
-                    || this.isPromo
-                    || this.isEvent
-                    || this.isSocial
-                    /*|| this.isNormalShop*/
-                    || this.isLegacy
-                );
+                    this.isPremium || this.isPremiumEggPurchase || this.isLeague || this.isEgglite ||
+                    this.isLimited || this.isDrops || this.isNotif || this.isMerch || 
+                    this.isCreator || this.isNewYolker || this.isPromo || 
+                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/);
             },
-
+        
             // Icon CSS Class
             iconClass() {
                 if (!this.hasIcon) return;
@@ -2565,31 +2482,29 @@ class BetterUI {
                     this.isPromo ? 'fas fa-ad hover' :
                     this.isEvent ? 'fas fa-calendar-alt' :
                     (this.isNormalShop || this.isPremiumEggPurchase) ? 'fas fa-egg' :
-                    this.isLegacy ? 'fas6 fa-history' :
-                '';
+                    this.isLegacy ? 'fas6 fa-history' : '';
             },
-
-            // Icon Hover 
+        
+            // Icon Hover
             iconHover() {
-                if (this.isVipItem || this.iconClass.includes("hover")) return () => { /*BAWK.play("ui_chicken");*/ };
-                return () => {};
+                return (this.isVipItem || this.iconClass.includes("hover")) ? () => { /*BAWK.play("ui_chicken");*/ } : () => {};
             },
-
+        
             // Icon Click
             iconClick() {
                 const addClickSFX = (func) => () => {
                     BAWK.play("ui_equip");
                     func();
                 };
-                if (this.isPremium || this.isBundle) return () => { vueApp.openEquipSwitchTo(vueApp.equipMode.shop) };
-                if (this.isPremiumEggPurchase) return () => { vueApp.openEquipSwitchTo(vueApp.equipMode.skins) };
-                if (this.isMerch) return addClickSFX(() => { open('https://bluewizard.threadless.com/') });
+                if (this.isPremium || this.isBundle) return () => { vueApp.openEquipSwitchTo(vueApp.equipMode.shop); };
+                if (this.isPremiumEggPurchase) return () => { vueApp.openEquipSwitchTo(vueApp.equipMode.skins); };
+                if (this.isMerch) return addClickSFX(() => { open('https://bluewizard.threadless.com/'); });
                 if (this.isVipItem) return vueApp.showSubStorePopup;
-                if (this.isDrops) return addClickSFX(() => { open((dynamicContentPrefix || '') + 'twitch') });
-                if (this.isNotif) return addClickSFX(() => { Notification.requestPermission() });
-                if (this.isNewYolker) return addClickSFX(() => { open('https://bluewizard.com/subscribe-to-the-new-yolker/') });
-                if (this.item.creatorUrl && this.isCreator) return addClickSFX(() => { open(`https://${this.item.creatorUrl}`) });
-                if (this.item.promoUrl && this.isPromo) return addClickSFX(() => { open(`https://${this.item.promoUrl}`) });
+                if (this.isDrops) return addClickSFX(() => { open((dynamicContentPrefix || '') + 'twitch'); });
+                if (this.isNotif) return addClickSFX(() => { Notification.requestPermission(); });
+                if (this.isNewYolker) return addClickSFX(() => { open('https://bluewizard.com/subscribe-to-the-new-yolker/'); });
+                if (this.item.creatorUrl && this.isCreator) return addClickSFX(() => { open(`https://${this.item.creatorUrl}`); });
+                if (this.item.promoUrl && this.isPromo) return addClickSFX(() => { open(`https://${this.item.promoUrl}`); });
                 if (this.isLimited) return () => {
                     vueApp.openEquipSwitchTo(vueApp.equipMode.featured);
                     vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && extern.isItemOwned(item));
@@ -2619,7 +2534,7 @@ class BetterUI {
             if (extern.modSettingEnabled("betterUI_ui")) BAWK.play("challenge_notify");
         }
 
-        // Weapon Deselect Bug
+        // Fixed Weapon Deselect Bug
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
         vueApp.$refs.equipScreen.selectItem = function(item) {
             if (!item) return;
@@ -2943,12 +2858,14 @@ class ColorSlider {
                 oldSetColor.call(this, colorIdx);
             }
         });
-        const playerAccount = extern.account.constructor;
-        const oldSignedIn = playerAccount.prototype.signedIn;
-        playerAccount.prototype.signedIn = function(...args) {
-            oldSignedIn.apply(this, args);
+        const oldAuthCompleted = vueApp.authCompleted;
+        vueApp.authCompleted = function() {
+            oldAuthCompleted.call(this);
+            console.log(extern.usingSlider());
+            console.log(shellColors[14])
             if (extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
         }
+        if (extern?.account?.colorIdx != null && extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
     }
 }
 

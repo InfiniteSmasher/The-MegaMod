@@ -786,10 +786,15 @@
 						"active": true,
 						"locKey": "p_settings_mods_themeManager_themeSelect",
 						"options": [
+							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"      },
 							{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1" },
 							{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2" },
 							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"      },
 							{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite"    }
+							{ "id": "hayden",     "locKey": "p_settings_mods_themeManager_theme_hayden"    },
+							{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite"    },
+							{ "id": "meno",       "locKey": "p_settings_mods_themeManager_theme_meno"    },
+							{ "id": "novo",       "locKey": "p_settings_mods_themeManager_theme_novo"    }
 						],
 						"defaultVal": "graysocean1"
 					},

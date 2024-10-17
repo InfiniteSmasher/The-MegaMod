@@ -1,0 +1,377 @@
+#ss_background {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_bg.png') no-repeat center center fixed; 
+	background-size: cover !important; 
+}
+.home-screen-logo {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_logo.png');
+	width: 150px !important;
+	height: 150px;
+}
+:root {
+	--select-border: #777;
+	--select-focus: blue;
+	--select-arrow: var(--select-border);
+
+	--ss-transparent: #00000000;
+	--ss-black: #000;
+	--ss-adblocker-text: #003449;
+	--ss-white: #FFFFFF;
+	--ss-offwhite: #FFF3E4;
+	--ss-yellow0:#F7FFC1;
+	--ss-yellow: #FAF179;
+	--ss-yolk0: #ff7e00;
+	--ss-yolk: #d77600;
+	--ss-yolk2: #743a00;
+	--ss-red0: #e2c890;
+	--ss-red: #d19853;
+	--ss-red2: #805719;
+	--ss-egg-org: #EE2524;
+	--ss-red-bright: #EF3C39;
+	--ss-pink: #EC008C;
+	--ss-pink1: #b9006e;
+	--ss-pink-light: #ff3aaf;
+	--ss-pink-dark: #a7098c;
+	--ss-brown: #000000;
+	--ss-blue00: #000000;
+	--ss-blue0: #000000;
+	--ss-blue1: #d19300;
+	--ss-blue2: #ff8a00;
+	--ss-blue3: #000000;
+	--ss-blue4: #ff8a00;
+	--ss-blue5: #fff200;
+	--ss-blue6: #cc5d00;
+	--ss-blue7: #000000;
+	--ss-blue8: #ff9400;
+	--ss-green0: #dd9e87;
+	--ss-green1: #ba5513;
+	--ss-green2: #632504;
+	--ss-green-login: #13ba65;
+	--ss-orange1: #F79520;
+	--ss-vip-blue: #0E7FFF;
+	--ss-vip-pink: #FF5AF5;
+	--ss-vip-brown: #9F5600;
+	--ss-vip-yellow: #FFFC00;
+	--ss-vip-red: #EE2B2D;
+	--ss-vip-purple: #40008F;
+	--ss-vip-gold: linear-gradient(to right, #D1A943, #CFCDAF, #CC8630, #D1AA44, #CC8630);
+	--ss-gold: #FED838;
+	--ss-clear: rgba(255, 255, 255, 0);
+	--ss-blue2clear: rgba(94, 186, 217, 0);
+	--ss-blue2alpha7: rgb(217 160 94 / 70%);
+	--ss-white-60: rgba(255,255,255,.6);
+	--ss-white-90: rgba(255,255,255,.9);
+	--ss-twitch: #6441a5;
+    --twitch-color: #6441a5;
+	--twitch-yellow: #FFFE61;
+	--twitch-pink: #F00DC9;
+	--twitch-dk-pink: #c00aa0;
+	--twitch-lt-purple: #9146FF;
+	--twitch-dk-purple: #40008F;
+	--twitch-xtr-dk-purple: #1e0043;
+
+
+	/* Redsign colors */
+	--ss-orange: #F7941D;
+	--ss-brown-2: #894B00;
+	--ss-vip: #FFF000;
+	--ss-red-btn-fill: #e96016;
+	--ss-red-btn-outline: #881A1A;
+
+	--ss-limited: #ffb3e8;
+	--ss-limited-txt: #ff1bba;
+	--ss-premium: #87ec4a;
+	--ss-premium-txt: #204908;
+	----ss-vip: #fff000;
+	--ss-vip-txt: #676000;
+
+	--ss-darkoverlay: rgba(0, 0, 0, 0.6);
+	--ss-darkoverlay2: rgba(0, 0, 0, 0.2);
+	--ss-lightoverlay: linear-gradient(#ff7e01, #440000);
+	--ss-lightbackground: linear-gradient(var(--ss-blue1), var(--ss-blue2) );
+	--ss-blueblend1: linear-gradient(#349ec1, #5fbad8);
+	--ss-scrollmask1: linear-gradient(var(--ss-blue2clear), var(--ss-blue00));
+	--ss-scrollmask2: linear-gradient(rgba(56, 158, 192, 0), #389EC0);
+	--ss-fieldbg: linear-gradient(#91CADB, #ffffff, #ffffff, #ffffff, #ffffff);
+	--ss-nugSecs: 3600s;
+	--ss-me-player-bg: rgba(247,149,32,.8);
+
+	--ss-team-blue-light: rgb(28 148 187);
+	--ss-team-blue-light-trans: rgb(22 78 96 / 80%);
+	--ss-team-blue-dark: rgb(20 74 96);
+	--ss-team-blue-dark-trans: rgb(19 57 107 / 80%);
+
+	--ss-team-red-light: rgb(215 29 13);
+	--ss-team-red-light-trans: rgb(148 26 16 / 80%);
+	--ss-team-red-dark: rgb(77 17 13);
+	--ss-team-red-dark-trans: rgb(90 16 13 / 80%);
+
+	--ss-big-message-border-color: rgb(0, 0, 0);
+
+	--ss-header-height: 10em;
+	--ss-footer-height: 4em;
+	--ss-main-width: 90em;
+	--ss-min-width: 68em;
+	
+	--ss-space-xxxxl: calc(var(--ss-space-lg)*4);
+	--ss-space-xxl: 2.3em;
+	--ss-space-xl: 1.5em;
+	--ss-space-lg: 1em;
+	--ss-space-md: calc(var(--ss-space-lg)/2);
+	--ss-space-sm: calc(var(--ss-space-md)/1.5);
+	--ss-space-xs: calc(var(--ss-space-sm)/2);
+	--ss-space-micro: calc(var(--ss-space-xs)/2);
+
+	--border-radius: 0.4em;
+	--ss-border-radius-sm: 0.2em;
+	--ss-common-border-width: .2em;
+	
+
+	/* Element dimensions */
+	--ss-logo-width: calc(var(--ss-space-lg)*14);
+	--ss-menu-width: calc(var(--ss-logo-width) - var(--ss-space-lg));
+
+	--ss-main-sidebar-width: 16em;
+	--ss-sidebar-width: calc(var(--ss-space-lg)*18.2);
+	--ss-aside-panel-width: 20em;
+
+	--ss-item-mask-height: calc(var(--ss-space-lg)*4);
+	--ss-item-mask-width: calc(var(--ss-aside-panel-width) - 1.3em);
+	--ss-item-box: calc(var(--ss-space-lg)*5.5);
+
+	--ss-account-panel-height: calc(var(--ss-space-lg)*4);
+
+	--ss-chat-wrapper-width: 14.5em;
+	--ss--chat-height: 14.5em;
+
+	--ss-media-social-width: 17.7em;
+
+	--paused-ui-scale: .6;
+	--paused-ui-vip-scale: .9;
+
+	--chw-bubble-width: 9em;
+	--chw-bubble-height: 3.3em;
+
+	--home-screen-r-padding: .68em;
+
+	/* shadows */
+	--ss-box-shadow-1:  .16em .16em 0 rgb(189 77 11 / 50%);
+	--ss-box-shadow-2: .15em .15em 0 rgb(189 77 11 / 90%);
+	--ss-box-shadow-3: .15em .15em 0 rgba(217,118,17,.9);
+	--ss-text-shadow-1: .1em .1em 0 rgb(189 69 11 / 80%);
+
+	--ss-shadow: rgba(0,0,0,.4);
+	--ss-blueshadow: #9b938987;
+	--ss-btn-common-txt-shadow: .1em .1em 0 rgb(0 0 0 / 30%);
+	--ss-btn-common-txt-shadow-blur: .1em .1em .5em rgb(0 0 0 / 30%);
+
+	--ss-shadow-filter: drop-shadow(var(--ss-btn-common-txt-shadow));
+
+
+	/* button bevel */
+	--ss-btn-light-bevel: inset 0 .15em .2em;
+	--ss-btn-dark-bevel: inset -.1em -.15em .1em;
+
+	
+	--ss-border-blue5: var(--ss-common-border-width) solid var(--ss-blue5);
+
+	--ss-type-icon-size: 2.8em;
+
+	--ss-equip-icon-size: 4em;
+
+	--ss-media-stats-height: 30.5em;
+}
+.bevel_blue_light {
+	box-shadow:
+	var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) rgb(150 74 11),
+	var(--ss-btn-light-bevel) rgb(151 78 28) !important;
+}
+
+.bevel_blue {
+	box-shadow:
+	var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) rgb(203 77 45),
+	var(--ss-btn-light-bevel) rgb(230 105 0) !important;
+}
+.bevel_red {
+	box-shadow: 
+		var(--ss-box-shadow-1),
+		var(--ss-btn-dark-bevel) rgb(209 85 20),
+		var(--ss-btn-light-bevel) var(--ss-red0) !important;
+}
+.bevel_green {
+    box-shadow: var(--ss-box-shadow-1),
+	var(--ss-btn-dark-bevel) rgb(140 54 14),
+	var(--ss-btn-light-bevel) var(--ss-green0) !important;
+}
+.main-menu-button svg path:nth-child(1) {
+	fill: #b35000 !important;
+}
+.stat-wrapper .stat:nth-child(even) > div {
+	background-color: #c75000;
+}
+#play_game .grid-span-column-all .text_blue3 {
+	border-radius: 5px;
+	color: orange !important;
+}
+.footer-nav button, .footer-nav {
+	color: orange !important
+}
+.crosshair.normal {
+	left: calc(50% - 0.15em);
+	background: linear-gradient(black, #ff5e00);
+	width: 0.3em;
+}
+.account_eggs div {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_eggIcon.png') center center no-repeat !important;
+	background-size: cover !important;
+	margin-right: 2px;
+	width: 40px;
+}
+.egg_icon {
+	height: 1.6em;
+	margin: var(--ss-space-micro) var(--ss-space-sm) 0 0;
+	visibility: hidden;
+}
+.ss_field {
+	border-radius: var(--ss-space-sm);
+	border: var(--ss-common-border-width) solid var(--ss-blue4);
+	margin: 0 0 var(--ss-space-md) 0;
+	padding: var(--ss-space-sm) var(--ss-space-md);
+	box-shadow: inset -0.3em .3em .03em rgb(255 95 1 / 42%), 0.2em 0.2em .01em var(--ss-blue3);
+	background: var(--ss-white);
+	color: var(--ss-blue3);
+	font-weight: bold;
+	min-height: 2.45em;
+}
+#best_streak_container h1 {
+	margin: 0; padding: 0;
+	display: inline;
+
+	text-shadow: var(--ss-space-micro) var(--ss-space-micro) var(--ss-shadow);
+
+	font-family: 'Nunito', sans-serif !important;
+	font-size: 2.5em !important;
+	color: var(--ss-white) !important;
+	font-weight: bold !important;
+	text-transform: lowercase;
+
+	padding-left: 1.5em;
+	padding-top: 0em;
+
+	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_logo.png');
+    background-position: left center;
+	background-size: contain;
+    background-repeat: no-repeat;
+}
+#inGameUI, .chat-wrapper {
+	background: #ffa50061 !important;
+}
+.pause-bg, .playerSlot-player-is-me, .popup_sm, .popup_lg {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_bg.png') no-repeat center center fixed !important; 
+}
+
+#healthContainer {
+	position: absolute;
+	left: 50%; bottom: 1em;
+	transform: translateX(-50%);
+	display: inline-block;
+	width: 6em; height: 6em;
+	background: #ffa5002b;
+	border-radius: 50%;
+	text-align: center;
+}
+
+#health {
+}
+
+#healthHp {
+	font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    color: var(--ss-white);
+    font-size: 1.2em;
+    transform: translateY(-3.45em);
+}
+
+.healthBar {
+	transform-origin: center;
+	transform: rotate(90deg);
+	fill: transparent;
+	stroke: #c44800;
+	stroke-width: 1em;
+	stroke-dasharray: 14.4513em;
+	transition: all 0.3s ease-in-out;
+}
+
+.healthYolk {
+	fill: black;
+}
+
+.healthSvg {
+	width: 100%; height: 100%;
+}
+#ammo {
+	text-align: right;
+	font-size: 3.25em;
+	font-family: 'Nunito', sans-serif;
+	font-weight: bold;
+	line-height: 1em;
+	margin: 0;
+	
+	padding-right: 1.2em;
+	padding-top: 0em;
+	margin-bottom: 0.1em;
+
+	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_ammo.png');
+    background-position: right center;
+	background-size: contain;
+    background-repeat: no-repeat;
+}
+#maskmiddle {
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_scope.png') center center no-repeat;
+	background-size: contain;
+	width: 100vh;
+	height: 100vh;
+}
+#settingsPopup h3, #settingsPopup h2 {
+	color: white !important;
+}
+.text_blue3 {
+	color: orange !important;
+}
+
+.text-center {
+	color: white !important;
+}
+#deathBox::before {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    content: "You are now improsoned by" !important;
+}
+#deathBox h3 {
+    display: none !important;
+}
+#killBox::before {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    content: "Your new prisoner is" !important;
+}
+#killBox h3 {
+    display: none !important;
+}
+#killBox::after {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_scrown.gif') !important;
+	width: 100px !important;
+	height: 100px !important;
+}
+.chw-msg {
+	color: black !important;
+}
+.vip-egg {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_vipIcon.png') !important;
+	width: 20px;
+	height: 20px;
+}
+.btn-account-w-icon {
+	color: #ffe300 !important;
+}

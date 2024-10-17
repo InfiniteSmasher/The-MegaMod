@@ -4,5 +4,8 @@
         "Fixed bug with Better UI enabling even when disabled",
         "Added new tier badges: Splattered Yolk (lifetime deaths) and Humpty's Fall (fall deaths)",
         "Ishmyster, Grinder, and Simsim - enjoy your Playtester Badges!"
+        "Rewrote some Better Inventory code",
+        "Color slider colors <em>should<em> be auto-applied more reliably now",
+        "Added some Work-in-Progress (WIP) themes: King Hayden, Novosuper, and menoXD"
     ]
 }
