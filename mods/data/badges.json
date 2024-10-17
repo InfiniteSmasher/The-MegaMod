@@ -1,6 +1,6 @@
 {
 	"badgesPerRow": 12,
-	"playtesterIds": ["13d4f05", "13d4f05", "1b9f85", "ece70", "2c299c5", "64dcc4a", "26bf7d0"],
+	"playtesterIds": ["13d4f05", "13d4f05", "1b9f85", "ece70", "2c299c5", "64dcc4a", "26bf7d0", "3791bbd", "3e7a7c2", "19ece"],
 	"types": {
 		"0": {
 			"condition": "[{0}].some(x => extern.adminRoles & x)"
