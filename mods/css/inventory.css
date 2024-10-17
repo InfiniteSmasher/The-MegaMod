@@ -15,12 +15,16 @@
 	--ss-limited-border: #89097D;
 	--ss-limited-shadow: rgba(137, 9, 125, 0.4);
 
+	/* Merch Colors */
+	--ss-merch-dk: #924e0c; /* --ss-brown */
+	--ss-merch-lt: #F1C59A; /* --ss-yolk0 */
+
 	/* Drops Shadow */
 	--ss-drops-shadow: rgba(64, 0, 143, 0.4);
 
 	/* Yolker Colors */
-	--ss-ny-dk: #D97611; /* ss-yolk2 */
-	--ss-ny-lt: #F1C59A; /* ss-yolk0 */
+	--ss-ny-dk: #D97611; /* --ss-yolk2 */
+	--ss-ny-lt: #F1C59A; /* --ss-yolk0 */
 	--ss-ny-shadow: rgba(217, 118, 17, 0.4);
 
 	/* Notif Colors */
@@ -249,39 +253,39 @@
 /* --------------------------- [ Merch ] */
 /* --------- Grid Slot */
 #equip_grid .grid-item.is-merch {
-	background: linear-gradient(var(--ss-yolk0), var(--ss-brown));
-	border-color: var(--ss-brown);
+	background: linear-gradient(var(--ss-merch-lt), var(--ss-merch-dk));
+	border-color: var(--ss-merch-dk);
 }
 .is-merch .equip-item-banner {
-	color: var(--ss-brown);
-	background: var(--ss-yolk0);
+	color: var(--ss-merch-dk);
+	background: var(--ss-merch-lt);
 	padding-left: 2.8em;
 	padding-right: 2.8em;
 	padding-top: .4em 2.8em;
 }
 #equip_grid .is-merch.highlight {
-	background: radial-gradient(var(--ss-yolk0), var(--ss-brown)) !important;
+	background: radial-gradient(var(--ss-merch-lt), var(--ss-merch-dk)) !important;
 }
 
 /* --------- Tooltip */
 .tool-tip.merch > span:after,
 .tool-tip.merch div.tool-tip--bubble:after {
-	border-top: 1rem solid var(--ss-yolk0);
-	filter: drop-shadow(4px 4px 0 var(--ss-brown)) !important; 
+	border-top: 1rem solid var(--ss-merch-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-merch-dk)) !important; 
 }
 .grid-item.is-merch div i,
 .is-merch .item-icon,
 .tool-tip.merch h4 {
-	color: var(--ss-brown) !important;
+	color: var(--ss-merch-dk) !important;
 }
 .tool-tip.merch span {
-	background: var(--ss-yolk0);
+	background: var(--ss-merch-lt);
 }
 .tool-tip.merch > span,
 .tool-tip.merch div.tool-tip--bubble,
 .tool-tip.merch > span:after,
 .tool-tip.merch div.tool-tip--bubble:after {
-	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-brown);
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-merch-dk);
 }
 
 
