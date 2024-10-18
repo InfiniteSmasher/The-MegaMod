@@ -1201,7 +1201,7 @@ class MegaMod {
     }
 
     static addLoadLogo() {
-        this.log("addLoadLogo() -", "Editing shellshock.js");
+        this.log("addLoadLogo() -", "Adding load screen MegaMod logo");
 
         const logoInterval = setInterval(() => {
             let progressContainer = document.getElementById('progress-container');
@@ -1324,7 +1324,7 @@ class MegaMod {
     
                             // Calling checkCurrentGrenadeMesh() during first-person spectate
                             let specMatches = src.matchAll(new RegExp(`this\\.spectatePlayer\\(${v}\\)`, 'g'));
-                            if (playerMatch && specMatches) {
+                            if (playerMatch?.length > 1 && specMatches?.toArray().length) {
                                 specMatches.forEach(m => {
                                     src = src.safeReplace(m, `(${m}, extern.tryUpdateGrenades(${playerMatch[1]}.grenadeItem.item_data.meshName))`, "matchGrenades", true);
                                 });
@@ -2861,8 +2861,6 @@ class ColorSlider {
         const oldAuthCompleted = vueApp.authCompleted;
         vueApp.authCompleted = function() {
             oldAuthCompleted.call(this);
-            console.log(extern.usingSlider());
-            console.log(shellColors[14])
             if (extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
         }
         if (extern?.account?.colorIdx != null && extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
@@ -3272,8 +3270,7 @@ class CustomSkybox {
         } else {
             const select = unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxSelect');
             select.options = this.skyboxes[value];
-            select.defaultVal = select.options[0].id;
-            if (!init) select.value = select.storedVal = select.defaultVal;
+            if (!init) unsafeWindow.megaMod.updateModSetting("customSkybox_skyboxSelect", select.options[0].id);
         }
         extern.updateSkybox(isCustomSkyboxEnabled, r, g, b);
     }
