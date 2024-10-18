@@ -2019,40 +2019,39 @@ class MegaMod {
         if (!this.modErrs.includes("changeFPS")) this.changeFPS = new ChangeFPS();
         if (!this.modErrs.includes("colorSlider")) this.colorSlider = new ColorSlider();
         
-        // TODO: Optimize so it doesn't fetch if error
         const dataFiles = [
-            {  
+            { 
+                path: '/mods/data/inventory', 
+                mod: 'betterUI', 
+                callback: data => this.betterUI = new BetterUI(data)
+            },
+            { 
                 path: '/data/sfx', 
+                mod: null, 
                 callback: data => this.addSounds(data)
             },
             { 
                 path: '/mods/data/legacyMode', 
-                callback: data => { 
-                    if (!this.modErrs.includes("legacyMode")) this.legacyMode = new LegacyMode(data); 
-                } 
+                mod: 'legacyMode', 
+                callback: data => this.legacyMode = new LegacyMode(data)
             },
             { 
                 path: '/mods/data/hideHUD', 
-                callback: data => { 
-                    if (!this.modErrs.includes("hideHUD")) this.hideHUD = new HideHUD(data);
-                } 
+                mod: 'hideHUD', 
+                callback: data => this.hideHUD = new HideHUD(data)
             },
             { 
                 path: '/mods/data/skyboxes', 
-                callback: data => { 
-                    if (!this.modErrs.includes("customSkybox")) this.customSkybox = new CustomSkybox(data);
-                } 
-            },
-            { 
-                path: '/mods/data/inventory', 
-                callback: data => { 
-                    if (!this.modErrs.includes("betterUI")) this.betterUI = new BetterUI(data);
-                } 
+                mod: 'customSkybox', 
+                callback: data => this.customSkybox = new CustomSkybox(data)
             }
         ];
-        Promise.all(dataFiles.map(dataFile => MegaMod.fetchJSON(`${dataFile.path}.json`))).then(results => {
-            results.forEach((data, index) => { dataFiles[index].callback(data); });
-        }).then(this.addKeydownEL.bind(this));
+        
+        const fetchFiles = dataFiles.filter(dataFile => !this.modErrs.includes(dataFile.mod));
+        Promise.all(fetchFiles.map(dataFile => 
+            MegaMod.fetchJSON(`${dataFile.path}.json`).then(data => dataFile.callback(data))
+        )).then(() => this.addKeydownEL());
+        
     }
 
     checkModErrors() {
