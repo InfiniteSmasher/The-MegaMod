@@ -789,10 +789,11 @@
 							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"      },
 							{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1" },
 							{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2" },
-							{ "id": "hayden",     "locKey": "p_settings_mods_themeManager_theme_hayden"    },
-							{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite"    },
-							{ "id": "meno",       "locKey": "p_settings_mods_themeManager_theme_meno"    },
-							{ "id": "novo",       "locKey": "p_settings_mods_themeManager_theme_novo"    }
+							{ "id": "gus",         "locKey": "p_settings_mods_themeManager_theme_gus"    },
+							{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden"    },
+							{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite"    },
+							{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno"    },
+							{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo"    }
 						],
 						"defaultVal": "graysocean1"
 					},
@@ -827,7 +828,7 @@
 				"active": true,
 				"locKey": "p_settings_mods_customSkybox_skyboxCategorySelect",
 				"options": [
-					{ "id": "official",    "locKey": "p_settings_mods_customSkybox_category_official"    },
+					{ "id": "official",     "locKey": "p_settings_mods_customSkybox_category_official"    },
 					{ "id": "colors",      "locKey": "p_settings_mods_customSkybox_category_colors"      },
 					{ "id": "landscapes",  "locKey": "p_settings_mods_customSkybox_category_landscapes"  },
 					{ "id": "allSky",      "locKey": "p_settings_mods_customSkybox_category_allSky"      },
@@ -836,7 +837,6 @@
 					{ "id": "space",       "locKey": "p_settings_mods_customSkybox_category_space"       },
 					{ "id": "nebula",      "locKey": "p_settings_mods_customSkybox_category_nebula"      },
 					{ "id": "other",       "locKey": "p_settings_mods_customSkybox_category_other"       }
-
 				],
 				"defaultVal": "allSky"
 			},

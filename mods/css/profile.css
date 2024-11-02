@@ -94,7 +94,7 @@
 }
 
 .badge-wizard {
-	color: var(--ss-blue5);
+	color: #4497D7;
 }
 
 .badge-mod {
@@ -147,7 +147,8 @@
 
 .main-badges i:not(.badge-vip, .badge-wizard),
 #badgeInfoPopup .table-div td i:not(.badge-vip, .badge-wizard),
-.tier-badges i {
+.tier-badges i,
+#badgeLevelUp #badgeIcon {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent;
@@ -240,7 +241,7 @@
 }
 
 .badge-kdr.tier5 {
-	background: linear-gradient( to bottom right, #f9f8f4, #e9e1d4, #e3dac9) !important;
+	background: linear-gradient( to bottom right, #f9f8f4, #e9e1d4, #e3dac9);
 }
 
 .badge-modekills.tier5 {
@@ -379,4 +380,23 @@
 	padding: .55em;
 	text-align: center;
 	background: var(--ss-blue2);
+}
+
+/* Tier Badge Level Up Notification */
+#badgeLevelUp {
+    padding-left: 6em;
+    padding-right: 6em;
+    top: calc(var(--ss-space-md) * 1.3);
+    text-align: center;
+	z-index: 9999999;
+}
+
+#badgeLevelUp #badgeIcon {
+    font-size: 5em;
+}
+
+#badgeLevelUp #badgeName {
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	-webkit-text-fill-color: transparent;
 }

@@ -152,22 +152,23 @@ There's a new link added to the footer on the home screen, which opens a changel
     </details>
     
     - __Changed Item Sorting Order__:
-      1. Premium
-      2. VIP
-      3. Bundle
-      4. Merch
-      5. Twitch Drops
-      6. New Yolker
-      7. League
-      8. Notification
-      9. Egglite
-      10. Promo
-      11. Event
-      12. Social
-      13. Default & Legacy Items
+      1. Premium ($)
+      2. Premium (Eggs)
+      3. VIP
+      4. Bundle
+      5. Merch
+      6. Twitch Drops
+      7. New Yolker
+      8. League
+      9. Notification
+      10. Egglite
+      11. Promo
+      12. Event
+      13. Social
+      14. Default & Legacy Items
       15. Limited
-      14. Content Creator (YouTube & Twitch)
-      15. Shop Items 
+      16. Content Creator (YouTube & Twitch)
+      17. Shop Items 
     - **Skin randomizer button** - randomizes all equipped items (including grenade and melee) for the currently selected weapon class
     - **Item count information** in inventory, shop, and limited edition section:
       - __Inventory__: shows # of items owned / total items
@@ -195,6 +196,12 @@ There's a new link added to the footer on the home screen, which opens a changel
     <summary>See Updated Profile Section (Image)</summary>
 
     ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
+    </details>
+
+    <details>
+    <summary>See Tier Badge Level Up Alert (Image)</summary>
+
+    ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
     </details>
     
     - **Profile Badges** - Clickable & Automatically Computed/Displayed:
@@ -234,8 +241,8 @@ There's a new link added to the footer on the home screen, which opens a changel
       | Humpty's Fall        | # of Fall Deaths                           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>100</td></tr><tr><td>V</td><td>250+</td></tr></tbody></table>|
       | Overkill             | Lifetime KDR                               | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
       | Eggsassin            | Lifetime KDR in Every Game Mode            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
-      | Royal Rooster        | Lifetime KoTC Round Wins                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>50</td></tr><tr><td>II</td><td>100</td></tr><tr><td>III</td><td>150</td></tr><tr><td>IV</td><td>200</td></tr><tr><td>V</td><td>500+</td></tr></tbody></table>|
-      | Coop King            | Lifetime KoTC Coop Captures                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>750</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,500+</td></tr></tbody></table>|
+      | Royal Rooster        | Lifetime KoTC Round Wins                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>100</td></tr><tr><td>II</td><td>250</td></tr><tr><td>III</td><td>500</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,000+</td></tr></tbody></table>|
+      | Coop King            | Lifetime KoTC Coop Captures                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>1,500</td></tr><tr><td>IV</td><td>2,500</td></tr><tr><td>V</td><td>5,000+</td></tr></tbody></table>|
       | Eggsclusive          | % Owned of Current Update's Limited Items  | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
       | Yolky Drip           | # of Merch Items Owned                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>1</td></tr><tr><td>II</td><td>2</td></tr><tr><td>III</td><td>3</td></tr></tbody></table>|
       | Twitch Drops         | % Owned of Twitch Drops Items              | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
@@ -433,12 +440,17 @@ There's a new link added to the footer on the home screen, which opens a changel
 - **Select Theme**: Choose a theme.
 - **Preload Themes**: Load themes faster by downloading them on startup.
 - **Available Themes**:
-  | Theme Name                 | Creator(s)                 | Description                                                                                           | Image                                               |
-  | -------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-  | Infinite Smasher            | Infinite Smasher            | Infinite Smasher's theme.                                                                             | ![Infinite Theme](img/docs/themes/infinite.png)     |
-  | graysocean (Main)          | Infinite Smasher            | Updated & improved version of graysocean's theme. Used to be available on the Chrome WebStore.        | ![Graysocean Theme](img/docs/themes/graysocean.png) |
-  | graysocean (Fashion Show)  | Infinite Smasher            | Fashion show-specific version of graysocean (Main).                                                   | Same as Graysocean (Main)                           |
-  | Boolet x DeltaStorm        | Boolet, Infinite Smasher    | Boolet's theme updated and improved by Infinite Smasher. Used to be available on the Chrome WebStore. | ![Boolet Theme](img/docs/themes/boolet.png)         |
+  | Theme Name                 | Creator(s)                 | Description                                                                                                                    | Image                                                 |
+  | -------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+  | Boolet x DeltaStorm        | Boolet, Infinite Smasher    | Updated & improved version of [Boolet](https://youtube.com/@Boolet)'s theme. Used to be available on the Chrome WebStore.      | ![Boolet Theme](img/docs/themes/boolet.png)           |
+  | graysocean (Main)          | Infinite Smasher            | Updated & improved version of [graysocean](https://twitch.tv/graysocean)'s theme. Used to be available on the Chrome WebStore. | ![Graysocean Theme](img/docs/themes/graysocean.png)   |
+  | graysocean (Fashion Show)  | Infinite Smasher            | Fashion show-specific version of the graysocean (Main) theme.                                                                   | Same as Graysocean (Main)                             |
+  | Gus                        | Gus, Infinite Smasher       | Gus's theme.                                                                                                                   | ![Gus Theme](img/docs/themes/gus.png)                 |
+  | King Hayden                | Jayvan, Infinite Smasher    | Updated & improved version of [King Hayden](https://twitch.tv/king_hayden_)'s theme.                                           | ![King Hayden Theme](img/docs/themes/hayden.png)      |
+  | Infinite Smasher            | Infinite Smasher            | Infinite Smasher's theme.                                                                                                       | ![Infinite Smasher Theme](img/docs/themes/infinite.png) |
+  | menoXD                     | Jayvan, Infinite Smasher    | Updated & improved version of [menoXD](https://twitch.tv/menoxd)'s theme.                                                      | ![menoXD Theme](img/docs/themes/meno.png)             |
+  | Novosuper                  | Jayvan, Infinite Smasher    | Updated & improved version of [Novosuper](https://twitch.tv/novosuper)'s theme.                                                | ![Novosuper Theme](img/docs/themes/novo.png)          |
+</details>
 </details>
 
 <details>
@@ -451,7 +463,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 - **Skybox Categories**:
   | Category Name                                                                                                       | # of Skyboxes       |
   | ------------------------------------------------------------------------------------------------------------------- | ------------------- |
-  | Official (In-Game Skyboxes)                                                                                         | 4                   |
+  | Official (In-Game Skyboxes)                                                                                          | 4                   |
   | Solid Colors (RGB Color Sliders)                                                                                    | 256^3 = 16,777,216  |
   | Landscapes                                                                                                          | 4                   |
   | [AllSky](https://assetstore.unity.com/packages/2d/textures-materials/sky/allsky-free-10-sky-skybox-set-146014)      | 10                  |
@@ -459,7 +471,7 @@ There's a new link added to the footer on the home screen, which opens a changel
   | [Color Skies](https://assetstore.unity.com/packages/2d/textures-materials/sky/colorskies-91541)                     | 8                   |
   | [Space](https://assetstore.unity.com/packages/2d/textures-materials/sky/spaceskies-free-80503)                      | 23                  |
   | [Nebula](https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-volume-2-nebula-3392)               | 7                   |
-  | Other                                                                                                               | 4                   |
+  | Other                                                                                                               | 5                   |
 
 Misc Skybox Sources: [Babylon.js](https://doc.babylonjs.com/toolsAndResources/assetLibraries/availableTextures#cubetextures), [elyvisions (OpenGameArt)](https://opengameart.org/content/elyvisions-skyboxes)
 

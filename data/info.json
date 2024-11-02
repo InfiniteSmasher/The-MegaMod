@@ -1,8 +1,15 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Fixed some buggy code - skyboxes should load properly now",
-        "Optimized mod startup - mods should start a tiny bit faster",
-        "Work-in-Progress (WIP) themes: King Hayden, Novosuper, and menoXD"
+        "Fixed grenade pickups not updating in first-person spectate mode",
+        "Fixed \"killstreak\" typo - thanks Godric!",
+        "Fixed egg premium items not being grouped with premiums",
+        "Optimized some setting saving logic",
+        "Tweaked color of \"Very Good Wizard\" Badge to match BWD Blue",
+        "Refined requirement for \"Treasure Hunter\" Badge to include account age",
+        "Buffed tier requirements for \"Royal Rooster\" Badge",
+        "Buffed tier requirements for \"Coop King\" Badge",
+        "Tier badges now show a notification when they level up!",
+        "Added the Gus theme and matching Gus skybox!"
     ]
 }

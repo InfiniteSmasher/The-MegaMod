@@ -282,10 +282,12 @@ class MegaMod {
             saveModSettings() {
                 const saveSetting = (setting) => {
                     if (![SettingType.Group, SettingType.HTML].includes(setting.type)) {
-                        localStore.setItem(setting.id, setting.value);
-                        setting.storedVal = setting.value;
+                        if (setting.storedVal != setting.value) {
+                            localStore.setItem(setting.id, setting.value);
+                            setting.storedVal = setting.value;
+                        }
                     }
-                    if (setting.settings) saveSetting(setting.settings);
+                    if (setting.settings) setting.settings.forEach(saveSetting);
                 };
                 this.settingsUi.modSettings.forEach(saveSetting);
             },
@@ -293,6 +295,11 @@ class MegaMod {
                 BAWK.play("ui_playconfirm");
                 this.onSaveClick();
                 unsafeWindow.location.reload();
+            },
+            applyOriginalSettings() {
+                vueData.settingsUi = this.originalSettings;
+                this.showDetailSettings = !vueData.settingsUi.togglers.misc.find( a => { return a.id === 'autoDetail'; }).value;
+                //console.log('applying original settings: ' + JSON.stringify(vueData.settingsUi));
             },
             dismissRefresh() {
                 BAWK.play("ui_popupclose");
@@ -538,8 +545,37 @@ class MegaMod {
                 main: [],
                 tier: []
             },
-            updateBadges() {
-                this.badges = this.getBadges();
+            updateBadges(ignoreTierLevels = false) {
+                const newBadges = this.getBadges();
+                if (!ignoreTierLevels) {
+                    const getTierBadges = badges => badges.flatMap(row => row.tier || []);
+                    const newTierBadges = getTierBadges(newBadges.rows);
+                    const oldTierBadges = getTierBadges(this.badges.rows);
+                    
+                    const oldBadgeDict = oldTierBadges.reduce((dict, badge) => {
+                        dict[badge.title] = badge.tier;
+                        return dict;
+                    }, {});
+                    
+                    newTierBadges.forEach(newBadge => {
+                        const oldTier = oldBadgeDict[newBadge.title];
+                        if (oldTier === undefined || newBadge.tier > oldTier) {
+                            vueApp.addBadgeMsg({
+                                badgeClass: newBadge.styleClass.replace(/\bbadge-hover(-alt)?\b/g, ''),
+                                iconClass: newBadge.classList.replace(/\bbadge-hover(-alt)?\b/g, ''),
+                                badgeName: newBadge.title
+                            });
+                        }
+                    });
+                };
+                this.badges = newBadges;
+            },
+            badgeMsg: {
+                showing: false,
+                msgs: [],
+                badgeClass: '',
+                iconClass: '',
+                badgeName: ''
             },
             getChallengeClaims(id) {
                 return extern?.account?.challengesClaimed?.filter(val => val == id)?.length;
@@ -963,6 +999,10 @@ class MegaMod {
             if ((this.data.reset || this.completed) && !this.onClaimClicked) {
                 extern.account.challengesClaimed.push(this.data.challengeId.toString());
                 extern.account.challengesClaimedUnique = [...new Set(extern.account.challengesClaimed)];
+                Object.assign(vueApp.challengesClaimed, {
+                    total: extern.account.challengesClaimed.length,
+                    unique: extern.account.challengesClaimedUnique.length
+                });
             }
             oldActionBtnClick.apply(this, args);
         }
@@ -1189,13 +1229,21 @@ class MegaMod {
             </small-popup>
         `;
 
+        const badgeNotifPopup = `
+            <div id="badgeLevelUp" v-show="badgeMsg.showing" class="centered_x in-game-notification">
+                <h2 id="badgeTitle" class="text_white nospace">{{ loc.megaMod_betterUI_badgeLvlUp_title }}</h2>
+                 <i id="badgeIcon" :class="badgeMsg.iconClass"></i>
+                <p id="badgeName" :class="badgeMsg.badgeClass" class="nospace">{{ badgeMsg.badgeName }}</p>
+            </div>
+        `;
+
         // Add Popups
         const popupInterval = setInterval(() => {
             let gameDesc = document.getElementById('gameDescription');
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${badgePopup} ${challengePopup} ${mapPopup} ${errorPopups} ${updatePopups}`
+                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${errorPopups} ${updatePopups}`
             );
         });
     }
@@ -1323,12 +1371,14 @@ class MegaMod {
                             src = src.safeReplace("generateLoadoutObject();", `generateLoadoutObject();if(extern.inGame){extern.tryUpdateGrenades();}`, "matchGrenades");
     
                             // Calling checkCurrentGrenadeMesh() during first-person spectate
-                            let specMatches = src.matchAll(new RegExp(`this\\.spectatePlayer\\(${v}\\)`, 'g'));
-                            if (playerMatch?.length > 1 && specMatches?.toArray().length) {
+                            let specMatches = Array.from(src.matchAll(new RegExp(`this\\.spectatePlayer\\(${v}\\)`, 'g')));
+                            if (playerMatch?.length > 1 && specMatches.length) {
                                 specMatches.forEach(m => {
-                                    src = src.safeReplace(m, `(${m}, extern.tryUpdateGrenades(${playerMatch[1]}.grenadeItem.item_data.meshName))`, "matchGrenades", true);
+                                    src = src.safeReplace(m[0], `(${m[0]}, extern.tryUpdateGrenades(${playerMatch[1]}.grenadeItem.item_data.meshName))`, "matchGrenades", true);
                                 });
-                            } else unsafeWindow.megaMod.addRegexErrId("matchGrenades");
+                            } else {
+                                unsafeWindow.megaMod.addRegexErrId("matchGrenades");
+                            }
     
                             // Calling checkCurrentGrenadeMesh() when exiting first-person spectate
                             src = src.safeReplace(`.freeCamera()`, `.freeCamera(),${itemManagerInst}.tryUpdateGrenades()`, "matchGrenades");
@@ -2244,13 +2294,11 @@ class BetterUI {
 
         Object.assign(this, data);
         this.squareIconIndexes = SOCIALMEDIA.map((icon, index) => icon.includes("-square") ? index : null).filter(index => index !== null);
-        
-        // Init Profile Badges
-        MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
 
         Object.assign(extern, {
             isThemedItem(item, theme) {
-                switch (theme.toLowerCase()) {
+                theme = theme.toLowerCase();
+                switch (theme) {
                     case "premium":
                     case "vip":
                     case "physical":
@@ -2259,7 +2307,9 @@ class BetterUI {
                     case "purchase":
                     case "bundle":
                         // Nice and ez checks, W devs.
-                        return item.unlock === theme.toLowerCase();
+                        return item.unlock === theme;
+                    case "eggpremium":
+                        return this.isThemedItem(item, "purchase") && item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') && item.price > 15000;
                     case "legacy":
                         return this.isThemedItem(item, "default") && item?.item_data?.meshName?.includes("_Legacy");
                     case "limited":
@@ -2599,6 +2649,9 @@ class BetterUI {
             Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chatUpgradeStyle });
             setTimeout(this.switchBetterUI.bind(this), 250, true);
         });
+
+        // Init Profile Badges
+        MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
     }
 
     initProfileBadges(badgeData) {
@@ -2606,6 +2659,7 @@ class BetterUI {
 
         this.badgeData = badgeData;
         const oldSwitchToProfileUi = vueApp.switchToProfileUi;
+        const oldStatsLoading = vueApp.statsLoading;
         Object.assign(vueApp, {
             separateRows(badges) {
                 const badgesPerRow = unsafeWindow.megaMod.betterUI.badgeData.badgesPerRow;
@@ -2632,7 +2686,7 @@ class BetterUI {
                 const mainBadges = [];
                 const tierBadges = [];
                 const badgeMap = new Map();
-                const addBadge = (tier, title, classList, clickFunc, desc) => (tier ? tierBadges : mainBadges).push({ title, classList, clickFunc, desc });
+                const addBadge = (tier, title, icon, styleClass, clickFunc, desc) => (tier != null ? tierBadges : mainBadges).push({ title, styleClass, classList: `${icon} ${styleClass}`, tier, clickFunc, desc });
                 const numeral = num => ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"][num - 1] || num;
                 const formatValue = value => value % 1 === 0 ? value.toLocaleString() : value.toLocaleString([], { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 
@@ -2692,7 +2746,7 @@ class BetterUI {
                     else 
                         setupBadge(badge);
                 });
-                badgeMap.forEach(badge => addBadge(badge.tier != null, badge.titleLocKey, `${badge.icon} ${badge.class}`, badge.clickFunc, badge.desc));
+                badgeMap.forEach(badge => addBadge(badge.tier, badge.titleLocKey, badge.icon, badge.class, badge.clickFunc, badge.desc));
                 
                 const returnData = { main: mainBadges, tier: tierBadges };
                 return info ? returnData : { rows: this.separateRows(returnData).map(({ main, tier }) => ({ main, tier })) };
@@ -2707,28 +2761,65 @@ class BetterUI {
             switchToProfileUi() {
                 oldSwitchToProfileUi.call(this);
                 this.updateBadges();
+            },
+            showBadgeMsg() {
+                if (!this.badgeMsg.msgs.length) return;
+                BAWK.play('badgeLevelUp');
+                
+                // Destructure the first message directly, avoiding repetitive access
+                const { badgeClass, iconClass, badgeName } = this.badgeMsg.msgs.shift();
+                this.badgeMsg.badgeClass = badgeClass;
+                this.badgeMsg.iconClass = iconClass;
+                this.badgeMsg.badgeName = badgeName;
+                this.badgeMsg.showing = true;
+        
+                // Use an arrow function to maintain the context of `this` naturally
+                setTimeout(() => {
+                    this.badgeMsg.showing = false;
+                    this.showBadgeMsg();  // Recursive call to process the next message
+                }, 2900);
+            },
+            addBadgeMsg(msg) {
+                // Add the new message
+                this.badgeMsg.msgs.push(msg);
+            
+                // Remove duplicates: Convert the array to a Set and back to an array
+                this.badgeMsg.msgs = [...new Set(this.badgeMsg.msgs)];
+            
+                // Proceed with displaying the message if not already showing
+                if (!this.badgeMsg.showing) this.showBadgeMsg();
+            },
+            statsLoading() {
+                vueApp.updateBadges();
+                oldStatsLoading.call(this);
             }
         });
         vueApp.badgeInfo = vueApp.getBadges(true);
 
+        // TODO: statsLifetime and statsCurrent updateStats() function hook
         const playerAccount = extern.account.constructor;
         const { 
             signedIn: oldSignedIn, 
             loggedOut: oldLoggedOut, 
-            setStats: oldSetStats, 
+            scoreKill: oldScoreKill, 
+            die: oldDie,
             addToInventory: oldAddToInventory 
         } = playerAccount.prototype;
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                vueApp.updateBadges();
+                setTimeout(vueApp.updateBadges.bind(vueApp), 500, true);
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
                 vueApp.updateBadges();
             },
-            setStats(...args) {
-                oldSetStats.apply(this, args);
+            scoreKill(...args) {
+                oldScoreKill.apply(this, args);
+                vueApp.updateBadges();
+            },
+            die(...args) {
+                oldDie.apply(this, args);
                 vueApp.updateBadges();
             },
             addToInventory(...args) {
@@ -2736,6 +2827,8 @@ class BetterUI {
                 vueApp.updateBadges();
             }
         });
+        setTimeout(vueApp.updateBadges.bind(vueApp), 1000, true);
+
     }
 
     randomizeSkin() {
@@ -3271,6 +3364,8 @@ class CustomSkybox {
             select.options = this.skyboxes[value];
             if (!init) unsafeWindow.megaMod.updateModSetting("customSkybox_skyboxSelect", select.options[0].id);
         }
+        // Source Modification is goofy - reload if function doesn't exist
+        if (!extern?.updateSkybox) window.location.reload();
         extern.updateSkybox(isCustomSkyboxEnabled, r, g, b);
     }
 }

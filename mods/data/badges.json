@@ -72,8 +72,9 @@
 			"class": "badge-newbie"
 		},
 		{
-			"type": 1,
-			"value": 1350,
+			"type": 2,
+			"value": "d <= new Date('2022-09-15')",
+			"condition": "&& extern.isItemOwned(extern.catalog.findItemById(1350))",
 			"locKey": "megaMod_betterUI_badge_scavenger22",
 			"icon": "fas fa-map-marked-alt",
 			"class": "badge-scavenger22"
@@ -198,14 +199,14 @@
 			"condition": "extern?.account?.statsLifetime.gameType.kotc.wins >= {0}",
 			"locKey": "megaMod_betterUI_badge_kotc",
 			"tierIcons": ["far6 fa-crown", "far6 fa-crown", "far6 fa-crown", "fas fa-crown", "fas fa-crown"],
-			"tierValues": [50, 100, 150, 250, 500],
+			"tierValues": [100, 250, 500, 1000, 2000],
 			"class": "badge-kotc"
 		},
 		{
 			"condition": "extern?.account?.statsLifetime.gameType.kotc.captured >= {0}",
 			"locKey": "megaMod_betterUI_badge_coops",
 			"tierIcons": ["fas6 fa-user-crown", "fas6 fa-user-crown", "fas6 fa-user-crown", "fas6 fa-user-group-crown", "fas6 fa-user-group-crown"],
-			"tierValues": [250, 500, 750, 1500, 2500],
+			"tierValues": [250, 500, 1500, 2500, 5000],
 			"class": "badge-coops"
 		},
 		{

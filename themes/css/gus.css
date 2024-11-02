@@ -1,0 +1,652 @@
+@import url('https://ThemeAddons.jayvanv.repl.co/ez.css');
+
+:root {
+    --bundle-text-color: #00FF00;
+    --ss-yolk: #663ac9;
+    --ss-yolk2: #663ac9;
+    --ss-yolk0: rgba(220, 212, 238, 1);
+    --ss-premium: #663ac9;
+    --ss-pink: #8f71d3;
+    --ss-pink2: #FF0000;
+    --ss-premium-txt: #ffffff;
+    --ss-vip-brown: #663ac9;
+    --ss-vip-yellow: #ffffff;
+    --ss-red-btn-fill: #663ac9;
+    --ss-gold: #b9a9de;
+    --ss-limited-txt: #b9a9de;
+    --ss-blue0: #c8edf8;
+    --ss-blue00: #4b13a7;
+    --ss-blue1: #663ac9;
+    --ss-blue2: #b9a9de;
+    --ss-blue3: #663ac9;
+    --ss-blue4: #ffffff;
+    --ss-blue5: #ffffff;
+    --ss-blue6: #b9a9de;
+    --ss-blue7: #00ff00;
+    --ss-blue8: #00ff00;
+    --ss-blue2alpha7: rgba(0, 255, 0, .7);
+
+    /* These 4 have to be rgb, not rgba and also can't be gradients */
+    --ss-team-blue-light: rgb(185, 169, 222) !important;
+    --ss-team-blue-dark: rgb(255, 255, 255) !important;
+    --ss-team-red-light: rgb(148, 31, 207);
+    --ss-team-red-dark: rgb(255, 255, 255) !important;
+
+    --ss-team-blue-light-trans: linear-gradient(90deg, rgba(185, 169, 222, 0.8) 60%, rgba(96, 192, 224, 0.8)) !important;
+    --ss-team-blue-dark-trans: rgba(185, 169, 222, 0.8) !important;
+    --ss-team-red-light-trans: rgba(0, 255, 0, 0.5);
+    --ss-team-red-dark-trans: rgba(255, 0, 0, 0.5) !important;
+    --ss-popupbackground: url(https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/background.png);
+    --ss-vip-store-bg: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9);
+    --egg-pack-small-bg: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9);
+    --egg-pack-md-bg: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9);
+    --egg-pack-lg-bg: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9);
+    --bundle-color: #b9a9de;
+    --ss-box-shadow-1:  .16em .16em 0 rgba(129, 118, 155,.5);
+    --ss-box-shadow-2: .15em .15em 0 rgba(0, 255, 0, 0);
+    --ss-box-shadow-3: .15em .15em 0 rgba(129, 118, 155,.9);
+    --ss-text-shadow-1: .1em .1em 0 rgba(255, 0, 0,.8);
+    --ss-lightoverlay: url("");
+}
+
+h1, h3, h4, h5, h6, .text_blue3, .text_blue5 {
+    color: #ffffff !important;
+}
+.text_blue6 {
+    color: #00ff00 !important;
+}
+.text_blue8 {
+    color: #ffffff !important;
+}
+.text_blue{
+    color: #ffffff !important;
+}
+.text_blue1 {
+    color: #ffffff !important;
+}
+p {
+    color: #ffffff !important;
+}
+.ss_keybind,
+h2 {
+    color: #8c65e6 !important;
+}
+.ss_button_as_text {
+    color: #ffffff !important;
+}
+.ss_keybind:hover {
+background-color: var(--ss-yolk0) !important;
+}
+.ss_checkbox:hover input~.checkmark {
+background-color: var(--ss-yolk0)!important;
+}
+.chw-circular-timer-container {
+    background: #b9a9de;
+    opacity: 1;
+    width: var(--chw-bubble-width);
+    height: var(--chw-bubble-height);
+    align-items: center;
+    position: relative;
+    border-radius: .5em;
+    padding: .4em 1em;
+    z-index: 3;
+    top: -1.6em;
+    left: 3em;
+    border-width: var(--ss-common-border-width);
+    border-style: solid;
+    border-color: #ffffff;
+}
+.speech-tail {
+    content: "";
+    position: absolute;
+    background: #ffffff;
+    bottom: -0.7em;
+    left: -0.8em;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    box-shadow: 0.6em 0.6em 0 0 #ffffff, 0.7em 0.9em 0 0 rgba(0, 255, 0, 0);
+    background: 0;
+    transform: rotate(344deg);
+    z-index: 2;
+    position: absolute;
+    bottom: 2.6em;
+    left: 1em;
+}
+.chicknWinner-img {
+    visibility: hidden;
+}
+#ss_background, #gameDescription, #progress-container, #spinnerOverlay {
+    background: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/1920%201080%20last%20try.jpg") center center no-repeat;
+    background-size: cover !important;
+}
+.media-tab-container .text_white {
+    color: #ffffff !important;
+}
+.tab-content .media-item:nth-child(odd), .no-stream {
+    background-color: #b9a9de !important;
+    color: #ffffff !important;
+}
+.tab-content .media-item:nth-child(even) {
+    background-color: #663ac9 !important;
+    color: #ffffff !important;
+}
+.spinner-tips p {
+    position: relative;
+    background: #b9a9de;
+    border-radius: 10em;
+    padding: 2em 2em;
+    height: 5em;
+    border-width: var(--ss-common-border-width);
+    border-style: solid;
+    border-color: #ffffff;
+}
+.spinner-tips p:after {
+    content: '';
+    position: absolute;
+    bottom: 1.25em;
+    left: .5em;
+    width: 0;
+    height: 0;
+    border: 1.188em solid transparent;
+    border-top-color: #ffffff;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -0.8em;
+    margin-bottom: -1.60em;
+    transform: rotate(140deg);
+}
+.spinner-tips img {
+    width: 7em;
+    align-self: end;
+    content: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/speaker.png");
+}
+.media-item {
+    border-color: #ffffff !important;
+}
+.tab-content {
+    background-color: #b9a9de !important;
+}
+.secondary-aside-wrap .media-tabs-wrapper {
+    background: none !important;
+    border-color: #ffffff !important;
+}
+.inner-wrapper {
+    background: url("") center center no-repeat;background-size:cover !important;
+}
+.btn_green, .btn_red, .btn_yolk, .ico_itemtype, .chw-progress-bar-inner, .chw-progress-bar-wrap {
+    background-color: #b9a9de !important;
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 4px 4px #81769b87 !important;
+    text-shadow: 3px 3px #81769b !important;
+}
+.btn_green:hover, .btn_red:hover, .btn_yolk:hover, .ico_itemtype:hover, .ico_itemtype.selected, .chw-progress-bar-inner:hover, .chw-progress-bar-wrap:hover {
+    background-color: #b9a9de;
+    background-size: cover !important;
+    color: #663ac9 !important;
+    border-color: #ffffff !important;
+}
+.btn_blue, .btn_blue_light, .btn_game_mode , .bevel_twitch, .ss_button, .option-box {
+    background-color: #b9a9de !important;
+    background-size:cover;
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 4px 4px #81769b87 !important;
+    text-shadow: 3px 3px #81769b !important;
+}
+.btn_blue:hover, .btn_blue_light:hover, .btn_game_mode:hover , .bevel_twitch:hover, .option-box:hover, .option-box .text_blue5:hover {
+    background-color: #b9a9de !important;
+    background-size:cover;
+    color: #663ac9;
+    border-color: #ffffff;
+}
+.ss_field, .ss_select {
+    border-color: #ffffff;
+    background-color: #ffffff !important;
+    color: #b9a9de;
+}
+.main-nav-item-bg {
+    fill: #b9a9de !important;
+    stroke: #ffffff !important;
+}
+.equip_color.selected {
+  background: var(--ss-yolk) !important;
+}
+.main-menu-button, .menu-icon {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+.music-widget--sponsor--settings-btn {
+    background: none;
+    border: 0;
+    color: #00ff00 !important;
+    cursor: pointer;
+}
+#settingsPopup h2, #settingsPopup h3, #settingsPopup h4 {
+  color: #00ff00;
+}
+.pb-vignette-setting .ss_checkbox {
+    height: 1.9em;
+    background: #00ff00 !important;
+}
+.ss_checkbox .checkmark:after {
+    border-color: #663ac9;
+}
+.text_blue8 {
+    color: #663ac9 !important;
+}
+.weapon_img {
+    background: #663ac9;
+    border-color: #663ac9;
+}
+.teamScore.blue i {
+color: rgb(185, 169, 222) ;
+}
+.teamScore.blue .number {
+color: #FFFF00;
+}
+.teamScore.red i {
+color: rgb(148, 31, 207);
+}
+.teamScore.red .number {
+color: #FFF000;
+}
+#ico-checkmark path {
+    fill: #ffffff !important;
+}
+.main-footer--logo-blue-wiz-mini {
+    width: 4.5em;
+    opacity: .6;
+    vertical-align: bottom;
+    content: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/bwd.png");
+}
+.player-challenge-single-action .bevel_pink {
+border-color: #ffffff;
+}
+.player-challenge-single-reward img{
+    width: 1em;
+    content: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/vip%20egg.png");
+}
+.player-challenges-container {
+    width: 100%;
+    background: rgb(0,192,255);
+    background: linear-gradient(-124deg, rgba(143,113,211,1) 40%, rgba(102,58,201,1) 90%);
+}
+.player-challenge-single .checkmark-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 3em solid rgb(143,113,211) ;
+    border-right: 3em solid transparent;
+}
+.player-challenge-single-action-claimed {
+    background: #663ac9;
+    width: 35%;
+    padding: 0.2em 0 0.2em 1em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform-origin: bottom left;
+    -ms-transform: skew(-30deg, 0deg);
+    -webkit-transform: skew(-30deg, 0deg);
+    transform: skew(-30deg, 0deg);
+    overflow: hidden;
+}
+.player-challenge-single-progress-bar.bg_yellow {
+background-color: #b9a9de  !important;
+}
+.bg_yellow {
+background-color: var(--bundle-text-color)!important
+}
+.bevel_blue_light {
+    box-shadow:
+    var(--ss-box-shadow-1),
+    var(--ss-btn-dark-bevel) rgb(0,255,0),
+    var(--ss-btn-light-bevel) rgb(0,255,0);
+}
+.bevel_blue {
+    box-shadow:
+    var(--ss-box-shadow-1),
+    var(--ss-btn-dark-bevel) rgb(0,255,0),
+    var(--ss-btn-light-bevel) rgb(0,255,0);
+}
+.egg-store-bundle-img {
+    content: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/refs/heads/main/dsfdsf-removebg-preview(1).png') ;
+    scale: 150%;
+    top: 4.5em;
+    padding-right: 2em;
+}
+#bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
+  background-image: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9);
+}
+.single-egg-store-item-is-item .eggshop_image {
+    content: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/giphy.gif") !important;
+    background: radial-gradient(circle, #663ac9, #b9a9de);
+    scale: 100% !important;
+    border-color: #ffffff;
+}
+.egg_pack_small .eggshop_image {
+    content: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/imageedit_3_9786262611.png');
+}
+.egg_pack_medium .eggshop_image {
+    content: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/purple%20eggs.png');
+    scale: 85%;
+    right: 10em;
+}
+.egg_pack_large .eggshop_image {
+    content: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/casket%20big%20purple.png');
+}
+.main-menu-button svg path:first-child {
+    fill: #81769b !important;
+    opacity: 0.5 !important;
+}
+.chw-circular-timer-container-shadow {
+    background: rgb(129 118 155 / 50%);
+}
+.profile-page-content {
+    background: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/background.png") !important;
+    border-color: #ffffff;
+}
+.bg_blue2 {
+    background: url("") center center no-repeat !important;
+    padding-left: 0;
+}
+.stat-wrapper .stat:nth-child(even) > div {
+    background: #673ac9 !important;
+}
+.stat-wrapper .stat:nth-child(odd) > div {
+  background: #b9a9de !important;
+}
+.stat-grid-main-header {
+  border-color: #b9a9de;
+}
+#equip_grid .grid-item.is-premium  {
+  background: linear-gradient(to right bottom, #ffffff, #b9a9de, #663ac9, #663ac9);
+}
+.egg-color-select {
+    background: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/color%20name%20purple%202.PNG") !important;
+    border-color: #ffffff;
+}
+#equip_panel_right #equip_grid .grid-item, #limited-un-vaulted .grid-item {
+    background-color: #b9a9de ;
+    border-color: #ffffff !important;
+}
+.egg_count {
+    font-size: 1.7em;
+    color: #ffffff;
+}
+.ss_bigtab  {
+    background: #b9a9de !important;
+    border-color: #ffffff;
+    color: #ffffff !important;
+}
+.pause-bg, .popup_lg, .popup_sm {
+    background: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/1920%201080%20last%20try.jpg") center center no-repeat;
+    background-size:cover;
+    border-color: #ffffff;
+}
+#inGameUI {
+    background: rgba( 0, 255, 0, 0 )  !important;
+    border-color: rgba( 0, 255, 0, 0 ) !important;
+    color: #00FF00 !important;
+    font-size: 1em;
+}
+#game_screen:not(.is-paused) #inGameUI {
+top: 9em
+}
+.pause-ui-element{
+    background: rgba( 0, 255, 0, 0 )  !important;
+    border-color: rgba( 0, 255, 0, 0 ) !important;
+    color: #00FF00 !important;
+}
+#inGameUI .title {
+    font-size: 0;
+    color: rgba(166, 146, 212, 0);
+}
+.gameCanvas {
+  border-color: #ffffff !important;
+}
+#maskmiddle {
+background: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/scope%204try.png') center center no-repeat;
+background-size: contain;
+width: 100vh;
+height: 100vh;
+}
+#crosshair2.normal {
+    background: #8c66e4 !important;
+    border-color: #000000 !important;
+}
+#crosshair1.normal {
+    background: #8c66e4 !important;
+    border-color: #000000 !important;
+}
+#crosshair0.normal {
+    background: #8c66e4 !important;
+    border-color: #000000 !important;
+}
+#crosshair3.normal {
+    background: #8c66e4 !important;
+    border-color: #000000 !important;
+}
+.crosshair.powerful {
+    background: #8c66e4 !important;
+    border-color: #000000 !important;
+}
+.playerSlot--icons .vip-egg {
+    text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+    content: url('https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/vip%20egg.png') !important;
+    max-height: 1.1em;
+    max-width: 1.1em;
+}
+#logo {
+    height: 117px;
+    background: url("") center center no-repeat;
+    background-size:cover;
+    background-size: contain;
+}
+.free-games-logo {
+  display: none;
+}
+.house-ad-wrapper {
+    display: none !important;
+}
+.free-games-title {
+    line-height: 10;
+    display: none;
+}
+.vip-club-cta {
+    display: none !important;
+}
+.home-screen-logo {
+  display: none;
+}
+.egg_icon, .vipImgSrc-img {
+  visibility: hidden;
+}
+#account_top .account_eggs .box_relative:nth-of-type(1) {
+    background: url("https://i.pinimg.com/originals/bf/70/01/bf7001c9e31387255a3b267fe9143cb1.gif") center center no-repeat;
+    background-size: cover;
+    background-size: contain;
+    margin-right: 5px;
+    scale: 130% !important;
+}
+#captureIcon.empty {
+fill: #ffffff;
+}
+#ammo {
+    background: url("")  center center no-repeat !important;
+    background-size: cover !important;
+    background-size: contain;
+    padding-right: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+}
+#healthContainer {
+  background: url("");
+  background-size:cover;
+}
+.healthBar {
+  stroke: #bdaddb !important;
+}
+.healthYolk {
+  fill: #8c65e6;
+}
+#healthHp {
+  color: #ffffff;
+}
+.playerSlot-player-is-me {
+    background-color: rgba(148, 31, 207, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+}
+.playerSlot-them {
+    background: rgba(185, 169, 222, 0.8);
+    color: rgba(255, 255, 255, 0.8);
+}
+.playerSlot-them-blue {
+    background: rgba(185, 169, 222, 0.8);
+    color: rgba(255, 255, 255, 0.8);
+}
+.playerSlot-them-red {
+    background: rgba(148, 31, 207, 0.5);
+    color: rgba(255, 255, 255, 0.8);
+}
+.playerSlot-player-is-me.playerSlot-me-red {
+background: linear-gradient(90deg, rgba(148, 31, 207,0.5)60%, rgba(255, 64, 48, 0.8)) !important;
+}
+.in-game-notification {
+background:none;
+}
+.shotReticle.fill.normal {
+content: url("")!important;
+border-left: solid transparent;
+border-right: solid transparent
+}
+#reticleDot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    content: url("https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/main/good%20crosshair.png")!important;
+    top: 50%;
+    left: 50%;
+    background: rgba(0,255,0,0);
+    border: solid 0.01em rgba(0,255,0,0);
+    width: 1.5em;
+    height: 1.5em;
+    opacity: 0.8;
+  }
+.shotReticle.fill.normal {
+    border-color: #530e87;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: 0.18em;
+    padding: 0.18em;
+}
+.shotReticle.fill.powerful {
+    border-color: #e600ff;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: 0.3em;
+    padding: 0.1em;
+}
+.shotReticle.border.normal {
+    border-color: #850596;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: 0.2em;
+}
+.shotReticle.border.powerful {
+    border-color: #9805a8;
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: 0.2em;
+}
+#killBox h3{
+  display:none;
+}
+#killTicker {
+    position: absolute;
+    text-align: right;
+    right: 9em;
+    top: 15em;
+    height: 7em;
+    transform-origin: top right;
+    text-shadow: rgba( 0, 255, 0, 0);
+    color: rgba(0, 255, 0, 0);
+    font-size: 0.2em;
+}
+#killTicker span {
+    color: rgba(140, 101, 230, 0.8) !important;
+    font-weight: bold;
+}
+#killBox::after{
+    height: 0px;
+    align-content: center;
+}
+#KILL_STREAK::before{
+    display: normal !important;
+}
+#shellStreakCaptionStreak,
+#kill-death-box .text_yellow {
+color: #b9a9de;
+}
+#deathBox h3{
+    display:none;
+}
+#killBox h3{
+    display:none;
+}
+#kill-death-box .killed h3,
+#kill-death-box .died h2 {
+color: #663ac9 !important;
+}
+.kill-death-box-img {
+    content: url(https://raw.githubusercontent.com/GusShell4skyboxUwU/thing2/refs/heads/main/spin%20skull%20small.gif);
+}
+#grenadeThrowContainer {
+    position: absolute;
+    display: flex;
+    visibility: hidden;
+    align-items: flex-end;
+    top: 50%;
+    left: 50%;
+    transform: translate(-6em, -3em);
+    width: 1em;
+    height: 6em;
+    background: #cb9fe0;
+    border-radius: 0.3em;
+    padding: 0.25em;
+    opacity: 0.6;
+}
+#chatIn {
+    display: none;
+    color: rgba(255, 255, 255, 0.40);
+    bottom: 1em;
+    left: 5em;
+    width: 100%;
+    border: none;
+    background: none;
+}
+.chat {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.40);
+    z-index: 5;
+}
+.chat-player-name {
+    font-weight: bolder;
+    color: #8c65e6;
+}
+/* MegaMod */
+.chat-event i {
+    color: #8c65e6;
+}
+.popup_window h1 {
+    text-shadow: none;
+}
+#grenadeThrow {
+    width: 100%;
+    height: 50%;
+    border-radius: 0.05em;
+    content: url('https://i.gifer.com/SKbF.gif');
+}

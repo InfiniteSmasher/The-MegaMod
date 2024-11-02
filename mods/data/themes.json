@@ -1,9 +1,10 @@
 [
-	{ "id": "infinite",    "locKey": "p_settings_mods_themeManager_theme_infinite_desc"    },
+	{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet_desc"      },
 	{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1_desc" },
 	{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2_desc" },
-	{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet_desc"      },
+	{ "id": "gus",         "locKey": "p_settings_mods_themeManager_theme_gus_desc"         },
 	{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden_desc"      },
-	{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo_desc"        },
-	{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno_desc"        }
+	{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite_desc"     },
+	{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno_desc"        },
+	{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo_desc"        }
 ]

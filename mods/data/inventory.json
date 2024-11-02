@@ -6,7 +6,7 @@
 		"clan"
 	],
 	"tagEdits": [
-		{ "add": 0, "id": 1551, "tags": ["Oct24", "Limited"] },
+		{ "add": 1, "id": 2596,  "tags": ["Newsletter"] },
 		{ "add": 1, "id": 1547,  "tags": ["Newsletter"] },
 		{ "add": 0, "id": 1474,  "tags": ["promo"] },
 		{ "add": 1, "id": 1517,  "tags": ["Newsletter"] },
@@ -205,23 +205,24 @@
 		}
 	],
 	"themeOrder": [
-		{ "theme": "premium",  "custom": false },
-		{ "theme": "vip",      "custom": false },
-		{ "theme": "bundle",   "custom": true },
-		{ "theme": "physical", "custom": false },
-		{ "theme": "manual",   "custom": false },
-		{ "theme": "drops",    "custom": true },
-		{ "theme": "yolker",   "custom": true },
-		{ "theme": "league",   "custom": true },
-		{ "theme": "notif",    "custom": true },
-		{ "theme": "egglite",  "custom": true },
-		{ "theme": "promo",    "custom": true },
-		{ "theme": "event",    "custom": true },
-		{ "theme": "social",   "custom": true },
-		{ "theme": "default",  "custom": false },
-		{ "theme": "purchase", "custom": false },
-		{ "theme": "limited",  "custom": true },
-		{ "theme": "creator",  "custom": true },
-		{ "theme": "shop",     "custom": true }
+		{ "theme": "premium",    "custom": false },
+		{ "theme": "eggpremium", "custom": true },
+		{ "theme": "vip",        "custom": false },
+		{ "theme": "bundle",     "custom": true },
+		{ "theme": "physical",   "custom": false },
+		{ "theme": "manual",     "custom": false },
+		{ "theme": "drops",      "custom": true },
+		{ "theme": "yolker",     "custom": true },
+		{ "theme": "league",     "custom": true },
+		{ "theme": "notif",      "custom": true },
+		{ "theme": "egglite",    "custom": true },
+		{ "theme": "promo",      "custom": true },
+		{ "theme": "event",      "custom": true },
+		{ "theme": "social",     "custom": true },
+		{ "theme": "default",    "custom": false },
+		{ "theme": "purchase",   "custom": false },
+		{ "theme": "limited",    "custom": true },
+		{ "theme": "creator",    "custom": true },
+		{ "theme": "shop",       "custom": true }
 	]
 }

@@ -80,6 +80,7 @@
 	"megaMod_betterUI_badgePopup_header_badge": "",
 	"megaMod_betterUI_badgePopup_header_name": "Name",
 	"megaMod_betterUI_badgePopup_header_desc": "Description / Requirements",
+	"megaMod_betterUI_badgeLvlUp_title": "Tier Badge Level Up!",
 	
 	"megaMod_betterUI_badge_vip_title": "VIP Subscriber",
 	"megaMod_betterUI_badge_vip_desc": "Have an active VIP subscription",
@@ -259,7 +260,7 @@
 	"p_settings_mods_hideHUD_pickups": "Hide Grenade/Ammo Pickups",
 
 
-	"p_settings_mods_killstreakInfo_title": "Kilstreak Stats",
+	"p_settings_mods_killstreakInfo_title": "Killstreak Stats",
 	"p_settings_mods_killstreakInfo_desc": "Adds a stopwatch that starts when you spawn, along with a popup (COMING SOON) that can be toggled on/off to display useful stats about your kill streaks. Also useful for timed challenges.",
 	"p_settings_mods_killstreakInfo_keybind": "Hide/Show Info Popup",
 
@@ -323,6 +324,8 @@
 	"p_settings_mods_themeManager_theme_novo_desc": "<a target='_blank' href='https://twitch.tv/novosuper'>Novosuper</a>'s Theme. Created by Jayvan and updated by Infinite Smasher.",
 	"p_settings_mods_themeManager_theme_meno": "menoXD (WIP)",
 	"p_settings_mods_themeManager_theme_meno_desc": "<a target='_blank' href='https://twitch.tv/menoxd'>menoXD</a>'s Theme. Created by Jayvan and updated by Infinite Smasher.",
+	"p_settings_mods_themeManager_theme_gus": "Gus (WIP)",
+	"p_settings_mods_themeManager_theme_gus_desc": "Gus's Theme. Created by Gus. Thanks to @d4n_143, @infinitesmasher, @grifmin, @jayvan., and @renzooo_ss for the help. Thanks to @.norra., blue panda, and @ishmyster for the art. Check out the matching \"Gus\" Skybox available through the Custom Skybox mod!",
 
 
 	"p_settings_mods_customSkybox_title": "Custom Skybox",
@@ -357,6 +360,7 @@
 	"p_settings_mods_customSkybox_skybox_city": "City Sunset",
 	"p_settings_mods_customSkybox_skybox_space": "Space",
 	"p_settings_mods_customSkybox_skybox_tron": "Tron",
+	"p_settings_mods_customSkybox_skybox_gus": "Gus (Morning)",
 
 	"p_settings_mods_customSkybox_skybox_blueSky": "Blue Sky",
 	"p_settings_mods_customSkybox_skybox_nightSky": "Night Sky",
