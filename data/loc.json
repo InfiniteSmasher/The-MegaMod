@@ -12,7 +12,7 @@
 	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
 	
 	"megaMod_disableModsPopup_title": "Disable Yo Mods!",
-	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod. <br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
+	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod.<br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
 	"megaMod_modErrsPopup_title": "Uh Oh! Some Mods Broke...",
 	"megaMod_modErrsPopup_desc": "There was an error while starting The MegaMod!<br>Certain mods may not show up or work correctly.<h3>Affected Mods:</h3>{0}",
 
