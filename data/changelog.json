@@ -1,6 +1,19 @@
 {
 	"current": [
 		{
+			"version": "0.17",
+			"date": "November 8 2024",
+			"content": [
+				"Shell now automatically reloads after you update The MegaMod!",
+				"Fixed tier badge level up alert showing when badges level down",
+				"Fixed stamps not being sorted correctly in the inventory",
+				"Buffed tier requirements for \"Eggstra Spender\" Badge",
+				"Buffed tier requirements for \"Eggspenditure\" Badge"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.16",
 			"date": "November 2 2024",
 			"content": [
@@ -15,9 +28,7 @@
 				"Tier badges now show a notification when they level up!",
 				"Added the Gus theme and matching Gus skybox!"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.15",
 			"date": "October 18 2024",

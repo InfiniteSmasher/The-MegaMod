@@ -120,7 +120,7 @@
 			"condition": "extern?.account?.inventory.filter(i => i?.unlock === 'premium' && i.price !== 2147483647).reduce((sum, item) => sum + item.price, 0) >= {0}",
 			"locKey": "megaMod_betterUI_badge_premium",
 			"tierIcons": ["fas fa-dollar-sign", "fas fa-money-check-alt", "fas fa-credit-card", "fas fa-sack-dollar", "fas fa-sack-dollar"],
-			"tierValues": [50, 100, 150, 200, 250],
+			"tierValues": [50, 100, 150, 250, 500],
 			"class": "badge-premium"
 		},
 		{
@@ -141,7 +141,7 @@
 			"condition": "extern?.account?.eggsSpent >= {0}",
 			"locKey": "megaMod_betterUI_badge_spenteggs",
 			"tierIcons": ["fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-cart", "fas fa-shopping-cart"],
-			"tierValues": [250000, 500000, 1000000, 2500000, 5000000],
+			"tierValues": [500000, 100000, 250000, 5000000, 7500000],
 			"class": "badge-spender"
 		},
 		{

@@ -552,17 +552,19 @@ class MegaMod {
                     const newTierBadges = getTierBadges(newBadges.rows);
                     const oldTierBadges = getTierBadges(this.badges.rows);
                     
+                    const getBadgeClass = badge => badge.styleClass.replace(` tier${badge.tier}`, "");
                     const oldBadgeDict = oldTierBadges.reduce((dict, badge) => {
-                        dict[badge.title] = badge.tier;
+                        dict[getBadgeClass(badge)] = badge.tier;
                         return dict;
                     }, {});
                     
+                    const removeHoverClass = style => style.replace(/\bbadge-hover(-alt)?\b/g, '');
                     newTierBadges.forEach(newBadge => {
-                        const oldTier = oldBadgeDict[newBadge.title];
+                        const oldTier = oldBadgeDict[getBadgeClass(newBadge)];
                         if (oldTier === undefined || newBadge.tier > oldTier) {
                             vueApp.addBadgeMsg({
-                                badgeClass: newBadge.styleClass.replace(/\bbadge-hover(-alt)?\b/g, ''),
-                                iconClass: newBadge.classList.replace(/\bbadge-hover(-alt)?\b/g, ''),
+                                badgeClass: removeHoverClass(newBadge.styleClass),
+                                iconClass: removeHoverClass(newBadge.classList),
                                 badgeName: newBadge.title
                             });
                         }
@@ -589,6 +591,9 @@ class MegaMod {
             openMegaModUpdate() {
                 BAWK.play("ui_click");
                 window.open(`${cdnPath}/js/script.user.js`);
+                document.addEventListener("visibilitychange", () => {
+                    if (document.visibilityState === "visible") window.location.reload();
+                });
             }
         });
     
@@ -2309,11 +2314,11 @@ class BetterUI {
                         // Nice and ez checks, W devs.
                         return item.unlock === theme;
                     case "eggpremium":
-                        return this.isThemedItem(item, "purchase") && item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') && item.price > 15000;
+                        return this.isThemedItem(item, "purchase") && (item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') ?? false) && item.price > 15000;
                     case "legacy":
                         return this.isThemedItem(item, "default") && item?.item_data?.meshName?.includes("_Legacy");
                     case "limited":
-                        return item?.item_data?.tags?.includes("Limited");;
+                        return item?.item_data?.tags?.includes("Limited") ?? false;
                     case "drops":
                         // No native "twitch" or "drops" unlock type yet :(
                         return this.isThemedItem(item, "manual") && item?.item_data?.tags?.some(tag => tag.toLowerCase().includes("drops"));
@@ -2335,11 +2340,11 @@ class BetterUI {
                         return this.isThemedItem(item, "manual") && !(this.isThemedItem(item, "limited") || this.isThemedItem(item, "drops") || this.isThemedItem(item, "notif") || this.isThemedItem(item, "league") || this.isThemedItem(item, "yolker") || this.isThemedItem(item, "promo") || this.isThemedItem(item, "event") || this.isThemedItem(item, "social"));
                     case "creator":
                         const creatorTags = unsafeWindow.megaMod.betterUI.creatorTypes.map(type => unsafeWindow.megaMod.betterUI.tags.creator.format(type));
-                        return item?.item_data?.tags?.some(tag => creatorTags.includes(tag));
+                        return item?.item_data?.tags?.some(tag => creatorTags.includes(tag)) ?? false;
                     case "creatoryoutube":
-                        return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[4]));
+                        return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[4])) ?? false;
                     case "creatortwitch":
-                        return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[6]));
+                        return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[6])) ?? false;
                     case "shop":
                         return this.isThemedItem(item, "purchase") && !(this.isThemedItem(item, "creator") || this.isThemedItem(item, "limited") || this.isThemedItem(item, "event"));
                 }
