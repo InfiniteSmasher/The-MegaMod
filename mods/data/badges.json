@@ -1,6 +1,6 @@
 {
 	"badgesPerRow": 12,
-	"playtesterIds": ["13d4f05", "13d4f05", "1b9f85", "ece70", "2c299c5", "64dcc4a", "26bf7d0", "3791bbd", "3e7a7c2", "19ece", "37df6b1", "19cb594", "1cbaaec"],
+	"playtesterIds": ["13d4f05", "1db163", "1b9f85", "ece70", "2c299c5", "64dcc4a", "26bf7d0", "3791bbd", "3e7a7c2", "19ece", "37df6b1", "19cb594", "1cbaaec"],
 	"types": {
 		"0": {
 			"condition": "[{0}].some(x => extern.adminRoles & x)"
@@ -22,7 +22,7 @@
 		},
 		{
 			"type": 0,
-			"value": "1, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096",
+			"value": "1, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384",
 			"locKey": "megaMod_betterUI_badge_wizard",
 			"icon": "fas fa-hat-wizard",
 			"class": "badge-wizard",
@@ -47,8 +47,7 @@
 			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id?.toString(16))",
 			"locKey": "megaMod_betterUI_badge_tester",
 			"icon": "fas6 fa-flask-gear",
-			"class": "badge-tester badge-hover-alt",
-			"clickFunc": "() => { navigator.clipboard.writeText(extern.account.id); alert('Your Shell Account\\'s ID has been copied to your clipboard\\n\\nDM it to @infintesmasher if you want this badge and and are ok with your Account ID being public in the MegaMod\\'s code (it\\'ll be stored as a hexadecmial string).\\n\\nNOTE: Your Shell Account\\'s ID is just a number that uniquely identifies your account (an id of 100 means its the 100th shell account), which makes it possible for the MegaMod to exclusively give this badge to you. No one can steal your account or do anything using your Shell Account\\'s ID.'); }"
+			"class": "badge-tester"
 		},
 		{
 			"type": 2,
@@ -219,7 +218,7 @@
 			"clickFunc": "() => { vueApp.openEquipSwitchTo(vueApp.equipMode.featured); vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(i => i.is_available && extern.isItemOwned(i)); }"
 		},
 		{
-			"condition": "extern.getThemedItems('merch').filter(extern.isItemOwned).length == {0}",
+			"condition": "extern.getThemedItems('physical').filter(extern.isItemOwned).length == {0}",
 			"locKey": "megaMod_betterUI_badge_merch",
 			"tierIcons": ["fas6 fa-tshirt", "fas6 fa-tshirt", "fas6 fa-tshirt"],
 			"tierValues": [1, 2, 3],

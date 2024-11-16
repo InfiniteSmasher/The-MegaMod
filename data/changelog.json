@@ -1,6 +1,26 @@
 {
 	"current": [
 		{
+			"version": "0.18",
+			"date": "November 16 2024",
+			"content": [
+				"Fixed loading issue caused by Update 0.50.4",
+				"Fixed \"Yolky Merch\" Badge not showing up",
+				"Restyled \"Overeggchiever\" V Badge",
+				"Restyled \"Eggspenditure\" V Badge",
+				"Restyled \"Shell Scrambler\" IV and V Badges",
+				"Restyled \"Master of Arms\" V Badge",
+				"Restyled \"Splattered Yolk\" V Badge",
+				"Restyled \"Rooster Royalty\" V Badge",
+				"Restyled \"Coop King\" V Badge",
+				"Restyled \"Poached Promoter\" V Badge",
+				"Tier badges now have alerts for when they level down, are gained, or are lost!",
+				"Core badges now have an alert for when you gain or lose them!"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.17",
 			"date": "November 8 2024",
 			"content": [
@@ -10,9 +30,7 @@
 				"Buffed tier requirements for \"Eggstra Spender\" Badge",
 				"Buffed tier requirements for \"Eggspenditure\" Badge"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.16",
 			"date": "November 2 2024",

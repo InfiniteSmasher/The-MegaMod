@@ -545,36 +545,80 @@ class MegaMod {
                 main: [],
                 tier: []
             },
-            updateBadges(ignoreTierLevels = false) {
+            updateBadges(ignoreNotif = false) {
+                const CORE_KEY = `${extern.account.id}-coreBadges`;
+                const oldCoreBadgeTitles = JSON.parse(localStore.getItem(CORE_KEY));
+                const TIER_KEY = `${extern.account.id}-tierBadges`;
+                const oldTierBadgeDict = JSON.parse(localStore.getItem(TIER_KEY));
+
+                if (extern.account.id) {
+                    const ANON_KEY = "anonAccountId";
+                    const anonId = localStore.getItem(ANON_KEY);
+                    if (extern.account.isAnonymous && !anonId) {
+                        localStore.setItem(ANON_KEY, extern.account.id);
+                    } else if (!extern.account.isAnonymous && anonId) {
+                        [CORE_KEY, TIER_KEY].forEach(key =>
+                            localStore.removeItem(key.replace(extern.account.id, anonId))
+                        );
+                        localStore.removeItem(ANON_KEY);
+                    }
+                }
+
                 const newBadges = this.getBadges();
-                if (!ignoreTierLevels) {
-                    const getTierBadges = badges => badges.flatMap(row => row.tier || []);
-                    const newTierBadges = getTierBadges(newBadges.rows);
-                    const oldTierBadges = getTierBadges(this.badges.rows);
-                    
-                    const getBadgeClass = badge => badge.styleClass.replace(` tier${badge.tier}`, "");
-                    const oldBadgeDict = oldTierBadges.reduce((dict, badge) => {
-                        dict[getBadgeClass(badge)] = badge.tier;
-                        return dict;
-                    }, {});
-                    
-                    const removeHoverClass = style => style.replace(/\bbadge-hover(-alt)?\b/g, '');
-                    newTierBadges.forEach(newBadge => {
-                        const oldTier = oldBadgeDict[getBadgeClass(newBadge)];
-                        if (oldTier === undefined || newBadge.tier > oldTier) {
+                const newCoreBadges = newBadges.rows.flatMap(row => row.main || []);
+                const newCoreBadgeTitles = newCoreBadges.map(badge => badge.title);
+                localStore.setItem(CORE_KEY, JSON.stringify(newCoreBadgeTitles));
+                
+                const getBadgeClass = badge => badge.styleClass.replace(/\btier\d+\b|\bbadge-hover(-alt)?\b/g, '').trim();
+                const newTierBadges = newBadges.rows.flatMap(row => row.tier || []);
+                const newTierBadgeDict = newTierBadges.reduce((dict, badge) => ((dict[getBadgeClass(badge)] = badge.tier), dict), {});
+                localStore.setItem(TIER_KEY, JSON.stringify(newTierBadgeDict));
+
+                if (!ignoreNotif) {
+                    const allBadges = this.getBadges(true);
+                    const processBadges = (badges, type, filterFn = () => true) => {
+                        const removeHover = style => style.replace(/\bbadge-hover(-alt)?\b/g, '').trim();
+                        badges.filter(filterFn).forEach(badge => {
                             vueApp.addBadgeMsg({
-                                badgeClass: removeHoverClass(newBadge.styleClass),
-                                iconClass: removeHoverClass(newBadge.classList),
-                                badgeName: newBadge.title
+                                type,
+                                badgeClass: removeHover(badge.styleClass),
+                                iconClass: removeHover(badge.classList),
+                                badgeName: badge.title
                             });
-                        }
-                    });
-                };
+                        });
+                    };
+
+                    
+                    if (oldCoreBadgeTitles) {
+                        processBadges(newCoreBadges, BadgeMsgType.coreGained, badge => !oldCoreBadgeTitles.includes(badge.title));
+                        processBadges(allBadges.main.filter(b => oldCoreBadgeTitles.includes(b.title)), BadgeMsgType.coreLost, badge => !newCoreBadgeTitles.includes(badge.title));
+                    }
+
+                    if (oldTierBadgeDict) {
+                        newTierBadges.forEach(badge => {
+                            const oldTier = oldTierBadgeDict[getBadgeClass(badge)];
+                            if (oldTier === undefined || badge.tier > oldTier) {
+                                processBadges([badge], BadgeMsgType.tierUpgrade);
+                            } else if (badge.tier < oldTier) {
+                                processBadges([badge], BadgeMsgType.tierDowngrade);
+                            }
+                        });
+    
+                        const lostTierBadges = Object.keys(oldTierBadgeDict).filter(badgeClass => !(badgeClass in newTierBadgeDict));
+                        lostTierBadges.forEach(badgeClass => {
+                            const lostBadge = allBadges.tier.find(b => badgeClass === getBadgeClass(b) && b.tier === oldTierBadgeDict[badgeClass]);
+                            if (lostBadge) processBadges([lostBadge], BadgeMsgType.tierLost);
+                        });
+                    }
+                }
+
+                // Update the current badges
                 this.badges = newBadges;
             },
             badgeMsg: {
                 showing: false,
                 msgs: [],
+                titleLocKey: '',
                 badgeClass: '',
                 iconClass: '',
                 badgeName: ''
@@ -1236,7 +1280,7 @@ class MegaMod {
 
         const badgeNotifPopup = `
             <div id="badgeLevelUp" v-show="badgeMsg.showing" class="centered_x in-game-notification">
-                <h2 id="badgeTitle" class="text_white nospace">{{ loc.megaMod_betterUI_badgeLvlUp_title }}</h2>
+                <h2 id="badgeTitle" class="text_white nospace">{{ loc[badgeMsg.titleLocKey] }}</h2>
                  <i id="badgeIcon" :class="badgeMsg.iconClass"></i>
                 <p id="badgeName" :class="badgeMsg.badgeClass" class="nospace">{{ badgeMsg.badgeName }}</p>
             </div>
@@ -1286,6 +1330,8 @@ class MegaMod {
         this.log("editSource() -", "Editing shellshock.js");
         // Minified Variable Regex
         const v = `[a-zA-Z_$][a-zA-Z0-9_$]*`;
+
+        const cleanVar = v => v.replaceAll(`\\`, "");
     
         // Match Grenade Pickups
         let itemManagerClass = new RegExp(`(${v})\\.Constructors`).safeExec(src, "matchGrenades");
@@ -1294,7 +1340,7 @@ class MegaMod {
             itemManagerClass = itemManagerClass[1];
             let itemManagerMatch = new RegExp(`(${v})\\=new\\s${itemManagerClass}`).safeExec(src, "matchGrenades");
             if (itemManagerMatch?.length > 1) {
-                itemManagerInst = itemManagerMatch[1];
+                itemManagerInst = cleanVar(itemManagerMatch[1]);
                 let meshVar = new RegExp(`this\\.(${v})\\.rotation\\.y\\+\\=\\.[0-9]+\\*${v}`).safeExec(src, "matchGrenades");
                 if (meshVar?.length > 1) {
                     meshVar = meshVar[1];
@@ -1315,6 +1361,7 @@ class MegaMod {
                             }
     
                             // ItemManager Class Modifications
+                            itemManagerClass = cleanVar(itemManagerClass);
                             const updateGrenadesFunc = `,
                                 ${itemManagerClass}.prototype.updateGrenades = function() {
                                     const grenadeData = [];
@@ -1613,10 +1660,10 @@ class MegaMod {
                             const teamText = document.createElement("span");
                             teamText.style.color = nameDiv.style.color;
                             teamText.textContent = vueApp.loc[teamLocs[player.team - 1]];
-                            msgContent.innerHTML = vueApp.loc[ChatEventData[type].loc].format(teamText.outerHTML);
+                            msgContent.innerHTML = vueApp.loc[ChatEventData[type].locKey].format(teamText.outerHTML);
                             break;
                         default:
-                            msgContent.textContent = vueApp.loc[ChatEventData[type].loc];
+                            msgContent.textContent = vueApp.loc[ChatEventData[type].locKey];
                     }
                     
                     chatItem.append(nameDiv, msgContent);
@@ -2627,6 +2674,7 @@ class BetterUI {
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
                 vueApp.equip.updateShowingItemTotal();
+                this.challengesClaimed = [];
             }
         });
 
@@ -2769,20 +2817,23 @@ class BetterUI {
             },
             showBadgeMsg() {
                 if (!this.badgeMsg.msgs.length) return;
-                BAWK.play('badgeLevelUp');
                 
                 // Destructure the first message directly, avoiding repetitive access
-                const { badgeClass, iconClass, badgeName } = this.badgeMsg.msgs.shift();
+                const { type, badgeClass, iconClass, badgeName } = this.badgeMsg.msgs.shift();
+                const { locKey, sfx } = BadgeMsgTypeData[type];
+                BAWK.play(sfx);
+
+                this.badgeMsg.titleLocKey = locKey;
                 this.badgeMsg.badgeClass = badgeClass;
                 this.badgeMsg.iconClass = iconClass;
                 this.badgeMsg.badgeName = badgeName;
                 this.badgeMsg.showing = true;
-        
+
                 // Use an arrow function to maintain the context of `this` naturally
                 setTimeout(() => {
                     this.badgeMsg.showing = false;
                     this.showBadgeMsg();  // Recursive call to process the next message
-                }, 2900);
+                }, BAWK.sounds[sfx].buffer.duration * 1000);
             },
             addBadgeMsg(msg) {
                 // Add the new message
@@ -2813,11 +2864,11 @@ class BetterUI {
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                setTimeout(vueApp.updateBadges.bind(vueApp), 500, true);
+                setTimeout(vueApp.updateBadges.bind(vueApp), 500);
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
-                vueApp.updateBadges();
+                vueApp.updateBadges(true);
             },
             scoreKill(...args) {
                 oldScoreKill.apply(this, args);
@@ -2832,8 +2883,7 @@ class BetterUI {
                 vueApp.updateBadges();
             }
         });
-        setTimeout(vueApp.updateBadges.bind(vueApp), 1000, true);
-
+        setTimeout(vueApp.updateBadges.bind(vueApp), 1000);
     }
 
     randomizeSkin() {
@@ -3430,21 +3480,50 @@ Object.assign(unsafeWindow, {
 		 switchTeam: 2,
 	},
 	teamLocs: ['team_blue', 'team_red'],
+    BadgeMsgType: {
+        coreGained: 0,
+        coreLost: 1,
+        tierUpgrade: 2,
+        tierDowngrade: 3,
+        tierLost: 4
+    },
 	rawPath: "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main", // https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main
 	cdnPath: "https://1nf1n1t3sm4sh3r.github.io/mmTest", // https://1nf1n1t3sm4sh3r.github.io/mmTest
 });
 unsafeWindow.ChatEventData = {
 	[ChatEvent.joinGame]: {
-		loc: 'megaMod_betterUI_chatEvent_joinGame',
+		locKey: 'megaMod_betterUI_chatEvent_joinGame',
 		setting: 'betterUI_chatEvent_joinGame'
 	},
 	[ChatEvent.leaveGame]: {
-		loc: 'megaMod_betterUI_chatEvent_leaveGame',
+		locKey: 'megaMod_betterUI_chatEvent_leaveGame',
 		setting: 'betterUI_chatEvent_leaveGame'
 	},
 	[ChatEvent.switchTeam]: {
-		loc: 'megaMod_betterUI_chatEvent_switchTeam',
+		locKey: 'megaMod_betterUI_chatEvent_switchTeam',
 		setting: 'betterUI_chatEvent_switchTeam'
+	}
+};
+unsafeWindow.BadgeMsgTypeData = {
+	[BadgeMsgType.coreGained]: {
+		locKey: 'megaMod_betterUI_coreBadgeGained_title',
+		sfx: 'badgeLevelUp'
+	},
+	[BadgeMsgType.coreLost]: {
+		locKey: 'megaMod_betterUI_coreBadgeLost_title',
+		sfx: 'badgeLevelDown'
+	},
+	[BadgeMsgType.tierUpgrade]: {
+		locKey: 'megaMod_betterUI_tierBadgeLvlUp_title',
+		sfx: 'badgeLevelUp'
+	},
+    [BadgeMsgType.tierDowngrade]: {
+		locKey: 'megaMod_betterUI_tierBadgeLvlDown_title',
+		sfx: 'badgeLevelDown'
+	},
+    [BadgeMsgType.tierLost]: {
+		locKey: 'megaMod_betterUI_tierBadgeLost_title',
+		sfx: 'badgeLevelDown'
 	}
 };
 MegaMod.setDebug(true);

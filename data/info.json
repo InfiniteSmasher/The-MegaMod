@@ -1,10 +1,17 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Shell now automatically reloads after you update The MegaMod!",
-        "Fixed tier badge level up alert showing when badges level down",
-        "Fixed stamps not being sorted correctly in the inventory",
-        "Buffed tier requirements for \"Eggstra Spender\" Badge",
-        "Buffed tier requirements for \"Eggspenditure\" Badge"
+        "Fixed loading issue caused by Update 0.50.4",
+        "Fixed \"Yolky Merch\" Badge not showing up",
+        "Restyled \"Overeggchiever\" V Badge",
+        "Restyled \"Eggspenditure\" V Badge",
+        "Restyled \"Shell Scrambler\" IV and V Badges",
+        "Restyled \"Master of Arms\" V Badge",
+        "Restyled \"Splattered Yolk\" V Badge",
+        "Restyled \"Rooster Royalty\" V Badge",
+        "Restyled \"Coop King\" V Badge",
+        "Restyled \"Poached Promoter\" V Badge",
+        "Tier badges now have alerts for when they level down, are gained, or are lost!",
+        "Core badges now have an alert for when you gain or lose them!"
     ]
 }

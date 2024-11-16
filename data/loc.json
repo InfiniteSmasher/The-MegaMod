@@ -80,7 +80,11 @@
 	"megaMod_betterUI_badgePopup_header_badge": "",
 	"megaMod_betterUI_badgePopup_header_name": "Name",
 	"megaMod_betterUI_badgePopup_header_desc": "Description / Requirements",
-	"megaMod_betterUI_badgeLvlUp_title": "Tier Badge Level Up!",
+	"megaMod_betterUI_coreBadgeGained_title": "Core Badge Gained!",
+	"megaMod_betterUI_coreBadgeLost_title": "Core Badge Lost :(",
+	"megaMod_betterUI_tierBadgeLvlUp_title": "Tier Badge Level Up!",
+	"megaMod_betterUI_tierBadgeLvlDown_title": "Tier Badge Level Down :(",
+	"megaMod_betterUI_tierBadgeLost_title": "Tier Badge Lost :(",
 	
 	"megaMod_betterUI_badge_vip_title": "VIP Subscriber",
 	"megaMod_betterUI_badge_vip_desc": "Have an active VIP subscription",

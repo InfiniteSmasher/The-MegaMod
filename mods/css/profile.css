@@ -98,23 +98,23 @@
 }
 
 .badge-mod {
-	background: linear-gradient( to bottom right, #7289da, #424549);
+	background: linear-gradient(to bottom right, #7289da, #424549);
 }
 
 .badge-eggforcer {
-	background: linear-gradient( to bottom right, white, #eee, #bcc6cc, #a5b0b6);
+	background: linear-gradient(to bottom right, white, #eee, #bcc6cc, #a5b0b6);
 }
 
 .badge-og {
-	background: linear-gradient( to bottom right, #BA9368, #C49E76, #CEA984, #D9B393, #E3BEA1);
+	background: linear-gradient(to bottom right, #BA9368, #C49E76, #CEA984, #D9B393, #E3BEA1);
 }
 
 .badge-pandemic {
-	background: linear-gradient( to bottom right, #b9e1f9, #98d4f7, #88CFF9);
+	background: linear-gradient(to bottom right, #b9e1f9, #98d4f7, #88CFF9);
 }
 
 .badge-newbie {
-	background: linear-gradient( to bottom, #68e36e, #10850c);
+	background: linear-gradient(to bottom, #68e36e, #10850c);
 }
 
 .badge-eggorg20 {
@@ -122,19 +122,19 @@
 }
 
 .badge-eggorg21 {
-	background: linear-gradient( to bottom, black, gray);
+	background: linear-gradient(to bottom, black, gray);
 }
 
 .badge-eggorg22 {
-	background: linear-gradient( to bottom, #D46C36, #F6C846 75%);
+	background: linear-gradient(to bottom, #D46C36, #F6C846 75%);
 }
 
 .badge-eggorg23 {
-	background: linear-gradient( to bottom, #EBBBBC, #DA7273, #E373AA, #E25099, #AD2D4C, #801C20);
+	background: linear-gradient(to bottom, #EBBBBC, #DA7273, #E373AA, #E25099, #AD2D4C, #801C20);
 }
 
 .badge-eggorg24 {
-	background: linear-gradient( to bottom right, #FDF251, #dbce1a);
+	background: linear-gradient(to bottom right, #FDF251, #dbce1a);
 }
 
 .badge-scavenger22 {
@@ -142,13 +142,13 @@
 }
 
 .badge-tester {
-	background: linear-gradient( to bottom right, #ffdc00 25%, #00ffb5, #00d4ff, #009dff 90%);
+	background: linear-gradient(to bottom right, #ffdc00 25%, #00ffb5, #00d4ff, #009dff 90%);
 }
 
 .main-badges i:not(.badge-vip, .badge-wizard),
 #badgeInfoPopup .table-div td i:not(.badge-vip, .badge-wizard),
 .tier-badges i,
-#badgeLevelUp #badgeIcon {
+#badgeLevelUp #badgeIcon:not(.badge-vip, .badge-wizard) {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent;
@@ -156,16 +156,16 @@
 }
 
 .tier1 {
-	background: linear-gradient( to bottom right, #cd7f32, #8c6239);
+	background: linear-gradient(to bottom right, #cd7f32, #8c6239);
 }
 
 .tier2 {
-	background: linear-gradient( to bottom right, white, #eee, #bcc6cc, #a5b0b6);
+	background: linear-gradient(to bottom right, white, #eee, #bcc6cc, #a5b0b6);
 }
 
 .tier3,
 .tier4 {
-	background: linear-gradient( to bottom right, #ffd700, #daa520);
+	background: linear-gradient(to bottom right, #ffd700, #daa520);
 }
 
 
@@ -184,12 +184,12 @@
 
 @keyframes rainbowBadge
 {
-	0%   {background: linear-gradient( to bottom right, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800);}
-	20%  {background: linear-gradient( to bottom right, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00);}
-	40%  {background: linear-gradient( to bottom right, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff);}
-	60%  {background: linear-gradient( to bottom right, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff);}
-	80%  {background: linear-gradient( to bottom right, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff);}
-	100% {background: linear-gradient( to bottom right, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000);}
+	0%   {background: linear-gradient(to bottom right, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800);}
+	20%  {background: linear-gradient(to bottom right, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff, #2fff00);}
+	40%  {background: linear-gradient(to bottom right, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff, #00d7ff);}
+	60%  {background: linear-gradient(to bottom right, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff, #0033ff);}
+	80%  {background: linear-gradient(to bottom right, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000, #ad00ff);}
+	100% {background: linear-gradient(to bottom right, #ad00ff, #0033ff, #00d7ff, #2fff00, #ffd800, #ff0000);}
 }
 
 .tier5:not(
@@ -198,50 +198,50 @@
 	.badge-drops, .badge-league, 
 	.badge-uniquechlg, .badge-totalchlg, 
 	.badge-kdr, .badge-modekills, 
-	.badge-modekdr
+	.badge-modekdr, .badge-totaldeaths, 
+	.badge-kotc, .badge-coops,
+	.badge-spender, .badge-totalkills,
+	.badge-weaponkills, .badge-promo
 ) {
 	animation: rainbowBadge .3s linear .1s infinite;
 	background: rainbowBadge;
 }
 
 .badge-premium.tier5 {
-	background: linear-gradient( to bottom right, #3e9c35, #168118, #157811, #036704, #084f09);
+	background: linear-gradient(to bottom right, #3e9c35, #168118, #157811, #036704, #084f09);
 }
 
 .badge-limited.tier5 {
-	background: linear-gradient( to bottom right, #ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #f32ebc, #ed00b3, #e000a9, #d2009f, #c50095, #b8008b);
+	background: linear-gradient(to bottom right, #ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #f32ebc, #ed00b3, #e000a9, #d2009f, #c50095, #b8008b);
 }
 
 .badge-yolker.tier5 {
-	background: linear-gradient( to bottom right, #F1C59A, #D97611);
+	background: linear-gradient(to bottom right, #F1C59A, #D97611);
 }
 
 .badge-egglite.tier5 {
-	background: linear-gradient( to bottom right, #A2A2A2, #434343, black);
-}
-
-.badge-promo.tier5 {
-	background: linear-gradient( to right, var(--ss-blue4), var(--ss-blue3));
+	background: linear-gradient(to bottom right, #A2A2A2, #434343, black);
 }
 
 .badge-drops.tier5 {
-	background: linear-gradient( to bottom right, var(--twitch-lt-purple), var(--ss-twitch), var(--twitch-dk-purple));
+	background: linear-gradient(to bottom right, var(--twitch-lt-purple), var(--ss-twitch), var(--twitch-dk-purple));
 }
 
 .badge-league.tier5 {
-	background: linear-gradient( to bottom right, #FF1A1A, #400202);
+	background: linear-gradient(to bottom right, #FF1A1A, #400202);
 }
 
 .badge-uniquechlg.tier5 {
-	background: linear-gradient( to bottom, red, #982626);
+	background: linear-gradient(to bottom, red, #982626);
 }
 
 .badge-totalchlg.tier5 {
-	background: linear-gradient( to bottom, white, #535961 60%, #323639);
+	background: linear-gradient(to bottom, white 40%, #535961 55%, #323639);
+	/* background: linear-gradient(to bottom, white, white 47.5%, #535961 47.5%, #323639); */
 }
 
 .badge-kdr.tier5 {
-	background: linear-gradient( to bottom right, #f9f8f4, #e9e1d4, #e3dac9);
+	background: linear-gradient(to bottom right, #f9f8f4, #e9e1d4, #e3dac9);
 }
 
 .badge-modekills.tier5 {
@@ -253,7 +253,39 @@
 }
 
 .badge-totaldeaths.tier5 {
-	background: #754224;
+	background: linear-gradient(to bottom, #754224, #C69C6D);
+}
+
+.badge-kotc.tier5 {
+    background: linear-gradient(to right, rgb(245, 62, 64) 50%, rgb(0, 255, 255) 50%);
+}
+
+.badge-coops.tier5 {
+	background: linear-gradient(to bottom right, rgb(245, 62, 64) 48%, white 48%, white 52%, rgb(0, 255, 255) 52%);
+}
+
+.badge-spender.tier5 {
+	/* background: linear-gradient( to bottom right, #F79520 30%, #d97611); */
+	background: linear-gradient( to bottom right, #cd7f32 40%, silver 40%, silver 53%, gold 53%);
+}
+
+/*
+.badge-totalkills.tier4 {
+	background: radial-gradient(circle at .5em .5em, #DCDCD3 30%, #4c4c4c 30%, black);
+}
+*/
+
+.badge-totalkills.tier5 {
+	background: radial-gradient(circle at .5em .5em, gold 30%, #4c4c4c 30%, black);
+}
+
+.badge-weaponkills.tier5 {
+	background: linear-gradient( to bottom right, #414d0b 10%, #727a17);
+}
+
+.badge-promo.tier5 {
+	background: linear-gradient( to right, #a10303 10%, red 39%, white 39%, #bcc6cc);
+	/* background: linear-gradient(to right, var(--ss-blue4), var(--ss-blue3)); */
 }
 
 /*
@@ -283,6 +315,17 @@
 .badge-hover:hover:not(.badge-hover-alt) {
 	color: white;
 }
+
+/* Badge Depth Effect */
+/*
+.badge,
+#badgeIcon {
+    text-shadow: calc(var(--ss-space-micro)/3) calc(var(--ss-space-micro)/3) rgba(150,150,150,.2) !important
+}
+.badge {
+	text-shadow: calc(var(--ss-space-micro)/1.5) calc(var(--ss-space-micro)/1.5) rgba(0,0,0,.1) !important
+}
+*/
 
 .badge-hover {
 	transition: all .5s linear;
@@ -395,8 +438,9 @@
     font-size: 5em;
 }
 
-#badgeLevelUp #badgeName {
+#badgeLevelUp #badgeName:not(.badge-vip, .badge-wizard) {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent;
+	text-shadow: none;
 }
