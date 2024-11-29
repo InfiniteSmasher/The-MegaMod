@@ -15,6 +15,22 @@ You'll need a userscript manager to run The MegaMod on your browser. I recommend
 - **[Tampermonkey](https://www.tampermonkey.net/)**
 - **[Greasemonkey](https://www.greasespot.net/)**
 - **[Violentmonkey](https://violentmonkey.github.io/)** (Recommended)
+> **Note**: Some userscript managers may require Developer Mode to be enabled to allow custom scripts. Follow these steps to enable Developer Mode:
+> 1. Open your browser's Extensions page:
+> - **Google Chrome**:
+>   - Click the menu (three dots in the top-right corner), then select Extensions > Manage Extensions.
+>   - Or manually type **chrome://extensions** into the address bar.
+> - **Microsoft Edge**:
+>   - Click the menu (three dots in the top-right corner), then select Extensions.
+>   - Or manually type **edge://extensions** into the address bar.
+> - **Brave**:
+>   - Click the menu (three horizontal lines in the top-right corner), then select Extensions.
+>   - Or manually type **brave://extensions** into the address bar.
+> - **Opera GX**:
+>   - Click the Extensions button (cube icon on the left sidebar or top-right corner).
+>   - Or manually type **opera://extensions** into the address bar.
+> 2. Find and click the "Developer Mode" toggle (usually in the top right corner of the page).<br>
+> **Note**: On Opera GX, you may also have to close the window and open a new one for the changes to take effect
 
 ### Step 2: Install The MegaMod Script
 1. After installing the userscript manager, [click here](https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js) to install **The MegaMod**
