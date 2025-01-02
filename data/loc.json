@@ -7,7 +7,7 @@
 	"p_settings_mods_reload_desc1": "Please reload the page so that your changed mod settings can take effect!",
 	"p_settings_mods_reload_desc2": "If you choose to dismiss this message, your changed settings will take effect the next time you open Shell Shockers.",
 	"p_settings_mods_info_title": "Info | The MegaMod <i class='fas fa-tools'></i>",
-	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with The MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all my mods (with new additions and features), is your one-stop solution!",
+	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with The MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all of Infinite Smasher's mods (with new additions and features), is your one-stop solution!",
 	"p_settings_mods_info_desc2": "To view info about a mod or change its settings, press the <i onclick='vueApp.$refs.settings.flashSettingsIcons()' class='fas fa-cog'></i> icon next to its name.",
 	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
 	
@@ -129,10 +129,10 @@
 	"megaMod_betterUI_badge_tester_desc": "Helped playtest The MegaMod before its release - tysm!",
 	
 	"megaMod_betterUI_badge_premium_title": "Eggstra Spender {0}",
-	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of premium items",
+	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of Premium items",
 	
 	"megaMod_betterUI_badge_league_title": "Pro Egg Gamer {0}",
-	"megaMod_betterUI_badge_league_desc": "Own {0} league item{s}",
+	"megaMod_betterUI_badge_league_desc": "Own {0} League item{s}",
 
 	"megaMod_betterUI_badge_totaldeaths_title": "Splattered Yolk {0}",
 	"megaMod_betterUI_badge_totaldeaths_desc": "Have {0} lifetime death{s}",
@@ -213,6 +213,14 @@
 	"megaMod_betterUI_mapPopup_title": "Public Maps",
 	"megaMod_betterUI_mapPopup_desc": "Below is a list of all the maps currently available in the public map pool as well as the game modes they're available in. The public map pool currently consists of {0} maps.",
 	"megaMod_betterUI_mapPopup_list_title": "Public Map Pool",
+
+	"megaMod_betterUI_gameHistory": "Game History",
+	"megaMod_betterUI_gameHistoryPopup_title": "Game History",
+	"megaMod_betterUI_gameHistoryPopup_desc": "Below is a list of all the games (lobbies) you have played in today. Click one to rejoin it!",
+	"megaMod_betterUI_gameHistoryPopup_list_title": "Daily Games",
+	"megaMod_betterUI_gameHistoryPopup_column_mode": "Mode",
+	"megaMod_betterUI_gameHistoryPopup_column_code": "Code",
+	"megaMod_betterUI_gameHistoryPopup_column_visibility": "Visibility",
 
 	
 	"p_settings_mods_colorSlider_title": "VIP Color Slider",

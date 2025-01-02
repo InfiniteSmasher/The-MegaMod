@@ -1,6 +1,23 @@
 {
 	"current": [
 		{
+			"version": "0.19",
+			"date": "January 2 2025",
+			"content": [
+				"The MegaMod can now check for updates even when a fatal error occurs.",
+        		"New button & popup added to the homescreen to show your daily lobby history!",
+				"Minor tweaks made to the Bundle item theme criteria",
+				"Hide HUD now hides the announcement messages in chat",
+        		"SFX added to the challenge claim notification popup",
+				"Date related profile badges now work more accurately with different date formats",
+				"Fixed bug with profile badge CSS not loading",
+      			"Better UI now adds your region's numerical separators to your egg count, stats, shop item prices, and MOAR!",
+				"The currency icon on Premium items (in inventory) <em>should</em> now match your local currency"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.18",
 			"date": "November 16 2024",
 			"content": [
@@ -17,9 +34,7 @@
 				"Tier badges now have alerts for when they level down, are gained, or are lost!",
 				"Core badges now have an alert for when you gain or lose them!"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.17",
 			"date": "November 8 2024",
@@ -51,7 +66,7 @@
 			"version": "0.15",
 			"date": "October 18 2024",
 			"content": [
-				"Fixed some buggy code - skyboxes should load properly now",
+				"Fixed some buggy code - skyboxes <em>should</em> load properly now",
         		"Work-in-Progress (WIP) themes: King Hayden, Novosuper, and menoXD"
 			]
 		},
@@ -60,7 +75,7 @@
 			"date": "October 17 2024",
 			"content": [
 				"Rewrote some Better Inventory code",
-				"Color slider colors <em>should<em> be auto-applied more reliably now",
+				"Color slider colors <em>should</em> be auto-applied more reliably now",
 				"Added some Work-in-Progress (WIP) themes: King Hayden, Novosuper, and menoXD"
 			]
 		},

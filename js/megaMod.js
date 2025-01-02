@@ -1,8 +1,19 @@
 class MegaMod {   
     static debug = false; // TODO: Add different debug levels
+    static fatalErr = false;
+    static KEYS = {
+        InitFinished: "megaMod_initFinished",
+        Updated: "megaMod_updated",
+        ErrVersion: "megaMod_fatalErrorVersion",
+        ErrReloads: "megaMod_errorReloads"
+    };
 
     static setDebug(debug) {
         this.debug = debug;
+    }
+
+    static setFatalErr(fatalErr) {
+        this.fatalErr = fatalErr;
     }
 
     static addHTMLEdits() {
@@ -468,12 +479,12 @@ class MegaMod {
             }
         });
     
-        // Add Item Icons
+        // Add Item Icons & Price Commas
         const item = document.getElementById("item-template");
         item.innerHTML = item.innerHTML.replace(`<span v-if="isVipItem`,
             `<i v-if="${invEditsEnabled} && hasIcon" :class="iconClass" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
             <span @click="iconClick" @mouseenter="iconHover" v-if="isVipItem`
-        );
+        ).replace(`itemPrice`, `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`);
     
         // Add Profile Image and Badges
         const profileScreen = document.getElementById("profile-screen-template");
@@ -529,12 +540,20 @@ class MegaMod {
             BAWK.play("ui_popupopen");
             vueApp.$refs.mapPopup.show();
         };
+
+        comp_play_panel.methods.showGameHistoryPopup = function() {
+            BAWK.play("ui_popupopen");
+            vueApp.$refs.gameHistoryPopup.show();
+        };
     
-        // Public Map Button
+        // Public Map & Game History Buttons
         const playPanel = document.getElementById("play-panel-template");
         playPanel.innerHTML = playPanel.innerHTML.replace(
             `ss-button-dropdown>`,
             `ss-button-dropdown><button v-show="extern?.modSettingEnabled?.('betterUI_ui')" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
+        ).replace(
+            `<button @click="onJoinPrivateGameClick"`,
+            `<button v-show="extern?.modSettingEnabled?.('betterUI_ui')" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
         );
         
         Object.assign(vueData, {
@@ -626,6 +645,7 @@ class MegaMod {
             getChallengeClaims(id) {
                 return extern?.account?.challengesClaimed?.filter(val => val == id)?.length;
             }, 
+            gameHistory: [],
             disableModsPopupContent: "",
             modErrsPopupContent: "",
             modUpdatePopupContent: "",
@@ -634,11 +654,14 @@ class MegaMod {
             modAnnouncement: "",
             openMegaModUpdate() {
                 BAWK.play("ui_click");
-                window.open(`${cdnPath}/js/script.user.js`);
-                document.addEventListener("visibilitychange", () => {
-                    if (document.visibilityState === "visible") window.location.reload();
-                });
-            }
+                unsafeWindow.openUpdate();
+            },
+            openGameCode(code) {
+                vueApp.$refs.gameHistoryPopup.close();
+                BAWK.play("ui_popupopen");
+                vueApp.showJoinPrivateGamePopup(code);
+            },
+            currencyCode: "USD"
         });
     
         // Adjust size of stats container for badges
@@ -1056,7 +1079,6 @@ class MegaMod {
             oldActionBtnClick.apply(this, args);
         }
         
-    
         // (Home Screen) Clock Icon Next To Challenge Timer, Challenge Info Button
         const chlgInfoIcon = `<i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
         const mediaTabs = document.getElementById("media-tabs-template");
@@ -1083,6 +1105,57 @@ class MegaMod {
             {{ loc.home_desc_about }}
             <i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="fas6 fa-egg-fried"></i>`
         );
+
+        const localizeNumber = (id, vals) => {
+            const template = document.getElementById(id);
+            vals.forEach(val => {
+                template.innerHTML = template.innerHTML.replace(val, `(typeof ${val} === 'number' ? ${val.trim()}.addSeparators() : ${val})`);
+            });
+        }
+
+        [
+            { id: "account-panel-template", vals: ['eggBalance'] },
+            { id: "the-stat-template", vals: ['statLifetime', 'statMonthly'] },
+            { id: "stats-stats-template", vals: ['challengesClaimed.total', 'challengesClaimed.unique'] },
+            { id: "player_challenge", vals: ['trueProgress', ' reward '] }, 
+            { id: "equip-screen-template", vals: ['equip.buyingItem.price'] },
+            { id: "price-tag-template", vals: ['item.price'] },
+        ].forEach(x => localizeNumber(x.id, x.vals))
+
+        const giveStuff = document.getElementById('give-stuff-popup');
+        giveStuff.innerHTML = giveStuff.innerHTML.replace(`{{giveStuffPopup.eggs}}`, `{{ giveStuffPopup.eggs.addSeparators() }}`);
+
+        const oldGetGoal = CompPlayerChallengeSingle.computed.getGoal;
+        CompPlayerChallengeSingle.computed.getGoal = function() {
+            const oldGoal = oldGetGoal.call(this);
+            switch(this.subType) {
+                case 'timePlayed':
+                    if (this.type !== 'kills') return Math.floor(this.data.goal / 60).addSeparators(); // removed + 'm'
+                    break;
+                case 'distance':
+                    return this.data.goal.addSeparators(); // removed + 'm'
+            }
+            return typeof oldGoal === "number" ? oldGoal.addSeparators() : oldGoal;
+        }
+
+        comp_chickn_winner_popup.computed.showAmountRewarded = function() {
+            if (this.reward.eggs) return `+${this.reward.eggs.addSeparators()}`;
+        }
+
+        const oldSetupStat = StatTemplate.methods.setupStat;
+        StatTemplate.methods.setupStat = function(stat) {
+            if (stat?.length && !this.stat.kdr) stat = stat.map(s => typeof s === "number" ? s.addSeparators() : s);
+			return oldSetupStat.call(this, stat);
+		}
+
+        const oldPlayAdText = CompChwHomeScreen.computed.playAdText;
+        CompChwHomeScreen.computed.playAdText = function() {
+            const oldTxt = oldPlayAdText.call(this);
+            return this.chw.limitReached ? this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators()) : oldTxt;
+        }
+        comp_game_screen.computed.wakeTheChw = function() {
+            this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators());
+        }
     }
 
     static addPopups() {
@@ -1167,10 +1240,10 @@ class MegaMod {
                                     </td>
                                     <td> {{ loc[challenge.loc_ref + '_title'] }} </td>
                                     <td> {{ loc[challenge.loc_ref + '_desc'] }} </td>
-                                    <td> 
+                                    <td :data-sort="challenge.reward"> 
                                         <div class="egg-icon display-grid grid-column-auto-1"> 
                                             <img src="img/svg/ico_goldenEgg.svg">
-                                            {{ challenge.reward }}
+                                            {{ challenge.reward.addSeparators() }}
                                         </div>
                                     </td>
                                     <td> {{ vueData.getChallengeClaims(challenge.id) }} </td>
@@ -1211,6 +1284,43 @@ class MegaMod {
                                     <td v-for="mode in ['FFA', 'Teams', 'Spatula', 'King']" :data-sort="map.modes[mode]" class="map-mode"> 
                                         <i v-if="map.modes[mode]" class="fas fa-check"></i>
                                         <i v-else class="fas fa-times"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </large-popup>
+        `;
+
+        const gameHistoryPopup = `
+            <large-popup id="gameHistoryPopup" ref="gameHistoryPopup" hide-confirm="true" :overlay-close="true" class="megamod-popup">
+                <template slot="content">
+                    <h1 v-html="loc.megaMod_betterUI_gameHistoryPopup_title"></h1>
+                    <p v-html="loc.megaMod_betterUI_gameHistoryPopup_desc"></p>
+    
+                    <h3>{{ loc.megaMod_betterUI_gameHistoryPopup_list_title }} ({{ vueData?.gameHistory?.length }})</h3>
+                    <div class="table-div">
+                        <table class="roundme_md sortable">
+                            <thead>
+                                <tr>
+                                    <th v-for="key in ['map', 'megaMod_betterUI_gameHistoryPopup_column_mode', 'server', 'megaMod_betterUI_gameHistoryPopup_column_visibility', 'megaMod_betterUI_gameHistoryPopup_column_code']" v-html="loc[key]"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()" @click="openGameCode(lobby.gameCode)">
+                                    <td :data-sort="lobby.map.name" class="map-image"> 
+                                        <div class="roundme_md text-shadow-black-40" :style="{ backgroundImage: \`url(/maps/\${lobby.map.filename}.png)\` }">
+                                        {{ lobby.map.name }}
+                                        </div>
+                                    </td>
+                                    <td :data-sort="loc[lobby.modeLoc]"> {{ loc[lobby.modeLoc] }} </td>
+                                    <td :data-sort="loc[lobby.serverLoc]"> {{ loc[lobby.serverLoc] }} </td>
+                                    <td :data-sort="lobby.isPrivate ? 'Private' : 'Public'">
+                                        {{ lobby.isPrivate ? 'Private' : 'Public' }}
+                                    </td>
+                                    <td :data-sort="lobby.gameCode"> 
+                                        <a @click="openGameCode(lobby.gameCode)">#{{ lobby.gameCode }}</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1279,7 +1389,7 @@ class MegaMod {
         `;
 
         const badgeNotifPopup = `
-            <div id="badgeLevelUp" v-show="badgeMsg.showing" class="centered_x in-game-notification">
+            <div id="badgeLevelUp" v-show="badgeMsg.showing" style="display: none;" class="centered_x in-game-notification">
                 <h2 id="badgeTitle" class="text_white nospace">{{ loc[badgeMsg.titleLocKey] }}</h2>
                  <i id="badgeIcon" :class="badgeMsg.iconClass"></i>
                 <p id="badgeName" :class="badgeMsg.badgeClass" class="nospace">{{ badgeMsg.badgeName }}</p>
@@ -1292,7 +1402,7 @@ class MegaMod {
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${errorPopups} ${updatePopups}`
+                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${errorPopups} ${updatePopups}`
             );
         });
     }
@@ -1326,8 +1436,26 @@ class MegaMod {
         });
     }
 
+    static checkError() {
+        this.log("checkError() -", "Checking for Fatal Errors"); 
+
+        setTimeout(function(){
+            MegaMod.setFatalErr(document.getElementById("logo-svg") != null);
+            if (MegaMod.fatalErr) {
+                const reload = localStore.getNumItem(MegaMod.KEYS.ErrReloads);
+                if (reload === 3) localStore.setItem(MegaMod.KEYS.ErrVersion, GM_info.script.version);
+                else localStore.setItem(MegaMod.KEYS.ErrReloads, reload === null ? 1 : reload + 1);
+                window.location.reload();
+            }
+        }, 150000);
+    }
+
     static editSource(src) {
         this.log("editSource() -", "Editing shellshock.js");
+        localStore.setItem(MegaMod.KEYS.InitFinished, false);
+        if (MegaMod.fatalErr) return src;
+        this.checkError();
+        
         // Minified Variable Regex
         const v = `[a-zA-Z_$][a-zA-Z0-9_$]*`;
 
@@ -1340,7 +1468,7 @@ class MegaMod {
             itemManagerClass = itemManagerClass[1];
             let itemManagerMatch = new RegExp(`(${v})\\=new\\s${itemManagerClass}`).safeExec(src, "matchGrenades");
             if (itemManagerMatch?.length > 1) {
-                itemManagerInst = cleanVar(itemManagerMatch[1]);
+                itemManagerInst = cleanVar(itemManagerMatch[1]); // cleanVar()
                 let meshVar = new RegExp(`this\\.(${v})\\.rotation\\.y\\+\\=\\.[0-9]+\\*${v}`).safeExec(src, "matchGrenades");
                 if (meshVar?.length > 1) {
                     meshVar = meshVar[1];
@@ -1707,8 +1835,8 @@ class MegaMod {
             if (nameDivVar?.length > 1) {
                 nameDivVar = nameDivVar[1];
                 const chatIcon = `(${iconVar}.classList.add({CLASS}, "ss_marginright_xs", "chat-icon"), ${nameDivVar}.appendChild(${iconVar}))`
-                src = src.safeReplace(`"SERVER: "`, `"SERVER: ",${chatIcon.replace("{CLASS}", `"far6", "fa-globe"`)}`, ``);
-                src = src.safeReplace(`"MOD: "`, `"MOD: ",${chatIcon.replace("{CLASS}", `"fas", "fa-shield-alt"`)}`, ``);
+                src = src.safeReplace(`"SERVER: "`, `"SERVER: ",${chatIcon.replace("{CLASS}", `"far6", "fa-globe"`)}`, "");
+                src = src.safeReplace(`"MOD: "`, `"MOD: ",${chatIcon.replace("{CLASS}", `"fas", "fa-shield-alt"`)}`, "");
             }
         }
     
@@ -1718,6 +1846,12 @@ class MegaMod {
         src = src.safeReplace(`"ARROWUP"`, `((${updownKeybinds})? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "ascend")].value : "ARROWUP")`, "");
         src = src.safeReplace(`"ARROWDOWN"`, `((${updownKeybinds}) ? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "descend")].value : "ARROWDOWN")`, "");
         
+        // Reconfigure playerAccount dateCreated (for badges) 
+        const dateMatch = new RegExp(`(${v})\\=new\\sDate\\((${v})\\)\\.toLocaleDateString`).safeExec(src, "");
+        if (dateMatch?.length > 2) {
+            src = src.safeReplace(`._dateCreated=${dateMatch[1]}`, `._dateCreated=${dateMatch[2]}`, "");
+        }
+
         // All done...yay! :)
         return src;
     }
@@ -1767,7 +1901,7 @@ class MegaMod {
     }
 
     constructor() {
-        MegaMod.addPopups();
+        if (localStorage.getItem(MegaMod.KEYS.ErrVersion) === null) MegaMod.addPopups();
         MegaMod.addLoadLogo();
         this.regexErrs = [];
         this.modConflicts = [];
@@ -1784,6 +1918,11 @@ class MegaMod {
                 window.addEventListener("load", this.start.bind(this));
                 break;
         }
+
+        // Add separators to number
+        Number.prototype.addSeparators = function() {
+            return extern?.modSettingEnabled?.('betterUI_ui') ? this.toLocaleString() : this;
+        };
     }
 
     addRegexErrId(id) {
@@ -1864,7 +2003,7 @@ class MegaMod {
 			case 'colorSlider':
 				if (!value) extern.setShellColor(0);
 				else if (this.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
-				if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
+				this.colorSlider.refreshColorSelect();
 				break;
 			case 'colorSlider_unlock':
 				if (!value && !vueApp.isUpgraded) extern.setShellColor(0);
@@ -1872,7 +2011,7 @@ class MegaMod {
 				break;
 			case 'colorSlider_randomizer':
 				extern.setShellColor(vueApp.equip.colorIdx);
-				if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
+				this.colorSlider.refreshColorSelect();
 				break;
 			case 'betterUI':
 				this.betterUI.switchBetterUI();
@@ -1885,11 +2024,7 @@ class MegaMod {
 				break;
 			case 'betterUI_pfp':
 			case 'betterUI_badges':
-				// Update Profile Screen
-				if (vueApp.showScreen === vueApp.screens.profile) {
-					vueApp.$refs.homeScreen.$refs.profileScreen.$forceUpdate(); 
-					vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer.$forceUpdate();
-				}
+				this.betterUI.refreshProfileScreen();
 				break;
 			case 'betterUI_roundness':
 				this.betterUI.switchRoundness(settingEnabled);
@@ -2212,16 +2347,32 @@ class MegaMod {
                 const localVersion = GM_info.script.version;
                 MegaMod.log("Current (Local) Version:", localVersion);
                 MegaMod.log("Latest (Remote) Version:", remoteVersion);
-                const UPDATE_KEY = "megaMod_updated";
                 if (remoteVersion !== localVersion) {
-                    vueData.modUpdatePopupContent = vueData.loc['megaMod_updatePopup_desc'].format(remoteVersion);
-                    vueApp.$refs.modUpdatePopup.show();
-                    localStore.setItem(UPDATE_KEY, true);
-                } else if (localStore.getBoolItem(UPDATE_KEY)) {
-                    vueData.modUpdatedPopupContent = vueData.loc['megaMod_updatedPopup_desc'].format(localVersion);
-                    vueData.updateInfo = updateInfo;
-                    vueApp.$refs.modUpdatedPopup.show();
-                    localStore.removeItem(UPDATE_KEY);
+                    if (MegaMod.fatalErr) {
+                        if (confirm("There was a fatal error while starting The MegaMod.\n\nPlease click \"Ok\" to install the latest update to fix The MegaMod.")) {
+                            localStore.setItem(MegaMod.KEYS.Updated, true);
+                            unsafeWindow.openUpdate();
+                        }
+                    } else {
+                        vueData.modUpdatePopupContent = vueData.loc['megaMod_updatePopup_desc'].format(remoteVersion);
+                        vueApp.$refs.modUpdatePopup.show();
+                    }
+                    localStore.setItem(MegaMod.KEYS.Updated, true);
+                } else {
+                    if (localStore.getBoolItem(MegaMod.KEYS.Updated)) {
+                        if (MegaMod.fatalErr) {
+                            localStore.removeItem(MegaMod.KEYS.ErrVersion);
+                            localStore.setItem(MegaMod.KEYS.ErrReloads, 0);
+                            window.location.reload();
+                        } else {
+                            vueData.modUpdatedPopupContent = vueData.loc['megaMod_updatedPopup_desc'].format(localVersion);
+                            vueData.updateInfo = updateInfo;
+                            vueApp.$refs.modUpdatedPopup.show();
+                        }
+                        localStore.removeItem(MegaMod.KEYS.Updated);
+                    } else if (MegaMod.fatalErr) {
+                        alert("A fatal error occurred while starting the MegaMod!\n\nThis requires a new update, which hasn't been released yet.\n\nThe MegaMod is disabled but will continue to check for updates in the background.");
+                    }
                 }
             });
     }
@@ -2282,14 +2433,18 @@ class MegaMod {
         }));
     }
 
+    checkInfo() {
+        MegaMod.fetchJSON('/data/info.json').then(data => {
+            this.checkForUpdate(data.updateInfo);
+            if (!MegaMod.fatalErr) this.checkForAnnouncement(data.announcement);
+        });
+    }
+
     init(settings) {
         vueData.settingsUi.modSettings = settings;
         this.setModLoc();
         this.checkModErrors();
-        MegaMod.fetchJSON('/data/info.json').then(data => {
-            this.checkForUpdate(data.updateInfo);
-            this.checkForAnnouncement(data.announcement);
-        });
+        this.checkInfo();
         this.addChangelog();
         this.importLibs();
         this.addSettingsHooks();
@@ -2304,11 +2459,11 @@ class MegaMod {
             this.addAllModFunctions();
             this.showModErrorPopup();
         }, 250);
+        localStore.setItem(MegaMod.KEYS.InitFinished, true);
     }
 
     start() {
         MegaMod.log("start() -", "Starting The MegaMod");
-        MegaMod.addHTMLEdits();
 
         // localStore Upgrades
         Object.assign(localStore, {
@@ -2323,24 +2478,35 @@ class MegaMod {
                 return (!isNaN(value)) ? value : null;
             }
         });
+        MegaMod.setFatalErr(localStore.getItem(MegaMod.KEYS.ErrVersion) !== null); 
 
-        // Add those W MegaMod styles
-        MegaMod.fetchCSS('/css/megaMod.css').then(css => document.body.appendChild(Object.assign(document.createElement('style'), { textContent: css })));
-        
-        // Get loc data, get settings, init settings
-        MegaMod.fetchJSON('/data/loc.json')
-            .then(data => { 
-                this.loc = data; 
-                const megaModInitInterval = setInterval(() => {
-                    if (!vueApp) return;
-                    clearInterval(megaModInitInterval);
-                    MegaMod.fetchJSON('/data/settings.json').then(settings => this.init(settings));
-                }, 250);
-            });
+        if (!MegaMod.fatalErr) {
+            MegaMod.addHTMLEdits();
+            // Add those W MegaMod styles
+            MegaMod.fetchCSS('/css/megaMod.css').then(css => document.body.appendChild(Object.assign(document.createElement('style'), { textContent: css })));
+            
+            // Get loc data, get settings, init settings
+            MegaMod.fetchJSON('/data/loc.json')
+                .then(data => { 
+                    this.loc = data; 
+                    const megaModInitInterval = setInterval(() => {
+                        if (!vueApp) return;
+                        clearInterval(megaModInitInterval);
+                        MegaMod.fetchJSON('/data/settings.json').then(settings => this.init(settings));
+                    }, 250);
+                });
+        } else {
+            this.checkInfo();
+            MegaMod.checkError();
+        }
     }
 }
 
 class BetterUI {   
+    static GAME_HISTORY_KEYS = {
+        list: "megaMod_gameHistory_list",
+        time: "megaMod_gameHistory_time"
+    };
     constructor(data) {
         MegaMod.log("Initializing Mod:", "Better UI");
 
@@ -2353,11 +2519,11 @@ class BetterUI {
                 switch (theme) {
                     case "premium":
                     case "vip":
+                    case "bundle":
                     case "physical":
                     case "manual":
                     case "default":
                     case "purchase":
-                    case "bundle":
                         // Nice and ez checks, W devs.
                         return item.unlock === theme;
                     case "eggpremium":
@@ -2384,7 +2550,7 @@ class BetterUI {
                     case "social":
                         return this.isThemedItem(item, "manual") && item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.social); 
                     case "egglite":
-                        return this.isThemedItem(item, "manual") && !(this.isThemedItem(item, "limited") || this.isThemedItem(item, "drops") || this.isThemedItem(item, "notif") || this.isThemedItem(item, "league") || this.isThemedItem(item, "yolker") || this.isThemedItem(item, "promo") || this.isThemedItem(item, "event") || this.isThemedItem(item, "social"));
+                        return this.isThemedItem(item, "manual") && ["limited", "drops", "notif", "league", "yolker", "promo", "event", "social"].every(theme => !this.isThemedItem(item, theme));
                     case "creator":
                         const creatorTags = unsafeWindow.megaMod.betterUI.creatorTypes.map(type => unsafeWindow.megaMod.betterUI.tags.creator.format(type));
                         return item?.item_data?.tags?.some(tag => creatorTags.includes(tag)) ?? false;
@@ -2393,7 +2559,7 @@ class BetterUI {
                     case "creatortwitch":
                         return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[6])) ?? false;
                     case "shop":
-                        return this.isThemedItem(item, "purchase") && !(this.isThemedItem(item, "creator") || this.isThemedItem(item, "limited") || this.isThemedItem(item, "event"));
+                        return this.isThemedItem(item, "purchase") && ["creator", "limited", "event"].every(theme => !this.isThemedItem(item, theme));
                 }
             },
             getThemedItems(theme) {
@@ -2428,13 +2594,15 @@ class BetterUI {
             // Add or Remove Missing/Wrong Item Tags
             this.tagEdits.forEach(edit => addTags(edit.add, extern.catalog.findItemById(edit.id), edit.tags));
 
+            const isThemed = (item) => ["drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
+
             // Set Bundle Unlock Type
             extern.getTaggedItems(this.tags.bundle).forEach(item => {
                 if (!item.origUnlock) item.origUnlock = item.unlock;
-                item.unlock = extern.modSettingEnabled("betterUI_inventory") ? "bundle" : item.origUnlock;
+                item.unlock = extern.modSettingEnabled("betterUI_inventory") && !isThemed(item) ? "bundle" : item.origUnlock;
             });
 
-            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(x => x.itemIds)).filter(item => !["default", "purchase", "premium"].includes(item.unlock)).forEach(item => addTags(true, item, this.tags.bundle));
+            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(x => x.itemIds)).filter(item => !(["default", "premium"].includes(item.unlock) || isThemed(item))).forEach(item => addTags(true, item, this.tags.bundle));
 
             // Add "Creator" and Social Type tags to Content Creator Shop Items
             this.creatorData.forEach(creator => {
@@ -2452,6 +2620,10 @@ class BetterUI {
                 });
             });
         }, 250);
+
+        fetch('https://ipapi.co/currency/').then(res => res.text()).then(res => {
+            if (Object.keys(this.currencyIcons).includes(res) && this.currencyIcons[res]) vueApp.currencyCode = res;
+        });
 
         // Better Inventory - Item Properties
         Object.assign(comp_item.computed, {
@@ -2564,12 +2736,16 @@ class BetterUI {
                     this.isCreator || this.isNewYolker || this.isPromo || 
                     this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/);
             },
+
+            premiumIcon() {
+                return unsafeWindow.megaMod.betterUI.currencyIcons[vueApp.currencyCode];
+            },
         
             // Icon CSS Class
             iconClass() {
                 if (!this.hasIcon) return;
                 return this.isBundle ? 'fas fa-box-open hover' :
-                    this.isPremium ? 'fas fa-dollar-sign hover' :
+                    this.isPremium ? this.premiumIcon + ' hover' :
                     this.isMerch ? 'fas fa-tshirt hover' :
                     this.isDrops ? 'fab fa-twitch hover' :
                     this.isNotif ? 'fas fa-bell hover' :
@@ -2635,12 +2811,18 @@ class BetterUI {
             if (extern.modSettingEnabled("betterUI_ui")) BAWK.play("challenge_notify");
         }
 
+        // Notify Popup Claim SFX
+        const oldNextItem = NotifiSlider.methods.nextItem;
+        NotifiSlider.methods.nextItem = function(...args) {
+            oldNextItem.apply(this, args);
+            if (extern.modSettingEnabled("betterUI_ui") && this.isChallenge) BAWK.play("challenge_notify");
+        }
+
         // Fixed Weapon Deselect Bug
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
         vueApp.$refs.equipScreen.selectItem = function(item) {
-            if (!item) return;
             const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
-            const isWeapon = ![ItemType.Hat, ItemType.Stamp].includes(item.item_type_id);
+            const isWeapon = item?.item_type_id && ![ItemType.Hat, ItemType.Stamp].includes(item.item_type_id);
             if (extern.modSettingEnabled("betterUI_inventory") && selectingSame && isWeapon) {
                 this.selectItemClickSound(item);
                 return;
@@ -2705,14 +2887,82 @@ class BetterUI {
 
         // Init Profile Badges
         MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
+
+        // Init Game Histry 
+        this.initGameHistory();
+
+        // Revert Join Game Code to parsedUrl.hash
+        const { 
+            onXClick: oldCodeXClick, 
+            onCloseClick: oldCodeCloseClick 
+        } = vueApp.$refs.homeScreen.$refs.playPanel.$refs.joinPrivateGamePopup;
+        const wrapWithHashCode = (originalFn) => function() {
+            originalFn.call(this);
+            if (parsedUrl?.hash) vueData.home.joinPrivateGamePopup.code = parsedUrl.hash; 
+        };
+        Object.assign(vueApp.$refs.homeScreen.$refs.playPanel.$refs.joinPrivateGamePopup, {
+            onXClick: wrapWithHashCode(oldCodeXClick),
+            onCloseClick: wrapWithHashCode(oldCodeCloseClick)
+        });
+
+        const oldHideLoadingScreenAd = vueApp.hideLoadingScreenAd;
+        vueApp.hideLoadingScreenAd = function() {
+            oldHideLoadingScreenAd.call(this);
+            setTimeout(() => {
+                megaMod.betterUI.addGameToHistory();
+            }, 1500);
+        }
+    }
+
+    initGameHistory() {
+        const history = JSON.parse(localStore.getItem(BetterUI.GAME_HISTORY_KEYS.list));
+        if (history) vueApp.gameHistory = history;
+        this.checkGameHistory();
+        this.saveGameHistory();
+    }
+
+    checkGameHistory() {
+        const now = new Date();
+        const then = new Date(localStore.getItem(BetterUI.GAME_HISTORY_KEYS.time));
+        if (!then || then.toDateString() !== now.toDateString()) {
+            vueApp.gameHistory = [];
+            localStore.setItem(BetterUI.GAME_HISTORY_KEYS.time, now.toJSON());
+        }
+    }
+
+    addGameToHistory() {
+        this.checkGameHistory();
+        const gameCode = vueApp.game.shareLinkPopup.url.split("#")[1];
+        if (!gameCode) return;
+
+        const mapData = {
+            map: { name: vueApp.game.mapName },
+            modeLoc: vueApp.gameTypes.find(type => type.value == vueApp.game.gameType).locKey,
+            serverLoc: `server_${vueApp.currentRegionId}`,
+            gameCode: gameCode,
+            isPrivate: extern.isPrivateGame
+        };
+        mapData.map.filename = vueApp.maps.find(map => map.name == mapData.map.name).filename;
+
+        vueApp.gameHistory = vueApp.gameHistory.filter(game => game.gameCode !== gameCode);
+        vueApp.gameHistory.push(mapData);
+
+        this.saveGameHistory();
+    }
+
+    saveGameHistory() {
+        localStore.setItem(BetterUI.GAME_HISTORY_KEYS.list, JSON.stringify(vueApp.gameHistory));
     }
 
     initProfileBadges(badgeData) {
         MegaMod.log("Better UI:", "Initializing Profile Badges");
 
         this.badgeData = badgeData;
-        const oldSwitchToProfileUi = vueApp.switchToProfileUi;
-        const oldStatsLoading = vueApp.statsLoading;
+        const {
+            switchToProfileUi : oldSwitchToProfileUi,
+            statsLoading: oldStatsLoading,
+            switchToHomeUi: oldSwitchToHomeUi
+        } = vueApp;
         Object.assign(vueApp, {
             separateRows(badges) {
                 const badgesPerRow = unsafeWindow.megaMod.betterUI.badgeData.badgesPerRow;
@@ -2823,11 +3073,13 @@ class BetterUI {
                 const { locKey, sfx } = BadgeMsgTypeData[type];
                 BAWK.play(sfx);
 
-                this.badgeMsg.titleLocKey = locKey;
-                this.badgeMsg.badgeClass = badgeClass;
-                this.badgeMsg.iconClass = iconClass;
-                this.badgeMsg.badgeName = badgeName;
-                this.badgeMsg.showing = true;
+                Object.assign(this.badgeMsg, {
+                    titleLocKey: locKey,
+                    badgeClass: badgeClass,
+                    iconClass: iconClass,
+                    badgeName: badgeName,
+                    showing: true
+                });
 
                 // Use an arrow function to maintain the context of `this` naturally
                 setTimeout(() => {
@@ -2848,11 +3100,14 @@ class BetterUI {
             statsLoading() {
                 vueApp.updateBadges();
                 oldStatsLoading.call(this);
+            },
+            switchToHomeUi() {
+                vueApp.updateBadges();
+                oldSwitchToHomeUi.call(this);
             }
         });
         vueApp.badgeInfo = vueApp.getBadges(true);
 
-        // TODO: statsLifetime and statsCurrent updateStats() function hook
         const playerAccount = extern.account.constructor;
         const { 
             signedIn: oldSignedIn, 
@@ -2916,7 +3171,13 @@ class BetterUI {
             }
         });
         vueApp.ui.socialMedia.footer[vueApp.ui.socialMedia.footer.map(elem => elem.icon).findIndex(icon => icon.includes("fa-steam"))].icon = (enabled) ? "fa-steam" : "fa-steam-symbol";
-        if (vueApp.showScreen === vueApp.screens.home) vueApp.$refs.homeScreen.$refs.playPanel.$forceUpdate(); // Update Play Buttons
+        if (vueApp.showScreen === vueApp.screens.home) {
+            vueApp.$refs.homeScreen.$refs.playPanel.$forceUpdate(); // Update Play Buttons
+            // Update Challenge Tab
+            [[], vueApp.$refs.homeScreen.$refs.mediaTabs.$children[0].challenges].forEach(x => setTimeout(() => vueApp.$refs.homeScreen.$refs.mediaTabs.$children[0].challenges = x, 0));
+        }
+        vueApp.$refs.accountPanelHome.$forceUpdate();
+        [null, vueApp.chw.resets].forEach(x => setTimeout(vueApp.chw.resets = x, 0));
     }
 
     switchRoundness(enabled) {
@@ -2946,8 +3207,30 @@ class BetterUI {
 
         this.betterInvStyle.disabled = !enabled;
         if (init) return;
-        if ([vueApp.equipMode.inventory, null].includes(vueApp.currentEquipMode) && vueApp.game.isPaused) {
-            [null, vueApp.equip.selectedItemType].forEach(type => setTimeout(vueApp.$refs.equipScreen.populateItemGridWithType, 0, type));
+        this.refreshItemSlots();
+    }
+
+    refreshItemSlots() {
+        if (vueApp.game.isPaused) {
+            switch (vueApp.currentEquipMode) {
+                case vueApp.equipMode.inventory:
+                case vueApp.equipMode.skins:
+                case null:
+                    [null, vueApp.equip.selectedItemType].forEach(type => setTimeout(vueApp.$refs.equipScreen.populateItemGridWithType, 0, type));
+                    break;
+                case vueApp.equipMode.featured:
+                    vueApp.equip.showUnVaultedItems = [];
+                    setTimeout(() => vueApp.equip.showUnVaultedItems = extern.getTaggedItems(vueApp.ui.premiumFeaturedTag), 1);
+                    break;
+            }
+        }
+    }
+
+    refreshProfileScreen() {
+        // Update Profile Screen
+        if (vueApp.showScreen === vueApp.screens.profile) {
+            vueApp.$refs.homeScreen.$refs.profileScreen.$forceUpdate(); 
+            vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer.$children.forEach(x => x.$forceUpdate());
         }
     }
 
@@ -2972,8 +3255,8 @@ class BetterUI {
         if (extern.inGame) extern.switchHitMarkerColor(extern.modSettingEnabled("betterUI_hitMarkers"));
         this.switchUITweaks(extern.modSettingEnabled("betterUI_ui"));
         this.switchBetterInv(extern.modSettingEnabled("betterUI_inventory"), init);
-        if (vueApp.showScreen === vueApp.screens.profile) vueApp.$refs.homeScreen.$refs.profileScreen.$forceUpdate(); // Update Profile Screen
-        if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
+        this.refreshProfileScreen();
+        unsafeWindow.megaMod.colorSlider.refreshColorSelect();
         this.switchRoundness(extern.modSettingEnabled("betterUI_roundness"));
         this.switchColored(extern.modSettingEnabled("betterUI_colors"));
         this.switchChatUpgrades(extern.modSettingEnabled("betterUI_chat"));
@@ -3011,6 +3294,10 @@ class ColorSlider {
             if (extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
         }
         if (extern?.account?.colorIdx != null && extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
+    }
+
+    refreshColorSelect() {
+        if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
     }
 }
 
@@ -3526,6 +3813,13 @@ unsafeWindow.BadgeMsgTypeData = {
 		sfx: 'badgeLevelDown'
 	}
 };
+unsafeWindow.openUpdate = function() {
+    this.open(`${this.cdnPath}/js/script.user.js`);
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") this.location.reload();
+    });
+};
+
 MegaMod.setDebug(true);
 unsafeWindow.megaMod = new MegaMod();
 

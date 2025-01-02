@@ -5,7 +5,7 @@
 	"gamemode": ["captureIconWrap", "captureContainer", "teamScores", "spatulaPlayer", "cts-message"],
 	"ammo": ["weaponBox"],
 	"eggcount": ["account_panel"],
-	"chat": ["chatIn", "chatOut"],
+	"chat": ["chatIn", "chatOut", "announcement_message"],
 	"playerlist": ["playerList"],
 	"gametext": ["bigMessageContainer", "gameMessage"],
 	"killtext": ["kill-death-box"],

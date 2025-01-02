@@ -105,27 +105,43 @@ There's a new link added to the footer on the home screen, which opens a changel
       - Stretched Chick'n Winner Bar (on Despawn Menu) to fix text wrap (and for better looks ofc)
     - Added Icons to challenges to show if they're unique or already completed
     - Restyled Challenge "Claimed" Banner to match checkmark banner
-    <details>
-    <summary>See Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
+      <details>
+      <summary>See Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
 
-    ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
-    </details>
+      ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
+      </details>
     
     - Added missing clock icon next to challenge timer on home screen
-    - Added sound effect when claiming challenges
+    - Added claim sound effect when claiming challenges 
+    - Added claim sound effect when auto-claiming challenges through notification popup
     - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
-    <details>
-    <summary>See Challenge Info Popup (Image)</summary>
+      <details>
+      <summary>See Challenge Info Popup (Image)</summary>
 
-    ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
-    </details>
+      ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
+      </details>
     
     - Added Button (on Home Screen) and Popup to Show Current Public Map Pool
-    <details>
-    <summary>See Public Map Popup (Image)</summary>
+      <details>
+      <summary>See Public Map Popup (Image)</summary>
 
-    ![Public Map Popup](img/docs/betterUI/misc/Public%20Map%20Popup.png)
-    </details>
+      ![Public Map Popup](img/docs/betterUI/misc/Public%20Map%20Popup.png)
+      </details>
+    
+    - Added Button (on Home Screen) and Popup to Game History (Daily Lobbies)
+      <details>
+      <summary>See Game History Popup (Image)</summary>
+
+      ![Game History Popup](img/docs/betterUI/misc/Game%20History%20Popup.png)
+      </details>
+
+    - Numbers are localized to add regional separators (make large numbers easier to read) and use the local place value system:
+      - Egg Count
+      - Item Prices
+      - Profile Stats Values
+      - Egg Reward Amounts
+      - etc.
+
   </details>
 - **Better Inventory**
   <details>
@@ -161,11 +177,11 @@ There's a new link added to the footer on the home screen, which opens a changel
       - ``Legacy`` - Legacy default weapon skins from 2018/2019
       - ``YT CC`` - BWD YouTube CC shop items
       - ``Twitch CC`` - BWD Twitch CC shop items
-    <details>
-    <summary>See Item Themes (Image)</summary>
-      
-    ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
-    </details>
+        <details>
+        <summary>See Item Themes (Image)</summary>
+          
+        ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
+        </details>
     
     - __Changed Item Sorting Order__:
       1. Premium ($)
@@ -192,7 +208,7 @@ There's a new link added to the footer on the home screen, which opens a changel
       - __Shop__: shows # of items remaining to purchase / total items
         - __Limited Edition__: shows # of limited items remaining to purchase / total limited items
     - Clickable **Item Icons** for most of the custom item themes!
-      - Premium - switches to the shop tab of the shop
+      - Premium (matches your local currency) - switches to the shop tab of the shop
       - VIP - opens VIP popup
       - Bundle - switches to the shop tab of the shop
       - Merch - opens merch store
@@ -208,17 +224,17 @@ There's a new link added to the footer on the home screen, which opens a changel
   <summary>More Info</summary>
     
     - **Profile Pictures** have returned in the profile section! Some people have one, others don't - that's just the way it is :)
-    <details>
-    <summary>See Updated Profile Section (Image)</summary>
+      <details>
+      <summary>See Updated Profile Section (Image)</summary>
 
-    ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
-    </details>
+      ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
+      </details>
 
-    <details>
-    <summary>See Tier Badge Level Up Alert (Image)</summary>
+      <details>
+      <summary>See Tier Badge Level Up Alert (Image)</summary>
 
-    ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
-    </details>
+      ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
+      </details>
     
     - **Profile Badges** - Clickable & Automatically Computed/Displayed:
       - Core Badges (14):
@@ -267,12 +283,12 @@ There's a new link added to the footer on the home screen, which opens a changel
       | Egglitist            | % Owned of Egglite Items                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>90%+</td></tr></tbody></table>|
       | Poached Promoter     | % Owned of Promo Items                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
   
-  <details>
-  <summary>See Profile Badge Popup (Image)</summary>
+      <details>
+      <summary>See Profile Badge Popup (Image)</summary>
 
-  ![Profile Badge Popup](img/docs/betterUI/profile/Profile%20Badge%20Info%20Popup.png)
-  </details>
-  </details>
+      ![Profile Badge Popup](img/docs/betterUI/profile/Profile%20Badge%20Info%20Popup.png)
+      </details>
+      </details>
 - **Force Roundness**: Makes the UI more comfy by rounding the corners on buttons, popups, and more! No more nasty sharp edges!
 - **MOAR Colored UI**: Adds a splash of color to buttons and icons such as the News Tabs and social media footer icons.
 - **Yellow Hit Indicator**: Makes the hit indicators yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
@@ -283,21 +299,21 @@ There's a new link added to the footer on the home screen, which opens a changel
     
     - Increased Chat History from 5 to 7 messages
     - Added Icons next to to MOD, SERVER, and ANNOUNCEMENT Chat messages
-    <details>
-    <summary>See Chat Icons (Image)</summary>
+      <details>
+      <summary>See Chat Icons (Image)</summary>
 
-    ![Chat Icons](img/docs/betterUI/chat/Chat%20Icons.png)
-    </details>
+      ![Chat Icons](img/docs/betterUI/chat/Chat%20Icons.png)
+      </details>
     
     - **Chat Events Added to Chat**:
       - Join Game - _PLAYER_ joined the game.
       - Leave Game - _PLAYER_ left the game.
       - Switch Team - _PLAYER_ switched to BLUE/RED team.
-    <details>
-    <summary>See Chat Events (Image)</summary>
+      <details>
+      <summary>See Chat Events (Image)</summary>
 
-    ![Chat Events](img/docs/betterUI/chat/Chat%20Events.png)
-    </details>
+      ![Chat Events](img/docs/betterUI/chat/Chat%20Events.png)
+      </details>
   </details>
 </details>
 
@@ -311,12 +327,12 @@ There's a new link added to the footer on the home screen, which opens a changel
 - **Auto-Save Custom Color**: Automatically saves and applies custom colors.
 - **Color Randomizer Button**: Adds a button to randomize your egg color (Color Slider included).
 
-<details>
-<summary>See Color Slider (Images)</summary>
+  <details>
+  <summary>See Color Slider (Images)</summary>
 
-![Color Slider](img/docs/colorSlider/Slider.png)
-![Slider Disabled](img/docs/colorSlider/Slider%20Disabled.png)
-</details>
+  ![Color Slider](img/docs/colorSlider/Slider.png)
+  ![Slider Disabled](img/docs/colorSlider/Slider%20Disabled.png)
+  </details>
 
 </details>
 
@@ -340,11 +356,11 @@ There's a new link added to the footer on the home screen, which opens a changel
   - Ammo/Grenade Pickup
   - Weapon Swap
 
-<details>
-<summary>See Legacy Weapon Skins (Image)</summary>
+  <details>
+  <summary>See Legacy Weapon Skins (Image)</summary>
 
-![Legacy Skins](img/docs/legacyMode/Legacy%20Items.png)
-</details>
+  ![Legacy Skins](img/docs/legacyMode/Legacy%20Items.png)
+  </details>
 
 </details>
 
@@ -372,11 +388,11 @@ There's a new link added to the footer on the home screen, which opens a changel
 - Hide Player Nametags
 - Hide Player Outlines
 
-<details>
-<summary>See HUD, Nametags, Player Outlines, & Pickups Hidden (Image)</summary>
+  <details>
+  <summary>See HUD, Nametags, Player Outlines, & Pickups Hidden (Image)</summary>
 
-![HUD & Pickups Hidden](img/docs/hideHUD/HUD%20Hidden.png)
-</details>
+  ![HUD & Pickups Hidden](img/docs/hideHUD/HUD%20Hidden.png)
+  </details>
 
 </details>
 
@@ -387,11 +403,11 @@ There's a new link added to the footer on the home screen, which opens a changel
 <!--**Settings**:-->
 <!--**Hide/Show Info Popup**: Toggle the display of kill streak stats.-->
 
-<details>
-<summary>See Killstreak Stopwatch (Image)</summary>
+  <details>
+  <summary>See Killstreak Stopwatch (Image)</summary>
 
-![Killstreak Stopwatch](img/docs/killstreakInfo/Stopwatch.png)
-</details>
+  ![Killstreak Stopwatch](img/docs/killstreakInfo/Stopwatch.png)
+  </details>
 
 </details>
 
@@ -400,11 +416,11 @@ There's a new link added to the footer on the home screen, which opens a changel
  
 > Sets the grenade pickups to match your equipped grenade skin, also works in first-person spectate mode.
 
-<details>
-<summary>See Matching Grenade Pickups In-Game (Image)</summary>
+  <details>
+  <summary>See Matching Grenade Pickups In-Game (Image)</summary>
 
-![Matching Grenade Pickups](img/docs/matchGrenades/Matching%20Pickups.png)
-</details>
+  ![Matching Grenade Pickups](img/docs/matchGrenades/Matching%20Pickups.png)
+  </details>
 
 </details>
 
@@ -491,10 +507,10 @@ There's a new link added to the footer on the home screen, which opens a changel
 
 Misc Skybox Sources: [Babylon.js](https://doc.babylonjs.com/toolsAndResources/assetLibraries/availableTextures#cubetextures), [elyvisions (OpenGameArt)](https://opengameart.org/content/elyvisions-skyboxes)
 
-<details>
-<summary>What Skyboxes Look Like In-Game (Image)</summary>
+  <details>
+  <summary>What Skyboxes Look Like In-Game (Image)</summary>
 
-![Skybox Example](img/docs/customSkybox/skybox.png)
-</details>
+  ![Skybox Example](img/docs/customSkybox/skybox.png)
+  </details>
 
 </details>

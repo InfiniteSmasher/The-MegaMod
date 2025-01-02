@@ -159,6 +159,65 @@
 	content: "\e547";
 }
 
+/* Currency Icons */
+.fa-indian-rupee-sign:before {
+	content: "\e1bc";
+}
+.fa-franc-sign:before {
+	content: "\e18f";
+}
+.fa-baht-sign:before {
+	content: "\e0ac";
+}
+.fa-peso-sign:before {
+	content: "\e222";
+}
+.fa-brazilian-real-sign:before {
+	content: "\e46c";
+}
+.fa-dong-sign:before {
+	content: "\e169";
+}
+.fa-rupiah-sign:before {
+	content: "\e23d";
+}
+.fa-naira-sign:before {
+	content: "\e1f6";
+}
+.fa-bangladeshi-taka-sign:before {
+	content: "\e2e6";
+}
+.fa-cedi-sign:before {
+	content: "\e0df";
+}
+.fa-hryvnia-sign:before {
+	content: "\f6f2";
+}
+.fa-tenge-sign:before {
+	content: "\f7d7";
+}
+.fa-manat-sign:before {
+	content: "\e1d5";
+}
+.fa-lari-sign:before {
+	content: "\e1c8";
+}
+.fa-kip-sign:before {
+	content: "\e1c4";
+}
+.fa-guarani-sign:before {
+	content: "\e19a";
+}
+.fa-florin-sign:before {
+	content: "\e184";
+}
+.fa-colon-sign:before {
+	content: "\e140";
+}
+.fa-turkish-lira-sign:before {
+	content: "\e2bb";
+}
+
 @font-face {
 	 font-family: "Font Awesome 6 Regular";
 	 font-weight: 400;

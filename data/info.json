@@ -1,17 +1,14 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Fixed loading issue caused by Update 0.50.4",
-        "Fixed \"Yolky Merch\" Badge not showing up",
-        "Restyled \"Overeggchiever\" V Badge",
-        "Restyled \"Eggspenditure\" V Badge",
-        "Restyled \"Shell Scrambler\" IV and V Badges",
-        "Restyled \"Master of Arms\" V Badge",
-        "Restyled \"Splattered Yolk\" V Badge",
-        "Restyled \"Rooster Royalty\" V Badge",
-        "Restyled \"Coop King\" V Badge",
-        "Restyled \"Poached Promoter\" V Badge",
-        "Tier badges now have alerts for when they level down, are gained, or are lost!",
-        "Core badges now have an alert for when you gain or lose them!"
+        "The MegaMod can now check for updates even when a fatal error occurs.",
+        "New button & popup added to the homescreen to show your daily lobby history!",
+        "Minor tweaks made to the Bundle item theme criteria",
+        "Hide HUD now hides the announcement messages in chat",
+        "SFX added to the challenge claim notification popup",
+        "Date related profile badges now work for users with DD/MM/YYYY date format",
+        "Fixed bug with profile badge CSS not loading",
+        "Better UI now adds your region's numerical separators to your egg count, stats, shop item prices, and MOAR!",
+        "The currency icon on Premium items (in inventory) <em>should</em> now match your local currency"
     ]
 }
