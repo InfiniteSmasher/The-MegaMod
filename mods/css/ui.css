@@ -364,22 +364,21 @@ input[type='range']::-webkit-slider-thumb {
 	max-height: 35em;
 }
 
-#gameHistoryPopup .map-image,
-#mapPopup .map-image {
-	 width: 15em;
-	 height: 10em;
-	 font-family: "Sigmar One";
-	 color: var(--ss-white) !important;
-	 text-align: center;
+#mapPopup #private_maps #mapText,
+#gameHistoryPopup #private_maps #mapText {
+    font-size: 1.5em;
+    line-height: 1.4em;
+    color: var(--ss-white);
+    width: 100%;
+    text-wrap-mode: wrap;
 }
 
-#gameHistoryPopup .map-image div,
-#mapPopup .map-image div {
-	 font-size: 1.5em;
-	 width: 100%;
-	 height: 100%;
-	 background-size: cover;
-	 padding-top: 2.2em;
+#mapPopup #private_maps, 
+#gameHistoryPopup #private_maps {
+    width: 17em;
+    height: 10em;
+    text-align: center;
+    z-index: 0;
 }
 
 #gameHistoryPopup td {
@@ -390,6 +389,20 @@ input[type='range']::-webkit-slider-thumb {
 	 font-size: 1em;
 }
 
+#gameHistoryPopup .gameCode {
+	color: rgb(0, 175, 0);
+}
+#gameHistoryPopup .gameCode:hover {
+	color: green;
+}
+
+#gameHistoryPopup .gameCode.closed {
+	color: red;
+}
+#gameHistoryPopup .gameCode.closed:hover {
+	color: rgb(175, 0, 0);
+}
+
 /* Chick'n Winner Stretch (Despawn Menu) */
 .chw-progress-wrapper {
 	 width: 100% !important;
@@ -397,4 +410,15 @@ input[type='range']::-webkit-slider-thumb {
 
 .chw-progress-bar-wrap {
 	width: 98.5% !important;
+}
+
+/* Chick'n Winner Egg Amount Width Fix */
+.chw-reward-amount {
+    width: 18em;
+    margin-left: -2em !important;
+}
+
+/* Chick'n Winner Owned Item */
+.chw-reward-amount.ownedItem h2 {
+    bottom: .2em;
 }

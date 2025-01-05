@@ -216,11 +216,14 @@
 
 	"megaMod_betterUI_gameHistory": "Game History",
 	"megaMod_betterUI_gameHistoryPopup_title": "Game History",
-	"megaMod_betterUI_gameHistoryPopup_desc": "Below is a list of all the games (lobbies) you have played in today. Click one to rejoin it!",
+	"megaMod_betterUI_gameHistoryPopup_desc": "Below is a list of all the games (lobbies) you have played in today. Click one to try rejoining it!<br>Game Codes are colored red or green depending on whether a game is still open to join.",
 	"megaMod_betterUI_gameHistoryPopup_list_title": "Daily Games",
 	"megaMod_betterUI_gameHistoryPopup_column_mode": "Mode",
 	"megaMod_betterUI_gameHistoryPopup_column_code": "Code",
 	"megaMod_betterUI_gameHistoryPopup_column_visibility": "Visibility",
+	"megaMod_betterUI_gameHistoryPopup_refresh": "<i class='fas fa-refresh'></i> Refresh",
+
+	"megaMod_betterUI_chwOwnedItem": "(Already Owned)",
 
 	
 	"p_settings_mods_colorSlider_title": "VIP Color Slider",

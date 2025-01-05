@@ -1,6 +1,19 @@
 {
 	"current": [
 		{
+			"version": "0.20",
+			"date": "January 5 2025",
+			"content": [
+				"Game History now periodically checks whether games are still open",
+				"Switching Better Inventory on/off now looks much smoother",
+				"Map Images on the Game History and Public Maps popups now match the Create Private Game popup",
+				"Chick'n Winner now shows when you pull an item you already own!",
+				"Fixed Chick'n Winner egg icon not being on the same line as egg reward amount"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.19",
 			"date": "January 2 2025",
 			"content": [
@@ -14,9 +27,7 @@
       			"Better UI now adds your region's numerical separators to your egg count, stats, shop item prices, and MOAR!",
 				"The currency icon on Premium items (in inventory) <em>should</em> now match your local currency"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.18",
 			"date": "November 16 2024",

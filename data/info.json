@@ -1,14 +1,10 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "The MegaMod can now check for updates even when a fatal error occurs.",
-        "New button & popup added to the homescreen to show your daily lobby history!",
-        "Minor tweaks made to the Bundle item theme criteria",
-        "Hide HUD now hides the announcement messages in chat",
-        "SFX added to the challenge claim notification popup",
-        "Date related profile badges now work for users with DD/MM/YYYY date format",
-        "Fixed bug with profile badge CSS not loading",
-        "Better UI now adds your region's numerical separators to your egg count, stats, shop item prices, and MOAR!",
-        "The currency icon on Premium items (in inventory) <em>should</em> now match your local currency"
+        "Game History now periodically checks whether games are still open",
+        "Switching Better Inventory on/off now looks much smoother",
+        "Map Images on the Game History and Public Maps popups now match the Create Private Game popup",
+        "Chick'n Winner now shows when you pull an item you already own!",
+        "Fixed Chick'n Winner egg icon not being on the same line as egg reward amount"
     ]
 }

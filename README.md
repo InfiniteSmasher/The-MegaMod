@@ -141,6 +141,13 @@ There's a new link added to the footer on the home screen, which opens a changel
       - Profile Stats Values
       - Egg Reward Amounts
       - etc.
+    - Chick'n Winner now shows when you pull an item you already own.
+    - Fixed Chick'n Winner egg icon not being on the same line as egg reward amount
+      <details>
+      <summary>See Updated Chick'n Winner (Image)</summary>
+
+      ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
+      </details>
 
   </details>
 - **Better Inventory**

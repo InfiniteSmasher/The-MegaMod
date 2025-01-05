@@ -656,12 +656,25 @@ class MegaMod {
                 BAWK.play("ui_click");
                 unsafeWindow.openUpdate();
             },
-            openGameCode(code) {
+            openGameCode(code, isOpen) {
+                if (!isOpen) {
+                    BAWK.play("ui_reset");
+                    return;
+                }
                 vueApp.$refs.gameHistoryPopup.close();
                 BAWK.play("ui_popupopen");
                 vueApp.showJoinPrivateGamePopup(code);
             },
-            currencyCode: "USD"
+            currencyCode: "USD",
+            getMapSizeIcon(size) {
+                if (size <= 13) {
+                    return 'ico-map-size-small';
+                } else if (size >= 14 && size <= 17) {
+                    return 'ico-map-size-med';
+                } else if (size > 17) {
+                    return 'ico-map-size-large';
+                }
+            }
         });
     
         // Adjust size of stats container for badges
@@ -1138,10 +1151,6 @@ class MegaMod {
             return typeof oldGoal === "number" ? oldGoal.addSeparators() : oldGoal;
         }
 
-        comp_chickn_winner_popup.computed.showAmountRewarded = function() {
-            if (this.reward.eggs) return `+${this.reward.eggs.addSeparators()}`;
-        }
-
         const oldSetupStat = StatTemplate.methods.setupStat;
         StatTemplate.methods.setupStat = function(stat) {
             if (stat?.length && !this.stat.kdr) stat = stat.map(s => typeof s === "number" ? s.addSeparators() : s);
@@ -1156,6 +1165,45 @@ class MegaMod {
         comp_game_screen.computed.wakeTheChw = function() {
             this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators());
         }
+
+         // Show Chick'n Winner Owned Item
+        vueData.chw.reward.ownedItem = null;
+        const oldRewardItem = comp_chickn_winner_popup.computed.rewardItem;
+        Object.assign(comp_chickn_winner_popup.computed, {
+            // Add Separators
+            showAmountRewarded() {
+                if (this.reward.eggs) return `+${this.reward.eggs.addSeparators()}`;
+            },
+            rewardHasOwnedItem() {
+                return this.reward.ownedItem !== null;
+            },
+            rewardItem() {
+                return this.rewardHasOwnedItem ? extern.catalog.findItemById(this.reward.ownedItem) : oldRewardItem.call(this);
+            }
+        });
+        
+        comp_chickn_winner_popup.methods.eggClass = function(count) {
+            let hide;
+            if (count > 5 && (this.reward.itemIds.length || (extern?.modSettingEnabled?.('betterUI_ui') && this.reward.ownedItem))) {
+                hide = 'visibility-hidden cyborg-egg';
+            }
+            if (count > 5) {
+                return `chick-alive ${hide} egg-${count} cyborg-egg`;
+            }
+        }
+
+        const hasOwnedItem = "extern?.modSettingEnabled?.('betterUI_ui') && rewardHasOwnedItem";
+        const chicknWinner = document.getElementById("chickn-winner-template");
+        chicknWinner.innerHTML = chicknWinner.innerHTML.replace(
+            `rewardHasItem`,
+            `rewardHasItem || (${hasOwnedItem})`
+        ).replace(
+            `<div v-if="showAmountRewarded`,
+            `<div :class="{ ownedItem: ${hasOwnedItem} }" v-if="showAmountRewarded`
+        ).replace(
+            `rewardItem.name }}</h4>`,
+            `rewardItem.name }}</h4><h4 v-if="${hasOwnedItem}" class="text_white text-center nospace text-shadow-black-40">{{ loc.megaMod_betterUI_chwOwnedItem }}</h4>`
+        );
     }
 
     static addPopups() {
@@ -1277,8 +1325,15 @@ class MegaMod {
                             <tbody>
                                 <tr v-for="map in ${publicMaps}">
                                     <td :data-sort="map.name" class="map-image"> 
-                                        <div class="roundme_md text-shadow-black-40" :style="{ backgroundImage: \`url(/maps/\${map.filename}.png)\` }">
-                                        {{ map.name }}
+                                        <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${map.filename}.png)\` }">
+                                            <div id="mapNav">
+                                                <h5 id="mapText" class="text-shadow-black-40">
+                                                    {{ map.name }}
+                                                    <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
+                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(map.numPlayers)"></icon>
+                                                    </span>
+                                                </h5>
+                                            </div>
                                         </div>
                                     </td>
                                     <td v-for="mode in ['FFA', 'Teams', 'Spatula', 'King']" :data-sort="map.modes[mode]" class="map-mode"> 
@@ -1308,10 +1363,17 @@ class MegaMod {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()" @click="openGameCode(lobby.gameCode)">
+                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">
                                     <td :data-sort="lobby.map.name" class="map-image"> 
-                                        <div class="roundme_md text-shadow-black-40" :style="{ backgroundImage: \`url(/maps/\${lobby.map.filename}.png)\` }">
-                                        {{ lobby.map.name }}
+                                        <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${lobby.map.filename}.png)\` }">
+                                            <div id="mapNav">
+                                                <h5 id="mapText" class="text-shadow-black-40">
+                                                    {{ lobby.map.name }}
+                                                    <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
+                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === lobby.map.filename).numPlayers)"></icon>
+                                                    </span>
+                                                </h5>
+                                            </div>
                                         </div>
                                     </td>
                                     <td :data-sort="loc[lobby.modeLoc]"> {{ loc[lobby.modeLoc] }} </td>
@@ -1320,7 +1382,7 @@ class MegaMod {
                                         {{ lobby.isPrivate ? 'Private' : 'Public' }}
                                     </td>
                                     <td :data-sort="lobby.gameCode"> 
-                                        <a @click="openGameCode(lobby.gameCode)">#{{ lobby.gameCode }}</a>
+                                        <a class="gameCode" :class="{ closed: !lobby?.isOpen }" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">#{{ lobby.gameCode }}</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -2622,6 +2684,7 @@ class BetterUI {
         }, 250);
 
         fetch('https://ipapi.co/currency/').then(res => res.text()).then(res => {
+            console.log(res, Object.keys(this.currencyIcons).includes(res), this.currencyIcons[res]);
             if (Object.keys(this.currencyIcons).includes(res) && this.currencyIcons[res]) vueApp.currencyCode = res;
         });
 
@@ -2917,8 +2980,7 @@ class BetterUI {
     initGameHistory() {
         const history = JSON.parse(localStore.getItem(BetterUI.GAME_HISTORY_KEYS.list));
         if (history) vueApp.gameHistory = history;
-        this.checkGameHistory();
-        this.saveGameHistory();
+        setTimeout(this.checkOpenGames.bind(this), 1000);
     }
 
     checkGameHistory() {
@@ -2927,6 +2989,7 @@ class BetterUI {
         if (!then || then.toDateString() !== now.toDateString()) {
             vueApp.gameHistory = [];
             localStore.setItem(BetterUI.GAME_HISTORY_KEYS.time, now.toJSON());
+            this.saveGameHistory();
         }
     }
 
@@ -2940,7 +3003,8 @@ class BetterUI {
             modeLoc: vueApp.gameTypes.find(type => type.value == vueApp.game.gameType).locKey,
             serverLoc: `server_${vueApp.currentRegionId}`,
             gameCode: gameCode,
-            isPrivate: extern.isPrivateGame
+            isPrivate: extern.isPrivateGame,
+            isOpen: true
         };
         mapData.map.filename = vueApp.maps.find(map => map.name == mapData.map.name).filename;
 
@@ -2948,10 +3012,46 @@ class BetterUI {
         vueApp.gameHistory.push(mapData);
 
         this.saveGameHistory();
+        setTimeout(this.checkOpenGames.bind(this), 1000);
     }
 
     saveGameHistory() {
         localStore.setItem(BetterUI.GAME_HISTORY_KEYS.list, JSON.stringify(vueApp.gameHistory));
+    }
+
+    setGameClosed(id) {
+        vueApp.gameHistory[vueApp.gameHistory.findIndex(game => game.gameCode === id)].isOpen = false;
+        this.saveGameHistory(); // Could do this at the end of setting all games closed
+    }
+
+    checkGame(id) {
+        Object.assign(new WebSocket(`${isHttps() ? "wss" : "ws"}://${window.location.hostname}/matchmaker/`), {
+            noticeReceived: false,
+            onopen() {
+                this.send(JSON.stringify({
+                    command: "joinGame",
+                    id,
+                    observe: false,
+                    sessionId: extern.account.sessionId
+                }));
+            },
+            onmessage(e) { 
+                const { command, error } = JSON.parse(e.data);
+                if (this.noticeReceived && error === "gameNotFound") {
+                    unsafeWindow.megaMod.betterUI.setGameClosed(id);
+                }
+                this.noticeReceived = command == "notice";
+            }
+        });
+    }
+
+    checkOpenGames() {
+        MegaMod.log("checkOpenGames():", "Checking Open Games...");
+        this.checkGameHistory();
+        vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode));
+        
+        if (this.gameHistoryTimeout) clearTimeout(this.gameHistoryTimeout);
+        this.gameHistoryTimeout = setTimeout(this.checkOpenGames.bind(this), 5*60000);
     }
 
     initProfileBadges(badgeData) {
@@ -3211,18 +3311,28 @@ class BetterUI {
     }
 
     refreshItemSlots() {
-        if (vueApp.game.isPaused) {
-            switch (vueApp.currentEquipMode) {
-                case vueApp.equipMode.inventory:
-                case vueApp.equipMode.skins:
-                case null:
-                    [null, vueApp.equip.selectedItemType].forEach(type => setTimeout(vueApp.$refs.equipScreen.populateItemGridWithType, 0, type));
-                    break;
-                case vueApp.equipMode.featured:
-                    vueApp.equip.showUnVaultedItems = [];
-                    setTimeout(() => vueApp.equip.showUnVaultedItems = extern.getTaggedItems(vueApp.ui.premiumFeaturedTag), 1);
-                    break;
-            }
+        if (!vueApp.game.isPaused) return;
+        const { inventory, skins, shop, featured } = vueApp.equipMode;
+        const refreshItemGrid = () => {
+            if (!vueApp.equip.showingItems.length) return;
+            vueApp.equip.showingItems.fill(extern.getItemsOfType(ItemType.Hat)[0]);
+            setTimeout(vueApp.$refs.equipScreen.setupItemGridMain);
+        };
+    
+        switch (vueApp.currentEquipMode) {
+            case inventory:
+            case skins:
+            case null:
+                refreshItemGrid();
+                break;
+            case featured:
+                refreshItemGrid();
+                // No break to fall through to shop case
+            case shop:
+                if (!vueApp.equip.showUnVaultedItems.length) break;
+                vueApp.equip.showUnVaultedItems.fill(vueApp.equip.showUnVaultedItems[0]);
+                setTimeout(vueApp.$refs.equipScreen.getVaultedItemsForGrid, 0, true);
+                break;
         }
     }
 
@@ -3392,11 +3502,11 @@ class LegacyMode {
             }
         });
         if (extern.inGame) extern.updateLegacySkinsInGame(enabled);
-        const origItems = vueApp.$refs.equipScreen.equip.showingItems;
         // POV: too lazy to think of something better :D
-        if (vueApp.currentEquipMode === vueApp.equipMode.inventory && !([ItemType.Grenade, ItemType.Melee].includes(vueApp.$refs.equipScreen.equip.showingWeaponType) || vueApp.classIdx == CharClass.TriHard)) {
-            vueApp.$refs.equipScreen.equip.showingItems = origItems.map(_ => extern.getItemsOfType(ItemType.Hat)[0]);
-            setTimeout(() => { vueApp.$refs.equipScreen.equip.showingItems = origItems; }, 0);
+        if (vueApp.equip.showingItems && vueApp.currentEquipMode === vueApp.equipMode.inventory && !([ItemType.Grenade, ItemType.Melee].includes(vueApp.$refs.equipScreen.equip.showingWeaponType) || vueApp.classIdx == CharClass.TriHard)) {
+            const origItems = vueApp.$refs.equipScreen.equip.showingItems;
+            vueApp.$refs.equipScreen.equip.showingItems = Array.from({ length: origItems.length }, () => extern.getItemsOfType(ItemType.Hat)[0]);
+            setTimeout(() => vueApp.$refs.equipScreen.equip.showingItems = origItems, 0);
         }
 
         if ((vueApp.currentEquipMode === vueApp.equipMode.inventory || vueApp.currentEquipMode == null) && vueApp.game.isPaused) {
