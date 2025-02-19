@@ -357,9 +357,6 @@
 	overflow: visible !important;
 }
 
-#health {
-}
-
 #healthHp {
 	font-family: 'Nunito', sans-serif;
     font-weight: bold;
@@ -424,4 +421,12 @@
 	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_eggIcon.png') !important;
 	width: 25px;
 	height: 25px;
+}
+
+.profile-badge-container {
+	background: var(--ss-blue6);
+}
+
+.profile-badge-container .info-btn {
+	color: var(--ss-blue3);
 }

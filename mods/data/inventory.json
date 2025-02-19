@@ -6,6 +6,8 @@
 		"clan"
 	],
 	"tagEdits": [
+		{ "add": 1, "id": 16013, "tags": ["Premium"] },
+		{ "add": 1, "id": 2615,  "tags": ["Newsletter"] },
 		{ "add": 1, "id": 16086, "tags": ["Newsletter"] },
 		{ "add": 1, "id": 2596,  "tags": ["Newsletter"] },
 		{ "add": 1, "id": 1547,  "tags": ["Newsletter"] },

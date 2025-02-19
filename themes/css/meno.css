@@ -354,3 +354,7 @@
 .healthYolk {
 	fill: #8f0000;
 }
+
+.profile-badge-container .info-btn {
+	color: var(--ss-blue3);
+}

@@ -346,7 +346,24 @@ class MegaMod {
                 if (extern?.modSettingEnabled?.("megaMod_sfx_hover") && !this.showSettingsTab) BAWK.play("settingsTabHover");
             }
         });
-    
+
+        // Chick'n Winner Popup Overlay Dismiss Disabled
+        // TODO: Set the chwMiniGameComplete variable instead of overriding it
+        const betterUIEnabled = `extern?.modSettingEnabled?.('betterUI_ui')`;
+        const chwComplete = "$refs.chickenNugget.isMiniGameComplete";
+        const cwInterval = setInterval(() => {
+            const chicknWinner = document.getElementById("chicknWinner");
+            if (!chicknWinner) return;
+            clearInterval(cwInterval);
+            chicknWinner.outerHTML = chicknWinner.outerHTML.replace(
+                `:overlay-close="chwMiniGameComplete"`, 
+                `:overlay-close="${betterUIEnabled} && ${chwComplete}"`
+            ).replace(
+                `:hide-close="!chwMiniGameComplete"`, 
+                `:hide-close="${betterUIEnabled} && !${chwComplete}"`
+            );
+        });
+
         // Better Inventory
         const invEditsEnabled = `extern?.modSettingEnabled?.('betterUI_inventory')`;
         // Add Random Skin Button, Searchbar Class Edits, and Item Amount
@@ -593,7 +610,7 @@ class MegaMod {
                 const newTierBadgeDict = newTierBadges.reduce((dict, badge) => ((dict[getBadgeClass(badge)] = badge.tier), dict), {});
                 localStore.setItem(TIER_KEY, JSON.stringify(newTierBadgeDict));
 
-                if (!ignoreNotif) {
+                if (!ignoreNotif && extern.modSettingEnabled('betterUI_badges')) {
                     const allBadges = this.getBadges(true);
                     const processBadges = (badges, type, filterFn = () => true) => {
                         const removeHover = style => style.replace(/\bbadge-hover(-alt)?\b/g, '').trim();
@@ -1175,7 +1192,7 @@ class MegaMod {
                 if (this.reward.eggs) return `+${this.reward.eggs.addSeparators()}`;
             },
             rewardHasOwnedItem() {
-                return this.reward.ownedItem !== null;
+                return this.reward.ownedItem !== null && this.reward.eggs && this.busted;
             },
             rewardItem() {
                 return this.rewardHasOwnedItem ? extern.catalog.findItemById(this.reward.ownedItem) : oldRewardItem.call(this);
@@ -1196,7 +1213,7 @@ class MegaMod {
         const chicknWinner = document.getElementById("chickn-winner-template");
         chicknWinner.innerHTML = chicknWinner.innerHTML.replace(
             `rewardHasItem`,
-            `rewardHasItem || (${hasOwnedItem})`
+            `(rewardHasItem || (${hasOwnedItem}))`
         ).replace(
             `<div v-if="showAmountRewarded`,
             `<div :class="{ ownedItem: ${hasOwnedItem} }" v-if="showAmountRewarded`
@@ -1307,7 +1324,6 @@ class MegaMod {
         `;
     
         const publicMaps = `vueData.maps.filter(m => m.availability === 'both')`;
-    
         const mapPopup = `
             <large-popup id="mapPopup" ref="mapPopup" hide-confirm="true" :overlay-close="true" class="megamod-popup">
                 <template slot="content">
@@ -1348,13 +1364,14 @@ class MegaMod {
             </large-popup>
         `;
 
+        const gameFilter = ".filter(game => maps.map(map => map.filename).includes(game.map.filename))";
         const gameHistoryPopup = `
             <large-popup id="gameHistoryPopup" ref="gameHistoryPopup" hide-confirm="true" :overlay-close="true" class="megamod-popup">
                 <template slot="content">
                     <h1 v-html="loc.megaMod_betterUI_gameHistoryPopup_title"></h1>
                     <p v-html="loc.megaMod_betterUI_gameHistoryPopup_desc"></p>
     
-                    <h3>{{ loc.megaMod_betterUI_gameHistoryPopup_list_title }} ({{ vueData?.gameHistory?.length }})</h3>
+                    <h3>{{ loc.megaMod_betterUI_gameHistoryPopup_list_title }} ({{ vueData?.gameHistory?${gameFilter}.length }})</h3>
                     <div class="table-div">
                         <table class="roundme_md sortable">
                             <thead>
@@ -1363,7 +1380,7 @@ class MegaMod {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">
+                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()${gameFilter}" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">
                                     <td :data-sort="lobby.map.name" class="map-image"> 
                                         <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${lobby.map.filename}.png)\` }">
                                             <div id="mapNav">
@@ -1382,7 +1399,7 @@ class MegaMod {
                                         {{ lobby.isPrivate ? 'Private' : 'Public' }}
                                     </td>
                                     <td :data-sort="lobby.gameCode"> 
-                                        <a class="gameCode" :class="{ closed: !lobby?.isOpen }" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">#{{ lobby.gameCode }}</a>
+                                        <a class="gameCode" :class="{ closed: !lobby?.isOpen }" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">{{ lobby.gameCode }}</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1460,7 +1477,7 @@ class MegaMod {
 
         // Add Popups
         const popupInterval = setInterval(() => {
-            let gameDesc = document.getElementById('gameDescription');
+            const gameDesc = document.getElementById('gameDescription');
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
@@ -1500,16 +1517,19 @@ class MegaMod {
 
     static checkError() {
         this.log("checkError() -", "Checking for Fatal Errors"); 
+        this.log("Fatal Error:", MegaMod.fatalErr);
+        this.log("Fatal Error Version:", localStore.getItem(MegaMod.KEYS.ErrVersion));
+        const reloads = localStore.getNumItem(MegaMod.KEYS.ErrReloads);
+        this.log("Reload Count:", reloads); 
 
-        setTimeout(function(){
+        setTimeout(function(reloads){
             MegaMod.setFatalErr(document.getElementById("logo-svg") != null);
             if (MegaMod.fatalErr) {
-                const reload = localStore.getNumItem(MegaMod.KEYS.ErrReloads);
-                if (reload === 3) localStore.setItem(MegaMod.KEYS.ErrVersion, GM_info.script.version);
-                else localStore.setItem(MegaMod.KEYS.ErrReloads, reload === null ? 1 : reload + 1);
+                if (reloads === 3) localStore.setItem(MegaMod.KEYS.ErrVersion, GM_info.script.version);
+                else localStore.setItem(MegaMod.KEYS.ErrReloads, reloads === null ? 1 : reloads + 1);
                 window.location.reload();
             }
-        }, 150000);
+        }, 150000, reloads);
     }
 
     static editSource(src) {
@@ -1640,10 +1660,7 @@ class MegaMod {
                 let pdMeshVar = new RegExp(`dualAvatar\\.${pdActorVar}\\.(${v})\\.scaling`).safeExec(src, "pbSpin");
                 if (pdMeshVar?.length > 1) {
                     pdMeshVar = pdMeshVar[1];
-                    let pdInstanceMatch = new RegExp(`(${v})\\=new ${paperDollClass}`).safeExec(src, "pbSpin");
-                    if (pdInstanceMatch?.length > 1) {
-                        let pdInstanceVar = pdInstanceMatch[1];
-                        const spinEggFuncs = `
+                    const spinEggFuncs = `
                             ${paperDollClass}.prototype.spinning = false,
                             ${paperDollClass}.prototype.spinEgg = function(time, steps, frameFunc) {
                                 const meshY = this.avatar.${pdActorVar}.${pdMeshVar}.rotation.y;
@@ -1677,8 +1694,7 @@ class MegaMod {
                             }
                         `;
                         src = src.safeReplace(paperDollMatch[0], `${spinEggFuncs},${paperDollMatch[0]}`, "pbSpin");
-                        src = src.safeReplace(pdInstanceMatch[0], `${pdInstanceMatch[0]},extern.spinEgg=${pdInstanceVar}.spinEgg.bind(${pdInstanceVar})`, "pbSpin");
-                    }
+                        src = src.safeReplace("this.scene.registerBeforeRender", `extern.spinEgg=this.spinEgg.bind(this);this.scene.registerBeforeRender`, "pbSpin");
                 }
             }
         }
@@ -1719,7 +1735,7 @@ class MegaMod {
                             }
                         `;
                         src = src.safeReplace("catalog:", `${skyboxFunc},catalog:`, "customSkybox");
-                        src = src.safeReplace("vueApp.hideLoadingScreenAd()", "vueApp.hideLoadingScreenAd(), (window.megaMod.customSkybox.usingSkyboxColor && window.megaMod.customSkybox.onSkyboxCategoryChanged('colors'))", "customSkybox");
+                        src = src.safeReplace("crazySdk.showInviteButton", "(window.megaMod.customSkybox.usingSkyboxColor && window.megaMod.customSkybox.onSkyboxCategoryChanged('colors')),crazySdk.showInviteButton", "customSkybox");
                     }
                 }
             }
@@ -2305,7 +2321,7 @@ class MegaMod {
     }
 
     setSkybox(skybox) {
-        this.customSkybox.setSkybox(skybox);
+        if (this.customSkybox) this.customSkybox.setSkybox(skybox);
     }
 
     addAllModFunctions() {
@@ -2589,7 +2605,7 @@ class BetterUI {
                         // Nice and ez checks, W devs.
                         return item.unlock === theme;
                     case "eggpremium":
-                        return this.isThemedItem(item, "purchase") && (item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') ?? false) && item.price > 15000;
+                        return this.isThemedItem(item, "purchase") && (item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') ?? false);
                     case "legacy":
                         return this.isThemedItem(item, "default") && item?.item_data?.meshName?.includes("_Legacy");
                     case "limited":
@@ -2684,7 +2700,6 @@ class BetterUI {
         }, 250);
 
         fetch('https://ipapi.co/currency/').then(res => res.text()).then(res => {
-            console.log(res, Object.keys(this.currencyIcons).includes(res), this.currencyIcons[res]);
             if (Object.keys(this.currencyIcons).includes(res) && this.currencyIcons[res]) vueApp.currencyCode = res;
         });
 
@@ -2705,6 +2720,7 @@ class BetterUI {
             isCreator() { return extern.isThemedItem(this.item, "creator"); },
             isNormalShop() { return extern.isThemedItem(this.item, "shop"); },
             isLegacy() { return extern.isThemedItem(this.item, "legacy"); },
+            isPremiumEggPurchase() { return extern.isThemedItem(this.item, "eggpremium"); },
         
             // Banner check
             hasBanner() {
@@ -2951,6 +2967,23 @@ class BetterUI {
         // Init Profile Badges
         MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
 
+        // Fresh Player Badge Alert
+        const oldOnTutorialPopupClick = vueApp.onTutorialPopupClick;
+        vueApp.onTutorialPopupClick = function(...args) {
+            oldOnTutorialPopupClick.apply(this, args);
+            if (!extern.modSettingEnabled('betterUI_badges')) return;
+            ((badge) => {
+                if (!badge) return;
+                const removeHover = style => style.replace(/\bbadge-hover(-alt)?\b/g, '').trim();
+                vueApp.addBadgeMsg({
+                    type: BadgeMsgType.coreGained,
+                    badgeClass: removeHover(badge.styleClass),
+                    iconClass: removeHover(badge.classList),
+                    badgeName: badge.title
+                });
+            })(vueApp.getBadges(true).main.find(badge => badge.classList.includes("badge-newbie")));
+        }
+
         // Init Game Histry 
         this.initGameHistory();
 
@@ -3002,7 +3035,7 @@ class BetterUI {
             map: { name: vueApp.game.mapName },
             modeLoc: vueApp.gameTypes.find(type => type.value == vueApp.game.gameType).locKey,
             serverLoc: `server_${vueApp.currentRegionId}`,
-            gameCode: gameCode,
+            gameCode: gameCode.toUpperCase(),
             isPrivate: extern.isPrivateGame,
             isOpen: true
         };
@@ -3329,9 +3362,13 @@ class BetterUI {
                 refreshItemGrid();
                 // No break to fall through to shop case
             case shop:
-                if (!vueApp.equip.showUnVaultedItems.length) break;
+                if (!(vueApp.equip.showUnVaultedItems.length || vueApp.equip.bundle.items.length)) break;
                 vueApp.equip.showUnVaultedItems.fill(vueApp.equip.showUnVaultedItems[0]);
-                setTimeout(vueApp.$refs.equipScreen.getVaultedItemsForGrid, 0, true);
+                vueApp.equip.bundle.items = [];
+                setTimeout(() => {
+                    vueApp.$refs.equipScreen.getVaultedItemsForGrid(true);
+                    vueApp.equip.bundle.items = extern.catalog.findItemsByIds(extern.getActiveBundles()[0].itemIds);
+                }, 0);
                 break;
         }
     }

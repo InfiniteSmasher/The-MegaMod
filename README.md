@@ -149,6 +149,9 @@ There's a new link added to the footer on the home screen, which opens a changel
       ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
       </details>
 
+    - The Chick'n Winner Popup can only be closed after you get your reward  - no more accidental closures!
+    - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
+
   </details>
 - **Better Inventory**
   <details>

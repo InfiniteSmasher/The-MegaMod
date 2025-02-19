@@ -1,10 +1,11 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Game History now periodically checks whether games are still open",
-        "Switching Better Inventory on/off now looks much smoother",
-        "Map Images on the Game History and Public Maps popups now match the Create Private Game popup",
-        "Chick'n Winner now shows when you pull an item you already own!",
-        "Fixed Chick'n Winner egg icon not being on the same line as egg reward amount"
+        "Fixed bug with Chick'n Winner Owned Item Images showing for all 3 eggs",
+        "Fixed bug with Game History glitching after seasonal maps get removed",
+        "Removed # in front of game codes on the Game History popup",
+        "The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!",
+        "The Corrupted Grenade has been promoted to Premium item status!",
+        "Fixed Errors with Custom Skybox Mod (caused by Update 0.50.9)"
     ]
 }

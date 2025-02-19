@@ -404,3 +404,8 @@
 	max-height: 20em;
 	text-align: left;
 }
+
+/* Stops Side Panel from overlapping Photobooth Spin dropdowns*/
+.equip-screen.photo-booth .main-aside {
+	z-index: 0 !important;
+}

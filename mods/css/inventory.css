@@ -109,13 +109,15 @@
 	z-index: 1 !important;
 }
 
+/* White Border Hover Animations - removed cuz it looks better without */
+/*
 #equip_grid .grid-item:hover:not(.is-shop, .item-tag-default, .morestuff) {
 	transition: all .3s linear;
 }
-
 #equip_grid .grid-item.is-legacy:hover {
 	transition: all .3s linear !important;
 }
+*/
 
 /* --------------------------- [ Premium ] */
 /* --------- Grid Slot */

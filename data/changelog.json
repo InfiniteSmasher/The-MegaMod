@@ -1,6 +1,20 @@
 {
 	"current": [
 		{
+			"version": "0.21",
+			"date": "February 19 2025",
+			"content": [
+				"Fixed bug with Chick'n Winner Owned Item Images showing for all 3 eggs",
+				"Fixed bug with Game History glitching after seasonal maps get removed",
+				"Removed # in front of game codes on the Game History popup",
+				"The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!",
+				"The Corrupted Grenade has been promoted to Premium item status!",
+				"Fixed Errors with Custom Skybox Mod (caused by Update 0.50.9)"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.20",
 			"date": "January 5 2025",
 			"content": [
@@ -10,9 +24,7 @@
 				"Chick'n Winner now shows when you pull an item you already own!",
 				"Fixed Chick'n Winner egg icon not being on the same line as egg reward amount"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.19",
 			"date": "January 2 2025",
