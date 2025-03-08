@@ -6,13 +6,11 @@
 		"clan"
 	],
 	"tagEdits": [
+		{ "add": 0, "id": 1552,  "tags": ["Newsletter"] },
 		{ "add": 1, "id": 16013, "tags": ["Premium"] },
-		{ "add": 1, "id": 2615,  "tags": ["Newsletter"] },
-		{ "add": 1, "id": 16086, "tags": ["Newsletter"] },
-		{ "add": 1, "id": 2596,  "tags": ["Newsletter"] },
-		{ "add": 1, "id": 1547,  "tags": ["Newsletter"] },
 		{ "add": 0, "id": 1474,  "tags": ["promo"] },
-		{ "add": 1, "id": 1517,  "tags": ["Newsletter"] },
+		{ "add": 1, "id": 1579,  "tags": ["bundle"] },
+		{ "add": 1, "id": 1573,  "tags": ["bundle"] },
 		{ "add": 1, "id": 1494,  "tags": ["bundle"] },
 		{ "add": 1, "id": 2600,  "tags": ["bundle"] },
 		{ "add": 1, "id": 2592,  "tags": ["bundle"] },
