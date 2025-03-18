@@ -1519,7 +1519,7 @@ class MegaMod {
         this.log("checkError() -", "Checking for Fatal Errors"); 
         this.log("Fatal Error:", MegaMod.fatalErr);
         this.log("Fatal Error Version:", localStore.getItem(MegaMod.KEYS.ErrVersion));
-        const reloads = localStore.getNumItem(MegaMod.KEYS.ErrReloads);
+        const reloads = parseInt(localStore.getItem(MegaMod.KEYS.ErrReloads));
         this.log("Reload Count:", reloads); 
 
         setTimeout(function(reloads){
@@ -1713,7 +1713,7 @@ class MegaMod {
                 let mapDataVar = new RegExp(`(${v})\\.skybox\\|\\|`).safeExec(src, "customSkybox");
                 if (mapDataVar?.length > 1) {
                     mapDataVar = mapDataVar[1];
-                    cubeTextureMatch = cubeTextureMatch.safeReplace(`+${skyboxMatch[1]}+`, `+${mapDataVar}.skybox+`, "customSkybox");
+                    cubeTextureMatch = cubeTextureMatch.safeReplace(`+${skyboxMatch[1]}+`, `+${cleanVar(mapDataVar)}.skybox+`, "customSkybox");
                     let color3Var = new RegExp(`red\\:new\\s(${v})\\(`).safeExec(src, ["customSkybox"], true);
                     let skyboxModeVar = new RegExp(`\\.TEXTURE_SKYBOX_MODE\\=([a-zA-Z0-9"][a-zA-Z0-9"]*)`).safeExec(src, "customSkybox");
                     if (color3Var?.length > 1 && skyboxModeVar?.length > 1) {
@@ -2662,7 +2662,10 @@ class BetterUI {
                 if (!item) return;
                 tags = Array.isArray(tags) ? tags : [tags];
                 tags.forEach(tag => {
-                    if (add === item.item_data.tags.includes(tag)) return;
+                    if (add === item.item_data.tags.includes(tag)) {
+                        MegaMod.error("Better UI", `Check "${tag}" Item Tag for ${item.name}`);
+                        return;
+                    }
                     if (!item.item_data.tags) item.item_data.tags = [];
                     if (add) item.item_data.tags.push(tag);
                     else item.item_data.tags.splice(item.item_data.tags.indexOf(tag), 1);
@@ -2834,7 +2837,7 @@ class BetterUI {
                     this.isYTCreator ? 'fab fa-youtube hover' :
                     this.isTwitchCreator ? 'fab fa-twitch hover' :
                     this.isLimited ? 'far fa-gem hover' :
-                    this.isSocial ? 'fas fa-share' :
+                    this.isSocial ? 'fas fa-share hover' :
                     this.isPromo ? 'fas fa-ad hover' :
                     this.isEvent ? 'fas fa-calendar-alt' :
                     (this.isNormalShop || this.isPremiumEggPurchase) ? 'fas fa-egg' :
@@ -2861,6 +2864,7 @@ class BetterUI {
                 if (this.isNewYolker) return addClickSFX(() => { open('https://bluewizard.com/subscribe-to-the-new-yolker/'); });
                 if (this.item.creatorUrl && this.isCreator) return addClickSFX(() => { open(`https://${this.item.creatorUrl}`); });
                 if (this.item.promoUrl && this.isPromo) return addClickSFX(() => { open(`https://${this.item.promoUrl}`); });
+                if (this.isSocial) return addClickSFX(() => { open(vueApp.ui.socialMedia.footer.find(social => social.id == this.item.id).url); });
                 if (this.isLimited) return () => {
                     vueApp.openEquipSwitchTo(vueApp.equipMode.featured);
                     vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && extern.isItemOwned(item));
@@ -2899,15 +2903,30 @@ class BetterUI {
 
         // Fixed Weapon Deselect Bug
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
-        vueApp.$refs.equipScreen.selectItem = function(item) {
-            const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
-            const isWeapon = item?.item_type_id && ![ItemType.Hat, ItemType.Stamp].includes(item.item_type_id);
-            if (extern.modSettingEnabled("betterUI_inventory") && selectingSame && isWeapon) {
-                this.selectItemClickSound(item);
-                return;
-            }
-            oldSelectItem.call(this, item);
-        };
+        Object.assign(vueApp.$refs.equipScreen, {
+            selectItem(item) {
+                const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
+                const isWeapon = item?.item_type_id && ![ItemType.Hat, ItemType.Stamp].includes(item.item_type_id);
+                if (extern.modSettingEnabled("betterUI_inventory") && selectingSame && isWeapon) {
+                    this.selectItemClickSound(item);
+                    return;
+                }
+                oldSelectItem.call(this, item);
+            },
+            renderStamp() {
+                if (this.$refs.stampCanvas === undefined) return;
+    
+                var item = this.equip.selectedItem;
+    
+                if (this.currentEquipMode !== this.equipMode.inventory) {
+                    item = this.equipped[ItemType.Stamp]
+                }
+    
+                // Fixing BWD's buggy code errors...smh
+                if (!item) return;
+                extern.renderItemToCanvas(item, this.$refs.stampCanvas);
+            },
+        })
 
         // Item Totals
         vueApp.getShowingItemTotal = function() {
@@ -3001,11 +3020,11 @@ class BetterUI {
             onCloseClick: wrapWithHashCode(oldCodeCloseClick)
         });
 
-        const oldHideLoadingScreenAd = vueApp.hideLoadingScreenAd;
-        vueApp.hideLoadingScreenAd = function() {
-            oldHideLoadingScreenAd.call(this);
-            setTimeout(() => {
-                megaMod.betterUI.addGameToHistory();
+        const oldProgBarReset = vueApp.progressBarReset;
+        vueApp.progressBarReset = function() {
+            oldProgBarReset.call(this);
+            setTimeout(function() {
+                if(extern.inGame) megaMod.betterUI.addGameToHistory();
             }, 1500);
         }
     }
@@ -3028,14 +3047,14 @@ class BetterUI {
 
     addGameToHistory() {
         this.checkGameHistory();
-        const gameCode = vueApp.game.shareLinkPopup.url.split("#")[1];
+        const gameCode = vueApp.game.shareLinkPopup.url.split("#")[1].toUpperCase();;
         if (!gameCode) return;
 
         const mapData = {
             map: { name: vueApp.game.mapName },
             modeLoc: vueApp.gameTypes.find(type => type.value == vueApp.game.gameType).locKey,
             serverLoc: `server_${vueApp.currentRegionId}`,
-            gameCode: gameCode.toUpperCase(),
+            gameCode: gameCode,
             isPrivate: extern.isPrivateGame,
             isOpen: true
         };
@@ -3071,7 +3090,7 @@ class BetterUI {
             onmessage(e) { 
                 const { command, error } = JSON.parse(e.data);
                 if (this.noticeReceived && error === "gameNotFound") {
-                    unsafeWindow.megaMod.betterUI.setGameClosed(id);
+                    unsafeWindow.megaMod.betterUI.setGameClosed(id.toUpperCase());
                 }
                 this.noticeReceived = command == "notice";
             }
@@ -3081,7 +3100,7 @@ class BetterUI {
     checkOpenGames() {
         MegaMod.log("checkOpenGames():", "Checking Open Games...");
         this.checkGameHistory();
-        vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode));
+        vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
         
         if (this.gameHistoryTimeout) clearTimeout(this.gameHistoryTimeout);
         this.gameHistoryTimeout = setTimeout(this.checkOpenGames.bind(this), 5*60000);
@@ -3218,7 +3237,7 @@ class BetterUI {
                 setTimeout(() => {
                     this.badgeMsg.showing = false;
                     this.showBadgeMsg();  // Recursive call to process the next message
-                }, BAWK.sounds[sfx].buffer.duration * 1000);
+                }, (BAWK.sounds[sfx]?.buffer?.duration || 1.2) * 1000);
             },
             addBadgeMsg(msg) {
                 // Add the new message
@@ -3252,7 +3271,7 @@ class BetterUI {
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                setTimeout(vueApp.updateBadges.bind(vueApp), 500);
+                setTimeout(vueApp.updateBadges.bind(vueApp), 1000);
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);

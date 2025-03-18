@@ -45,17 +45,17 @@
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header {
-	background-color: var(--ss-blue4);
-	color: var(--ss-blue5);
+	background-color: var(--ss-blue4) !important;
+	color: var(--ss-blue5) !important;
 }
 
 #bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
-	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4));
-	border: var(--ss-common-border-width) solid var(--ss-blue4)
+	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4)) !important;
+	border: var(--ss-common-border-width) solid var(--ss-blue4) !important;
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header:before {
-	background-color: var(--ss-blue4);
+	background-color: var(--ss-blue4) !important;
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header {
@@ -133,12 +133,18 @@
 	background-size: cover !important;
 }
 
-#progress-outer {
+#progress-outer,
+.loading-progress-outer {
 	background: var(--ss-blue5) !important;
 }
 
-#progressBar {
+#progressBar,
+.loading-progress-bar {
 	background: var(--ss-blue2) !important;
+}
+
+.spinner-tips.LoadingMsgs p {
+	color: var(--ss-blue2) !important;
 }
 
 #logo-svg {
@@ -220,9 +226,15 @@
 }
 
 .egg_icon,
+.egg-icon img,
 .btn_buy_item img,
+.player-challenge-single-reward img,
+.chw-winner-egg,
 .egg-price-egg {
 	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_eggIcon.png");
+}
+.chw-winner-egg {
+	scale: .65;
 }
 
 #themeDesc,
@@ -464,11 +476,19 @@ h1,
 	margin-right: .2em;
 }
 
-.playerSlot--icons .vip-egg {
-	text-shadow: 1px 1px 2px rgb(0 0 0 / 50%);
+.playerSlot--icons .vip-egg,
+.chat-item .vip-egg {
 	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean_vipIcon.png') !important;
+}
+.playerSlot--icons .vip-egg {
+	text-shadow: 10px 10px 2px rgb(0 0 0 / 50%);
 	max-height: 1.1em;
 	max-width: 1.1em;
+}
+.chat-item .vip-egg {
+	width: 20px;
+	height: 20px;
+	margin-bottom: -.1em;
 }
 
 .btn-respawn.bevel_red {

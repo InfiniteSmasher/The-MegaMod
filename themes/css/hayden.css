@@ -76,11 +76,6 @@
 	--ss-vip: #FFF000;
 	--ss-red-btn-fill: #e96016;
 	--ss-red-btn-outline: #881A1A;
-
-	--ss-limited: #ffb3e8;
-	--ss-limited-txt: #ff1bba;
-	--ss-premium: #87ec4a;
-	--ss-premium-txt: #204908;
 	----ss-vip: #fff000;
 	--ss-vip-txt: #676000;
 
@@ -92,18 +87,6 @@
 	--ss-scrollmask1: linear-gradient(var(--ss-blue2clear), var(--ss-blue00));
 	--ss-scrollmask2: linear-gradient(rgba(56, 158, 192, 0), #389EC0);
 	--ss-fieldbg: linear-gradient(#91CADB, #ffffff, #ffffff, #ffffff, #ffffff);
-	--ss-nugSecs: 3600s;
-	--ss-me-player-bg: rgba(247,149,32,.8);
-
-	--ss-team-blue-light: rgb(28 148 187);
-	--ss-team-blue-light-trans: rgb(22 78 96 / 80%);
-	--ss-team-blue-dark: rgb(20 74 96);
-	--ss-team-blue-dark-trans: rgb(19 57 107 / 80%);
-
-	--ss-team-red-light: rgb(215 29 13);
-	--ss-team-red-light-trans: rgb(148 26 16 / 80%);
-	--ss-team-red-dark: rgb(77 17 13);
-	--ss-team-red-dark-trans: rgb(90 16 13 / 80%);
 
 	--ss-big-message-border-color: rgb(0, 0, 0);
 
@@ -222,16 +205,32 @@
 	background: linear-gradient(black, #ff5e00);
 	width: 0.3em;
 }
-.account_eggs div {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_eggIcon.png') center center no-repeat !important;
-	background-size: cover !important;
-	margin-right: 2px;
-	width: 40px;
+.shotReticle.border.normal {
+	border-color: black;
+	border-left: solid transparent;
+	border-right: solid transparent;
 }
-.egg_icon {
-	height: 1.6em;
-	margin: var(--ss-space-micro) var(--ss-space-sm) 0 0;
-	visibility: hidden;
+.shotReticle.fill.normal {
+	border-color: orange;
+	border-left: solid transparent;
+	border-right: solid transparent
+}
+#redDotReticle,
+#reticleDot {
+	background: #ff5e00;
+	border: solid 0.05em black;
+}
+.egg_icon,
+.egg-icon img,
+.btn_buy_item img,
+.player-challenge-single-reward img,
+.chw-winner-egg,
+.egg-price-egg {
+	 content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_eggIcon.png');
+	 object-fit: cover; 
+}
+.chw-winner-egg {
+	scale: .65;
 }
 .ss_field {
 	border-radius: var(--ss-space-sm);
@@ -244,88 +243,59 @@
 	font-weight: bold;
 	min-height: 2.45em;
 }
-#best_streak_container h1 {
-	margin: 0; padding: 0;
-	display: inline;
 
-	text-shadow: var(--ss-space-micro) var(--ss-space-micro) var(--ss-shadow);
-
-	font-family: 'Nunito', sans-serif !important;
-	font-size: 2.5em !important;
-	color: var(--ss-white) !important;
-	font-weight: bold !important;
-	text-transform: lowercase;
-
-	padding-left: 1.5em;
-	padding-top: 0em;
-
-	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_logo.png');
-    background-position: left center;
-	background-size: contain;
-    background-repeat: no-repeat;
-}
 #inGameUI, .chat-wrapper {
 	background: #ffa50061 !important;
 }
-.pause-bg, .playerSlot-player-is-me, .popup_sm, .popup_lg {
+.pause-bg, .playerSlot-player-is-me, .popup_sm, .popup_lg,
+.is-paused .pause-ui-element,
+.popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
+#notificationPopup .notify-group,
+.play-panel-panels {
 	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_bg.png') no-repeat center center fixed !important; 
 }
 
 #healthContainer {
-	position: absolute;
-	left: 50%; bottom: 1em;
-	transform: translateX(-50%);
-	display: inline-block;
-	width: 6em; height: 6em;
 	background: #ffa5002b;
-	border-radius: 50%;
-	text-align: center;
-}
-
-#health {
-}
-
-#healthHp {
-	font-family: 'Nunito', sans-serif;
-    font-weight: bold;
-    color: var(--ss-white);
-    font-size: 1.2em;
-    transform: translateY(-3.45em);
 }
 
 .healthBar {
-	transform-origin: center;
-	transform: rotate(90deg);
-	fill: transparent;
-	stroke: #c44800;
-	stroke-width: 1em;
-	stroke-dasharray: 14.4513em;
-	transition: all 0.3s ease-in-out;
+	stroke: #c44800 !important;
 }
 
 .healthYolk {
 	fill: black;
 }
 
-.healthSvg {
-	width: 100%; height: 100%;
+.healthBar-hardBoiled {
+    animation: strokeAnim 10s linear 1s infinite;
+	stroke: strokeAnim !important; 
 }
-#ammo {
-	text-align: right;
-	font-size: 3.25em;
-	font-family: 'Nunito', sans-serif;
-	font-weight: bold;
-	line-height: 1em;
-	margin: 0;
-	
-	padding-right: 1.2em;
-	padding-top: 0em;
-	margin-bottom: 0.1em;
 
+.healthBar-hardBoiled-stroke {
+    stroke:orange;
+}
+
+@keyframes strokeAnim
+{
+	100%, 
+	00% { stroke: black }
+	08% { stroke: black; }
+	16% { stroke: orange; }
+	25% { stroke: orange; }
+	33% { stroke: black; }
+	41% { stroke: black; }
+	50% { stroke: orange; }
+	58% { stroke: orange; }
+	66% { stroke: black; }
+	75% { stroke: black; }
+	83% { stroke: orange; }
+	91% { stroke: orange; }
+}
+
+#ammo {
 	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_ammo.png');
-    background-position: right center;
-	background-size: contain;
-    background-repeat: no-repeat;
+	color: orange !important;
 }
 #maskmiddle {
 	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_scope.png') center center no-repeat;
@@ -343,27 +313,33 @@
 .text-center {
 	color: white !important;
 }
-#deathBox::before {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    content: "You are now improsoned by" !important;
+#kill-death-box .killed h3,
+#kill-death-box .died h2 {
+	text-indent: -9999px;
+	line-height: 0;
 }
-#deathBox h3 {
-    display: none !important;
+
+#kill-death-box .killed h3:after,
+#kill-death-box .died h2:after {
+	text-indent: 0;
+	line-height: initial;
+	display: block;
+	color: black;
+	text-shadow: none;
 }
-#killBox::before {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    content: "Your new prisoner is" !important;
+
+#kill-death-box .killed h3:after {
+	font-size: 0.8em;
+	content: "Your new prisoner is";
 }
-#killBox h3 {
-    display: none !important;
+#kill-death-box .died h2:after {
+	font-size: 0.7em;
+	content: "You are now imprisoned by";
 }
-#killBox::after {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_scrown.gif') !important;
-	width: 100px !important;
-	height: 100px !important;
+.kill-death-box-img {
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_crown.gif');
 }
+.chw-pie-num,
 .chw-msg {
 	color: black !important;
 }
@@ -374,4 +350,96 @@
 }
 .btn-account-w-icon {
 	color: #ffe300 !important;
+}
+
+.player-challenges-container {
+	background: linear-gradient(-124deg, var(--ss-blue2) 0%, var(--ss-blue3) 80%) !important;
+}
+
+.player-challenge-single-action-claimed {
+	background: var(--ss-blue2) !important;
+}
+.player-challenge-claimed {
+	 color: var(--ss-blue5) !important;
+	 text-shadow: none !important;
+}
+.player-challenge-single-progress-bar.bg_yellow {
+    background-color: var(--ss-blue2) !important;
+}
+
+#respawn-menu .media-tab-challenges .info-btn {
+	color: var(--ss-white) !important;
+}
+
+.player-challenge-single .checkmark-wrap {
+	 border-top-color: var(--ss-blue2);
+}
+
+.common-box-shadow {
+    box-shadow:none;
+}
+
+.in-game-notification {
+    background: linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255, 165, 0,.5) 50%,rgba(255,255,255,0) 100%)
+}
+
+#grenadeThrowContainer {
+    background: #ffa50061;
+}
+
+#grenadeThrow {
+    background: linear-gradient(orange, black);
+}
+
+#spectate {
+	background: #ffa50061
+}
+
+#kill-death-box .text_yellow {
+	color: #c44800;
+}
+
+#bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
+	background-image: var(--ss-lightoverlay);
+	border: var(--ss-common-border-width) solid var(--ss-blue4) !important;
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header:before {
+	background-color: var(--ss-blue4) !important;
+}
+
+.single-egg-store-item-is-bundle .single-egg-store-header {
+	 background-color: var(--ss-blue4) !important;
+	 color: var(--ss-blue5) !important;
+}
+
+#shellStreakCaption,
+#shellStreakCaptionStreak {
+	color: orange;
+}
+
+#progress-container,
+.load_screen {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+}
+
+#progress-outer,
+.loading-progress-outer {
+	background: var(--ss-blue7) !important;
+}
+
+#progress-outer div,
+.loading-progress-outer div {
+    background: var(--ss-blue4) !important;
+}
+
+#progressBar,
+.loading-progress-bar {
+	background: var(--ss-blue7) !important;
+}
+
+.load_message.tips,
+.spinner-tips.LoadingMsgs p {
+	color: orange !important;
 }

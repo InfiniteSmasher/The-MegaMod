@@ -45,17 +45,17 @@
 }
 
 #bundlePopup, .single-egg-store-item.single-egg-store-item-is-bundle {
-	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4));
-	border: var(--ss-common-border-width) solid var(--ss-blue4);
+	background-image: linear-gradient(to bottom, var(--ss-blue5), var(--ss-blue3), var(--ss-blue4)) !important;
+	border: var(--ss-common-border-width) solid var(--ss-blue4) !important;
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header:before {
-	background-color: var(--ss-blue4);
+	background-color: var(--ss-blue4) !important;
 }
 
 .single-egg-store-item-is-bundle .single-egg-store-header {
-	 background-color: var(--ss-blue4);
-	 color: var(--ss-blue5);
+	 background-color: var(--ss-blue4) !important;
+	 color: var(--ss-blue5) !important;
 }
 
 .ss_select,
@@ -121,16 +121,23 @@
 	background-size: cover !important;
 }
 
-#progress-outer {
+#progress-outer,
+.loading-progress-outer {
 	background: var(--ss-blue5) !important;
 }
 
-#progress-outer div {
+#progress-outer div,
+.loading-progress-outer div {
     background: var(--ss-blue2) !important;
 }
 
-#progressBar {
+#progressBar,
+.loading-progress-bar {
 	background: var(--ss-blue5) !important;
+}
+
+.spinner-tips.LoadingMsgs p {
+	color: var(--ss-blue2) !important;
 }
 
 #logo-svg {
@@ -216,9 +223,15 @@
 }
 
 .egg_icon,
+.egg-icon img,
 .btn_buy_item img,
+.player-challenge-single-reward img,
+.chw-winner-egg,
 .egg-price-egg {
 	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg");
+}
+.chw-winner-egg {
+	scale: .65;
 }
 
 #themeDesc,
@@ -471,10 +484,18 @@ h1,
 	margin-right: .2em;
 }
 
+.playerSlot--icons .vip-egg,
+.chat-item .vip-egg {
+	content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg") !important;
+}
 .playerSlot--icons .vip-egg {
 	text-shadow: 10px 10px 2px rgb(0 0 0 / 50%);
-	content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg") !important;
 	max-height: 1.4em;
+}
+.chat-item .vip-egg {
+	width: 20px;
+	height: 20px;
+	margin-bottom: -.1em;
 }
 
 .btn-respawn.bevel_red {

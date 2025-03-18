@@ -226,6 +226,7 @@ There's a new link added to the footer on the home screen, which opens a changel
       - New Yolker - opens New Yolker signup page
       - Notification - requests to turn on notifications
       - Promo - opens the particular promotion of the item
+      - Social - opens the particular BWD social media page of the item
       - Limited - opens limited edition section and shows all owned limited items
       - Content Creator - links directly to the social media profile of the content creator
   </details>

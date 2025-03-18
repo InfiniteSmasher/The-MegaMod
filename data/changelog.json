@@ -1,6 +1,19 @@
 {
 	"current": [
 		{
+			"version": "0.22",
+			"date": "March 18 2025",
+			"content": [
+				"Fixed bug with profile badge alert popup getting stuck on startup",
+				"Icons on Social items now link to their respective BWD Social Media pages",
+				"Fixed bugs with Game History after loading screen & game code format update",
+				"Major changes (fixes) made to King Hayden theme",
+				"Minor changes made to Infinite, Graysocean, Boolet themes"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.21",
 			"date": "February 19 2025",
 			"content": [
@@ -11,9 +24,7 @@
 				"The Corrupted Grenade has been promoted to Premium item status!",
 				"Fixed Errors with Custom Skybox Mod (caused by Update 0.50.9)"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.20",
 			"date": "January 5 2025",

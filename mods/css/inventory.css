@@ -74,6 +74,9 @@
 	border-width: var(--ss-new-border-width) !important;
 	border-radius: var(--ss-space-lg) !important;
 }
+.grid-item canvas {
+    border-radius: calc(var(--ss-space-lg) - var(--ss-new-border-width));
+}
 
 /* Brings Back Rounded Corners! (Weapon Class Buttons) */
 .weapon_img {

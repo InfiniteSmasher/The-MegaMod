@@ -254,7 +254,11 @@
 .main-menu-button svg path:nth-child(1) {
 	fill: #b0b300 !important;
 }
-.pause-bg, .popup_lg {
+.pause-bg, .popup_lg,
+.is-paused .pause-ui-element,
+.popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
+#notificationPopup .notify-group,
+.play-panel-panels {
 	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_bg2.png') center center no-repeat;
 	background-size: cover;
 }
@@ -429,4 +433,31 @@
 
 .profile-badge-container .info-btn {
 	color: var(--ss-blue3);
+}
+
+.player-challenges-container {
+	background: linear-gradient(-124deg, var(--ss-blue2) 0%, var(--ss-blue3) 80%) !important;
+}
+
+.player-challenge-single-action-claimed {
+	background: var(--ss-blue2) !important;
+}
+.player-challenge-claimed.text_blue3 {
+	 color: var(--ss-blue0) !important;
+	 text-shadow: none !important;
+}
+.player-challenge-single-progress-bar.bg_yellow {
+    background-color: var(--ss-blue2) !important;
+}
+
+#respawn-menu .media-tab-challenges .info-btn {
+	color: var(--ss-white) !important;
+}
+
+.player-challenge-single .checkmark-wrap {
+	 border-top-color: var(--ss-blue2);
+}
+
+.common-box-shadow {
+    box-shadow:none;
 }

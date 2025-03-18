@@ -1,11 +1,10 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Fixed bug with Chick'n Winner Owned Item Images showing for all 3 eggs",
-        "Fixed bug with Game History glitching after seasonal maps get removed",
-        "Removed # in front of game codes on the Game History popup",
-        "The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!",
-        "The Corrupted Grenade has been promoted to Premium item status!",
-        "Fixed Errors with Custom Skybox Mod (caused by Update 0.50.9)"
+        "Fixed bug with profile badge alert popup getting stuck on startup",
+        "Icons on Social items now link to their respective BWD Social Media pages",
+        "Fixed bugs with Game History after loading screen & game code format update",
+        "Major changes (fixes) made to King Hayden theme",
+        "Minor changes made to Infinite, Graysocean, Boolet themes"
     ]
 }
