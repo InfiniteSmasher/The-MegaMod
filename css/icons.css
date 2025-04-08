@@ -135,6 +135,10 @@
 	content: "\e36e";
 }
 
+.fa-pencil:before {
+	content: "\f303";
+}
+
 .fa-sparkle:before {
 	content: "\e5d6";
 }

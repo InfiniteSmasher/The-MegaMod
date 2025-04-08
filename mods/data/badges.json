@@ -44,6 +44,22 @@
 			"class": "badge-eggforcer"
 		},
 		{
+			"type": 1,
+			"value": 1117,
+			"locKey": "megaMod_betterUI_badge_sl",
+			"icon": "fas6 fa-trophy",
+			"class": "badge-sl",
+			"clickFunc": "() => { window.open('https://shellshockers.fandom.com/wiki/Shell_League') }"
+		},
+		{
+			"type": 1,
+			"value": 1486,
+			"locKey": "megaMod_betterUI_badge_wiki",
+			"icon": "fas6 fa-pencil",
+			"class": "badge-wiki",
+			"clickFunc": "() => { window.open('https://shellshockers.fandom.com/wiki/Shell_Shockers_Wiki') }"
+		},
+		{
 			"condition": "unsafeWindow.megaMod.betterUI.badgeData.playtesterIds.includes(extern?.account?.id?.toString(16))",
 			"locKey": "megaMod_betterUI_badge_tester",
 			"icon": "fas6 fa-flask-gear",
@@ -114,6 +130,13 @@
 			"locKey": "megaMod_betterUI_badge_eggorg24",
 			"icon": "fas6 fa-robot",
 			"class": "badge-eggorg24"
+		},
+		{
+			"type": 1,
+			"value": -9999,
+			"locKey": "megaMod_betterUI_badge_eggorg25",
+			"icon": "fas6 fa-question",
+			"class": "tier5"
 		},
 		{
 			"condition": "extern?.account?.inventory.filter(i => i?.unlock === 'premium' && i.price !== 2147483647).reduce((sum, item) => sum + item.price, 0) >= {0}",
@@ -244,7 +267,7 @@
 		{
 			"condition": "extern.getThemedItems('league').filter(extern.isItemOwned).length >= {0}",
 			"locKey": "megaMod_betterUI_badge_league",
-			"tierIcons": ["fas fa-trophy", "fas fa-trophy", "fas fa-trophy", "fas6 fa-trophy-star", "fas6 fa-trophy-star"],
+			"tierIcons": ["far6 fa-trophy", "far6 fa-trophy", "far6 fa-trophy", "fas6 fa-trophy-star", "fas6 fa-trophy-star"],
 			"tierValues": [1, 2, 3, 7, 9],
 			"class": "badge-league"
 		},
@@ -264,5 +287,14 @@
 			"ignorePlus": true,
 			"class": "badge-promo"
 		}
+	],
+	"creatorData": [
+		{ "id": 0, "url": "https://facebook.com/bluewizarddigital",    "active": true },
+		{ "id": 1, "url": "https://instagram.com/bluewizardgames",     "active": true },
+		{ "id": 2, "url": "https://www.tiktok.com/@bluewizarddigital", "active": true },
+		{ "id": 3, "url": "https://discord.gg/bluewizard",             "active": true },
+		{ "id": 4, "url": "https://youtube.com/bluewizarddigital",     "active": true },
+		{ "id": 5, "url": "https://x.com/BlueWizardGames",             "active": true },
+		{ "id": 6, "url": "https://twitch.tv/bluewizarddigital",       "active": true }
 	]
 }

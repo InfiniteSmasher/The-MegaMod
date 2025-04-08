@@ -4,5 +4,7 @@
 	"settingsTab",
 	"settingsTabHover",
 	"badgeLevelUp",
-	"badgeLevelDown"
+	"badgeLevelDown",
+	"itemVaultOpen",
+	"itemVaultClose"
 ]

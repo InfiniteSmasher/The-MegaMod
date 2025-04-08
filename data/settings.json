@@ -894,5 +894,61 @@
 				]
 			}
 		]
+	},
+	{
+		"id": "customFog",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_customFog",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "customFog_densitySlider",
+				"type": 0,
+				"active": true,
+				"locKey": "p_settings_mods_customFog_densitySlider",
+				"min": 0,
+				"max": 100,
+				"step": 1,
+				"defaultVal": 75
+			},
+			{
+				"type": 4,
+				"active": true,
+				"locKey": "p_settings_mods_customFog_colorSlider",
+				"settings": [
+					{
+						"id": "customFog_colorSlider_r",
+						"type": 0,
+						"active": true,
+						"locKey": "p_settings_mods_customFog_colorSlider_r",
+						"min": 0,
+						"max": 255,
+						"step": 1,
+						"defaultVal": 85
+					},
+					{
+						"id": "customFog_colorSlider_g",
+						"type": 0,
+						"active": true,
+						"locKey": "p_settings_mods_customFog_colorSlider_g",
+						"min": 0,
+						"max": 255,
+						"step": 1,
+						"defaultVal": 170
+					},
+					{
+						"id": "customFog_colorSlider_b",
+						"type": 0,
+						"active": true,
+						"locKey": "p_settings_mods_customFog_colorSlider_b",
+						"min": 0,
+						"max": 255,
+						"step": 1,
+						"defaultVal": 255
+					}
+				]
+			}
+		]
 	}
 ]

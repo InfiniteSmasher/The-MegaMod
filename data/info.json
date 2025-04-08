@@ -1,10 +1,13 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Fixed bug with profile badge alert popup getting stuck on startup",
-        "Icons on Social items now link to their respective BWD Social Media pages",
-        "Fixed bugs with Game History after loading screen & game code format update",
-        "Major changes (fixes) made to King Hayden theme",
-        "Minor changes made to Infinite, Graysocean, Boolet themes"
+        "Fixed major loading bug, fixed lots of mod errors, & cleaned up a bunch of code",
+        "Added Custom Fog Mod (will work once BWD fixes the in-game fog system)",
+        "Official BWD Content Creators now get profile badges linked to their social media account!",
+        "Added the \"Shadowborn Survivor\" (EGG ORG 2025) event badge, which will be unlocked with its icon revealed once the event ends.",
+        "Added the \"Shell League Staff\" and \"Shell Wiki Staff\" badges for Shell League and Shell Wiki staff members",
+        "Changed icons for tiers 1-3 of the \"Pro Egg Gamer\" badge",
+        "Optimized Better Inventory code for faster item loading/tab switching times",
+        "Introducing the Item Vault! You can now preview unowned vaulted items only in the inventory."
     ]
 }

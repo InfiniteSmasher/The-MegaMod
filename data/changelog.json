@@ -1,6 +1,22 @@
 {
 	"current": [
 		{
+			"version": "0.23",
+			"date": "April 8 2025",
+			"content": [
+				"Fixed major loading bug, fixed lots of mod errors, & cleaned up a bunch of code",
+       			"Added Custom Fog Mod (will work once BWD fixes the in-game fog system)",
+				"Official BWD Content Creators now get profile badges linked to their social media account!",
+				"Added the \"Shadowborn Survivor\" (EGG ORG 2025) event badge, which will be unlocked with its icon revealed once the event ends.",
+				"Added the \"Shell League Staff\" and \"Shell Wiki Staff\" badges for Shell League and Shell Wiki staff members",
+				"Changed icons for tiers 1-3 of the \"Pro Egg Gamer\" badge",
+				"Optimized Better Inventory code for faster item loading/tab switching times",
+				"Introducing the Item Vault! You can now preview unowned vaulted items only in the inventory."
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.22",
 			"date": "March 18 2025",
 			"content": [
@@ -10,9 +26,7 @@
 				"Major changes (fixes) made to King Hayden theme",
 				"Minor changes made to Infinite, Graysocean, Boolet themes"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.21",
 			"date": "February 19 2025",
@@ -168,7 +182,8 @@
 				"Various features added to <b>spectate mode</b>:<ul><li>See a player's <b>health bar</b> in first-person spectate mode.</li><li>Effortlessly fly around maps with a slider to adjust <b>spectate speed</b>.</li><li><b>Freeze the game</b> in spectate mode for the perfect action shot.</li><li>...and more!</li></ul>",
 				"<b>Spin your egg 360°</b> in the Photobooth and export it as a GIF (coming soon).",
 				"Explore a handful of <b>custom themes</b> to customize the Shell Shockers UI.",
-				"Choose from <b>over 60 new skybox options</b> or <b>any solid color</b> for a unique in-game atmosphere!"
+				"Choose from <b>over 60 new skybox options</b> or <b>any solid color</b> for a unique in-game atmosphere!",
+				"Customize the <b>in-game fog</b> with adjustable <b>density</b> and <b>color</b> to create anything from a light mist to complete blindness!"
 			]
 		}
 	]

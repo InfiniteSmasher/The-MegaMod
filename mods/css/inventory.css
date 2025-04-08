@@ -122,6 +122,43 @@
 }
 */
 
+/* Lock Icon */
+#equip_grid .grid-item .lock-icon {
+	scale: 3.5;
+	opacity: .75;
+}
+/* Locked Item Grayscale Filter */
+.tool-tip.locked span, .tool-tip.locked .grid-item {
+    filter: grayscale(0.5);
+}
+/* Vault Button */
+.vaultbtn {
+    border-width: var(--ss-common-border-width);
+    border-style: solid;
+    right: -20em;
+    position: relative;
+    align-items: center;
+    width: 5em;
+    height: 5em;
+}
+#app:not(.photo-booth) .vaultbtn {
+    top: 7.4em;
+}
+#app.photo-booth .vaultbtn {
+    top: 4.3em;
+}
+.vaultbtn.disabled {
+    filter: grayscale(80%);
+	pointer-events: none;
+}
+.vault-lock {
+    scale: 1.5;
+    padding-bottom: .75em;
+}
+.equip_panel.vaultopen.right_panel {
+    margin-top: calc(var(--ss-account-panel-height)) !important;
+}
+
 /* --------------------------- [ Premium ] */
 /* --------- Grid Slot */
 /* Border */
@@ -129,10 +166,14 @@
 	border-color: var(--ss-premium-txt);
 }
 /* $ Pricetag + Egg Spinner + Special Icon */
-.grid-item.is-premium div i:not(.fa-dollar-sign),
+.grid-item.is-premium div i,
 .is-premium .item-icon,
-.premium-item-cost {
+.premium-item-cost,
+.is-premium .equip_cost {
 	color: var(--ss-premium-txt);
+}
+#equip_grid .is-premium .egg-stroke {
+	fill: var(--ss-premium-txt);
 }
 /* Highlight */
 #equip_grid .is-premium.highlight {
@@ -299,18 +340,18 @@
 #equip_grid .grid-item.item-tag-limited:not(.is-bundle) {
 	border-color: var(--ss-limited-border);
 }
-#equip_grid .item-tag-limited.highlight {
+#equip_grid .item-tag-limited:not(.is-bundle).highlight {
 	background: radial-gradient(#ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #e000a9, #d2009f, #c50095) !important;
 }
 .grid-item.item-tag-limited div i:not(.fa-dollar-sign),
-.item-tag-limited .item-icon,
+.item-tag-limited:not(.is-bundle) .item-icon,
 .item-tag-limited .equip_cost {
 	color: var(--ss-limited-border);
 }
 #equip_grid .item-tag-limited .egg-stroke {
 	fill: var(--ss-limited-border);
 }
-.item-tag-limited:not(.is-premium) .equip-item-banner {
+.item-tag-limited:not(.is-premium, .is-bundle) .equip-item-banner {
 	padding: 0.3em 2.4em;
 }
 .item-tag-limited.secondary .equip_icon, 
@@ -588,11 +629,11 @@
 .grid-item.is-promo div i,
 .is-promo .item-icon,
 .tool-tip.promo h4,
-.is-promo .equip_cost
+.is-promo .equip_cost,
 .grid-item.is-event div i,
 .is-event .item-icon,
 .tool-tip.event h4,
-.is-event .equip_cost
+.is-event .equip_cost,
 .grid-item.is-social div i,
 .is-social .item-icon,
 .tool-tip.social h4 {

@@ -97,6 +97,12 @@
 	
 	"megaMod_betterUI_badge_eggforcer_title": "Eggforcer",
 	"megaMod_betterUI_badge_eggforcer_desc": "Be one of the Shell moderators (Eggforcers)",
+
+	"megaMod_betterUI_badge_sl_title": "Shell League Staff",
+	"megaMod_betterUI_badge_sl_desc": "Be a staff member of the official Shell League",
+
+	"megaMod_betterUI_badge_wiki_title": "Shell Wiki Staff",
+	"megaMod_betterUI_badge_wiki_desc": "Be a staff member on the official Shell Shockers Wiki",
 	
 	"megaMod_betterUI_badge_og_title": "OG Player",
 	"megaMod_betterUI_badge_og_desc": "Account created in 2019 or earlier",
@@ -121,12 +127,18 @@
 	
 	"megaMod_betterUI_badge_eggorg24_title": "N0 M0R3 R0B0T5",
 	"megaMod_betterUI_badge_eggorg24_desc": "Participated in the \"Rise of the Robots\" (EGG ORG 2024) event",
+
+	"megaMod_betterUI_badge_eggorg25_title": "Shadowborn Survivor",
+	"megaMod_betterUI_badge_eggorg25_desc": "Participated in the \"Shadow War\" (EGG ORG 2025) event",
 	
 	"megaMod_betterUI_badge_scavenger22_title": "Treasure Hunter",
 	"megaMod_betterUI_badge_scavenger22_desc": "Participated in the 2022 Scavenger Hunt event",
 	
 	"megaMod_betterUI_badge_tester_title": "MegaMod Playtester",
 	"megaMod_betterUI_badge_tester_desc": "Helped playtest The MegaMod before its release - tysm!",
+
+	"megaMod_betterUI_badge_social_title": "{0} Creator",
+	"megaMod_betterUI_badge_social_desc": "Be an official Blue Wizard Digital {0} Content Creator",
 	
 	"megaMod_betterUI_badge_premium_title": "Eggstra Spender {0}",
 	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of Premium items",
@@ -224,7 +236,7 @@
 	"megaMod_betterUI_gameHistoryPopup_refresh": "<i class='fas fa-refresh'></i> Refresh",
 
 	"megaMod_betterUI_chwOwnedItem": "(Already Owned)",
-
+	"megamod_betterUI_itemVault": "<i class='fas fa-lock vault-lock'></i> The Item Vault",
 	
 	"p_settings_mods_colorSlider_title": "VIP Color Slider",
 	"p_settings_mods_colorSlider_desc": "Adds working sliders (hue, saturation, and brightness) for selecting your egg color in the inventory. Also adds a color randomizer button because why not :) <br>NOTE: This is a client-sided mod so other players will see your egg color as white when you use custom colors.",
@@ -347,6 +359,7 @@
 	"p_settings_mods_customSkybox_desc": "What's up?....The Skybox! Tired of looking at the same boring skies while shootin' eggs? Well now you can choose between over 60+ different skyboxes or any solid color for all maps to use!",
 	"p_settings_mods_customSkybox_skyboxCategorySelect": "Skybox Category",
 	"p_settings_mods_customSkybox_skyboxSelect": "Select Skybox",
+	"p_settings_mods_customSkybox_colorSlider": "Skybox Color Picker",
 	"p_settings_mods_customSkybox_colorSlider_r": "Red",
 	"p_settings_mods_customSkybox_colorSlider_g": "Green",
 	"p_settings_mods_customSkybox_colorSlider_b": "Blue",
@@ -436,5 +449,12 @@
 	"p_settings_mods_customSkybox_skybox_dsBluePlanet": "Deep Space Blue w/ Planet",
 	"p_settings_mods_customSkybox_skybox_stars": "Stars",
 
-	"p_settings_mods_customSkybox_colorSlider": "Skybox Color Picker"
+
+	"p_settings_mods_customFog_title": "Custom Fog",
+	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to a crystal-clear view across all maps.",
+	"p_settings_mods_customFog_densitySlider": "Fog Density (%)",
+	"p_settings_mods_customFog_colorSlider": "Fog Color Picker",
+	"p_settings_mods_customFog_colorSlider_r": "Red",
+	"p_settings_mods_customFog_colorSlider_g": "Green",
+	"p_settings_mods_customFog_colorSlider_b": "Blue"
 }

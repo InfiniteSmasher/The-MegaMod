@@ -105,6 +105,14 @@
 	background: linear-gradient(to bottom right, white, #eee, #bcc6cc, #a5b0b6);
 }
 
+.badge-wiki {
+    background: linear-gradient(to bottom left, #fdabf5 30%, 	#f9d47c 30%, #fde394 74%, #e2e2e3 78% 88%, #505e5e 88%);
+}
+
+.badge-sl {
+    background: linear-gradient(125deg, black 44%, white 44% 50%, orange 50%);
+}
+
 .badge-og {
 	background: linear-gradient(to bottom right, #BA9368, #C49E76, #CEA984, #D9B393, #E3BEA1);
 }
@@ -137,6 +145,32 @@
 	background: linear-gradient(to bottom right, #FDF251, #dbce1a);
 }
 
+/* Eggsassin Ninja (fa-user-ninja)*/
+/*
+.badge-eggorg25 {
+	background: linear-gradient(to bottom, black 50%, #ff4029 50%, #982313);
+}
+*/
+
+/* Egg-Fu Ninja (fa-user-ninja)*/
+/*
+.badge-eggorg25 {
+	background: linear-gradient(to bottom, black 50%, #07a8d9 50%, #0b93bd);
+}
+*/
+
+/* Eggsassin Dragon (fa-dragon)*/
+.badge-eggorg25 {
+	background: linear-gradient(to bottom right, #ff4029, #982313);
+}
+
+/* Egg-Fu Wind (fa-wind)*/
+/*
+.badge-eggorg25 {
+	background: linear-gradient(to bottom left, #0b93bd, #07a8d9 90%);
+}
+*/
+
 .badge-scavenger22 {
 	background: radial-gradient(#DCDCD3, #D0CABC, #B6987E);
 }
@@ -145,10 +179,39 @@
 	background: linear-gradient(to bottom right, #ffdc00 25%, #00ffb5, #00d4ff, #009dff 90%);
 }
 
-.main-badges i:not(.badge-vip, .badge-wizard),
-#badgeInfoPopup .table-div td i:not(.badge-vip, .badge-wizard),
+.badge-social0 {
+	color: #1877F2;
+}
+
+/* Instagram */
+.badge-social1 {
+	background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+/* TikTok & Twitter (X) */
+.badge-social2,
+.badge-social5 {
+	color: black;
+}
+
+/* Discord */
+.badge-social3 {
+	color: #5539CC;
+}
+
+/* Youtube */
+.badge-social4 {
+	color: red;
+}
+
+/* Twitch */
+.badge-social6 {
+	color: var(--ss-twitch);
+}
+
+.main-badges i:not(.badge-vip, .badge-wizard, .badge-social0, .badge-social2, .badge-social3, .badge-social4, .badge-social5, .badge-social6),
+#badgeInfoPopup .table-div td i:not(.badge-vip, .badge-wizard, .badge-social0, .badge-social2, .badge-social3, .badge-social4, .badge-social5, .badge-social6),
 .tier-badges i,
-#badgeLevelUp #badgeIcon:not(.badge-vip, .badge-wizard) {
+#badgeLevelUp #badgeIcon:not(.badge-vip, .badge-wizard, .badge-social0, .badge-social2, .badge-social3, .badge-social4, .badge-social5, .badge-social6) {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent;
@@ -438,7 +501,7 @@
     font-size: 5em;
 }
 
-#badgeLevelUp #badgeName:not(.badge-vip, .badge-wizard) {
+#badgeLevelUp #badgeName:not(.badge-vip, .badge-wizard, .badge-social0, .badge-social2, .badge-social3, .badge-social4, .badge-social5, .badge-social6) {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent;
