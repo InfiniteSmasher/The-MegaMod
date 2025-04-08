@@ -3421,7 +3421,7 @@ class BetterUI {
                     else 
                         setupBadge(badge);
                 });
-                const contentCreator = info ? creatorData : (JSON.parse(this.contentCreator)?.filter?.(s => s.active) || []);
+                const contentCreator = info ? creatorData : (this.contentCreator?.filter?.(s => s.active) || []);
                 if (contentCreator?.length) {
                     const locKey = `megaMod_betterUI_badge_social`;
                     contentCreator.forEach(s => {
