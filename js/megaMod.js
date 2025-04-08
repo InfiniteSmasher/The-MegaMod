@@ -3126,7 +3126,7 @@ class BetterUI {
                 const invEnabled = extern.modSettingEnabled("betterUI_inventory");
                 const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
                 const isWeapon = ![ItemType.Hat, ItemType.Stamp].includes(item?.item_type_id);
-                if (invEnabled && this.itemVaultEnabled && item.item_type_id === ItemType.Stamp) extern.renderItemToCanvas(item, this.$refs.stampCanvas);
+                if (invEnabled && this.itemVaultEnabled && item.item_type_id === ItemType.Stamp && this.$refs.stampCanvas) extern.renderItemToCanvas(item, this.$refs.stampCanvas);
                 if (invEnabled && selectingSame && isWeapon) {
                     this.selectItemClickSound(item);
                     return;
