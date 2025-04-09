@@ -48,7 +48,7 @@
 			"value": 1117,
 			"locKey": "megaMod_betterUI_badge_sl",
 			"icon": "fas6 fa-trophy",
-			"class": "badge-sl",
+			"class": "badge-sl badge-hover-alt",
 			"clickFunc": "() => { window.open('https://shellshockers.fandom.com/wiki/Shell_League') }"
 		},
 		{
@@ -56,7 +56,7 @@
 			"value": 1486,
 			"locKey": "megaMod_betterUI_badge_wiki",
 			"icon": "fas6 fa-pencil",
-			"class": "badge-wiki",
+			"class": "badge-wiki badge-hover-alt",
 			"clickFunc": "() => { window.open('https://shellshockers.fandom.com/wiki/Shell_Shockers_Wiki') }"
 		},
 		{
