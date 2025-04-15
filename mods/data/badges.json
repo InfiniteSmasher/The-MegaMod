@@ -238,7 +238,7 @@
 			"tierValues": [10, 20, 30, 50, 80],
 			"ignorePlus": true,
 			"class": "badge-limited badge-hover-alt",
-			"clickFunc": "() => { vueApp.openEquipSwitchTo(vueApp.equipMode.featured); vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(i => i.is_available && extern.isItemOwned(i)); }"
+			"clickFunc": "() => { vueApp.openEquipSwitchTo(vueApp.equipMode.featured); vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(i => extern.isItemOwned(i) && i.is_available && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct))); }"
 		},
 		{
 			"condition": "extern.getThemedItems('physical').filter(extern.isItemOwned).length == {0}",

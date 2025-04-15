@@ -854,42 +854,12 @@
 						"defaultVal": "blueSky"
 					},
 					{
-						"type": 4,
+						"id": "customSkybox_colorPicker",
+						"type": 7,
 						"active": true,
-						"locKey": "p_settings_mods_customSkybox_colorSlider",
+						"locKey": "p_settings_mods_customSkybox_colorPicker",
 						"showCondition": "window.megaMod.customSkybox.usingSkyboxColor",
-						"settings": [
-							{
-								"id": "customSkybox_colorSlider_r",
-								"type": 0,
-								"active": true,
-								"locKey": "p_settings_mods_customSkybox_colorSlider_r",
-								"min": 0,
-								"max": 255,
-								"step": 1,
-								"defaultVal": 85
-							},
-							{
-								"id": "customSkybox_colorSlider_g",
-								"type": 0,
-								"active": true,
-								"locKey": "p_settings_mods_customSkybox_colorSlider_g",
-								"min": 0,
-								"max": 255,
-								"step": 1,
-								"defaultVal": 170
-							},
-							{
-								"id": "customSkybox_colorSlider_b",
-								"type": 0,
-								"active": true,
-								"locKey": "p_settings_mods_customSkybox_colorSlider_b",
-								"min": 0,
-								"max": 255,
-								"step": 1,
-								"defaultVal": 255
-							}
-						]
+						"defaultVal": "#832cab"
 					}
 				]
 			}
@@ -903,51 +873,35 @@
 		"defaultVal": true,
 		"settings": [
 			{
-				"id": "customFog_densitySlider",
-				"type": 0,
-				"active": true,
-				"locKey": "p_settings_mods_customFog_densitySlider",
-				"min": 0,
-				"max": 100,
-				"step": 1,
-				"defaultVal": 75
-			},
-			{
 				"type": 4,
 				"active": true,
-				"locKey": "p_settings_mods_customFog_colorSlider",
 				"settings": [
 					{
-						"id": "customFog_colorSlider_r",
+						"id": "customFog_densitySlider",
 						"type": 0,
 						"active": true,
-						"locKey": "p_settings_mods_customFog_colorSlider_r",
+						"locKey": "p_settings_mods_customFog_densitySlider",
 						"min": 0,
-						"max": 255,
+						"max": 100,
 						"step": 1,
-						"defaultVal": 85
+						"defaultVal": 75
 					},
 					{
-						"id": "customFog_colorSlider_g",
-						"type": 0,
+						"type": 6,
 						"active": true,
-						"locKey": "p_settings_mods_customFog_colorSlider_g",
-						"min": 0,
-						"max": 255,
-						"step": 1,
-						"defaultVal": 170
-					},
-					{
-						"id": "customFog_colorSlider_b",
-						"type": 0,
-						"active": true,
-						"locKey": "p_settings_mods_customFog_colorSlider_b",
-						"min": 0,
-						"max": 255,
-						"step": 1,
-						"defaultVal": 255
+						"class": "ss_button btn_yolk bevel_yolk btn_md no_margin_bottom",
+						"disableCondition": "!extern.inGame",
+						"btnLocKey": "p_settings_mods_customFog_resetBtn",
+						"onclick": "extern.resetFog()"
 					}
 				]
+			},
+			{
+				"id": "customFog_colorPicker",
+				"type": 7,
+				"active": true,
+				"locKey": "p_settings_mods_customFog_colorPicker",
+				"defaultVal": "#197a93"
 			}
 		]
 	}

@@ -237,6 +237,8 @@
 
 	"megaMod_betterUI_chwOwnedItem": "(Already Owned)",
 	"megamod_betterUI_itemVault": "<i class='fas fa-lock vault-lock'></i> The Item Vault",
+	"megamod_betterUI_i_eq_emptyVault_head": "Vault Empty!",
+	"megamod_betterUI_i_eq_emptyVault_text": "You have fully looted the Item Vault. Nice!",
 	
 	"p_settings_mods_colorSlider_title": "VIP Color Slider",
 	"p_settings_mods_colorSlider_desc": "Adds working sliders (hue, saturation, and brightness) for selecting your egg color in the inventory. Also adds a color randomizer button because why not :) <br>NOTE: This is a client-sided mod so other players will see your egg color as white when you use custom colors.",
@@ -359,10 +361,7 @@
 	"p_settings_mods_customSkybox_desc": "What's up?....The Skybox! Tired of looking at the same boring skies while shootin' eggs? Well now you can choose between over 60+ different skyboxes or any solid color for all maps to use!",
 	"p_settings_mods_customSkybox_skyboxCategorySelect": "Skybox Category",
 	"p_settings_mods_customSkybox_skyboxSelect": "Select Skybox",
-	"p_settings_mods_customSkybox_colorSlider": "Skybox Color Picker",
-	"p_settings_mods_customSkybox_colorSlider_r": "Red",
-	"p_settings_mods_customSkybox_colorSlider_g": "Green",
-	"p_settings_mods_customSkybox_colorSlider_b": "Blue",
+	"p_settings_mods_customSkybox_colorPicker": "Skybox Color",
 	
 	"p_settings_mods_customSkybox_category_official": "Official (In-Game Skyboxes)",
 	"p_settings_mods_customSkybox_category_colors": "Solid Colors",
@@ -453,8 +452,6 @@
 	"p_settings_mods_customFog_title": "Custom Fog",
 	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to a crystal-clear view across all maps.",
 	"p_settings_mods_customFog_densitySlider": "Fog Density (%)",
-	"p_settings_mods_customFog_colorSlider": "Fog Color Picker",
-	"p_settings_mods_customFog_colorSlider_r": "Red",
-	"p_settings_mods_customFog_colorSlider_g": "Green",
-	"p_settings_mods_customFog_colorSlider_b": "Blue"
+	"p_settings_mods_customFog_colorPicker": "Fog Color",
+	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map"
 }

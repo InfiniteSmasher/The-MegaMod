@@ -33,9 +33,11 @@
   }
 }
 
-.ss_bigtab.settingstab.selected i {
+.ss_bigtab.settingstab.selected i,
+.ss_bigtab.settingstab.selected img {
 	opacity: 1;
 	animation: rotating 2s linear infinite;
+	filter: none !important;
 }
 
 #mod_button.selected i {
@@ -75,12 +77,14 @@
 	cursor: default;
 }
 
-.ss_bigtab.settingstab i {
+.ss_bigtab.settingstab i,
+.ss_bigtab.settingstab img {
 	opacity: 0.5;
 	scale: 105%;
 }
 
-.ss_bigtab.settingstab:hover:not(.selected) i {
+.ss_bigtab.settingstab:hover:not(.selected) i,
+.ss_bigtab.settingstab:hover:not(.selected) img {
 	transition: all 1s ease-out;
 	transform: rotate(360deg);
 }
@@ -408,4 +412,58 @@
 /* Stops Side Panel from overlapping Photobooth Spin dropdowns*/
 .equip-screen.photo-booth .main-aside {
 	z-index: 0 !important;
+}
+
+.ss_color_picker {
+	border-radius: var(--ss-space-md);
+	background: var(--ss-blue5);
+    border: .05em solid var(--ss-blue5);
+    width: 7em;
+    height: 4em;
+}
+.ss_color_picker::-webkit-color-swatch-wrapper {
+	padding-top: .15em;
+    padding-bottom: .17em;
+}
+.ss_color_picker::-webkit-color-swatch {
+	border: none;
+    border-radius: var(--ss-space-sm);
+}
+.ss_color_picker::-webkit-color-swatch:hover,
+.ss_color_picker:focus::-webkit-color-swatch {
+    filter: brightness(0.9);
+}
+
+.color-picker-wrapper {
+	position: relative;
+	display: inline-block;
+}
+  
+.icon-bg {
+	position: absolute;
+	width: 2em;
+	height: 2em;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(12, 87, 111, .75);
+	border-radius: 50%;
+	align-content: center;
+	pointer-events: none;
+	z-index: 1;
+}
+.icon-bg i {
+	transform: translate(50%, 5%);
+	color: white;
+}
+
+.btn_serverselect {
+    top: -2.15em;
+    left: 3.5em;
+	width: 5.5em !important;
+    position: fixed;
+}
+
+.btn_serverselect .option-box {
+    right: 0;
 }

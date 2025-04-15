@@ -1,6 +1,19 @@
 {
 	"current": [
 		{
+			"version": "0.24",
+			"date": "April ?? 2025",
+			"content": [
+				"More code optimizations made to Better Inventory for faster tab switching",
+				"Added Reset Button for Custom Fog Mod (resets the fog to the map's default settings)",
+				"RGB Color Sliders for Custom Skybox and Custom Fog have been replaced with Color Pickers",
+				"The Server Select dropdown is now back on the home screen!",
+				"New icon for the MegaMod settings (gear) tab to denote that it contains settings for the MegaMod itself"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.23",
 			"date": "April 8 2025",
 			"content": [
@@ -13,9 +26,7 @@
 				"Optimized Better Inventory code for faster item loading/tab switching times",
 				"Introducing the Item Vault! You can now preview unowned vaulted items in the inventory."
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.22",
 			"date": "March 18 2025",

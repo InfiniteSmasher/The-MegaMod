@@ -284,6 +284,5 @@
 		"PYG": "fas6 fa-guarani-sign",
 		"ANG":  "fas6 fa-florin-sign",
 		"CRC":  "fas6 fa-colon-sign"
-	},
-	"vaultExcludeIds": [2044, 3687]
+	}
 }

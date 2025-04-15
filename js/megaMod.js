@@ -72,6 +72,29 @@ class MegaMod {
                 </select>
             </div>
         </div>
+        <div v-if="s.type === SettingType.HTML">
+            <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+            <div v-show="eval(s.showCondition)" v-html="s.html"></div>
+        </div>
+         <div v-if="s.type === SettingType.Button">
+            <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+            <button
+                :disabled="eval(s.disableCondition)"
+                :class="s?.class ?? ''"
+                v-bind:onclick="s?.onclick || null"
+                >{{ loc[s?.btnLocKey || ''] || s?.btnLocKey }}</button>
+        </div>
+        <div v-if="s.type === SettingType.ColorPicker">
+            <div v-show="eval(s.showCondition)">
+                <h3 class="margin-bottom-none h-short">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                <span class="color-picker-wrapper">
+                    <div class="icon-bg">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <input type="color" :value="s.value" @input="onColorPickerInput(s.id, $event.target.value)" @change="BAWK.play('ui_onchange');" class="ss_color_picker"></select>
+                </span>
+            </div>
+        </div>
         `;
     
         const settings = document.getElementById("settings-template");
@@ -82,7 +105,8 @@ class MegaMod {
                 <i class="fas fa-tools fa-lg"></i>
             </button>
             <button id="settings_button" @click="openMegaModSettings" @mouseenter="settingsTabHover" class="ss_bigtab settingstab bevel_blue roundme_md font-sigmar f_row align-items-center justify-content-center gap-sm" :class="(showSettingsTab ? 'selected' : '')">
-            <i class="fas fa-cog fa-lg"></i>
+                <i v-if="showSettingsTab && currentMod?.id !== 'megaMod'" class="fas fa-cog fa-lg"></i>
+                <img v-if="!showSettingsTab || currentMod?.id === 'megaMod'" src="${rawPath}/img/assets/icons/megaMod-gear.svg">
             </button>
             </div>\n\n    <div`
         ).replace(`toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>`, `toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>
@@ -124,10 +148,6 @@ class MegaMod {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div v-if="s.type === SettingType.HTML">
-                            <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
-                            <div v-show="eval(s.showCondition)" v-html="s.html"></div>
                         </div>
                     </div>
                 </div>
@@ -201,7 +221,7 @@ class MegaMod {
                     return settings;
                 };
     
-                const ignoreSetting = [SettingType.Group, SettingType.HTML].includes(setting.type);
+                const ignoreSetting = [SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type);
                 let storedSetting = (setting.type === SettingType.Slider) ? localStore.getNumItem(setting.id) : (setting.type === SettingType.Toggler) ? localStore.getBoolItem(setting.id) : localStore.getItem(setting.id);
                 // Validate storedSetting
                 if (storedSetting != null && !ignoreSetting) {
@@ -218,6 +238,9 @@ class MegaMod {
                         case SettingType.Select:
                             if (setting.options.length && !setting.options.map(o => o.id).includes(storedSetting)) storedSetting = null;
                             break;
+                        case SettingType.ColorPicker:
+                            if (typeof storedSetting !== "string" || !/^#[0-9A-F]{6}$/i.test(storedSetting)) storedSetting = null;
+                            break;
                     }
                 }
                 if (!ignoreSetting) {
@@ -230,6 +253,7 @@ class MegaMod {
                     value: (storedSetting != null) ? storedSetting : setting.defaultVal,
                     settings: initSettings(setting.settings, (setting.type === SettingType.Group ? (setting?.parentId || parentId) : setting.id)) || [],
                     showCondition: setting.showCondition || 'true',
+                    disableCondition: setting.disableCondition || 'false',
                     parentId: parentId || null
                 });
                 return setting;
@@ -263,7 +287,7 @@ class MegaMod {
                 this.reloadNeeded = this.settingsUi.modSettings.some(isReloadNeeded);
             },
             resetModSetting(setting) {
-                if (![SettingType.Group, SettingType.HTML].includes(setting.type) && setting.value !== setting.defaultVal) {
+                if (![SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type) && setting.value !== setting.defaultVal) {
                     switch (setting.type) {
                         case SettingType.Slider:
                             this.onSettingAdjusted(setting.id, setting.defaultVal);
@@ -276,6 +300,9 @@ class MegaMod {
                             break;
                         case SettingType.Select:
                             this.onSelectChanged(setting.id, setting.defaultVal);
+                            break;
+                        case SettingType.ColorPicker:
+                            this.onColorPickerChanged(setting.id, setting.defaultVal);
                             break;
                     }
                     //this.updateSettingTab();
@@ -292,7 +319,7 @@ class MegaMod {
             },
             saveModSettings() {
                 const saveSetting = (setting) => {
-                    if (![SettingType.Group, SettingType.HTML].includes(setting.type)) {
+                    if (![SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type)) {
                         if (setting.storedVal != setting.value) {
                             localStore.setItem(setting.id, setting.value);
                             setting.storedVal = setting.value;
@@ -412,36 +439,24 @@ class MegaMod {
 
         Object.assign(vueData.equip, {
             showingItemTotal: 0,
-            updateShowingItemTotal() {
-                this.showingItemTotal = vueApp.getShowingItemTotal();
-            }
+            itemTotals: {}
         });
-    
-        const oldWeaponSelect = comp_weapon_select_panel.methods.onWeaponSelect;
-        comp_weapon_select_panel.methods.onWeaponSelect = function(...args) {
-            oldWeaponSelect.apply(this, args);
-            vueApp.equip.updateShowingItemTotal();
-        }
     
         const {
             switchItemType: oldSwitchItemType,
-            switchTo: oldSwitchTo,
             onChangedClass: oldOnChangedClass,
-            onItemSelected: oldOnItemSelected
+            onItemSelected: oldOnItemSelected,
+            switchTo: oldSwitchTo
         } = comp_equip_screen.methods;
         Object.assign(comp_equip_screen.methods, {
             switchItemType(...args) {
                 oldSwitchItemType.apply(this, args);
-                vueApp.equip.updateShowingItemTotal();
                 if (extern.modSettingEnabled("betterUI_inventory") && this.isEquipModeInventory && this.itemVaultEnabled) {
                     this.updateEquippedItems();
                     this.poseEquippedItems();
                     this.selectItem(this.equip.showingItems[0]);
                 }
-            },
-            switchTo(...args) {
-                oldSwitchTo.apply(this, args);
-                vueApp.equip.updateShowingItemTotal();
+                this.updateShowingItemTotal();
             },
             onChangedClass(...args) {
                 oldOnChangedClass.apply(this, args);
@@ -456,6 +471,7 @@ class MegaMod {
                         }
                     }
                 }
+                this.updateShowingItemTotal();
             },
             // Rewrote this function & fixed pistol not updating in photobooth when switching main weapon class
             poseEquippedItems() {
@@ -529,14 +545,14 @@ class MegaMod {
             populateItemGrid (items) {
                 if (this.isEquipModeInventory) {
                     if (extern.modSettingEnabled("betterUI_inventory") && this.itemVaultEnabled) {
-                        items = items.filter(i => !(unsafeWindow.megaMod.betterUI.vaultExcludeIds.includes(i.id) || extern.isItemOwned(i) || i.unlock === "default" || (i.is_available && ["purchase", "premium", "bundle"].includes(i.unlock))));
+                        items = items.filter(i => !(extern.isItemOwned(i) || i.unlock === "default" || (i.is_available && ["purchase", "premium", "bundle"].includes(i.unlock))));
                     } else {
                         items = items.filter(i => extern.isItemOwned(i) || (i.is_available && i.unlock === "default"));
                     }
                 } else {
                     items = items.filter(i => i.is_available && !extern.isItemOwned(i) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
                 }
-    
+                
                 this.equip.showingItems = items;
             },
             onItemSelected(item) {
@@ -572,6 +588,49 @@ class MegaMod {
                 vueApp.$refs.equipScreen.renderStamp();
                 BAWK.play(this.itemVaultEnabled ? "itemVaultOpen" : "itemVaultClose");
             },
+            setupItemTotals() {
+                const { inventory, skins, featured } = this.equipMode;
+
+                const isShopItem = i => i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct);
+
+                // Featured mode: # of currently purchasable limited items
+                this.equip.itemTotals[featured] = extern.getTaggedItems(extern.specialItemsTag).filter(i => isShopItem(i) && i.is_available).length;
+
+                // Pre-filter items once per type to avoid repeating logic
+                const itemTypeMap = Object.fromEntries(Object.values(ItemType).map(type => [type, extern.getItemsOfType(type)]));
+
+                // # of owned shop items (eggs + premium) in the weapon category
+                const filterShopItems = (items) => items.filter(i => isShopItem(i));
+                [inventory, skins].forEach(mode => {
+                    const isShopSkins = mode === skins;
+                    const totals = {};
+
+                    for (const [type, rawItems] of Object.entries(itemTypeMap)) {
+                        const parsedType = +type; // since ItemType keys are numeric
+                        if (parsedType === ItemType.Primary) {
+                            totals[parsedType] = {};
+                            for (const gunClass of Object.values(CharClass)) {
+                                const classItems = extern.catalog.primaryWeapons.filter(i => i.exclusive_for_class === gunClass);
+                                totals[parsedType][gunClass] = (isShopSkins ? filterShopItems(classItems) : classItems).length;
+                            }
+                        } else {
+                            totals[parsedType] = (isShopSkins ? filterShopItems(rawItems) : rawItems).length;
+                        }
+                    }
+
+                    this.equip.itemTotals[mode] = totals;
+                });
+            },
+            updateShowingItemTotal() {
+                this.equip.showingItemTotal =
+                    this.equip.itemTotals[this.currentEquipMode]?.[this.equip.selectedItemType]?.[vueData.classIdx] ??
+                    this.equip.itemTotals[this.currentEquipMode]?.[this.equip.selectedItemType] ??
+                    this.equip.itemTotals[this.currentEquipMode];
+            },
+            switchTo(mode, useItemType) {
+                oldSwitchTo.call(this, mode, useItemType);
+                this.updateShowingItemTotal();
+            }
         });
     
         // Add Item Icons & Price Commas
@@ -636,15 +695,16 @@ class MegaMod {
             vueApp.$refs.challengeInfoPopup.show();
         };
     
-        comp_play_panel.methods.showMapPopup = function() {
-            BAWK.play("ui_popupopen");
-            vueApp.$refs.mapPopup.show();
-        };
-
-        comp_play_panel.methods.showGameHistoryPopup = function() {
-            BAWK.play("ui_popupopen");
-            vueApp.$refs.gameHistoryPopup.show();
-        };
+        Object.assign(comp_play_panel.methods, {
+            showMapPopup() {
+                BAWK.play("ui_popupopen");
+                vueApp.$refs.mapPopup.show();
+            },
+            showGameHistoryPopup() {
+                BAWK.play("ui_popupopen");
+                vueApp.$refs.gameHistoryPopup.show();
+            }
+        });
     
         // Public Map & Game History Buttons
         const playPanel = document.getElementById("play-panel-template");
@@ -654,6 +714,23 @@ class MegaMod {
         ).replace(
             `<button @click="onJoinPrivateGameClick"`,
             `<button v-show="extern?.modSettingEnabled?.('betterUI_ui')" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
+        ).replace(`sort="order"></ss-button-dropdown>`,
+            `sort="order"></ss-button-dropdown>
+            <ss-button-dropdown v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
+                <template slot="dropdown">
+                    <li v-if="regionList" v-for="(region, idx) in regionList" :class="{ 'selected' : currentRegionId === region.id }" class="display-grid gap-1 align-items-center text_blue5 font-nunito regions-select" @click="onRegionPicked(region.id)">
+                        <div class="f_row align-items-center">
+                            <icon v-show="currentRegionId === region.id" name="ico-checkmark" class="option-box-checkmark"></icon>
+                        </div>
+                        <div>
+                            {{ loc[region.locKey ]}}
+                        </div>
+                        <div class="text-right">
+                            {{ region.ping }}ms
+                        </div>
+                    </li>
+                </template>
+            </ss-button-dropdown> `
         );
         
         Object.assign(vueData, {
@@ -1387,18 +1464,18 @@ class MegaMod {
                                     <td :data-sort="challenge.id">
                                         <img :src="extern.playerChallenges.iconSrc(challenge.loc_ref)"></img>
                                     </td>
-                                    <td> {{ loc[challenge.loc_ref + '_title'] }} </td>
-                                    <td> {{ loc[challenge.loc_ref + '_desc'] }} </td>
+                                    <td>{{ loc[challenge.loc_ref + '_title'] }}</td>
+                                    <td>{{ loc[challenge.loc_ref + '_desc'] }}</td>
                                     <td :data-sort="challenge.reward"> 
                                         <div class="egg-icon display-grid grid-column-auto-1"> 
                                             <img src="img/svg/ico_goldenEgg.svg">
-                                            {{ challenge.reward.addSeparators() }}
+                                           {{ challenge.reward.addSeparators() }}
                                         </div>
                                     </td>
-                                    <td> {{ vueData.getChallengeClaims(challenge.id) }} </td>
-                                    <td> {{ challenge.tier + 1 }} </td>
-                                    <td> {{ PrettyChallengeType[challenge.type] || "N/A" }} </td>
-                                    <td> {{ PrettyChallengeSubType[challenge.subType] || "N/A" }} </td>
+                                    <td>{{ vueData.getChallengeClaims(challenge.id) }}</td>
+                                    <td>{{ challenge.tier + 1 }}</td>
+                                    <td>{{ PrettyChallengeType[challenge.type] || "N/A" }}</td>
+                                    <td>{{ PrettyChallengeSubType[challenge.subType] || "N/A" }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1477,8 +1554,8 @@ class MegaMod {
                                             </div>
                                         </div>
                                     </td>
-                                    <td :data-sort="loc[lobby.modeLoc]"> {{ loc[lobby.modeLoc] }} </td>
-                                    <td :data-sort="loc[lobby.serverLoc]"> {{ loc[lobby.serverLoc] }} </td>
+                                    <td :data-sort="loc[lobby.modeLoc]">{{ loc[lobby.modeLoc] }}</td>
+                                    <td :data-sort="loc[lobby.serverLoc]">{{ loc[lobby.serverLoc] }}</td>
                                     <td :data-sort="lobby.isPrivate ? 'Private' : 'Public'">
                                         {{ lobby.isPrivate ? 'Private' : 'Public' }}
                                     </td>
@@ -1803,7 +1880,7 @@ class MegaMod {
         }
         
         // Custon Skybox
-        const [,color3Var] = regex`red\:new\s(${v})\(`.safeExec(src, ["customSkybox"], true);
+        const [,fromHexStringFunc] = regex`(${v}\.FromHexString)\(`.safeExec(src, ["customSkybox", "customFog"]);
         const [skyboxInit, skyboxName] = regex`\"img\/skyboxes\/\"\+(${v})`.safeExec(src, "customSkybox");
         if (skyboxInit && skyboxName) {
             let [cubeTextureMatch] = regex`\.reflectionTexture=new.*?\)`.safeExec(src, "customSkybox");
@@ -1817,13 +1894,13 @@ class MegaMod {
                 if (mapDataVar) {
                     cubeTextureMatch = cubeTextureMatch.safeReplace(`+${skyboxName}+`, `+${mapDataVar}.skybox+`, "customSkybox");
                     const [,skyboxModeVar] = regex`\.TEXTURE_SKYBOX_MODE\=([a-zA-Z0-9"][a-zA-Z0-9"]*)`.safeExec(src, "customSkybox");
-                    if (color3Var && skyboxModeVar) {
+                    if (fromHexStringFunc && skyboxModeVar) {
                         const skyboxFunc = `
-                            updateSkybox: (enabled = false, r = 0, g = 0, b = 0) => {
+                            updateSkybox: (enabled = false, hex="#ffffff") => {
                                 const skybox = window.megaMod.customSkybox?.skybox;
                                 if (!skybox) return;
-                                if (!enabled || !window.megaMod.customSkybox.usingSkyboxColor) r = g = b = 0;
-                                skybox.material.emissiveColor = new ${color3Var}(r / 255, g / 255, b / 255);
+                                if (!enabled || !window.megaMod.customSkybox.usingSkyboxColor) hex = "#000000";
+                                skybox.material.emissiveColor = ${fromHexStringFunc}(hex);
                                 if (enabled && !window.megaMod.customSkybox.usingSkyboxColor) {
                                     ${customCubeTexture};
                                 } else {
@@ -2045,16 +2122,15 @@ class MegaMod {
         const [,fogScene, mapDataVar2] = regex`(${v})\.fogDensity\=(${v})\.fog\.density`.safeExec(src, "customFog");
         if (fogScene) {
             const [,fogModeVar] = regex`${fogScene}\.fogMode\=(${v}\.FOGMODE_EXP2)`.safeExec(src, "customFog");
-            const [,fromHexStringFunc] = regex`${fogScene}\.fogColor\=(${v}\.FromHexString)\(${mapDataVar2}\.fog\.color\)`.safeExec(src, "customFog");
             const [,defaultFogColor] = regex`${fogScene}\.fogColor\=(new\s${v}\(\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*\))`.safeExec(src, "customFog");
-            if (fogScene && fogModeVar && color3Var && fromHexStringFunc && defaultFogColor) {
+            if (fogScene && fogModeVar && fromHexStringFunc && defaultFogColor) {
                 const fogColorFunc = `
-                updateFog: (enabled = false, density = 0, r = 0, g = 0, b = 0) => {
+                updateFog: (enabled = false, density = 0, hex="#ffffff") => {
                     if (!extern.inGame) return;
                     if (enabled) {
                         ${fogScene}.fogEnabled = true;
                         ${fogScene}.fogMode = ${fogModeVar};
-                        ${fogScene}.fogColor = new ${color3Var}(r / 255, g / 255, b / 255);
+                        ${fogScene}.fogColor = ${fromHexStringFunc}(hex);
                         ${fogScene}.fogDensity = density;
                     } else {
                         if (window.megaMod.customFog?.fog) {
@@ -2282,18 +2358,14 @@ class MegaMod {
 			case 'customSkybox':
 				extern.updateSkybox(
                     value, 
-                    this.getModSettingById('customSkybox_colorSlider_r').value, 
-                    this.getModSettingById('customSkybox_colorSlider_g').value, 
-                    this.getModSettingById('customSkybox_colorSlider_b').value
+                    this.getModSettingById('customSkybox_colorPicker').value
                 );
 				break;
             case 'customFog':
                 extern.updateFog(
                     value, 
                     this.getModSettingById('customFog_densitySlider').value / 100, 
-                    this.getModSettingById('customFog_colorSlider_r').value, 
-                    this.getModSettingById('customFog_colorSlider_g').value, 
-                    this.getModSettingById('customFog_colorSlider_b').value
+                    this.getModSettingById('customFog_colorPicker').value
                 );
                 break;
 		}
@@ -2309,23 +2381,17 @@ class MegaMod {
 	newAdjusterFunc(id, value) {
 		if (this.isModSetting(id)) this.updateModSetting(id, parseInt(value));
 		switch (id) {
-			case `changeFPS_slider`:
+			case "changeFPS_slider":
 				this.changeFPS.setFPS(value);
 				break;
+            case "customFog_densitySlider":
+                extern.updateFog(
+                    this.modSettingEnabled("customFog"),
+                    value / 100, 
+                    this.getModSettingById('customFog_colorPicker').value, 
+                );
+                break;
 		}
-		if (id.includes("customSkybox_colorSlider_")) extern.updateSkybox(
-			this.modSettingEnabled("customSkybox"),
-			this.getModSettingById('customSkybox_colorSlider_r').value,
-			this.getModSettingById('customSkybox_colorSlider_g').value,
-			this.getModSettingById('customSkybox_colorSlider_b').value
-		);
-        if (["customFog_densitySlider", "customFog_colorSlider_"].some(idStr => id.includes(idStr))) extern.updateFog(
-            this.modSettingEnabled("customFog"),
-            this.getModSettingById('customFog_densitySlider').value / 100, 
-            this.getModSettingById('customFog_colorSlider_r').value, 
-            this.getModSettingById('customFog_colorSlider_g').value, 
-            this.getModSettingById('customFog_colorSlider_b').value
-        );
 	}
 
 	newKeybindFunc(id, value) {
@@ -2357,6 +2423,23 @@ class MegaMod {
 		}
 	}
 
+    newColorPickerFunc(id, value) {
+        if (this.isModSetting(id)) this.updateModSetting(id, value);
+        const settingEnabled = this.modSettingEnabled(id);
+		switch (id) {
+            case 'customSkybox_colorPicker':
+                extern.updateSkybox(settingEnabled, value);
+                break;
+			case 'customFog_colorPicker':
+				extern.updateFog(
+                    settingEnabled,
+                    this.getModSettingById('customFog_densitySlider').value / 100, 
+                    value, 
+                );
+				break;
+        }
+    }
+
     addSettingsHooks() {
         MegaMod.log("addSettingsHooks() -", "Adding settings hooks");
 
@@ -2386,6 +2469,10 @@ class MegaMod {
             onSelectChanged(id, value) {
                 BAWK.play("ui_onchange");
                 unsafeWindow.megaMod.newSelectFunc(id, value);
+                this.updateSettingTab();
+            },
+            onColorPickerInput(id, value) {
+                unsafeWindow.megaMod.newColorPickerFunc(id, value);
                 this.updateSettingTab();
             }
         });
@@ -2884,6 +2971,8 @@ class BetterUI {
                     addTags(true, item, this.tags.promo);
                 });
             });
+
+            vueApp.$refs.equipScreen.setupItemTotals()
         }, 250);
 
         fetch('https://ipapi.co/currency/').then(res => res.text()).then(res => {
@@ -3083,26 +3172,39 @@ class BetterUI {
             }
         });
 
-        // Better Inventory - Modify Item Sorting (Order)
-        // Premium --> VIP --> Bundle --> Merch --> Drops --> Yolker --> League --> Notif --> Egglite --> Promo --> Event --> Social --> Default/Legacy --> Limited --> Creator --> Shop
-        comp_item_grid.computed.itemsSorted = function() {
-            const itemThemeMap = {};
-            const isThemed = (item, theme) => {
-                itemThemeMap[item.id] ??= {};
-                itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
-                return itemThemeMap[item.id][theme];
-            };
-            const compareThemedItem = (a, b, theme) => isThemed(a, theme) - isThemed(b, theme);
-            
-            const invEditsEnabled = extern.modSettingEnabled("betterUI_inventory");
-            return this.items.sort((b, a) => {
-                for (const theme of unsafeWindow.megaMod.betterUI.themeOrder) {
-                    const result = compareThemedItem(a, b, theme.theme) * (!theme.custom || invEditsEnabled);
-                    if (result !== 0) return result;
+        const oldEmptyGridMsg = comp_item_grid.computed.emptyGridMsg;
+        Object.assign(comp_item_grid.computed, {
+            // Better Inventory - Modify Item Sorting (Order)
+            // Premium --> VIP --> Bundle --> Merch --> Drops --> Yolker --> League --> Notif --> Egglite --> Promo --> Event --> Social --> Default/Legacy --> Limited --> Creator --> Shop
+            itemsSorted() {
+                const itemThemeMap = {};
+                const isThemed = (item, theme) => {
+                    itemThemeMap[item.id] ??= {};
+                    itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
+                    return itemThemeMap[item.id][theme];
+                };
+                const compareThemedItem = (a, b, theme) => isThemed(a, theme) - isThemed(b, theme);
+                
+                const invEditsEnabled = extern.modSettingEnabled("betterUI_inventory");
+                return this.items.sort((b, a) => {
+                    for (const theme of unsafeWindow.megaMod.betterUI.themeOrder) {
+                        const result = compareThemedItem(a, b, theme.theme) * (!theme.custom || invEditsEnabled);
+                        if (result !== 0) return result;
+                    }
+                    return 0;
+                });
+            },
+            emptyGridMsg() {
+                if (extern.modSettingEnabled("betterUI_inventory") && this.itemVaultEnabled) {
+                    return {
+                        title: this.loc['megamod_betterUI_i_eq_emptyVault_head'],
+					    text: this.loc['megamod_betterUI_i_eq_emptyVault_text']
+                    };
+                } else {
+                    return oldEmptyGridMsg.call(this);
                 }
-                return 0;
-            });
-        };
+            }
+        });
 
         // Challenge Claim SFX
         const oldChallengeClaim = extern.playerChallenges.claim;
@@ -3119,7 +3221,6 @@ class BetterUI {
         }
 
         // Fixed Weapon Deselect Bug
-        // TODO: Item Vault
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
         Object.assign(vueApp.$refs.equipScreen, {
             selectItem(item) {
@@ -3145,36 +3246,6 @@ class BetterUI {
                 if (!item) return;
                 extern.renderItemToCanvas(item, this.$refs.stampCanvas);
             },
-        })
-
-        // Item Totals
-        vueApp.getShowingItemTotal = function() {
-            let resItems = [];
-            if (this.currentEquipMode === this.equipMode.featured) {
-                // # of currently purchasable limited items
-                resItems = extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available);
-            } else {
-                resItems = extern.getItemsOfType(this.equip.selectedItemType);
-            }
-            if (![this.equipMode.inventory, this.equipMode.featured].includes(this.currentEquipMode)) {
-                // # of owned shop items (eggs + premium) in the weapon category
-                resItems = resItems.filter(item => extern.isItemOwned(item) && ["purchase", "premium"].includes(item.unlock));
-            }
-            return resItems.length || "???";
-        };
-
-        const playerAccount = extern.account.constructor;
-        const { signedIn: oldSignedIn, loggedOut: oldLoggedOut } = playerAccount.prototype;
-        Object.assign(playerAccount.prototype, {
-            signedIn(...args) {
-                oldSignedIn.apply(this, args);
-                vueApp.equip.updateShowingItemTotal();
-            },
-            loggedOut(...args) {
-                oldLoggedOut.apply(this, args);
-                vueApp.equip.updateShowingItemTotal();
-                this.challengesClaimed = [];
-            }
         });
 
         const addStyle = (name) => {
@@ -3512,6 +3583,7 @@ class BetterUI {
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
+                this.challengesClaimed = [];
                 vueApp.updateBadges(true);
             },
             scoreKill(...args) {
@@ -3725,7 +3797,8 @@ class LegacyMode {
                 if (extern.modSettingEnabled("legacyMode")) this.switchLegacySounds(extern.modSettingEnabled("legacyMode_sfx"));
             });
         }, 250);
-    
+        
+        // TODO: Fix This (bugs on startup when defaults are equipped)
         const skinsInterval = setInterval(() => {
             if (extern.account && extern.account.colorIdx == null) return;
             clearInterval(skinsInterval);
@@ -4099,12 +4172,9 @@ class CustomSkybox {
     onSkyboxCategoryChanged(value, init) {
         const isCustomSkyboxEnabled = extern.modSettingEnabled("customSkybox");
         this.usingSkyboxColor = value === "colors";
-        let r, g, b;
+        let hex;
         if (this.usingSkyboxColor) {
-            const getColorValue = id => unsafeWindow.megaMod.getModSettingById(id).value;
-            r = getColorValue('customSkybox_colorSlider_r');
-            g = getColorValue('customSkybox_colorSlider_g');
-            b = getColorValue('customSkybox_colorSlider_b');
+            hex = unsafeWindow.megaMod.getModSettingById('customSkybox_colorPicker').value;
         } else {
             const select = unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxSelect');
             select.options = this.skyboxes[value];
@@ -4112,21 +4182,34 @@ class CustomSkybox {
         }
         // Source Modification is goofy - reload if function doesn't exist
         //if (!extern?.updateSkybox) window.location.reload();
-        extern.updateSkybox(isCustomSkyboxEnabled, r, g, b);
+        extern.updateSkybox(isCustomSkyboxEnabled, hex);
     }
 }
 
 class CustomFog {
-    constructor() { this.fog = { density: 0, color: "#FFF"}; }
+    constructor() { 
+        this.fog = { density: 0, color: "#FFF"}; 
+        this.inGame = false;
+
+        extern.resetFog = () => {
+            if (!extern.inGame) return;
+            BAWK.play("ui_reset");
+            unsafeWindow.megaMod.updateModSetting("customFog_densitySlider", this.fog.density * 100);
+            unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", this.fog.color);
+            extern.updateFog(
+                extern.modSettingEnabled("customFog"),
+                this.fog.density,
+                this.fog.color
+            );
+        };        
+    }
 
     initFog(fog) {
         this.fog = fog;
         if (extern.modSettingEnabled("customFog")) extern.updateFog(
             true,
             unsafeWindow.megaMod.getModSettingById('customFog_densitySlider').value / 100, 
-            unsafeWindow.megaMod.getModSettingById('customFog_colorSlider_r').value, 
-            unsafeWindow.megaMod.getModSettingById('customFog_colorSlider_g').value, 
-            unsafeWindow.megaMod.getModSettingById('customFog_colorSlider_b').value
+            unsafeWindow.megaMod.getModSettingById('customFog_colorPicker').value,
         );
     }
 }
@@ -4138,7 +4221,9 @@ Object.assign(unsafeWindow, {
 		Keybind: 2,
 		Select: 3,
 		Group: 4,
-		HTML: 5
+		HTML: 5,
+        Button: 6,
+        ColorPicker: 7
 	},
 	PrettyChallengeType: {
 		 0: "Kills",

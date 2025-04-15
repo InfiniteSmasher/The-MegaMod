@@ -166,7 +166,7 @@
 	border-color: var(--ss-premium-txt);
 }
 /* $ Pricetag + Egg Spinner + Special Icon */
-.grid-item.is-premium div i,
+.grid-item.is-premium:not(.item-tag-limited) div i,
 .is-premium .item-icon,
 .premium-item-cost,
 .is-premium .equip_cost {
