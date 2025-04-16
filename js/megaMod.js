@@ -4326,13 +4326,13 @@ unsafeWindow.openUpdate = function() {
 MegaMod.setDebug(true);
 unsafeWindow.megaMod = new MegaMod();
 
-const oldFunction = unsafeWindow.Function;
-unsafeWindow.Function = function(...args) {
-    if(args.join("").includes("babylonjs")) {
-        unsafeWindow.Function = oldFunction;
-        return oldFunction.call(this, MegaMod.editSource(...args));
+const oldAppend = HTMLElement.prototype.appendChild;
+HTMLElement.prototype.appendChild = function(child) {
+    if (this.tagName === "BODY" && child?.tagName === "SCRIPT" && child.textContent?.includes("babylonjs")) {
+        child.textContent = MegaMod.editSource(child.textContent);
+        HTMLElement.prototype.appendChild = oldAppend;
     }
-    return oldFunction.apply(this, args);
-}
+    return oldAppend.call(this, child);
+};
 
 MegaMod.log("Script Loaded:", `Page Status - ${document.readyState}`);

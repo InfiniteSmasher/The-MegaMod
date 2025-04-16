@@ -1,6 +1,15 @@
 {
 	"current": [
 		{
+			"version": "0.25",
+			"date": "April 16 2025",
+			"content": [
+				"Fixed Loading bug caused by Shell Shockers version 1.0.0 update"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.24",
 			"date": "April 15 2025",
 			"content": [
@@ -10,9 +19,7 @@
 				"The Server Select dropdown is now back on the home screen!",
 				"New icon for the MegaMod settings (gear) tab to denote that it contains settings for the MegaMod itself"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.23",
 			"date": "April 8 2025",

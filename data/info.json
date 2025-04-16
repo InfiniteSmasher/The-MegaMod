@@ -1,10 +1,6 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "More code optimizations made to Better Inventory for faster tab switching",
-	    "Added Reset Button for Custom Fog Mod (resets the fog to the map's default settings)",
-        "RGB Color Sliders for Custom Skybox and Custom Fog have been replaced with Color Pickers",
-        "The Server Select dropdown is now back on the home screen!",
-        "New icon for the MegaMod settings (gear) tab to denote that it contains settings for the MegaMod itself"
+        "Fixed Loading bug caused by Shell Shockers version 1.0.0 update"
     ]
 }
