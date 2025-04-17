@@ -12,9 +12,9 @@
 
 ### Step 1: Install a Userscript Manager
 You'll need a userscript manager to run The MegaMod on your browser. I recommend using one of the following:
-- **[Tampermonkey](https://www.tampermonkey.net/)**
+- **[Tampermonkey](https://www.tampermonkey.net/)** (Recommended)
 - **[Greasemonkey](https://www.greasespot.net/)**
-- **[Violentmonkey](https://violentmonkey.github.io/)** (Recommended)
+- **[Violentmonkey](https://violentmonkey.github.io/)**
 
 > [!NOTE]  
 > Some userscript managers may require Developer Mode to be enabled to allow custom scripts. Follow these steps to enable Developer Mode:
@@ -153,8 +153,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >
 > >   - The Chick'n Winner Popup can only be closed after you get your reward  - no more accidental closures!
 > >   - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
-> >   - Server Select dropdown brought back onto the Home Screen!
-> 
+> >   - Server Select dropdown is back on the Home Screen!
+> >
 > </details>
 > 
 > - **Better Inventory**
