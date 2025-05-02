@@ -7,7 +7,7 @@
 	"eggcount": ["#account_panel"],
 	"chat": ["#chatIn", "#chatOut", "#announcement_message"],
 	"playerlist": ["#playerList"],
-	"gametext": ["#bigMessageContainer", "#gameMessage"],
+	"gametext": ["#bigMessageContainer", "#gameMessage", "playerChallengeComplete", "badgeLevelUp"],
 	"killtext": ["#kill-death-box"],
 	"readouts": ["#inGameUI"],
 	"killfeed": ["#killTicker"],

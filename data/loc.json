@@ -128,6 +128,12 @@
 	"megaMod_betterUI_badge_eggorg24_title": "N0 M0R3 R0B0T5",
 	"megaMod_betterUI_badge_eggorg24_desc": "Participated in the \"Rise of the Robots\" (EGG ORG 2024) event",
 
+	"megaMod_betterUI_badge_eggorg25_eggfu_title": "Egg-Fu Master",
+	"megaMod_betterUI_badge_eggorg25_eggfu_desc": "Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event",
+
+	"megaMod_betterUI_badge_eggorg25_eggsassin_title": "Eggsassin",
+	"megaMod_betterUI_badge_eggorg25_eggsassin_desc": "Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event",
+
 	"megaMod_betterUI_badge_eggorg25_title": "Shadowborn Survivor",
 	"megaMod_betterUI_badge_eggorg25_desc": "Participated in the \"Shadow War\" (EGG ORG 2025) event",
 	
@@ -141,7 +147,7 @@
 	"megaMod_betterUI_badge_social_desc": "Be an official Blue Wizard Digital {0} Content Creator",
 	
 	"megaMod_betterUI_badge_premium_title": "Eggstra Spender {0}",
-	"megaMod_betterUI_badge_premium_desc": "Own ${0} worth of Premium items",
+	"megaMod_betterUI_badge_premium_desc": "Own {over}{0}% of Premium items",
 	
 	"megaMod_betterUI_badge_league_title": "Pro Egg Gamer {0}",
 	"megaMod_betterUI_badge_league_desc": "Own {0} League item{s}",
@@ -173,7 +179,7 @@
 	"megaMod_betterUI_badge_kdr_title": "Overkill {0}",
 	"megaMod_betterUI_badge_kdr_desc": "Have a {0} lifetime KDR",
 	
-	"megaMod_betterUI_badge_modekdr_title": "Eggsassin {0}",
+	"megaMod_betterUI_badge_modekdr_title": "Eggliminator {0}",
 	"megaMod_betterUI_badge_modekdr_desc": "Have a {0} lifetime KDR in every game mode",
 	
 	"megaMod_betterUI_badge_kotc_title": "Rooster Royalty {0}",
@@ -220,6 +226,8 @@
 	"megaMod_betterUI_chatEvent_joinGame": " joined the game.",
 	"megaMod_betterUI_chatEvent_leaveGame": " left the game.",
 	"megaMod_betterUI_chatEvent_switchTeam": " switched to {0} team.",
+
+	"p_settings_mods_betterUI_infChat": "Infinite Chat History",
 
 	"megaMod_betterUI_maps": "Public Maps",
 	"megaMod_betterUI_mapPopup_title": "Public Maps",
@@ -320,7 +328,7 @@
 
 
 	"p_settings_mods_pbSpin_title": "Photobooth Egg Spin",
-	"p_settings_mods_pbSpin_desc": "Want a better look at your loadout? This mod allows you to spin your egg 360° in the photobooth! The 360° spin can also be exported in GIF format.",
+	"p_settings_mods_pbSpin_desc": "Want a better look at your loadout? This mod allows you to spin your egg 360° in the photobooth! The 360° spin can also be exported in GIF format (coming soon).",
 
 	"screen_photo_booth_spin": "Spin Egg",
 	"screen_photo_booth_gif": "Save Spinning GIF (COMING SOON!)",

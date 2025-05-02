@@ -89,7 +89,7 @@ class MegaMod {
                 <h3 class="margin-bottom-none h-short">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
                 <span class="color-picker-wrapper">
                     <div class="icon-bg">
-                        <i class="fas fa-palette"></i>
+                        <i class="fas fa-eye-dropper"></i>
                     </div>
                     <input type="color" :value="s.value" @input="onColorPickerInput(s.id, $event.target.value)" @change="BAWK.play('ui_onchange');" class="ss_color_picker"></select>
                 </span>
@@ -418,7 +418,7 @@ class MegaMod {
             `${invEditsEnabled} ? loc.eq_search_items_new : loc.eq_search_items`
         ).replace(
             `<div v-show="isEquipModeInventory`,
-            `<div v-show="isEquipModeInventory && ${invEditsEnabled}" class="roundme_lg clickme vaultbtn box_relative f_row common-box-shadow align-items-center justify-content-center" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled, 'disabled': !ui.showHomeEquipUi }" @click="onSwitchToVaultClicked">
+            `<div v-show="isEquipModeInventory && ${invEditsEnabled}" class="roundme_lg clickme vaultbtn box_relative f_row align-items-center justify-content-center" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled, 'disabled': !ui.showHomeEquipUi }" @click="onSwitchToVaultClicked">
                 <i v-if="!itemVaultEnabled" class="fas fa-3x fa-lock text_white"></i>
                 <i v-else class="fas fa-3x fa-arrow-left text_white"></i>
             </div> <div v-show="isEquipModeInventory`
@@ -427,7 +427,7 @@ class MegaMod {
             `:disabled="extern.inGame || (${invEditsEnabled} && itemVaultEnabled)"`
         ).replace(
             `<h3 v-if="!showPurchasesUi"`,
-            `<h1 v-show="${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled" class="equip-title text-center margins_sm box_relative text_blue5 nospace" v-html="loc.megamod_betterUI_itemVault"></h1> <h3 v-if="!showPurchasesUi"`
+            `<h1 v-show="${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled" class="equip-title text-center margins_sm box_relative text_blue5 nospace vault-txt" v-html="loc.megamod_betterUI_itemVault"></h1> <h3 v-if="!showPurchasesUi"`
         ).replace(
             `id="equip_panel_right"`,
             `id="equip_panel_right" :class="{ 'vaultopen' : (${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled) }"`
@@ -541,7 +541,6 @@ class MegaMod {
                     BAWK.play(selectSound, '', 'ui_click');
                 }
             },
-            // TODO: Rewrite for Vaulted Skin Feature
             populateItemGrid (items) {
                 if (this.isEquipModeInventory) {
                     if (extern.modSettingEnabled("betterUI_inventory") && this.itemVaultEnabled) {
@@ -559,7 +558,7 @@ class MegaMod {
                 if (extern.modSettingEnabled("betterUI_inventory") && this.isEquipModeInventory && this.itemVaultEnabled) {
                     if (extern.isThemedItem(item, "vip")) vueApp.showSubStorePopup();
                     if (extern.isThemedItem(item, "social")) {
-                        const social = this.ui.socialMedia.footer.find(x => x.id === item.id);
+                        const social = this.ui.socialMedia.footer.find(social => social.id === item.id);
                         if (!social) return;
                         open(social.url);
                         extern.socialReward(social.reward);
@@ -742,6 +741,7 @@ class MegaMod {
                 tier: []
             },
             updateBadges(ignoreNotif = false) {
+                MegaMod.log("updateBadges() -", "Updating Badges");
                 const CORE_KEY = `${extern.account.id}-coreBadges`;
                 const oldCoreBadgeTitles = JSON.parse(localStore.getItem(CORE_KEY));
                 const TIER_KEY = `${extern.account.id}-tierBadges`;
@@ -852,7 +852,8 @@ class MegaMod {
                     return 'ico-map-size-large';
                 }
             },
-            itemVaultEnabled: false
+            itemVaultEnabled: false,
+            chwBarVisible: true
         });
     
         // Adjust size of stats container for badges
@@ -1071,6 +1072,23 @@ class MegaMod {
         ).replace(
             `<small-popup id="playerActionsPopup"`,
             `<small-popup id="playerActionsPopup"`
+        ).replace(
+            `<div id="respawn-menu"`,
+            `<div v-show="!isPoki && firebaseId && extern?.modSettingEnabled?.('betterUI_ui') && chwBarVisible" id="chw-progress-wrapper" class="chw-progress-wrapper box_relative">
+                <!-- incentivized-mini-game -->
+                <img class="box_aboslute chw-progress-img chw-chick" :src="chwChickSrc">
+                <div class="chw-progress-bar-wrap roundme_sm box_relative btn_blue bevel_blue" :class="progressBarWrapClass" @click="playIncentivizedAd">
+                    <p class="chw-progress-bar-msg box_aboslute centered nospace text-center fullwidth chw-msg chw-p-msg">
+                        {{ progressMsg }}
+                        <span v-show="chw.hours || chw.minutes || chw.seconds" class="chw-countdown-wrap" :class="chwShowCountdown">
+                           <span v-show="chw.hours" class="chw-hours">{{chw.hours}}:</span><span class="chw-minutes">{{chw.minutes}}:</span><span class="chw-seconds">{{chw.seconds}}</span>
+                           <span v-show="!chw.ready && chw.limitReached && !chw.adBlockDetect" v-html="wakeTheChw"></span>
+                        </span>
+                    </p>
+                    <div class="chw-progress-bar-inner-popup bg_blue2" :style="{width: chw.progress + '%'}"></div>
+                </div>
+                <img class="box_aboslute chw-eggs chw-progress-img" src="img/egg_pack_small.webp" alt="">
+            </div><div id="respawn-menu"`
         );
         
         const oldGameScreenData = comp_game_screen.data();
@@ -1340,9 +1358,37 @@ class MegaMod {
             const oldTxt = oldPlayAdText.call(this);
             return this.chw.limitReached ? this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators()) : oldTxt;
         }
-        comp_game_screen.computed.wakeTheChw = function() {
-            this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators());
-        }
+        Object.assign(comp_game_screen.computed, {
+            wakeTheChw() {
+                return `(${this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators())})`;
+            },
+            chwShowCountdown() {
+                if (this.isChicknWinnerError) {
+                    return 'hideme';
+                } else {
+                    if (this.chw.ready) {
+                        return 'hideme';
+                    } else {
+                        return 'display-inline';
+                    }
+                }
+            },
+            progressMsg() {
+                if (this.chw.adBlockDetect) {
+                    return 'Please turn off ad blocker';
+                }
+                if (this.isChicknWinnerError) {
+                    return this.loc.chw_error_text;
+                }
+                if (this.chw.limitReached && !this.chw.ready) {
+                    return this.loc.chw_daily_limit_msg;
+                }
+                if (this.chw.ready) {
+                    return this.chw.winnerCounter > 0 ? this.loc.chw_cooldown_msg : this.loc.chw_ready_msg;
+                }
+                return this.loc.chw_time_until;
+            }
+        });
 
          // Show Chick'n Winner Owned Item
         vueData.chw.reward.ownedItem = null;
@@ -1683,16 +1729,20 @@ class MegaMod {
         const reloads = parseInt(localStore.getItem(MegaMod.KEYS.ErrReloads)) || 0;
         this.log("Reload Count:", reloads); 
 
-        setTimeout(function(reloads){
+        MegaMod.createFocusTimer(1000, 90_000, function() {
             MegaMod.setFatalErr(document.getElementById("logo-svg") != null);
             if (MegaMod.fatalErr) {
-                if (reloads === 3) localStore.setItem(MegaMod.KEYS.ErrVersion, GM_info.script.version);
-                else localStore.setItem(MegaMod.KEYS.ErrReloads, reloads === null ? 1 : reloads + 1);
-                window.location.reload();
+                if (reloads === 3) {
+                    localStore.setItem(MegaMod.KEYS.ErrVersion, GM_info.script.version);
+                    if (confirm(`A fatal error has occured while starting the MegaMod.\n\nPlease press \"Ok\" to reload.\n\nThe MegaMod will automatically be disabled and will be enabled as soon as the next update is available and installed.`)) window.location.reload();
+                } else {
+                    localStore.setItem(MegaMod.KEYS.ErrReloads, reloads == null ? 1 : reloads + 1);
+                    if (confirm(`Hmmmm....loading seems to be taking longer with The MegaMod.\n\nPlease press \"Ok\" to reload.\n\nThe MegaMod will automatically disable itself after ${3 - reloads} more reload attempt(s).`)) window.location.reload();
+                }
             } else if (reloads > 0) {
-                localStore.setItem(MegaMod.KEYS.ErrReload, 0);
+                localStore.setItem(MegaMod.KEYS.ErrReloads, 0);
             }
-        }, 150000, reloads);
+        });
     }
 
     static editSource(src) {
@@ -1961,7 +2011,7 @@ class MegaMod {
         }
     
         // Hide Nametags, Outlines, & Pickups
-        const [,teamColors] = regex`(${v})\.outline\[`.safeExec(src, ["hideHUD_nametags", "hideHUD_outlines", "betterUI_chat"]);
+        const [,teamColors] = regex`(${v})\.outline\[`.safeExec(src, ["hideHUD_nametags", "hideHUD_outlines", "betterUI_chatEvent_joinGame", "betterUI_chatEvent_leaveGame", "betterUI_chatEvent_switchTeam"]);
         if (teamColors && itemManagerInst && itemManagerClass) {
             const hideHUDFuncs = `
                 hideNametags: (hide) => ${teamColors}.textColor.forEach(c => c.a = +!hide),
@@ -1998,7 +2048,7 @@ class MegaMod {
         // Longer Chat
         const [chatLengthMatch] = regex`\}${v}\.length\>4`.safeExec(src, "");
         if (chatLengthMatch) {
-            src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterUI_chat") ? 6 : 4)`));
+            src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterUI_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterUI_chat") ? 6 : 4)`));
         }
     
         // Chat Events
@@ -2047,7 +2097,8 @@ class MegaMod {
                     
                     chatItem.append(nameDiv, msgContent);
                     chatOut.appendChild(chatItem);
-    
+
+                    if (extern.modSettingEnabled("betterUI_infChat")) return;
                     const chatItems = Array.from(chatOut.querySelectorAll(".chat-item"));
                     chatItems.slice(0, Math.max(0, chatItems.length - 7)).forEach(item => item.remove());
                 }
@@ -2161,7 +2212,7 @@ class MegaMod {
                 src = src.safeReplace(mapInit, `${mapInit},window.megaMod.customFog.initFog(${mapDataVar2}.fog)`, "customFog");
             }
         }
-
+        
         // All done...yay! :)
         return src;
     }
@@ -2208,6 +2259,19 @@ class MegaMod {
         const res = await fetch(subPath);
         if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
         return await res.text();
+    }
+
+    static createFocusTimer(checkInterval, requiredTime, callbackFunc) {
+        let focusTime = 0;
+        const focusTimer = setInterval(() => {
+            if (document.hasFocus()) {
+                focusTime += checkInterval;
+                if (focusTime >= requiredTime) {
+                    clearInterval(focusTimer);
+                    callbackFunc();
+                }
+            }
+        }, checkInterval);
     }
 
     constructor() {
@@ -2367,6 +2431,9 @@ class MegaMod {
                     this.getModSettingById('customFog_densitySlider').value / 100, 
                     this.getModSettingById('customFog_colorPicker').value
                 );
+                break;
+            case "betterUI_infChat":
+                if (!settingEnabled) this.betterUI.adjustChatLength();
                 break;
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
@@ -2954,7 +3021,7 @@ class BetterUI {
                 item.unlock = extern.modSettingEnabled("betterUI_inventory") && !isThemed(item) ? "bundle" : item.origUnlock;
             });
 
-            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(x => x.itemIds)).filter(item => !(["default", "premium"].includes(item.unlock) || isThemed(item))).forEach(item => addTags(true, item, this.tags.bundle));
+            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(bundle => bundle.itemIds)).filter(item => !(["default", "premium"].includes(item.unlock) || isThemed(item))).forEach(item => addTags(true, item, this.tags.bundle));
 
             // Add "Creator" and Social Type tags to Content Creator Shop Items
             this.creatorData.forEach(creator => {
@@ -3106,7 +3173,8 @@ class BetterUI {
                     this.isPremium || this.isPremiumEggPurchase || this.isLeague || this.isEgglite ||
                     this.isLimited || this.isDrops || this.isNotif || this.isMerch || 
                     this.isCreator || this.isNewYolker || this.isPromo || 
-                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/);
+                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/
+                );
             },
 
             // Premium Icon
@@ -3313,9 +3381,37 @@ class BetterUI {
         const oldProgBarReset = vueApp.progressBarReset;
         vueApp.progressBarReset = function() {
             oldProgBarReset.call(this);
-            setTimeout(function() {
+            MegaMod.createFocusTimer(100, 1500, function() {
                 if(extern.inGame) megaMod.betterUI.addGameToHistory();
-            }, 1500);
+            });
+        }
+
+        // Chat Auto Scroll
+        const chatOut = document.getElementById('chatOut');
+        const scrollChat = () => chatOut.scrollTop = chatOut.scrollHeight;
+        const observer = new MutationObserver(() => {
+            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
+        });
+        observer.observe(chatOut, { childList: true });
+
+        const oldRespawn = extern.respawn;
+        extern.respawn = () => {
+            oldRespawn.call(this);
+            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
+        };
+
+        const oldPlayIncentivizedAd = vueApp.playIncentivizedAd;
+        vueApp.playIncentivizedAd = function() {
+            if (extern.modSettingEnabled("betterUI_ui") && this.chw.limitReached && extern.inGame && !this.chw.ready) {
+                BAWK.play("ui_playconfirm");
+                this.chwBarVisible = false;
+                const barInterval = setInterval(((chq) => {
+                    if (this.chw.limitReached && !this.chw.ready) return;
+                    clearInterval(barInterval);
+                    this.chwBarVisible = true;
+                }).bind(this), 200);
+            }
+            oldPlayIncentivizedAd.call(this, e);
         }
     }
 
@@ -3529,7 +3625,6 @@ class BetterUI {
             showBadgeMsg() {
                 if (!this.badgeMsg.msgs.length) return;
                 
-                // Destructure the first message directly, avoiding repetitive access
                 const { type, badgeClass, iconClass, badgeName } = this.badgeMsg.msgs.shift();
                 const { locKey, sfx } = BadgeMsgTypeData[type];
                 BAWK.play(sfx);
@@ -3542,7 +3637,6 @@ class BetterUI {
                     showing: true
                 });
 
-                // Use an arrow function to maintain the context of `this` naturally
                 setTimeout(() => {
                     this.badgeMsg.showing = false;
                     this.showBadgeMsg();  // Recursive call to process the next message
@@ -3580,6 +3674,7 @@ class BetterUI {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
                 setTimeout(vueApp.updateBadges.bind(vueApp), 1000);
+                vueApp.photoUrl = extern.firebaseUrl;
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
@@ -3653,20 +3748,20 @@ class BetterUI {
     }
 
     switchBetterInv(enabled, init) {
+        // Set Bundle Unlock Type
+        extern.getTaggedItems(this.tags.bundle).forEach(item => {
+            if (!item.origUnlock) item.origUnlock = item.unlock;
+            item.unlock = enabled ? "bundle" : item.origUnlock;
+        });
+
         // Add/Remove "Limited" tag to Monthly Featured Items
-        extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available).forEach(item => {
+        extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && !["premium", "bundle"].includes(item.unlock)).forEach(item => {
             if (!Array.isArray(item?.item_data?.tags)) item.item_data.tags = [];
             if (!enabled && item.item_data.tags.includes("Limited")) {
                 item.item_data.tags.splice(item.item_data.tags.indexOf("Limited"), 1);
             } else if (enabled && item.is_available && item.item_data.tags.indexOf("Limited") === -1) {
                 item.item_data.tags.push("Limited");
             }
-        });
-
-        // Set Bundle Unlock Type
-        extern.getTaggedItems(this.tags.bundle).forEach(item => {
-            if (!item.origUnlock) item.origUnlock = item.unlock;
-            item.unlock = enabled ? "bundle" : item.origUnlock;
         });
 
         this.betterInvStyle.disabled = !enabled;
@@ -3708,13 +3803,15 @@ class BetterUI {
         // Update Profile Screen
         if (vueApp.showScreen === vueApp.screens.profile) {
             vueApp.$refs.homeScreen.$refs.profileScreen.$forceUpdate(); 
-            vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer.$children.forEach(x => x.$forceUpdate());
+            vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer.$children.forEach(child => child.$forceUpdate());
         }
     }
 
     adjustChatLength() {
+        if (extern.modSettingEnabled("betterUI_infChat")) return;
         const chatItems = Array.from(document.getElementById("chatOut").querySelectorAll(".chat-item"));
-        chatItems.slice(0, Math.max(0, chatItems.length - 5)).forEach(item => item.remove());
+        const maxLength = extern.modSettingEnabled?.("betterUI_chat") ? 7 : 5;
+        chatItems.slice(0, Math.max(0, chatItems.length - maxLength)).forEach(item => item.remove());
     }
 
     switchChatUpgrades(enabled) {
@@ -4214,6 +4311,7 @@ class CustomFog {
     }
 }
 
+MegaMod.setDebug(true);
 Object.assign(unsafeWindow, {
 	SettingType: {
 		Slider: 0,
@@ -4280,51 +4378,51 @@ Object.assign(unsafeWindow, {
 	rawPath: "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main", // https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main
 	cdnPath: "https://1nf1n1t3sm4sh3r.github.io/mmTest", // https://1nf1n1t3sm4sh3r.github.io/mmTest
 });
-unsafeWindow.ChatEventData = {
-	[ChatEvent.joinGame]: {
-		locKey: 'megaMod_betterUI_chatEvent_joinGame',
-		setting: 'betterUI_chatEvent_joinGame'
-	},
-	[ChatEvent.leaveGame]: {
-		locKey: 'megaMod_betterUI_chatEvent_leaveGame',
-		setting: 'betterUI_chatEvent_leaveGame'
-	},
-	[ChatEvent.switchTeam]: {
-		locKey: 'megaMod_betterUI_chatEvent_switchTeam',
-		setting: 'betterUI_chatEvent_switchTeam'
-	}
-};
-unsafeWindow.BadgeMsgTypeData = {
-	[BadgeMsgType.coreGained]: {
-		locKey: 'megaMod_betterUI_coreBadgeGained_title',
-		sfx: 'badgeLevelUp'
-	},
-	[BadgeMsgType.coreLost]: {
-		locKey: 'megaMod_betterUI_coreBadgeLost_title',
-		sfx: 'badgeLevelDown'
-	},
-	[BadgeMsgType.tierUpgrade]: {
-		locKey: 'megaMod_betterUI_tierBadgeLvlUp_title',
-		sfx: 'badgeLevelUp'
-	},
-    [BadgeMsgType.tierDowngrade]: {
-		locKey: 'megaMod_betterUI_tierBadgeLvlDown_title',
-		sfx: 'badgeLevelDown'
-	},
-    [BadgeMsgType.tierLost]: {
-		locKey: 'megaMod_betterUI_tierBadgeLost_title',
-		sfx: 'badgeLevelDown'
-	}
-};
-unsafeWindow.openUpdate = function() {
-    this.open(`${this.cdnPath}/js/script.user.js`);
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible") this.location.reload();
-    });
-};
-
-MegaMod.setDebug(true);
-unsafeWindow.megaMod = new MegaMod();
+Object.assign(unsafeWindow, {
+    ChatEventData: {
+        [ChatEvent.joinGame]: {
+            locKey: 'megaMod_betterUI_chatEvent_joinGame',
+            setting: 'betterUI_chatEvent_joinGame'
+        },
+        [ChatEvent.leaveGame]: {
+            locKey: 'megaMod_betterUI_chatEvent_leaveGame',
+            setting: 'betterUI_chatEvent_leaveGame'
+        },
+        [ChatEvent.switchTeam]: {
+            locKey: 'megaMod_betterUI_chatEvent_switchTeam',
+            setting: 'betterUI_chatEvent_switchTeam'
+        }
+    },
+    BadgeMsgTypeData: {
+        [BadgeMsgType.coreGained]: {
+            locKey: 'megaMod_betterUI_coreBadgeGained_title',
+            sfx: 'badgeLevelUp'
+        },
+        [BadgeMsgType.coreLost]: {
+            locKey: 'megaMod_betterUI_coreBadgeLost_title',
+            sfx: 'badgeLevelDown'
+        },
+        [BadgeMsgType.tierUpgrade]: {
+            locKey: 'megaMod_betterUI_tierBadgeLvlUp_title',
+            sfx: 'badgeLevelUp'
+        },
+        [BadgeMsgType.tierDowngrade]: {
+            locKey: 'megaMod_betterUI_tierBadgeLvlDown_title',
+            sfx: 'badgeLevelDown'
+        },
+        [BadgeMsgType.tierLost]: {
+            locKey: 'megaMod_betterUI_tierBadgeLost_title',
+            sfx: 'badgeLevelDown'
+        }
+    },
+    openUpdate() {
+        this.open(`${this.cdnPath}/js/script.user.js`);
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") this.location.reload();
+        });
+    },
+    megaMod: new MegaMod()
+});
 
 const oldAppend = HTMLElement.prototype.appendChild;
 HTMLElement.prototype.appendChild = function(child) {

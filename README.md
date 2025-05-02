@@ -34,13 +34,16 @@ You'll need a userscript manager to run The MegaMod on your browser. I recommend
 > 2. Find and click the "Developer Mode" toggle (usually in the top right corner of the page).<br>
 > **Note**: On Opera GX, you may also have to close the window and open a new one for the changes to take effect
 
-### Step 2: Install The MegaMod Script
+### Step 2: Disable All Other Mod Scripts
+The MegaMod isn't optimized or recommended for use along with other mods. Having other mods enabled can break features of the MegaMod and cause unexpected bugs. If you notice any features of the MegaMod not working as expected, try disabling all other mods first before reporting issues.
+
+### Step 3: Install The MegaMod Script
 After installing the userscript manager, [click here](https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js) to install **The MegaMod**. Then, follow the prompts to add the script to your userscript manager.
 
-### Step 3: Enable the MegaMod
+### Step 4: Enable the MegaMod
 Once the script is installed, head to [Shell Shockers](https://shellshock.io/) and start playing. The MegaMod will load automatically on game start.
 
-### Step 4: Stay Updated
+### Step 5: Stay Updated
 The script is set to auto-update and will prompt you to install the latest update of The MegaMod if your version is outdated.
 
 ## Changelog
@@ -262,7 +265,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > </details>
 > > 
 > > - **Profile Badges** - Clickable & Automatically Computed/Displayed:
-> >   - Core Badges (24):
+> >   - Core Badges (26):
 > >     - General Badges (10):
 > >       | Badge Name          | Description                                             |
 > >       | ------------------- | ------------------------------------------------------- |
@@ -276,16 +279,18 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >       | Pandemic Player     | Account Created in 2020                                 |
 > >       | Farm-Fresh Player   | Account less than a month old                           |
 > >       | MegaMod Playtester  | Helped playtest The MegaMod before its release - tysm!  |
-> >     - Event Badges (7):
-> >       | Badge Name          | Description                                                      |
-> >       | ------------------- | ---------------------------------------------------------------- |
-> >       | Treasure Hunter     | Participated in the Scavenger Hunt 2022 event                    |
-> >       | ATTN: EGG ORG.      | Participated in the first EGG ORG event (2020)                    |
-> >       | Pablo > Diablo      | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event     |
-> >       | Pablo's Saviour     | Participated in the "Timetwist" (EGG ORG 2022) event             |
-> >       | Monsters Win!       | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event  |
-> >       | N0 M0R3 R0B0TS      | Participated in the "Rise of the Robots" (EGG ORG 2024) event    |
-> >       | Shadowborn Survivor | Participated in the "Shadow War" (EGG ORG 2025) event            |
+> >     - Event Badges (9):
+> >       | Badge Name          | Description                                                                |
+> >       | ------------------- | -------------------------------------------------------------------------- |
+> >       | Treasure Hunter     | Participated in the Scavenger Hunt 2022 event                              |
+> >       | ATTN: EGG ORG.      | Participated in the first EGG ORG event (2020)                              |
+> >       | Pablo > Diablo      | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event               |
+> >       | Pablo's Saviour     | Participated in the "Timetwist" (EGG ORG 2022) event                       |
+> >       | Monsters Win!       | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event            |
+> >       | N0 M0R3 R0B0TS      | Participated in the "Rise of the Robots" (EGG ORG 2024) event              |
+> >       | Egg-Fu Master       | Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event  |
+> >       | Eggsassin           | Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event      |
+> >       | Shadowborn Survivor | Participated in the "Shadow War" (EGG ORG 2025) event                      |
 > >     - Social Badges (7) - **BWD Content Creators Only**:
 > >       > Matches the CC social media linked to your Shell Shockers account!
 > >       - Facebook
@@ -300,7 +305,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >  
 > >     | Badge Name           | Description                                | Tier Requirements |
 > >     | -------------------- | ------------------------------------------ |------------------ |
-> >     | Eggstra Spender      | $ Worth of Premium Items Owned             | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>$50</td></tr><tr><td>II</td><td>$100</td></tr><tr><td>III</td><td>$150</td></tr><tr><td>IV</td><td>$250</td></tr><tr><td>V</td><td>$500+</td></tr></tbody></table>|
+> >     | Eggstra Spender      | % of Premium Items Owned                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
 > >     | Challenge Eggcepted  | # of Unique Challenges Completed           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>75</td></tr><tr><td>V</td><td>100+</td></tr></tbody></table>|
 > >     | Overeggchiever       | # of Total Challenges Completed            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>50</td></tr><tr><td>II</td><td>100</td></tr><tr><td>III</td><td>250</td></tr><tr><td>IV</td><td>500</td></tr><tr><td>V</td><td>1,000+</td></tr></tbody></table>|
 > >     | Eggspenditure        | Golden Eggs Spent                          | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>500,000</td></tr><tr><td>II</td><td>1,000,000</td></tr><tr><td>III</td><td>2,500,000</td></tr><tr><td>IV</td><td>5,000,000</td></tr><tr><td>V</td><td>7,500,000+</td></tr></tbody></table>|
@@ -332,7 +337,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > 
 > - **MOAR Colored UI**: Adds a splash of color to buttons and icons such as the News Tabs and social media footer icons.
 > 
-> - **Yellow Hit Indicator**: Makes the hit indicators yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
+> - **Yellow Hit Markers**: Makes the hit markers yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
 > 
 > - **Chat Upgrades**: Various Upgrades & Additions to In-Game Chat.
 > <details>
@@ -355,6 +360,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   
 > >   ![Chat Events](img/docs/betterUI/chat/Chat%20Events.png)
 > >   </details>
+> > - **Infinite Chat History**: Removes the chat message limit, allowing you to scroll through all of the messages sent after you joined a game.
 > </details>
 </details>
 

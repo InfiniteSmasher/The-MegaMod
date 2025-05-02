@@ -133,16 +133,31 @@
 		},
 		{
 			"type": 1,
-			"value": -9999,
-			"locKey": "megaMod_betterUI_badge_eggorg25",
-			"icon": "fas6 fa-question",
-			"class": "tier5"
+			"value": 1584,
+			"locKey": "megaMod_betterUI_badge_eggorg25_eggfu",
+			"icon": "fas6 fa-user-ninja",
+			"class": "badge-eggorg25-eggfu"
 		},
 		{
-			"condition": "extern?.account?.inventory.filter(i => i?.unlock === 'premium' && i.price !== 2147483647).reduce((sum, item) => sum + item.price, 0) >= {0}",
+			"type": 1,
+			"value": 1585,
+			"locKey": "megaMod_betterUI_badge_eggorg25_eggsassin",
+			"icon": "fas6 fa-user-ninja",
+			"class": "badge-eggorg25-eggsassin"
+		},
+		{
+			"type": 1,
+			"value": 2633,
+			"locKey": "megaMod_betterUI_badge_eggorg25",
+			"icon": "fas6 fa-dragon",
+			"class": "badge-eggorg25"
+		},
+		{
+			"condition": "(items => items.filter(extern.isItemOwned).length / items.length)(extern.getThemedItems('premium')) >= ({0}/100)",
 			"locKey": "megaMod_betterUI_badge_premium",
 			"tierIcons": ["fas fa-dollar-sign", "fas fa-money-check-alt", "fas fa-credit-card", "fas fa-sack-dollar", "fas fa-sack-dollar"],
-			"tierValues": [50, 100, 150, 250, 500],
+			"tierValues": [10, 20, 30, 50, 80],
+			"ignorePlus": true,
 			"class": "badge-premium"
 		},
 		{

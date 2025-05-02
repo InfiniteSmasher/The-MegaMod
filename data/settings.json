@@ -143,6 +143,14 @@
 						"defaultVal": true
 					}
 				]
+			},
+			{
+				"id": "betterUI_infChat",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_infChat",
+				"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+				"defaultVal": true
 			}
 		]
 	},

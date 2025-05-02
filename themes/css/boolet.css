@@ -379,7 +379,7 @@
 	background: none;
 }
 
-h1,
+h1:not(.text_blue5),
 .shadow_blue4 { 
 	text-shadow: var(--ss-space-xs) var(--ss-space-xs) var(--ss-blue5) !important; 
 }
@@ -715,4 +715,8 @@ h1,
 
 .megamod-popup tbody tr:nth-child(even) {
 	background: var(--ss-blue6) !important;
+}
+
+.vault-txt {
+	color: var(--ss-white) !important;
 }

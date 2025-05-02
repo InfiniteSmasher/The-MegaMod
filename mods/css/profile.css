@@ -145,31 +145,20 @@
 	background: linear-gradient(to bottom right, #FDF251, #dbce1a);
 }
 
-/* Eggsassin Ninja (fa-user-ninja)*/
-/*
-.badge-eggorg25 {
+/* Eggsassin Ninja*/
+.badge-eggorg25-eggsassin {
 	background: linear-gradient(to bottom, black 50%, #ff4029 50%, #982313);
 }
-*/
 
-/* Egg-Fu Ninja (fa-user-ninja)*/
-/*
-.badge-eggorg25 {
+/* Egg-Fu Ninja*/
+.badge-eggorg25-eggfu {
 	background: linear-gradient(to bottom, black 50%, #07a8d9 50%, #0b93bd);
 }
-*/
 
 /* Eggsassin Dragon (fa-dragon)*/
 .badge-eggorg25 {
 	background: linear-gradient(to bottom right, #ff4029, #982313);
 }
-
-/* Egg-Fu Wind (fa-wind)*/
-/*
-.badge-eggorg25 {
-	background: linear-gradient(to bottom left, #0b93bd, #07a8d9 90%);
-}
-*/
 
 .badge-scavenger22 {
 	background: radial-gradient(#DCDCD3, #D0CABC, #B6987E);

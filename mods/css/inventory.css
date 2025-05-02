@@ -59,6 +59,13 @@
 	border-color: var(--ss-white) !important;
 }
 
+/* White Lock Icon on Item Hover */
+/*
+#equip_grid .grid-item:hover .lock-icon {
+	color: var(--ss-white);
+}
+*/
+
 /* Makes Item Icon White */
 #equip_grid .highlight i {
 	color: var(--ss-white) !important;
@@ -107,7 +114,8 @@
 .highlight:not(.is-shop) .equip_smallprice div,
 .highlight:not(.is-shop) .egg-stroke,
 .highlight .equip-item-banner,
-.highlight:not(.is-shop) .item-icon {
+.highlight:not(.is-shop) .item-icon,
+.highlight:not(.is-shop) .lock-icon {
 	transition: all .3s linear;
 	z-index: 1 !important;
 }
@@ -337,6 +345,10 @@
 
 /* --------------------------- [ Limited ] */
 /* --------- Grid Slot */
+.item-tag-limited .equip-item-banner {
+    color: var(--ss-limited-txt);
+    background: var(--ss-limited)
+}
 #equip_grid .grid-item.item-tag-limited:not(.is-bundle) {
 	border-color: var(--ss-limited-border);
 }

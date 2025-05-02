@@ -6,6 +6,7 @@
 		"clan"
 	],
 	"tagEdits": [
+		{ "add": 0, "id": 1474,  "tags": ["promo"] },
 		{ "add": 0, "id": 1552,  "tags": ["Newsletter"] },
 		{ "add": 1, "id": 16013, "tags": ["Premium"] },
 		{ "add": 0, "id": 1474,  "tags": ["promo"] },
@@ -46,6 +47,7 @@
 		{ "add": 1, "id": 15001, "tags": ["Default"] },
 		{ "add": 1, "id": 15002, "tags": ["Default"] },
 		{ "add": 1, "id": 16000, "tags": ["Default"] },
+		{ "add": 1, "id": 2633,  "tags": ["event"] },
 		{ "add": 1, "id": 1340,  "tags": ["event"] },
 		{ "add": 1, "id": 2263,  "tags": ["event"] },
 		{ "add": 1, "id": 2388,  "tags": ["event"] },

@@ -330,7 +330,7 @@
 	background: var(--ss-blue6);
 }
 
-.megamod-popup tbody tr:hover {
+.megamod-popup:not(#mapPopup) tbody tr:hover {
 	opacity: .7;
 }
 

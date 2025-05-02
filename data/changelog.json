@@ -1,14 +1,28 @@
 {
 	"current": [
 		{
+			"version": "0.26",
+			"date": "May 2nd 2025",
+			"content": [
+				"Brought back the Chick'n Winner bar on the respawn menu",
+				"Color picker icon changed from paint palette to eye dropper",
+				"Added challenge notification popup to Hide HUD (through \"Hide Game Messages\")",
+				"Added Infinite Chat History setting for Better UI",
+				"Due to the recent database update, \"Eggstra Spender\" Badge is now forced to use the % of Premium items you own",
+				"The Eggsassins have won, revealing the dragon icon for the \"Shadowborn Survivor\" Badge!",
+				"\"Eggsassin\" Badge (lifetime KDR in every game mode) renamed to \"Eggliminator\"",
+				"Added \"Eggsassin\" and \"Egg-Fu Master\" Badges (based on which side you were on)"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.25",
 			"date": "April 16 2025",
 			"content": [
 				"Fixed Loading bug caused by Shell Shockers version 1.0.0 update"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.24",
 			"date": "April 15 2025",
