@@ -113,7 +113,7 @@ class MegaMod {
             <div id="settings_mods" v-show="showModsTab" class="settings-section">
                 <h3 class="margin-bottom-none h-short" v-html="loc.p_settings_mods_title"></h3>
                 <div class="display-grid grid-column-2-eq">
-                    <div v-for="s in settingsUi?.modSettings?.filter(s => !s.disabled && s.id !== 'megaMod') || []" class="f_col">
+                    <div v-for="s in settingsUi?.modSettings?.filter(s => !s.disabled && s.id !== 'megaMod') || []" v-show="eval(s?.showCondition ?? true)" class="f_col">
                         <div v-if="s.type === SettingType.Toggler">
                             <div class="nowrap" :class="s.showInfo ? 'has-settings' : ''">
                                 <settings-toggler :loc="loc" :loc-key="s.locKey + '_title'" :control-id="s.id" :control-value="s.value" @setting-toggled="onSettingToggled"></settings-toggler>
@@ -156,10 +156,10 @@ class MegaMod {
         </div>`
         );
 
-        const oldSettingsData = comp_settings.data();
+        const oldSettingsData = comp_settings.data;
         comp_settings.data = function() {
             return {
-                ...oldSettingsData,
+                ...oldSettingsData.call(this),
                 showModsTab: false,
                 showSettingsTab: false,
                 reloadNeeded: false,
@@ -224,6 +224,7 @@ class MegaMod {
                 const ignoreSetting = [SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type);
                 let storedSetting = (setting.type === SettingType.Slider) ? localStore.getNumItem(setting.id) : (setting.type === SettingType.Toggler) ? localStore.getBoolItem(setting.id) : localStore.getItem(setting.id);
                 // Validate storedSetting
+                if (storedSetting === "undefined") storedSetting = null;
                 if (storedSetting != null && !ignoreSetting) {
                     switch (setting.type) {
                         case SettingType.Slider:
@@ -693,7 +694,21 @@ class MegaMod {
             BAWK.play("ui_popupopen");
             vueApp.$refs.challengeInfoPopup.show();
         };
-    
+
+        // Game Code Input Data
+        const oldPlayPanelData = comp_play_panel.data;
+        comp_play_panel.data = function() {
+            return {
+                ...oldPlayPanelData.call(this),
+                gameCodeValues: new Array(12).fill(""),
+                gameCodeEmptyPlaceholders: "TYPEGAMECODE".split(""),
+                gameCodeFilledPlaceholders: new Array(12).fill("-"),
+                isObserve: parsedUrl?.query?.observe ?? false,
+                watchPlayerID: parsedUrl?.query?.watchPlayer ?? "",
+            };
+        }
+        
+        const oldOnJoinConfirmed = comp_play_panel.methods.onJoinConfirmed;
         Object.assign(comp_play_panel.methods, {
             showMapPopup() {
                 BAWK.play("ui_popupopen");
@@ -702,10 +717,121 @@ class MegaMod {
             showGameHistoryPopup() {
                 BAWK.play("ui_popupopen");
                 vueApp.$refs.gameHistoryPopup.show();
+            },
+            sanitizeCode(str) {
+                return str.toUpperCase().replace(/[^A-Z]/g, '');
+            },
+            formatCode(codeArray) {
+                return codeArray.join("").replace(/(.{4})(?=.)/g, "$1-");
+            },
+            applyCode() {
+                this.home.joinPrivateGamePopup.code = this.formatCode(this.gameCodeValues);
+            },
+            onCodeKeydown(index, event) {
+                const key = event.key;
+            
+                // Allow special keys and modifiers to propagate (e.g., Cmd+V for paste)
+                if (event.metaKey || event.ctrlKey || ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(key)) return;
+            
+                const letter = this.sanitizeCode(key);
+                if (!letter) {
+                    event.preventDefault();
+                    return; // not a valid letter/number, skip
+                }
+            
+                event.preventDefault(); // only prevent default if we're inserting a valid char
+                
+                const inputs = this.$refs.codeInputs;
+                inputs[index].value = letter;
+                this.$set(this.gameCodeValues, index, letter);
+                this.applyCode();
+                BAWK.play(this.gameCodeValues.every(x => x?.length === 1) ? "ui_equip" :  "ui_onchange");
+                
+                // Move to the next input if available
+                if (index < inputs.length - 1) {
+                    const nextInput = inputs[index + 1];
+                    if (nextInput.disabled) nextInput.disabled = false;
+                    nextInput.focus();
+                }
+            },
+            onCodeBackspace(index, event) {
+                event.preventDefault();
+                const removeAndShift = (index) => {
+                    for (let i = index; i < this.gameCodeValues.length - 1; i++) {
+                        this.gameCodeValues[i] = this.gameCodeValues[i + 1];
+                    }
+                    this.gameCodeValues[this.gameCodeValues.length - 1] = '';
+                };
+
+                const input = event.target;
+                // If cursor is at start, move to previous and delete its value
+                if (input.selectionStart === 0 && index > 0) {
+                    removeAndShift(index - 1);
+                    this.$refs.codeInputs[index - 1].focus();
+                } else {
+                    removeAndShift(index);
+                }
+            
+                this.applyCode();
+            },
+            onCodePaste(index, event) {
+                event.preventDefault();
+                const pasted = this.sanitizeCode(event.clipboardData.getData('text').toUpperCase());
+                const inputs = this.$refs.codeInputs;
+                for (let j = 0; j < pasted.length && index + j < inputs.length; j++) {
+                    const i = index + j;
+                    inputs[i].value = pasted[j];
+                    this.$set(this.gameCodeValues, i, pasted[j]);
+                    if (i + 1 < inputs.length) {
+                        const nextInput = inputs[i + 1];
+                        if (nextInput.disabled) nextInput.disabled = false;
+                        nextInput.focus();
+                    }
+                }
+                
+                this.applyCode();
+                BAWK.play(this.gameCodeValues.every(x => x?.length === 1) ? "ui_equip" :  "ui_onchange");
+            },
+            onInputClicked(event) {
+                if (event.target.disabled) {
+                    for(const input of this.$refs.codeInputs) {
+                        if (!input.disabled) {
+                            input.focus();
+                            break;
+                        }
+                    }
+                }
+            },
+            onJoinConfirmed() {
+                const url = new URL(window.location.href);
+                const hasObserve = parsedUrl?.query?.observe;
+                const watchPlayer = parsedUrl?.query?.watchPlayer;
+                const modEnabled = extern?.isEggforcer?.() && extern?.modSettingEnabled?.('betterEggforce_observeToggle');
+
+                if (modEnabled && (this.isObserve !== hasObserve || this.watchPlayerID !== watchPlayer)) {
+                    let newParams = [];
+
+                    if (this.isObserve) newParams.push('observe');
+                    if (this.watchPlayerID || watchPlayer) newParams.push(`watchPlayer=${encodeURIComponent(this.watchPlayerID || watchPlayer)}`);
+                    
+                    Object.assign(url, {
+                        search: newParams.length ? '?' + newParams.join('&') : '',
+                        hash: this.home.joinPrivateGamePopup.code
+                    });
+                    window.location.href = url.toString();
+                }
+                oldOnJoinConfirmed.call(this);
+            }
+        });
+
+        Object.assign(comp_play_panel.watch, {
+            'home.joinPrivateGamePopup.code'(newCode) {
+                const clean = this.sanitizeCode(newCode);
+                this.gameCodeValues = [...clean].concat(Array(12).fill('')).slice(0, 12);
             }
         });
     
-        // Public Map & Game History Buttons
+        // Public Map & Game History Buttons, Game Code Update
         const playPanel = document.getElementById("play-panel-template");
         playPanel.innerHTML = playPanel.innerHTML.replace(
             `ss-button-dropdown>`,
@@ -730,6 +856,44 @@ class MegaMod {
                     </li>
                 </template>
             </ss-button-dropdown> `
+        ).replace(
+            `<input type="text"`,
+            `<div v-show="${betterUIEnabled}" class="game_code_inputs">
+                <template v-for="(input, index) in gameCodeValues.length">
+                    <input
+                        type="text"
+                        :key="index"
+                        v-model="gameCodeValues[index]"
+                        class="ss_field game_code"
+                        :placeholder="(home.joinPrivateGamePopup.code.length ? gameCodeFilledPlaceholders : gameCodeEmptyPlaceholders)[index] || 'X'"
+                        maxlength="1"
+                        @keydown="onCodeKeydown(index, $event)"
+                        @paste="onCodePaste(index, $event)"
+                        @keydown.backspace="onCodeBackspace(index, $event)"
+                        @click="onInputClicked($event)"
+                        ref="codeInputs"
+                        :disabled="index > 0 && !gameCodeValues[index - 1]?.length"
+                    />
+                    <h2 v-if="(index - 3) % 4 === 0 && index < gameCodeValues.length - 1" class="nospace display-inline text_blue4 separator">—</h2>
+                </template>
+            </div><input type="text" v-show="!${betterUIEnabled}"
+            `
+        ).replace(
+            `<div class="display-grid grid-column-2-1 gap-sm"`,
+            `<div class="display-grid grid-column-2-eq" v-show="extern?.isEggforcer?.() && extern?.modSettingEnabled?.('betterEggforce_observeToggle')">
+                <label class="ss_checkbox label">{{ loc.p_game_code_observe }}
+                    <input type="checkbox" v-model="isObserve" @click="BAWK.play('ui_onchange')">
+                    <span class="checkmark"></span>
+                </label>
+                <div class="display-grid grid-column-auto-1"> 
+                    <i class="fas fa-exclamation-triangle text_red watch_icon"></i>
+                    <input :placeholder="loc.p_game_code_watchplayer" :disabled="!isObserve" v-model="watchPlayerID" class="ss_field font-nunito box_relative fullwidth">
+                </div>
+            </div>
+            <div class="display-grid gap-sm" :class="{'grid-column-1': ${betterUIEnabled}, 'grid-column-2-1': !${betterUIEnabled}}"`
+        ).replace(
+            `ss_button_join"`,
+            `ss_button_join" :class="{'btn_red bevel_red': (${betterUIEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) !== 3), 'btn_green bevel_green': (${betterUIEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) === 3)}"`
         );
         
         Object.assign(vueData, {
@@ -853,7 +1017,9 @@ class MegaMod {
                 }
             },
             itemVaultEnabled: false,
-            chwBarVisible: true
+            chwBarVisible: true,
+            banReasons: [],
+            chatMsgs: [],
         });
     
         // Adjust size of stats container for badges
@@ -886,11 +1052,11 @@ class MegaMod {
                 `<span v-for="(c, index) in paidColors`,
                 `<button class="ss_button roundme_lg btn_blue bevel_blue btn-account-w-icon" @click="randomizeColor" v-show="extern?.modSettingEnabled?.('colorSlider_randomizer', true)"><i class="fas fa-random"></i></button> <span v-for="(c, index) in paidColors`);
     
-        const oldColorSelectData = comp_color_select.data();
+        const oldColorSelectData = comp_color_select.data;
         Object.assign(comp_color_select, {
             data() {
                 return {
-                    ...oldColorSelectData,
+                    ...oldColorSelectData.call(this),
                     hueSliderVal: 50,
                     saturationSliderVal: 100,
                     brightnessSliderVal: 50,
@@ -1037,6 +1203,9 @@ class MegaMod {
         const crosshairDot = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_dot')`;
         const crosshairMain = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_main')`;
         const updownKeybinds = `extern?.modSettingEnabled?.('specTweaks_updown')`;
+        const eggforceBan = `extern?.modSettingEnabled?.('betterEggforce_banPopup')`;
+        const isEggforcer = `[2, 4, 8192].some(role => extern.adminRoles & role)`;
+        const uniqueIdElem = `<p v-show="${eggforceBan} && ${isEggforcer}" @click="copyPlayerDetails" class="text_blue5 playeraction_details">{{ loc.ui_game_playeractions_uniqueid }} {{ playerActionsPopup?.uniqueId ?? '?' }} <i class="fas6 fa-copy"></i></p>`;
         const gameScreen = document.getElementById("game-screen-template");
         gameScreen.innerHTML = gameScreen.innerHTML.replace(
             `uts">`,
@@ -1073,8 +1242,9 @@ class MegaMod {
             `<small-popup id="playerActionsPopup"`,
             `<small-popup id="playerActionsPopup"`
         ).replace(
-            `<div id="respawn-menu"`,
-            `<div v-show="!isPoki && firebaseId && extern?.modSettingEnabled?.('betterUI_ui') && chwBarVisible" id="chw-progress-wrapper" class="chw-progress-wrapper box_relative">
+            `<div id="respawn-menu">`,
+            `<div id="respawn-menu" class="display-grid align-items-center gap-sm">
+            <div v-show="!isPoki && firebaseId && extern?.modSettingEnabled?.('betterUI_ui') && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
                 <!-- incentivized-mini-game -->
                 <img class="box_aboslute chw-progress-img chw-chick" :src="chwChickSrc">
                 <div class="chw-progress-bar-wrap roundme_sm box_relative btn_blue bevel_blue" :class="progressBarWrapClass" @click="playIncentivizedAd">
@@ -1087,19 +1257,82 @@ class MegaMod {
                     </p>
                     <div class="chw-progress-bar-inner-popup bg_blue2" :style="{width: chw.progress + '%'}"></div>
                 </div>
-                <img class="box_aboslute chw-eggs chw-progress-img" src="img/egg_pack_small.webp" alt="">
-            </div><div id="respawn-menu"`
+                <!-- <img class="box_aboslute chw-eggs chw-progress-img" src="img/egg_pack_small.webp" alt=""> -->
+            </div>`
+        ).replace(
+            `<div id="cts-message" `,
+            `<div id="ingame-notif" class="in-game-notification centered_x" v-show="inGameNotifShowing"><h2 class="nospace text_white">{{ inGameNotifMsg }}</h2></div><div id="cts-message" `
+        ).replace(
+            `ref="banPlayerPopup"`,
+            `ref="banPlayerPopup" :class="{ 'wider' : ${eggforceBan} }"`
+        ).replace(
+            `</select>`,
+            `</select>
+            <div v-show="${eggforceBan}"> 
+                <h4 class="text_blue5 ss_marginbottom_sm">{{ loc.ui_game_playeractions_chat_message }}</h4>
+                <label class="ss_checkbox label fullwidth" :class="{ 'ss_marginbottom_xl' : !banPlayerPopup.sendChatMsg }">{{ loc.ui_game_playeractions_chat_message_send }}
+                    <input type="checkbox" v-model="banPlayerPopup.sendChatMsg" @click="BAWK.play('ui_onchange')">
+                    <span class="checkmark"></span>
+                </label>
+                <div class="fullwidth" v-show="banPlayerPopup.sendChatMsg">
+                    <select ref="chatMsgSelect" v-model="banPlayerPopup.selectedChatMsg" @change="updateChatMessage" class="ss_field fullwidth ss_margintop">
+                        <option v-for="msg in chatMsgs" v-bind:value="msg.value" v-html="loc[msg.locKey]"></option>
+                    </select>
+                    <input :disabled="banPlayerPopup.selectedChatMsg !== 0" type="text" ref="chatMsg" v-model="banPlayerPopup.customChatMsg" :placeholder="loc.ui_game_playeractions_chat_message_placeholder" class="ss_field ss_margintop ss_marginbottom fullwidth">
+                    <div class="display-grid grid-column-2-eq ss_marginbottom_xl fullwidth">
+                        <label class="ss_checkbox label">{{ loc.ui_game_playeractions_chat_censor }}
+                            <input type="checkbox" v-model="banPlayerPopup.censorName" @click="BAWK.play('ui_onchange')" @change="updateChatMessage">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="ss_checkbox label">{{ loc.ui_game_playeractions_chat_thanks }}
+                            <input type="checkbox" v-model="banPlayerPopup.sendThanksMsg" @click="BAWK.play('ui_onchange')">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            `
+        ).replace(
+            `<input ref="banReason"`,
+            `<h4 class="text_blue5 ss_marginbottom_sm" v-show="${eggforceBan}">{{ loc.ui_game_playeractions_ban_reason }}</h4>
+            <select ref="banReasonSelect" v-model="banPlayerPopup.selectedBanReason" v-show="${eggforceBan}" @change="updateChatMessage" class="ss_field fullwidth">
+                <option v-for="reason in banReasons" v-bind:value="reason.value" v-html="loc[reason.locKey]"></option>
+            </select>
+            <input v-show="banPlayerPopup.selectedBanReason === 0" :class="{ 'fullwidth' : ${eggforceBan} }" ref="banReason" @keyup="updateChatMessage"`
+        ).replace(
+            `<select ref="banDuration"`,
+            `<h4 class="text_blue5 ss_marginbottom_sm" v-show="${eggforceBan}">{{ loc.ui_game_playeractions_ban_duration }}</h4><select :class="{ 'fullwidth' : ${eggforceBan} }" ref="banDuration"`
+        ).replaceAll(
+            `>{{ playerActionsPopup.playerName }}</h5>`,
+            `:class="{ 'ss_marginbottom_sm' : (${eggforceBan} && ${isEggforcer}) }">{{ playerActionsPopup.playerName }}</h5>
+            ${uniqueIdElem}`
+        ).replaceAll(
+            `<div v-if="playerActionsPopup.vipMember"`,
+            `${uniqueIdElem}<div v-if="playerActionsPopup.vipMember"`
         );
+        // Better Ban Popup
+        Object.assign(vueData.banPlayerPopup, {
+            selectedBanReason: 0,
+            sendChatMsg: false,
+            selectedChatMsg: 0,
+            customChatMsg: "",
+            censorName: false,
+            sendThanksMsg: true
+        })
         
-        const oldGameScreenData = comp_game_screen.data();
+        const oldGameScreenData = comp_game_screen.data;
         Object.assign(comp_game_screen, {
             data() {
-                Object.assign(oldGameScreenData, {
+                const data = oldGameScreenData.call(this);
+                Object.assign(data, {
                     upSpectateTxt: "",
                     downSpectateTxt: "",
-                    spectateControlTxt: ""
+                    spectateControlTxt: "",
+                    inGameNotifShowing: false,
+                    inGameNotifMsg: "",
+                    inGameNotifTimeout: null
                 });
-                return oldGameScreenData;
+                return data;
             },
             mounted() {
                 this.updateSpectateControls();
@@ -1123,8 +1356,58 @@ class MegaMod {
                 };
                 addModSettingKey("hideHUD", "hideHUD_keybind", 'ui_game_spectate_controls_hud');
                 addModSettingKey("specTweaks", "specTweaks_freezeKeybind", 'ui_game_spectate_controls_freeze');
+                //if(extern.isEggforcer()) addModSettingKey("betterEggforce", "betterEggforce_specESP_keybind", 'ui_game_spectate_controls_esp');
+    
     
                 this.spectateControlTxt = controlTxt;
+            },
+            showInGameNotif(locKey) {
+                if (!extern.modSettingEnabled("megaMod_inGameAlerts")) return;
+                this.inGameNotifMsg = this.loc[locKey] || locKey;
+                this.inGameNotifShowing = true;
+                if (this.inGameNotifTimeout) clearTimeout(this.inGameNotifTimeout);
+                this.inGameNotifTimeout = setTimeout(() => {
+                    this.inGameNotifShowing = false;
+                }, 1000);
+            },
+            onBanClicked () {
+                this.$refs.banPlayerPopup.hide();
+
+                const modEnabled = extern?.modSettingEnabled?.('betterEggforce_banPopup');
+                const banReason = modEnabled ? this.getBanReason() : this.$refs.banReason.value;   
+                this.playerActionsPopup.banFunc(banReason, this.$refs.banDuration.value);
+                if (modEnabled && this.banPlayerPopup.sendChatMsg) {
+                    if (this.banPlayerPopup.sendChatMsg) extern.sendChat(this.banPlayerPopup.customChatMsg);
+                    if (this.banPlayerPopup.sendThanksMsg) extern.sendChat(this.loc.ui_game_playeractions_chat_thanksmsg);
+                }
+            },
+            getPlayerName() {
+                return this.banPlayerPopup.censorName ? this.loc.ui_game_playeractions_chat_generic_name : this.playerActionsPopup.playerName;
+            },
+            getBanReason() {
+                const selectedReason = this.loc[this.banReasons.find(reason => reason.value === this.banPlayerPopup.selectedBanReason).locKey ?? 'ui_game_playeractions_reason_default'];
+                return this.banPlayerPopup.selectedBanReason === 0 ? this.$refs.banReason.value : selectedReason;
+            },
+            getChatMessage() {
+                const { selectedChatMsg, customChatMsg } = this.banPlayerPopup;
+                if (selectedChatMsg === 0) return customChatMsg;
+            
+                if ([1, 2].includes(selectedChatMsg)) {
+                    const template = this.loc[selectedChatMsg === 1 ? 'ui_game_playeractions_chat_template_generic': 'ui_game_playeractions_chat_template_specific'];
+                    return template.format(this.getPlayerName(), this.getBanReason());
+                }
+            
+                const selected = this.chatMsgs.find(msg => msg.value === selectedChatMsg);
+                return this.loc[selected.locKey];
+            },
+            updateChatMessage() {
+                if (this.banPlayerPopup.selectedChatMsg == 0) return;
+                this.banPlayerPopup.customChatMsg = this.getChatMessage();
+            },
+            copyPlayerDetails() {
+                if (!extern?.modSettingEnabled?.('betterEggforce_banPopup')) return;
+                const { playerName, uniqueId } = this.playerActionsPopup;
+                navigator.clipboard.writeText(`${playerName} (${uniqueId})`);
             }
         });
 
@@ -1145,9 +1428,10 @@ class MegaMod {
         </div>
         `);
     
-        const oldPhotoBoothData = CompPhotoboothUi.data();
+        const oldPhotoBoothData = CompPhotoboothUi.data;
         CompPhotoboothUi.data = function() {
-            Object.assign(oldPhotoBoothData.egg, {
+            const data = oldPhotoBoothData.call(this);
+            Object.assign(data.egg, {
                 fpsAmounts: [
                     { id: 'egg-fps-low', name: 'screen_photo_booth_fps_low', value: 0, fps: 15 },
                     { id: 'egg-fps-med', name: 'screen_photo_booth_fps_med', value: 1, fps: 30 },
@@ -1160,7 +1444,7 @@ class MegaMod {
                 ],
             });
             return {
-                ...oldPhotoBoothData,
+                ...data,
                 fps: 1,
                 spinSpeed: 1
             };
@@ -1995,6 +2279,8 @@ class MegaMod {
             const freezeFunc = `
                 freezeFrame: (enabled) => {
                     ${freezeVar} = enabled;	
+                    const messageLoc = enabled ? 'megaMod_specTweaks_frozen' : 'megaMod_specTweaks_unfrozen';
+                     if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
                     // freezeVarKotc = enabled;
                     // window.megaMod.spectateTweaks.frozen = enabled;
                 }
@@ -2064,9 +2350,9 @@ class MegaMod {
                     
                     const chatItem = document.createElement("div");
                     chatItem.classList.add("chat-item", "chat-event", \`type-\${type}\`);
-                    if (notMePlayer) chatItem.classList.add("clickme");
                     chatItem.style.fontStyle = "italic";
                     if (notMePlayer) {
+                        chatItem.classList.add("clickme");
                         const ISVIP = !player.hideBadge && player?.upgradeProductId > 0;
                         const GETSOCIALMEDIA = !player.hideBadge && ${playerSocialFunc}(player.social);
                         chatItem.onclick = ${playerClickFunc}(player.${uniqueIdVar}, GETSOCIALMEDIA, ISVIP);
@@ -2076,7 +2362,8 @@ class MegaMod {
                     Object.assign(nameDiv.style, { display: "inline-block", color: ${teamColors}.text[player.team] });
                     
                     const eventIcon = document.createElement("i");
-                    eventIcon.classList.add("fas", "fa-info-circle", "ss_marginright_xs");
+                    const iconClasses = ChatEventData[type]?.iconClass.split(" ") || ["fas", "fa-info-circle"];
+                    eventIcon.classList.add(...iconClasses, "ss_marginright_xs");
                     
                     const nameSpan = document.createElement("span");
                     nameSpan.classList.add("chat-player-name");
@@ -2211,6 +2498,22 @@ class MegaMod {
             if (mapInit) {
                 src = src.safeReplace(mapInit, `${mapInit},window.megaMod.customFog.initFog(${mapDataVar2}.fog)`, "customFog");
             }
+        }
+
+        // Spatula Chat Events
+        const [captureMatch, capturePlayerVar, uniqueIDVar] = regex`(${v})\.ctsCapture\(${v}\.(${v})\)`.safeExec(src, "");
+        if (captureMatch && capturePlayerVar) {
+            src = src.safeReplace(captureMatch, `(${captureMatch}, addChatEvent(ChatEvent.pickSpatula, ${capturePlayerVar}))`, "");
+        }
+        const [dropMatch, dropPlayerVar] = regex`(${v})\.ctsCapture\(\!1\)`.safeExec(src, "");
+        if (dropMatch && dropPlayerVar) {
+            src = src.safeReplace(dropMatch, `(${dropMatch}, addChatEvent(ChatEvent.dropSpatula, ${dropPlayerVar}))`, "");
+        }
+        
+        // UniqueID Fix
+        const [uniqueIDMatch, uniqueIDPlayerVar] =  regex`playerName\:(${v})\.name`.safeExec(src, "");
+        if (uniqueIDMatch && uniqueIDPlayerVar && uniqueIDVar) {
+            src = src.safeReplace(uniqueIDMatch, `${uniqueIDMatch}, uniqueId: ${uniqueIDPlayerVar}.${uniqueIDVar}`, ""); 
         }
         
         // All done...yay! :)
@@ -2439,8 +2742,8 @@ class MegaMod {
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
 		if (id.includes("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode"));
 		if (id.includes("betterUI_chatEvent_")) {
-			const type = Object.keys(ChatEventData).find(k => ChatEventData[k].setting === id);
-			this.betterUI.switchChatEvent(type, settingEnabled);
+			const types = Object.keys(ChatEventData).filter(k => ChatEventData[k].setting === id);
+			types.forEach(type => this.betterUI.switchChatEvent(type, settingEnabled));
 		}
 		vueApp.$refs.settings.checkReloadNeeded();
 	}
@@ -2547,10 +2850,11 @@ class MegaMod {
 
     addKeydownEL() {
         MegaMod.log("addKeydownEL() -", "Adding keydown EventListener");
-
-        const hideHUDErr = ["hideHUD", "hideHUD_keybind"].some(settingId => this.modErrs.includes(settingId));
-        const freezeErr = ["specTweaks", "specTweaks_freezeKeybind"].some(settingId => this.modErrs.includes(settingId));
-        //const ksInfoErr = this.modErrs.includes("killstreakInfo") || this.modErrs.includes("killstreakInfo_keybind");
+        const checkErrs = (ids) => ids.some(settingId => this.modErrs.includes(settingId));
+        const hideHUDErr = checkErrs(["hideHUD", "hideHUD_keybind"]);
+        const freezeErr = checkErrs(["specTweaks", "specTweaks_freezeKeybind"]);
+        //const ksInfoErr = checkErrs(["killstreakInfo", "killstreakInfo_keybind"]);
+        //const espErr = checkErrs(["betterEggForce", "betterEggforce_specESP", "betterEggforce_specESP_keybind"]);
         document.addEventListener('keydown', (e) => {
             const modsDisabled = !(extern.modSettingEnabled("hideHUD") || extern.modSettingEnabled("killstreakInfo") || extern.modSettingEnabled("specTweaks"));
             if (document.activeElement.tagName === "INPUT" || !extern.inGame || vueApp.game.isPaused || modsDisabled) {
@@ -2564,6 +2868,7 @@ class MegaMod {
             };
             const hideKey = unsafeWindow.megaMod.getModSettingById("hideHUD_keybind")?.value.toLowerCase();
             const freezeKey = unsafeWindow.megaMod.getModSettingById("specTweaks_freezeKeybind")?.value.toLowerCase();
+            //const espKey = unsafeWindow.megaMod.getModSettingById("betterEggforce_specESP_keybind")?.value.toLowerCase();
             //const ksKey = this.getModSettingById("killstreakInfo_keybind")?.value.toLowerCase();
             switch (e.key.toLowerCase()) {
                 case hideKey:
@@ -2572,12 +2877,19 @@ class MegaMod {
                 /*
                 case ksKey:
                     // TODO: toggle KSInfo Popup
-                    if (this.modErrs.includes("killstreakInfo") || this.modErrs.includes("killstreakInfo_keybind") || !extern.modSettingEnabled("killstreakInfo")) break;
+                    if (ksInfoErr || !extern.modSettingEnabled("killstreakInfo")) break;
                     break;
                 */
                 case freezeKey:
                     if (!freezeErr && extern.modSettingEnabled("specTweaks") && vueApp.ui.game.spectate) this.spectateTweaks.toggleFreezeFrame();
                     break;
+                
+                /*
+                case espKey:
+                    // TODO: toggle Spectate ESP
+                    if (!espErr && extern.modSettingEnabled("betterEggforce_specESP") && vueApp.ui.game.spectate) this.betterEggforce.toggleSpecESP();
+                    break;
+                */
             }
         });
     }
@@ -2595,6 +2907,9 @@ class MegaMod {
 
         Object.assign(extern, {
             modSettingEnabled: this.modSettingEnabled.bind(this),
+            isEggforcer() {
+                return [2, 4, 8192].some(role => this.adminRoles & role);
+            }
         });
     }
 
@@ -2692,6 +3007,11 @@ class MegaMod {
                 path: '/mods/data/skyboxes', 
                 mod: 'customSkybox', 
                 callback: data => this.customSkybox = new CustomSkybox(data)
+            },
+            { 
+                path: '/mods/data/eggforce', 
+                mod: 'betterEggforce', 
+                callback: data => this.betterEggforce = new BetterEggforce(data)
             }
         ];
         
@@ -3013,15 +3333,9 @@ class BetterUI {
             // Add or Remove Missing/Wrong Item Tags
             this.tagEdits.forEach(edit => addTags(edit.add, extern.catalog.findItemById(edit.id), edit.tags));
 
-            const isThemed = (item) => ["drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
+            this.updateBundleItems(extern.modSettingEnabled("betterUI_inventory"));
 
-            // Set Bundle Unlock Type
-            extern.getTaggedItems(this.tags.bundle).forEach(item => {
-                if (!item.origUnlock) item.origUnlock = item.unlock;
-                item.unlock = extern.modSettingEnabled("betterUI_inventory") && !isThemed(item) ? "bundle" : item.origUnlock;
-            });
-
-            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(bundle => bundle.itemIds)).filter(item => !(["default", "premium"].includes(item.unlock) || isThemed(item))).forEach(item => addTags(true, item, this.tags.bundle));
+            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(bundle => bundle.itemIds)).filter(item => !this.isThemed(item)).forEach(item => addTags(true, item, this.tags.bundle));
 
             // Add "Creator" and Social Type tags to Content Creator Shop Items
             this.creatorData.forEach(creator => {
@@ -3746,13 +4060,21 @@ class BetterUI {
     switchColored(enabled) {
         this.coloredStyle.disabled = !enabled;
     }
+    
+    isThemed(item) {
+        return ["default", "premium", "drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
+    }
+
+    updateBundleItems(enabled) {
+        extern.getTaggedItems(this.tags.bundle).forEach(item => {
+            if (!item.origUnlock) item.origUnlock = item.unlock;
+            item.unlock = enabled && !this.isThemed(item) ? "bundle" : item.origUnlock;
+        });
+    }
 
     switchBetterInv(enabled, init) {
         // Set Bundle Unlock Type
-        extern.getTaggedItems(this.tags.bundle).forEach(item => {
-            if (!item.origUnlock) item.origUnlock = item.unlock;
-            item.unlock = enabled ? "bundle" : item.origUnlock;
-        });
+        this.updateBundleItems(enabled);
 
         // Add/Remove "Limited" tag to Monthly Featured Items
         extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && !["premium", "bundle"].includes(item.unlock)).forEach(item => {
@@ -4010,11 +4332,13 @@ class HideHUD {
 
     toggleHideHUD(disable) {
         this.hudHidden = disable ? false : !this.hudHidden;
+        const messageLoc = this.hudHidden ? 'megaMod_hideHUD_hidden' : 'megaMod_hideHUD_showing';
+        if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
         this.updateHUDVisibility();
     }
 
     disableHideHUD() {
-        this.toggleHideHUD(true);
+        if (this.hudHidden) this.toggleHideHUD(true);
     }
 
     updateHUDVisibility() {
@@ -4285,6 +4609,8 @@ class CustomSkybox {
 
 class CustomFog {
     constructor() { 
+        MegaMod.log("Initializing Mod:", "Custom Fog");
+
         this.fog = { density: 0, color: "#FFF"}; 
         this.inGame = false;
 
@@ -4308,6 +4634,37 @@ class CustomFog {
             unsafeWindow.megaMod.getModSettingById('customFog_densitySlider').value / 100, 
             unsafeWindow.megaMod.getModSettingById('customFog_colorPicker').value,
         );
+    }
+}
+
+class BetterEggforce {
+    constructor(data) {
+        MegaMod.log("Initializing Mod:", "Better Eggforce");
+
+        this.specESP = false;
+        Object.assign(this, data);
+        Object.assign(vueData, data);
+    }
+    
+    specESPNotif() {
+        const messageLoc = this.specEsp ? 'megaMod_specESP_enabled' : 'megaMod_specESP_disabled';
+        if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
+    }
+
+    toggleSpecESP() {
+        //extern.toggleSpecESP(this.specEsp = !this.specEsp);
+        this.specEsp = extern.isEggforcer() ? !this.specEsp : false;
+        this.specESPNotif();
+        if (this.specEsp && extern.isEggforcer()) {
+            if (this.specESP) clearInterval(this.specESPInterval);
+            this.specESPInterval = setInterval(() => {
+                if (vueApp.ui.game.spectate) return;
+                clearInterval(this.specESPInterval);
+                this.specESP = false
+                //extern.toggleSpecESP(this.specESP = false);
+                this.specESPNotif();
+            }, 100);
+        }
     }
 }
 
@@ -4366,6 +4723,8 @@ Object.assign(unsafeWindow, {
 		 joinGame: 0,
 		 leaveGame: 1,
 		 switchTeam: 2,
+         pickSpatula: 3,
+         dropSpatula: 4
 	},
 	teamLocs: ['team_blue', 'team_red'],
     BadgeMsgType: {
@@ -4382,15 +4741,28 @@ Object.assign(unsafeWindow, {
     ChatEventData: {
         [ChatEvent.joinGame]: {
             locKey: 'megaMod_betterUI_chatEvent_joinGame',
+            iconClass: "fas6 fa-person-running-fast",
             setting: 'betterUI_chatEvent_joinGame'
         },
         [ChatEvent.leaveGame]: {
             locKey: 'megaMod_betterUI_chatEvent_leaveGame',
+            iconClass: "fas6 fa-person-running-fast fa-flip-horizontal",
             setting: 'betterUI_chatEvent_leaveGame'
         },
         [ChatEvent.switchTeam]: {
             locKey: 'megaMod_betterUI_chatEvent_switchTeam',
+            iconClass: "fas6 fa-sync",
             setting: 'betterUI_chatEvent_switchTeam'
+        },
+        [ChatEvent.pickSpatula]: {
+            locKey: 'megaMod_betterUI_chatEvent_pickSpatula',
+            iconClass: "fas6 fa-fork",
+            setting: 'betterUI_chatEvent_pickSpatula'
+        },
+        [ChatEvent.dropSpatula]: {
+            locKey: 'megaMod_betterUI_chatEvent_dropSpatula',
+            iconClass: "fas6 fa-fork",
+            setting: 'betterUI_chatEvent_dropSpatula'
         }
     },
     BadgeMsgTypeData: {

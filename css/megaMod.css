@@ -127,16 +127,16 @@
 }
 
 .mod-msg.info h4 {
-	font-size: .9em;
+	font-size: .85em;
 }
 
 .mod-msg.info p {
-	font-size: .8em;
+	font-size: .75em;
 }
 
 .mod-msg.info a,
 .mod-msg.info i { 
-	font-size: 1em;
+	font-size: .95em;
 }
 
 #settings_mods .margin-bottom-none {
@@ -422,7 +422,7 @@
     height: 4em;
 }
 .ss_color_picker::-webkit-color-swatch-wrapper {
-	padding-top: .15em;
+	padding-top: .17em;
     padding-bottom: .17em;
 }
 .ss_color_picker::-webkit-color-swatch {
@@ -466,4 +466,28 @@
 
 .btn_serverselect .option-box {
     right: 0;
+}
+
+#ingame-notif {
+	top: 5em !important;
+}
+
+
+/* Better Eggforce */
+#banPlayerPopup.wider {
+	width: 30em;
+}
+
+#banPlayerPopup.wider .popup_sm_content {
+	width: 100% !important;
+}
+
+.playeraction_details:hover {
+    color: var(--ss-white) !important;
+}
+
+.watch_icon {
+    margin-top: .35em;
+    margin-left: -1.4em;
+    font-size: 1.4em;
 }

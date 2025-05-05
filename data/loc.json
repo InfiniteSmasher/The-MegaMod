@@ -4,12 +4,12 @@
 	
 	"p_settings_mods_title": "Eggcellent Mods | The MegaMod <i class='fas fa-tools'></i>",
 	"p_settings_mods_reload_title": "<i class='fas fa-exclamation-triangle'></i> PAGE RELOAD REQUIRED!",
-	"p_settings_mods_reload_desc1": "Please reload the page so that your changed mod settings can take effect!",
-	"p_settings_mods_reload_desc2": "If you choose to dismiss this message, your changed settings will take effect the next time you open Shell Shockers.",
+	"p_settings_mods_reload_desc1": "Please reload the page so that your updated mod settings can take effect!",
+	"p_settings_mods_reload_desc2": "If you choose to dismiss this message, your updated settings will take effect the next time you open Shell Shockers.",
 	"p_settings_mods_info_title": "Info | The MegaMod <i class='fas fa-tools'></i>",
 	"p_settings_mods_info_desc1": "Enhance your Shell Shockers experience with The MegaMod. From fun features to useful additions that elevate the game's functionality, this culmination of all of Infinite Smasher's mods (with new additions and features), is your one-stop solution!",
 	"p_settings_mods_info_desc2": "To view info about a mod or change its settings, press the <i onclick='vueApp.$refs.settings.flashSettingsIcons()' class='fas fa-cog'></i> icon next to its name.",
-	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord server! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
+	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
 	
 	"megaMod_disableModsPopup_title": "Disable Yo Mods!",
 	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod.<br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
@@ -35,6 +35,7 @@
 	"p_settings_mods_megaMod_sfx_tabs": "Tab Sounds",
 	"p_settings_mods_megaMod_sfx_hover": "Hover Sounds",
 	"p_settings_mods_megaMod_cssPreload": "Faster CSS Loading",
+	"p_settings_mods_megaMod_inGameAlerts": "In-Game Mod Toggle Alerts",
 
 	
 	"p_settings_mods_betterUI_title": "Better UI",
@@ -222,10 +223,14 @@
 	"p_settings_mods_betterUI_chatEvent_joinGame": "Join Game",
 	"p_settings_mods_betterUI_chatEvent_leaveGame": "Leave Game",
 	"p_settings_mods_betterUI_chatEvent_switchTeam": "Switch Team",
+	"p_settings_mods_betterUI_chatEvent_pickSpatula": "Pick Up Spatula",
+	"p_settings_mods_betterUI_chatEvent_dropSpatula": "Drop Spatula",
 
 	"megaMod_betterUI_chatEvent_joinGame": " joined the game.",
 	"megaMod_betterUI_chatEvent_leaveGame": " left the game.",
 	"megaMod_betterUI_chatEvent_switchTeam": " switched to {0} team.",
+	"megaMod_betterUI_chatEvent_pickSpatula": " picked up the spatula.",
+	"megaMod_betterUI_chatEvent_dropSpatula": " dropped the spatula.",
 
 	"p_settings_mods_betterUI_infChat": "Infinite Chat History",
 
@@ -296,6 +301,9 @@
 	"p_settings_mods_hideHUD_outlines": "Hide Player Outlines",
 	"p_settings_mods_hideHUD_pickups": "Hide Grenade/Ammo Pickups",
 
+	"megaMod_hideHUD_hidden": "HUD Hidden",
+	"megaMod_hideHUD_showing": "HUD Visible",
+
 
 	"p_settings_mods_killstreakInfo_title": "Killstreak Stats",
 	"p_settings_mods_killstreakInfo_desc": "Adds a stopwatch that starts when you spawn, along with a popup (COMING SOON) that can be toggled on/off to display useful stats about your kill streaks. Also useful for timed challenges.",
@@ -325,6 +333,9 @@
 	"ui_game_spectate_controls_fp": "<br>{0} :  Toggle First-Person",
 	"ui_game_spectate_controls_hud": "<br>{0} : Toggle Hide HUD",
 	"ui_game_spectate_controls_freeze": "<br>{0} : Toggle Freeze Frame",
+
+	"megaMod_specTweaks_frozen": "Freeze Frame On",
+	"megaMod_specTweaks_unfrozen": "Freeze Frame Off",
 
 
 	"p_settings_mods_pbSpin_title": "Photobooth Egg Spin",
@@ -461,5 +472,47 @@
 	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to a crystal-clear view across all maps.",
 	"p_settings_mods_customFog_densitySlider": "Fog Density (%)",
 	"p_settings_mods_customFog_colorPicker": "Fog Color",
-	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map"
+	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map",
+
+
+	"p_settings_mods_betterEggforce_title": "Better Eggforce",
+	"p_settings_mods_betterEggforce_desc": "Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!",
+	"p_settings_mods_betterEggforce_banPopup": "Improved Ban UI",
+	"p_settings_mods_betterEggforce_observeToggle": "Observer Toggle",
+	"p_settings_mods_betterEggforce_specESP": "Spectate-Only ESP",
+	"p_settings_mods_betterEggforce_specESP_keybind": "Toggle ESP",
+
+	"p_game_code_observe": "Observer Mode",
+	"p_game_code_watchplayer": "Watch Player UniqueID",
+	"ui_game_playeractions_uniqueid": "UniqueID:",
+	"ui_game_playeractions_ban_reason": "Ban Reason",
+	"ui_game_playeractions_ban_duration": "Ban Duration",
+	"ui_game_playeractions_chat_message": "Chat Message",
+	"ui_game_playeractions_chat_message_send": "Send Chat Message",
+	"ui_game_playeractions_chat_message_placeholder": "Chat Message",
+	"ui_game_playeractions_chat_generic_name": "A Player",
+	"ui_game_playeractions_chat_template_specific": "{0} was banned for {1}",
+	"ui_game_playeractions_chat_template_generic": "{0} was banned",
+	"ui_game_playeractions_chat_thanksmsg": "Thanks for the reports! :)",
+
+	"ui_game_playeractions_reason_custom": "Custom",
+	"ui_game_playeractions_reason_default": "Breaking The Rules",
+	"ui_game_playeractions_reason_cheats": "Using Cheats",
+	"ui_game_playeractions_reason_name": "Inappropriate Username",
+	"ui_game_playeractions_reason_chat": "Inappropriate Chat Message(s)",
+	"ui_game_playeractions_reason_spam": "Spamming in Chat",
+	"ui_game_playeractions_reason_bots": "Botting",
+	"ui_game_playeractions_reason_report": "False Reporting",
+	"ui_game_playeractions_reason_impersonation": "Impersonation",
+	"ui_game_playeractions_reason_evading": "Ban Evading",
+
+	"ui_game_playeractions_chat_custom": "Custom",
+	"ui_game_playeractions_chat_noreason": "No Reason",
+	"ui_game_playeractions_chat_ban": "Same as Ban Reason",
+	"ui_game_playeractions_chat_censor": "Censor Player Name",
+	"ui_game_playeractions_chat_thanks": "Send Thanks Message",
+
+	"ui_game_spectate_controls_esp": "<br>{0} : Toggle Spectate ESP",
+	"megaMod_specESP_enabled": "Spectate ESP Enabled",
+	"megaMod_specESP_disabled": "Spectate ESP Disabled"
 }

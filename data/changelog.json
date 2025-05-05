@@ -1,8 +1,22 @@
 {
 	"current": [
 		{
+			"version": "0.27",
+			"date": "May 5 2025",
+			"content": [
+				"Added small in-game alerts for mods with toggle keybinds (Hide HUD & Spectate Tweaks Freeze Frame)",
+				"Chat Event messages now have different icons to represent each chat event",
+				"Added chat events for spatula pick up and drop",
+				"Better UI now restyles the join game code input to work better with the new game code format",
+				"Added the Better Eggforce mod, exclusive to Eggforcers, which introduces some helpful Eggforcing-related features",
+				"Fixed alignment issues with the Chick'n Winner despawn menu bar"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.26",
-			"date": "May 2nd 2025",
+			"date": "May 2 2025",
 			"content": [
 				"Brought back the Chick'n Winner bar on the respawn menu",
 				"Color picker icon changed from paint palette to eye dropper",
@@ -13,9 +27,7 @@
 				"\"Eggsassin\" Badge (lifetime KDR in every game mode) renamed to \"Eggliminator\"",
 				"Added \"Eggsassin\" and \"Egg-Fu Master\" Badges (based on which side you were on)"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.25",
 			"date": "April 16 2025",

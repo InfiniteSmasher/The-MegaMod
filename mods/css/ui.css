@@ -427,3 +427,30 @@ input[type='range']::-webkit-slider-thumb {
 .chw-reward-amount.ownedItem h2 {
     bottom: .2em;
 }
+
+.game_code {
+    width: 2.4em;
+    text-align: center;
+    margin-left: .05em !important;
+    margin-right: .05em !important;
+}
+.game_code_inputs {
+    align-content: center !important;
+}
+.game_code:focus {
+    color: white !important;
+    background: var(--ss-blue4) !important;
+    border-color: white !important;
+	box-shadow: none !important;
+}
+.game_code:focus::placeholder {
+    color: rgb(255, 255, 255, 50%) !important;
+}
+.game_code_inputs .separator {
+    margin-left: -.06em !important;
+    margin-right: .14em !important;
+}
+
+.ss_field:disabled {
+    background: var(--ss-blue0) !important;
+}

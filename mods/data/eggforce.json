@@ -1,0 +1,19 @@
+{
+    "banReasons": [
+        { "value": 0, "locKey": "ui_game_playeractions_reason_custom" },
+        { "value": 1, "locKey": "ui_game_playeractions_reason_default" },
+        { "value": 2, "locKey": "ui_game_playeractions_reason_cheats" },
+        { "value": 3, "locKey": "ui_game_playeractions_reason_name" },
+        { "value": 4, "locKey": "ui_game_playeractions_reason_chat" },
+        { "value": 5, "locKey": "ui_game_playeractions_reason_spam" },
+        { "value": 6, "locKey": "ui_game_playeractions_reason_bots" },
+        { "value": 7, "locKey": "ui_game_playeractions_reason_report" },
+        { "value": 8, "locKey": "ui_game_playeractions_reason_impersonation" },
+        { "value": 9, "locKey": "ui_game_playeractions_reason_evading" }
+    ],
+    "chatMsgs": [
+        { "value": 0, "locKey": "ui_game_playeractions_chat_custom" },
+        { "value": 1, "locKey": "ui_game_playeractions_chat_noreason" },
+        { "value": 2, "locKey": "ui_game_playeractions_chat_ban" }
+    ]
+}

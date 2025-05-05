@@ -62,6 +62,7 @@ The script is set to auto-update and will prompt you to install the latest updat
 >     - **Tab Sounds** - Sound effects for mods tab and mod settings tab
 >     - **Hover Sounds** - Sound effects for hovering on settings tab icon and mod settings icons
 > - **Faster CSS Loading** - Makes CSS Load Faster
+> - **In-Game Mod Toggle Alerts** - Enables small in-game alerts for mods with toggle keybinds
 
 </details>
 
@@ -355,6 +356,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Join Game - _PLAYER_ joined the game.
 > >   - Leave Game - _PLAYER_ left the game.
 > >   - Switch Team - _PLAYER_ switched to BLUE/RED team.
+> >   - Pick Up Spatula - _PLAYER_ picked up the spatula.
+> >   - Drop Spatula - _PLAYER_ dropped the spatula.
 > >   <details>
 > >   <summary>See Chat Events (Image)</summary>
 > >   
@@ -579,5 +582,26 @@ There's a new link added to the footer on the home screen, which opens a changel
 > 
 > ![Fog Example](img/docs/customFog/fog.png)
 > </details>
+
+</details>
+
+<details>
+<summary>Better Eggforce</summary>
+ 
+> > Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!
+> ### **Settings**:
+> - **Improved Ban UI**: Adds ability to copy a player's UniqueID, preset ban reasons, and automatic chat message sending functionality (with presets or custom message text box) to the ban player popup.
+>   <details>
+>   <summary>Improved Ban Player Popup (Image)</summary>
+>   
+>   ![Improved Ban UI](img/docs/betterEggforce/Ban%20Popup.png)
+>   </details>
+> 
+> - **Observer Toggle**: Adds a toggle on the join game popup to toggle on/off observer mode and enter a player UniqueID.
+>   <details>
+>   <summary>Observer Toggle (Image)</summary>
+>   
+>   ![Observer Toggle](img/docs/betterEggforce/Observer%20Toggle.png)
+>   </details>
 
 </details>

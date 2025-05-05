@@ -1,13 +1,11 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Brought back the Chick'n Winner bar on the respawn menu",
-        "Color picker icon changed from paint palette to eye dropper",
-        "Added challenge notification popup to Hide HUD (through \"Hide Game Messages\")",
-        "Added Infinite Chat History setting for Better UI",
-        "Due to the recent database update, \"Eggstra Spender\" Badge is now forced to use the % of Premium items you own",
-        "The Eggsassins have won, revealing the dragon icon for the \"Shadowborn Survivor\" Badge!",
-        "\"Eggsassin\" Badge (lifetime KDR in every game mode) renamed to \"Eggliminator\"",
-        "Added \"Eggsassin\" and \"Egg-Fu Master\" Badges (based on which side you were on)"
+        "Added small in-game alerts for mods with toggle keybinds (Hide HUD & Freeze Frame)",
+        "Chat Event messages now have different icons to represent each chat event",
+        "Added chat events for spatula pick up and drop",
+        "Better UI now restyles the join game code input to work better with the new game code format",
+        "Added the Better Eggforce mod, exclusive to Eggforcers, which introduces some helpful Eggforcing-related features",
+        "Fixed alignment issues with the Chick'n Winner despawn menu bar"
     ]
 }

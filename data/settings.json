@@ -43,12 +43,25 @@
 				]
 			},
 			{
-				"id": "megaMod_cssPreload",
-				"type": 1,
+				"type": 4,
 				"active": true,
-				"locKey": "p_settings_mods_megaMod_cssPreload",
-				"defaultVal": true,
-				"refreshReq": true
+				"settings": [
+					{
+						"id": "megaMod_cssPreload",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_megaMod_cssPreload",
+						"defaultVal": true,
+						"refreshReq": true
+					},
+					{
+						"id": "megaMod_inGameAlerts",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_megaMod_inGameAlerts",
+						"defaultVal": true
+					}
+				]
 			}
 		]
 	},
@@ -60,97 +73,123 @@
 		"defaultVal": true,
 		"settings": [
 			{
-				"id": "betterUI_ui",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_ui",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_inventory",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_inventory",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_pfp",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_pfp",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_badges",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_badges",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_roundness",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_roundness",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_colors",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_colors",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_chat",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_chat",
-				"defaultVal": true
-			},
-			{
-				"id": "betterUI_hitMarkers",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterUI_hitMarkers",
-				"defaultVal": true
-			},
-			{
 				"type": 4,
 				"active": true,
-				"locKey": "p_settings_mods_betterUI_chatEvents",
-				"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
 				"settings": [
 					{
-						"id": "betterUI_chatEvent_joinGame",
+						"id": "betterUI_ui",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_chatEvent_joinGame",
+						"locKey": "p_settings_mods_betterUI_ui",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_chatEvent_leaveGame",
+						"id": "betterUI_inventory",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_chatEvent_leaveGame",
+						"locKey": "p_settings_mods_betterUI_inventory",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_chatEvent_switchTeam",
+						"id": "betterUI_pfp",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_chatEvent_switchTeam",
+						"locKey": "p_settings_mods_betterUI_pfp",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_badges",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_badges",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_roundness",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_roundness",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_colors",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_colors",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_hitMarkers",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_hitMarkers",
 						"defaultVal": true
 					}
 				]
 			},
 			{
-				"id": "betterUI_infChat",
-				"type": 1,
+				"type": 4,
 				"active": true,
-				"locKey": "p_settings_mods_betterUI_infChat",
-				"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
-				"defaultVal": true
+				"settings": [
+					{
+						"id": "betterUI_chat",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_chat",
+						"defaultVal": true
+					},
+					{
+						"id": "betterUI_infChat",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_infChat",
+						"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+						"defaultVal": true
+					},
+					{
+						"type": 4,
+						"active": true,
+						"locKey": "p_settings_mods_betterUI_chatEvents",
+						"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+						"settings": [
+							{
+								"id": "betterUI_chatEvent_joinGame",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_betterUI_chatEvent_joinGame",
+								"defaultVal": true
+							},
+							{
+								"id": "betterUI_chatEvent_leaveGame",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_betterUI_chatEvent_leaveGame",
+								"defaultVal": true
+							},
+							{
+								"id": "betterUI_chatEvent_switchTeam",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_betterUI_chatEvent_switchTeam",
+								"defaultVal": true
+							},
+							{
+								"id": "betterUI_chatEvent_pickSpatula",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_betterUI_chatEvent_pickSpatula",
+								"defaultVal": true
+							},
+							{
+								"id": "betterUI_chatEvent_dropSpatula",
+								"type": 1,
+								"active": true,
+								"locKey": "p_settings_mods_betterUI_chatEvent_dropSpatula",
+								"defaultVal": true
+							}
+						]
+					}
+				]
 			}
 		]
 	},
@@ -910,6 +949,45 @@
 				"active": true,
 				"locKey": "p_settings_mods_customFog_colorPicker",
 				"defaultVal": "#197a93"
+			}
+		]
+	},
+	{
+		"id": "betterEggforce",
+		"type": 1,
+		"active": true,
+		"showCondition": "extern?.isEggforcer?.()",
+		"locKey": "p_settings_mods_betterEggforce",
+		"defaultVal": true,
+		"settings": [
+			{
+				"id": "betterEggforce_banPopup",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterEggforce_banPopup",
+				"defaultVal": true
+			},
+			{
+				"id": "betterEggforce_observeToggle",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterEggforce_observeToggle",
+				"defaultVal": true
+			},
+			{
+				"id": "betterEggforce_specESP",
+				"type": 1,
+				"active": false,
+				"locKey": "p_settings_mods_betterEggforce_specESP",
+				"defaultVal": true
+			},
+			{
+				"id": "betterEggforce_specESP_keybind",
+				"type": 2,
+				"active": false,
+				"showCondition": "extern.modSettingEnabled('betterEggforce_specESP', true)",
+				"locKey": "p_settings_mods_betterEggforce_specESP_keybind",
+				"defaultVal": "E"
 			}
 		]
 	}

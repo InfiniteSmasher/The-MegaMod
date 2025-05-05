@@ -163,6 +163,14 @@
 	content: "\e547";
 }
 
+.fa-person-running-fast:before {
+	content: "\e5ff";
+}
+
+.fa-fork:before {
+	content: "\f2e3";
+}
+
 /* Currency Icons */
 .fa-indian-rupee-sign:before {
 	content: "\e1bc";
