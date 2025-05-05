@@ -178,7 +178,7 @@
 			"condition": "extern?.account?.eggsSpent >= {0}",
 			"locKey": "megaMod_betterUI_badge_spenteggs",
 			"tierIcons": ["fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-basket", "fas fa-shopping-cart", "fas fa-shopping-cart"],
-			"tierValues": [500000, 100000, 250000, 5000000, 7500000],
+			"tierValues": [500000, 1000000, 2500000, 5000000, 7500000],
 			"class": "badge-spender"
 		},
 		{
