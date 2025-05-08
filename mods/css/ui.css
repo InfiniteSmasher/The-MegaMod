@@ -345,15 +345,6 @@ input[type='range']::-webkit-slider-thumb {
 	border-width: .12em;
 }
 
-.gameHistory_btn {
-	width: 3.7em !important;
-	height: 2.07em;
-	font-size: 1.75em;
-	position: absolute;
-	border-width: .12em;
-    margin-left: -4.2em;
-}
-
 #mapPopup .map-mode {
 	width: 10em;
 	text-align: center;
@@ -406,17 +397,6 @@ input[type='range']::-webkit-slider-thumb {
     margin-bottom: 0;
 }
 
-/* Chick'n Winner Stretch (Despawn Menu) */
-.chw-progress-wrapper {
-	 width: 100% !important;
-	 top: -2.45em;
-     padding-right: .5em;
-}
-
-.chw-progress-bar-wrap {
-	width: 98.5% !important;
-}
-
 /* Chick'n Winner Egg Amount Width Fix */
 .chw-reward-amount {
     width: 18em;
@@ -450,7 +430,6 @@ input[type='range']::-webkit-slider-thumb {
     margin-left: -.06em !important;
     margin-right: .14em !important;
 }
-
 .ss_field:disabled {
     background: var(--ss-blue0) !important;
 }

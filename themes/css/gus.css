@@ -650,3 +650,6 @@ color: #663ac9 !important;
     border-radius: 0.05em;
     content: url('https://i.gifer.com/SKbF.gif');
 }
+.game_code_inputs .game_code:focus {
+    background: var(--ss-yolk) !important;
+}

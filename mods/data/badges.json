@@ -88,6 +88,13 @@
 		},
 		{
 			"type": 2,
+			"value": "((today) => today.getDate() === d.getDate() && today.getMonth() === d.getMonth())(new Date())",
+			"locKey": "megaMod_betterUI_badge_bday",
+			"icon": "fas6 fa-birthday-cake",
+			"class": "badge-bday"
+		},
+		{
+			"type": 2,
 			"value": "d <= new Date('2022-09-15')",
 			"condition": "&& extern.isItemOwned(extern.catalog.findItemById(1350))",
 			"locKey": "megaMod_betterUI_badge_scavenger22",

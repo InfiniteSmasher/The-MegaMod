@@ -491,3 +491,93 @@
     margin-left: -1.4em;
     font-size: 1.4em;
 }
+
+.gameHistory_btn {
+	width: 3.7em !important;
+	height: 2.07em;
+	font-size: 1.75em;
+	position: absolute;
+	border-width: .12em;
+    margin-left: -4.2em;
+}
+
+.banHistory_btn {
+	width: 6.4em !important;
+	height: 1.85em;
+	font-size: 2em;
+	position: absolute;
+	border-width: .12em;
+    margin-left: -3.68em;
+    bottom: 2.1em;
+}
+
+#banHistoryPopup {
+    background-image: none;
+    border: 0;
+	width: 80em !important;
+    padding: 0
+}
+
+#banHistoryPopup #popupInnards {
+    margin-top: 2em;
+    min-height: auto
+}
+
+#banHistoryPopup .play-panel-panels {
+    width: 80em !important;
+}
+
+#banHistoryPopup .ban-table tr.selected {
+    background: var(--ss-yolk) !important;
+}
+
+#banHistoryPopup .ban-table tr.selected td {
+    color: var(--ss-white) !important;
+}
+
+#banHistoryPopup .table-div {
+    max-height: 10em;
+}
+
+#banHistoryPopup .table-div.ban-table {
+    max-height: 17em;
+}
+
+
+#banHistoryPopup #private_maps #mapText {
+    font-size: 1em;
+    line-height: .4em;
+    color: var(--ss-white);
+    width: 100%;
+    text-wrap-mode: wrap;
+}
+
+#banHistoryPopup #private_maps {
+    width: 10em;
+    height: 6em;
+    text-align: center;
+    z-index: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#banHistoryPopup #private_maps .map-avg-size-icon {
+    font-size: .7em;
+}
+
+#banHistoryPopup td {
+    text-align: center;
+}
+
+#banHistoryPopup .gameCode {
+	color: rgb(0, 175, 0);
+}
+#banHistoryPopup .gameCode:hover {
+	color: green;
+}
+#banHistoryPopup .gameCode.closed {
+	color: red;
+}
+#banHistoryPopup .gameCode.closed:hover {
+	color: rgb(175, 0, 0);
+}

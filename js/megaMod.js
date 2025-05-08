@@ -428,11 +428,21 @@ class MegaMod {
             `:disabled="extern.inGame || (${invEditsEnabled} && itemVaultEnabled)"`
         ).replace(
             `<h3 v-if="!showPurchasesUi"`,
-            `<h1 v-show="${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled" class="equip-title text-center margins_sm box_relative text_blue5 nospace vault-txt" v-html="loc.megamod_betterUI_itemVault"></h1> <h3 v-if="!showPurchasesUi"`
+            `<h1 v-show="${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled" class="equip-title text-center margins_sm box_relative text_blue5 nospace vault-txt" v-html="loc.megamod_betterUI_itemVault_title"></h1> <h3 v-if="!showPurchasesUi"`
         ).replace(
             `id="equip_panel_right"`,
             `id="equip_panel_right" :class="{ 'vaultopen' : (${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled) }"`
         );
+        
+        /*
+        // Item Vault Small Button
+        .replace(
+            `loc.eq_redeem }}</button>`,
+            `loc.eq_redeem }}</button>
+            <button v-show="isEquipModeInventory && ${invEditsEnabled}" class="ss_button box_relative fullwidth text-uppercase" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled }" :disabled="!ui.showHomeEquipUi" @click="onSwitchToVaultClicked" v-html="itemVaultEnabled ? loc.megamod_betterUI_itemVault_exit : loc.megamod_betterUI_itemVault_enter"></button>
+            `
+        )
+        */
             
         // Item Vault: Hide Shop Button in Item Grid
         const itemGrid = document.getElementById("item-grid-template");
@@ -652,8 +662,8 @@ class MegaMod {
         profileScreen.innerHTML = profileScreen.innerHTML.replace(
             `center">\n\t\t\t\t\t<section>`,
             `center">
-              <div id="player_photo" v-show="(${pfpEnabled}) && photoUrl && photoUrl !== '' && !isAnonymous">
-                <img :src="photoUrl" class="roundme_md"/>
+              <div id="player_photo" v-show="${pfpEnabled}">
+                <img :src="photoUrl || '${rawPath}/img/assets/other/pfpDefault.png'" class="roundme_md"/>
               </div><section>`
         ).replace(`s"></p>`, `s"></p>
             <span v-show="${badgesEnabled}" v-for="(row, i) in (badges?.rows.length ? badges.rows : [{ main: [], tier: [] }])">
@@ -715,8 +725,11 @@ class MegaMod {
                 vueApp.$refs.mapPopup.show();
             },
             showGameHistoryPopup() {
-                BAWK.play("ui_popupopen");
-                vueApp.$refs.gameHistoryPopup.show();
+                if (extern?.modSettingEnabled?.('betterUI_ui')) {
+                    BAWK.play("ui_popupopen");
+                    vueApp.$refs.gameHistoryPopup.show();
+                }
+                else if (extern?.modSettingEnabled?.('betterEggforce_banHistory')) this.showBanHistoryPopup();
             },
             sanitizeCode(str) {
                 return str.toUpperCase().replace(/[^A-Z]/g, '');
@@ -776,12 +789,35 @@ class MegaMod {
             },
             onCodePaste(index, event) {
                 event.preventDefault();
-                const pasted = this.sanitizeCode(event.clipboardData.getData('text').toUpperCase());
+                const pastedTextRaw = event.clipboardData.getData('text');
+                const pastedText = pastedTextRaw.toUpperCase();
+
+                const hashIndex = pastedText.indexOf('#');
+                const hasHash = hashIndex !== -1;
+                if (hasHash && extern?.isEggforcer?.()) {
+                    // Parse query parameters if present
+                    const url = new URL(pastedTextRaw, window.location.origin);
+                    const queryParams = new URLSearchParams(url.search);
+
+                    // Set isObserve if ?observe is present
+                    this.isObserve = queryParams.has('observe');
+
+                    // Set watchPlayerID if watchPlayer param is present
+                    this.watchPlayerID = queryParams.get('watchPlayer') || "";
+                }
+
+                // Extract code from hash or full pasted text
+                const result = this.sanitizeCode(hasHash ? pastedText.substring(hashIndex + 1) : pastedText);
+
+                // 4+4+4 Game Code (dashes removed by sanitizeCode())
+                if (result.length === 12 && index > 0) index = 0;
+
+                // Fill inputs
                 const inputs = this.$refs.codeInputs;
-                for (let j = 0; j < pasted.length && index + j < inputs.length; j++) {
+                for (let j = 0; j < result.length && index + j < inputs.length; j++) {
                     const i = index + j;
-                    inputs[i].value = pasted[j];
-                    this.$set(this.gameCodeValues, i, pasted[j]);
+                    inputs[i].value = result[j];
+                    this.$set(this.gameCodeValues, i, result[j]);
                     if (i + 1 < inputs.length) {
                         const nextInput = inputs[i + 1];
                         if (nextInput.disabled) nextInput.disabled = false;
@@ -808,19 +844,31 @@ class MegaMod {
                 const watchPlayer = parsedUrl?.query?.watchPlayer;
                 const modEnabled = extern?.isEggforcer?.() && extern?.modSettingEnabled?.('betterEggforce_observeToggle');
 
-                if (modEnabled && (this.isObserve !== hasObserve || this.watchPlayerID !== watchPlayer)) {
-                    let newParams = [];
-
-                    if (this.isObserve) newParams.push('observe');
-                    if (this.watchPlayerID || watchPlayer) newParams.push(`watchPlayer=${encodeURIComponent(this.watchPlayerID || watchPlayer)}`);
-                    
-                    Object.assign(url, {
-                        search: newParams.length ? '?' + newParams.join('&') : '',
-                        hash: this.home.joinPrivateGamePopup.code
-                    });
-                    window.location.href = url.toString();
-                }
+                if (modEnabled) {
+                    const currentWatchPlayer = this.watchPlayerID || watchPlayer;
+                    const needsRefresh = !extern.setWatchPlayer && this.watchPlayerID !== watchPlayer;                    ;
+                
+                    if (extern?.setWatchPlayer) extern.setWatchPlayer(currentWatchPlayer);
+                
+                    if (this.isObserve !== hasObserve || needsRefresh) {
+                        const params = [];
+                
+                        if (this.isObserve) params.push('observe');
+                        if (currentWatchPlayer) params.push(`watchPlayer=${encodeURIComponent(currentWatchPlayer)}`);
+                
+                        url.search = params.length ? `?${params.join('&')}` : '';
+                        url.hash = this.home.joinPrivateGamePopup.code;
+                
+                        window.location.href = url.toString();
+                    }
+                }                
                 oldOnJoinConfirmed.call(this);
+            },
+            showBanHistoryPopup() {
+                BAWK.play("ui_popupopen");
+                vueApp.onBanSearchChange(true);
+                vueApp.onBanSearchChange(false);
+                vueApp.$refs.banHistoryPopup.show();
             }
         });
 
@@ -831,17 +879,20 @@ class MegaMod {
             }
         });
     
-        // Public Map & Game History Buttons, Game Code Update
+        // Public Map, Game History, and Ban History Buttons, Game Code Update
+        const isEggforcer = `[2, 4, 8192].some(role => extern.adminRoles & role)`;
         const playPanel = document.getElementById("play-panel-template");
+        const banHistoryEnabled = `extern?.modSettingEnabled?.('betterEggforce_banHistory')`;
         playPanel.innerHTML = playPanel.innerHTML.replace(
             `ss-button-dropdown>`,
-            `ss-button-dropdown><button v-show="extern?.modSettingEnabled?.('betterUI_ui')" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
+            `ss-button-dropdown><button v-show="${betterUIEnabled}" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
         ).replace(
             `<button @click="onJoinPrivateGameClick"`,
-            `<button v-show="extern?.modSettingEnabled?.('betterUI_ui')" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
+            `<button v-show="${banHistoryEnabled} && ${isEggforcer} && ${betterUIEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
+            <button v-show="${betterUIEnabled} || ${banHistoryEnabled}" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="(${banHistoryEnabled} && !${betterUIEnabled}) ? loc.megaMod_betterEggforce_banHistory_alt : loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
         ).replace(`sort="order"></ss-button-dropdown>`,
             `sort="order"></ss-button-dropdown>
-            <ss-button-dropdown v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
+            <ss-button-dropdown v-show="${betterUIEnabled}" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
                 <template slot="dropdown">
                     <li v-if="regionList" v-for="(region, idx) in regionList" :class="{ 'selected' : currentRegionId === region.id }" class="display-grid gap-1 align-items-center text_blue5 font-nunito regions-select" @click="onRegionPicked(region.id)">
                         <div class="f_row align-items-center">
@@ -886,7 +937,7 @@ class MegaMod {
                     <span class="checkmark"></span>
                 </label>
                 <div class="display-grid grid-column-auto-1"> 
-                    <i class="fas fa-exclamation-triangle text_red watch_icon"></i>
+                    <i class="fas fa-exclamation-triangle watch_icon" :class="{'text_red': this.isObserve, 'text_blue4': !this.isObserve}"></i>
                     <input :placeholder="loc.p_game_code_watchplayer" :disabled="!isObserve" v-model="watchPlayerID" class="ss_field font-nunito box_relative fullwidth">
                 </div>
             </div>
@@ -1003,6 +1054,7 @@ class MegaMod {
                     return;
                 }
                 vueApp.$refs.gameHistoryPopup.close();
+                vueApp.$refs.banHistoryPopup.close();
                 BAWK.play("ui_popupopen");
                 vueApp.showJoinPrivateGamePopup(code);
             },
@@ -1020,6 +1072,56 @@ class MegaMod {
             chwBarVisible: true,
             banReasons: [],
             chatMsgs: [],
+            banHistory: [],
+            playerBanHistory: [],
+            showingBanHistory: [],
+            showingPlayerBanHistory: [],
+            banHistorySearch: "",
+            playerBanHistorySearch: "",
+            selectedBanIndex: 0,
+            selectedUniqueID: "",
+            getBanDuration(val) {
+                return this.banDurations.find(duration => duration.value == val).label;
+            },
+            getBanDate(date) {
+                return new Date(date).toLocaleString();
+            },
+            onBanSelect(index, uniqueID) {
+                this.selectedBanIndex = index;
+                this.selectedUniqueID = uniqueID;
+
+                this.updatePlayerBanHistory();
+            },
+            selectFirstBan() {
+                if (this.showingBanHistory.length) this.onBanSelect(0, this.showingBanHistory.toReversed()[0].player.uniqueId);
+            },
+            updatePlayerBanHistory() {
+                this.playerBanHistory = this.banHistory.filter(ban => ban.player.uniqueId === this.selectedUniqueID);
+                this.onBanSearchChange(false);
+            },
+            onBanSearchChange(mainBanArr) {
+                const filterFn = (ban) => {
+                    const parts = [
+                        this.getBanDuration(ban.ban.duration),
+                        ban.ban.reason,
+                        this.getBanDate(ban.date),
+                        ban.gameCode,
+                        ban.player.name,
+                        ban.player.uniqueId,
+                        ban.map.name,
+                        ban.map.filename,
+                        this.loc[ban.serverLoc],
+                        this.loc[ban.modeLoc],
+                        ban.isPrivate ? this.loc.stat_private : this.loc.stat_public
+                    ];
+                    return parts.join(' ').toLowerCase().includes(mainBanArr ? this.banHistorySearch : this.playerBanHistorySearch);
+                };
+
+                const source = mainBanArr ? this.banHistory : this.playerBanHistory;
+                const targetProp = mainBanArr ? 'showingBanHistory' : 'showingPlayerBanHistory';
+                this[targetProp] = source.filter(filterFn);
+                if (mainBanArr) this.selectFirstBan();
+            }
         });
     
         // Adjust size of stats container for badges
@@ -1204,7 +1306,6 @@ class MegaMod {
         const crosshairMain = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_main')`;
         const updownKeybinds = `extern?.modSettingEnabled?.('specTweaks_updown')`;
         const eggforceBan = `extern?.modSettingEnabled?.('betterEggforce_banPopup')`;
-        const isEggforcer = `[2, 4, 8192].some(role => extern.adminRoles & role)`;
         const uniqueIdElem = `<p v-show="${eggforceBan} && ${isEggforcer}" @click="copyPlayerDetails" class="text_blue5 playeraction_details">{{ loc.ui_game_playeractions_uniqueid }} {{ playerActionsPopup?.uniqueId ?? '?' }} <i class="fas6 fa-copy"></i></p>`;
         const gameScreen = document.getElementById("game-screen-template");
         gameScreen.innerHTML = gameScreen.innerHTML.replace(
@@ -1244,7 +1345,7 @@ class MegaMod {
         ).replace(
             `<div id="respawn-menu">`,
             `<div id="respawn-menu" class="display-grid align-items-center gap-sm">
-            <div v-show="!isPoki && firebaseId && extern?.modSettingEnabled?.('betterUI_ui') && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
+            <div v-show="!isPoki && firebaseId && ${betterUIEnabled} && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
                 <!-- incentivized-mini-game -->
                 <img class="box_aboslute chw-progress-img chw-chick" :src="chwChickSrc">
                 <div class="chw-progress-bar-wrap roundme_sm box_relative btn_blue bevel_blue" :class="progressBarWrapClass" @click="playIncentivizedAd">
@@ -1312,9 +1413,9 @@ class MegaMod {
         );
         // Better Ban Popup
         Object.assign(vueData.banPlayerPopup, {
-            selectedBanReason: 0,
+            selectedBanReason: 3,
             sendChatMsg: false,
-            selectedChatMsg: 0,
+            selectedChatMsg: 1,
             customChatMsg: "",
             censorName: false,
             sendThanksMsg: true
@@ -1339,6 +1440,7 @@ class MegaMod {
             }
         });
 
+        const oldBanActionClicked = comp_game_screen.methods.onBanActionClicked
         Object.assign(comp_game_screen.methods, {
             updateSpectateControls() {
                 const specEnabled = extern?.modSettingEnabled?.("specTweaks");
@@ -1371,14 +1473,15 @@ class MegaMod {
                 }, 1000);
             },
             onBanClicked () {
+                this.addBanToHistory();
                 this.$refs.banPlayerPopup.hide();
 
                 const modEnabled = extern?.modSettingEnabled?.('betterEggforce_banPopup');
                 const banReason = modEnabled ? this.getBanReason() : this.$refs.banReason.value;   
                 this.playerActionsPopup.banFunc(banReason, this.$refs.banDuration.value);
                 if (modEnabled && this.banPlayerPopup.sendChatMsg) {
-                    if (this.banPlayerPopup.sendChatMsg) extern.sendChat(this.banPlayerPopup.customChatMsg);
-                    if (this.banPlayerPopup.sendThanksMsg) extern.sendChat(this.loc.ui_game_playeractions_chat_thanksmsg);
+                    if (this.banPlayerPopup.sendChatMsg) MegaMod.sendChatMessage(this.banPlayerPopup.customChatMsg);
+                    if (this.banPlayerPopup.sendThanksMsg) MegaMod.sendChatMessage(this.loc.ui_game_playeractions_chat_thanksmsg);
                 }
             },
             getPlayerName() {
@@ -1393,7 +1496,7 @@ class MegaMod {
                 if (selectedChatMsg === 0) return customChatMsg;
             
                 if ([1, 2].includes(selectedChatMsg)) {
-                    const template = this.loc[selectedChatMsg === 1 ? 'ui_game_playeractions_chat_template_generic': 'ui_game_playeractions_chat_template_specific'];
+                    const template = this.loc[selectedChatMsg === 1 ? 'ui_game_playeractions_chat_template_specific' : 'ui_game_playeractions_chat_template_generic'];
                     return template.format(this.getPlayerName(), this.getBanReason());
                 }
             
@@ -1404,10 +1507,44 @@ class MegaMod {
                 if (this.banPlayerPopup.selectedChatMsg == 0) return;
                 this.banPlayerPopup.customChatMsg = this.getChatMessage();
             },
+            onBanActionClicked() {
+                this.updateChatMessage();
+                oldBanActionClicked.call(this);
+            },
             copyPlayerDetails() {
                 if (!extern?.modSettingEnabled?.('betterEggforce_banPopup')) return;
+                this.showInGameNotif('megaMod_betterEggforce_copied');
                 const { playerName, uniqueId } = this.playerActionsPopup;
                 navigator.clipboard.writeText(`${playerName} (${uniqueId})`);
+            },
+            addBanToHistory() {
+                const gameCode = this.game.shareLinkPopup.code.toUpperCase();;
+                if (!gameCode) return;
+        
+                const { playerName, uniqueId } = this.playerActionsPopup;
+                const { mapName, gameType } = this.game;
+                const banData = {
+                    date: new Date().toJSON(),
+                    player: {
+                        name: playerName,
+                        uniqueId
+                    },
+                    ban: {
+                        duration: this.$refs.banDuration.value,
+                        reason: extern?.modSettingEnabled?.('betterEggforce_banPopup') ? this.getBanReason() : this.$refs.banReason.value
+                    },
+                    map: { name: mapName },
+                    modeLoc: this.gameTypes.find(type => type.value === gameType).locKey,
+                    serverLoc: `server_${this.currentRegionId}`,
+                    gameCode: gameCode,
+                    isPrivate: extern.isPrivateGame,
+                    isOpen: true
+                };
+                banData.map.filename = this.maps.find(map => map.name === banData.map.name).filename;
+        
+                this.banHistory.push(banData);
+        
+                if (unsafeWindow.megaMod?.betterEggforce) unsafeWindow.megaMod.betterEggforce.checkBanHistory();
             }
         });
 
@@ -1573,11 +1710,11 @@ class MegaMod {
         }
         
         // (Home Screen) Clock Icon Next To Challenge Timer, Challenge Info Button
-        const chlgInfoIcon = `<i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
+        const chlgInfoIcon = `<i v-show="${betterUIEnabled}" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
         const mediaTabs = document.getElementById("media-tabs-template");
         mediaTabs.innerHTML = mediaTabs.innerHTML.replace(
             `<span v-show="challengeDailyData.days"`,
-            `<i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="far fa-clock"></i><span <span v-show="challengeDailyData.days"`
+            `<i v-show="${betterUIEnabled}" class="far fa-clock"></i><span <span v-show="challengeDailyData.days"`
         ).replace(
             `</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`,
             `${chlgInfoIcon}</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`
@@ -1594,9 +1731,9 @@ class MegaMod {
         const gameInfo = document.getElementById("gameDescription");
         gameInfo.innerHTML = gameInfo.innerHTML.replace(
             `>{{ loc.home_desc_about }}`,
-            `><i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="far6 fa-egg-fried"></i> 
+            `><i v-show="${betterUIEnabled}" class="far6 fa-egg-fried"></i> 
             {{ loc.home_desc_about }}
-            <i v-show="extern?.modSettingEnabled?.('betterUI_ui')" class="fas6 fa-egg-fried"></i>`
+            <i v-show="${betterUIEnabled}" class="fas6 fa-egg-fried"></i>`
         );
 
         const localizeNumber = (id, vals) => {
@@ -1700,7 +1837,7 @@ class MegaMod {
             }
         }
 
-        const hasOwnedItem = "extern?.modSettingEnabled?.('betterUI_ui') && rewardHasOwnedItem";
+        const hasOwnedItem = `${betterUIEnabled} && rewardHasOwnedItem`;
         const chicknWinner = document.getElementById("chickn-winner-template");
         chicknWinner.innerHTML = chicknWinner.innerHTML.replace(
             `rewardHasItem`,
@@ -1862,7 +1999,7 @@ class MegaMod {
                     <h1 v-html="loc.megaMod_betterUI_gameHistoryPopup_title"></h1>
                     <p v-html="loc.megaMod_betterUI_gameHistoryPopup_desc"></p>
     
-                    <h3>{{ loc.megaMod_betterUI_gameHistoryPopup_list_title }} ({{ vueData?.gameHistory?${gameFilter}.length }})</h3>
+                    <h3>{{ loc.megaMod_betterUI_gameHistoryPopup_list_title }} ({{ gameHistory?${gameFilter}.length }})</h3>
                     <div class="table-div">
                         <table class="roundme_md sortable">
                             <thead>
@@ -1871,7 +2008,7 @@ class MegaMod {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="lobby in (vueData?.gameHistory || []).slice().reverse()${gameFilter}" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">
+                                <tr v-for="lobby in (gameHistory || []).slice().toReversed()${gameFilter}" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">
                                     <td :data-sort="lobby.map.name" class="map-image"> 
                                         <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${lobby.map.filename}.png)\` }">
                                             <div id="mapNav">
@@ -1884,10 +2021,10 @@ class MegaMod {
                                             </div>
                                         </div>
                                     </td>
-                                    <td :data-sort="loc[lobby.modeLoc]">{{ loc[lobby.modeLoc] }}</td>
-                                    <td :data-sort="loc[lobby.serverLoc]">{{ loc[lobby.serverLoc] }}</td>
-                                    <td :data-sort="lobby.isPrivate ? 'Private' : 'Public'">
-                                        {{ lobby.isPrivate ? 'Private' : 'Public' }}
+                                    <td>{{ loc[lobby.modeLoc] }}</td>
+                                    <td>{{ loc[lobby.serverLoc] }}</td>
+                                    <td>
+                                        {{ lobby.isPrivate ? loc.stat_private : loc.stat_public }}
                                     </td>
                                     <td :data-sort="lobby.gameCode"> 
                                         <a class="gameCode" :class="{ closed: !lobby?.isOpen }" @click="openGameCode(lobby.gameCode, lobby?.isOpen)">{{ lobby.gameCode }}</a>
@@ -1895,6 +2032,115 @@ class MegaMod {
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </template>
+            </large-popup>
+        `;
+
+        const banHistoryPopup = `
+            <large-popup id="banHistoryPopup" ref="banHistoryPopup" hide-confirm="true" :overlay-close="true" class="megamod-popup">
+                <template slot="content">
+                    <div>
+                        <div class="play-panel-panels roundme_md">
+                            <h1 v-html="loc.megaMod_betterEggforce_banHistoryPopup_title"></h1>
+                            <p class="nospace" v-html="loc.megaMod_betterEggforce_banHistoryPopup_desc"></p>
+            
+                            <h3 class="nospace">{{ loc.megaMod_betterEggforce_banHistoryPopup_list_title }} ({{ showingBanHistory?.length + (banHistorySearch?.length ? "/" + banHistory?.length : '') }})</h3>
+                            <div id="item-search-wrap" class="fullwidth item-search-wrap box_relative ">
+                                <label class="centered_y item-search-label ss_marginright_sm">
+                                    <i class="fas fa-search text_blue3 fa-search"></i>
+                                </label> 
+                                <input :placeholder="loc.megaMod_betterEggforce_banHistoryPopup_search" v-model="banHistorySearch" @keyup="onBanSearchChange(true)" class="ss_field fullwidth font-nunito roundme_lg box_relative"> 
+                            </div>
+                            <div class="table-div ban-table">
+                                <table class="roundme_md sortable">
+                                    <thead>
+                                        <tr>
+                                            <th v-for="key in ['megaMod_betterEggforce_banHistoryPopup_column_date', 'megaMod_betterEggforce_banHistoryPopup_column_name', 'megaMod_betterEggforce_banHistoryPopup_column_id', 'megaMod_betterEggforce_banHistoryPopup_column_reason', 'megaMod_betterEggforce_banHistoryPopup_column_duration', 'map', 'megaMod_betterUI_gameHistoryPopup_column_mode', 'server', 'megaMod_betterUI_gameHistoryPopup_column_visibility', 'megaMod_betterUI_gameHistoryPopup_column_code']" v-html="loc[key]"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(ban, index) in (showingBanHistory || []).slice().toReversed()" @click="onBanSelect(index, ban.player.uniqueId)" :class="{ 'selected': index === selectedBanIndex  }">
+                                            <td :data-sort="new Date(ban.date).getTime()">{{ getBanDate(ban.date) }}</td>
+                                            <td>{{ ban.player.name }}</td>
+                                            <td>{{ ban.player.uniqueId }}</td>
+                                            <td>{{ ban.ban.reason }}</td>
+                                            <td :data-sort="ban.ban.duration">{{ getBanDuration(ban.ban.duration) }}</td>
+                                            <td :data-sort="ban.map.name" class="map-image"> 
+                                                <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${ban.map.filename}.png)\` }">
+                                                    <div id="mapNav">
+                                                        <h5 id="mapText" class="text-shadow-black-40">
+                                                            {{ ban.map.name }}
+                                                            <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
+                                                                <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename).numPlayers)"></icon>
+                                                            </span>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ loc[ban.modeLoc] }}</td>
+                                            <td>{{ loc[ban.serverLoc] }}</td>
+                                            <td>{{ ban.isPrivate ? loc.stat_private : loc.stat_public }}</td>
+                                            <td :data-sort="ban.gameCode"> 
+                                                <a class="gameCode" :class="{ closed: !ban?.isOpen }" @click="openGameCode(ban.gameCode, ban?.isOpen)">{{ ban.gameCode }}</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div v-show="showingBanHistory?.length" class="play-panel-panels play-panel-panels-join roundme_md">
+                            <div class="private-game-wrapper fullwidth">
+                                <div class="inner-wrapper">
+                                    <header>
+                                        <h1 class="nospace">{{ loc.megaMod_betterEggforce_banHistoryPopup_player_title + (selectedUniqueID ? ' - ' + selectedUniqueID : '') }}</h1>
+                                    </header>
+                                    <h3 class="nospace">{{ loc.megaMod_betterEggforce_banHistoryPopup_list_title }} ({{ showingPlayerBanHistory?.length + (playerBanHistorySearch?.length ? "/" + playerBanHistory?.length : '') }})</h3>
+                                    <div id="item-search-wrap" class="fullwidth item-search-wrap box_relative ">
+                                        <label class="centered_y item-search-label ss_marginright_sm">
+                                            <i class="fas fa-search text_blue3 fa-search"></i>
+                                        </label> 
+                                        <input :placeholder="loc.megaMod_betterEggforce_banHistoryPopup_search" v-model="playerBanHistorySearch" @keyup="onBanSearchChange(false)" class="ss_field fullwidth font-nunito roundme_lg box_relative"> 
+                                    </div>
+                                    <div class="table-div player-table">
+                                        <table class="roundme_md sortable">
+                                            <thead>
+                                                <tr>
+                                                    <th v-for="key in ['megaMod_betterEggforce_banHistoryPopup_column_date', 'megaMod_betterEggforce_banHistoryPopup_column_name', 'megaMod_betterEggforce_banHistoryPopup_column_reason', 'megaMod_betterEggforce_banHistoryPopup_column_duration', 'map', 'megaMod_betterUI_gameHistoryPopup_column_mode', 'server', 'megaMod_betterUI_gameHistoryPopup_column_visibility', 'megaMod_betterUI_gameHistoryPopup_column_code']" v-html="loc[key]"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="ban in (showingPlayerBanHistory || []).slice().toReversed()">
+                                                    <td :data-sort="ban.date">{{ getBanDate(ban.date) }}</td>
+                                                    <td>{{ ban.player.name }}</td>
+                                                    <td>{{ ban.ban.reason }}</td>
+                                                    <td :data-sort="ban.ban.duration">{{ getBanDuration(ban.ban.duration) }}</td>
+                                                    <td :data-sort="ban.map.name" class="map-image"> 
+                                                        <div id="private_maps" class="roundme_md" :style="{ backgroundImage: \`url(/maps/\${ban.map.filename}.png)\` }">
+                                                            <div id="mapNav">
+                                                                <h5 id="mapText" class="text-shadow-black-40">
+                                                                    {{ ban.map.name }}
+                                                                    <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
+                                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename).numPlayers)"></icon>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ loc[ban.modeLoc] }}</td>
+                                                    <td>{{ loc[ban.serverLoc] }}</td>
+                                                    <td>{{ ban.isPrivate ? loc.stat_private : loc.stat_public }}</td>
+                                                    <td :data-sort="ban.gameCode"> 
+                                                        <a class="gameCode" :class="{ closed: !ban?.isOpen }" @click="openGameCode(ban.gameCode, ban?.isOpen)">{{ ban.gameCode }}</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </template>
             </large-popup>
@@ -1972,7 +2218,7 @@ class MegaMod {
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${errorPopups} ${updatePopups}`
+                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
             );
         });
     }
@@ -2516,6 +2762,10 @@ class MegaMod {
             src = src.safeReplace(uniqueIDMatch, `${uniqueIDMatch}, uniqueId: ${uniqueIDPlayerVar}.${uniqueIDVar}`, ""); 
         }
         
+        // Set WatchPlayer 
+        const [,watchplayerVar] = regex`(${v})\=parsedUrl\.query\.watchPlayer`.safeExec(src, "");
+        if (watchplayerVar) src = src.safeReplace("catalog:", `setWatchPlayer: watchPlayer => ${watchplayerVar} = watchPlayer,catalog:`, "");
+
         // All done...yay! :)
         return src;
     }
@@ -2575,6 +2825,15 @@ class MegaMod {
                 }
             }
         }, checkInterval);
+    }
+
+    static sendChatMessage(message) {
+        const chatElem = document.getElementById('chatIn');
+        if (chatElem && unsafeWindow.extern.startChat) {
+            unsafeWindow.extern.startChat();
+            chatElem.value = message;
+            chatElem.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+        }
     }
 
     constructor() {
@@ -2737,6 +2996,12 @@ class MegaMod {
                 break;
             case "betterUI_infChat":
                 if (!settingEnabled) this.betterUI.adjustChatLength();
+                break;
+            case "betterEggforce":
+                this.betterEggforce.updatePlayPanel();
+                break;
+            case "betterEggforce_banHistoryn":
+                this.betterEggforce.updatePlayPanel();
                 break;
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
@@ -3747,7 +4012,7 @@ class BetterUI {
 
     addGameToHistory() {
         this.checkGameHistory();
-        const gameCode = vueApp.game.shareLinkPopup.url.split("#")[1].toUpperCase();;
+        const gameCode = vueApp.game.shareLinkPopup.code.toUpperCase();;
         if (!gameCode) return;
 
         const mapData = {
@@ -3773,6 +4038,7 @@ class BetterUI {
 
     setGameClosed(id) {
         vueApp.gameHistory[vueApp.gameHistory.findIndex(game => game.gameCode === id)].isOpen = false;
+        if (unsafeWindow.megaMod?.betterEggforce) unsafeWindow.megaMod.betterEggforce.closeBanGames(id);
         this.saveGameHistory(); // Could do this at the end of setting all games closed
     }
 
@@ -4638,12 +4904,70 @@ class CustomFog {
 }
 
 class BetterEggforce {
+    static BAN_HISTORY_KEY = "megaMod_banHistory_list_{0}"
     constructor(data) {
         MegaMod.log("Initializing Mod:", "Better Eggforce");
 
         this.specESP = false;
         Object.assign(this, data);
         Object.assign(vueData, data);
+
+        const playerAccount = extern.account.constructor;
+        const { 
+            signedIn: oldSignedIn, 
+            loggedOut: oldLoggedOut
+        } = playerAccount.prototype;
+        Object.assign(playerAccount.prototype, {
+            signedIn(...args) {
+                oldSignedIn.apply(this, args);
+                if (unsafeWindow.megaMod?.betterEggforce) unsafeWindow.megaMod.betterEggforce.initBanHistory();
+            },
+            loggedOut(...args) {
+                oldLoggedOut.apply(this, args);
+                vueApp.banHistory = [];
+            },
+        });
+
+        this.initBanHistory();
+    }
+
+    getBanHistoryKey() {
+        return BetterEggforce.BAN_HISTORY_KEY.format(extern.account.id);
+    }
+
+    updatePlayPanel() {
+        const playPanel = vueApp?.$refs?.homeScreen?.$refs?.playPanel;
+        if (playPanel) playPanel.$forceUpdate();
+    }
+
+    initBanHistory() {
+        const history = JSON.parse(localStore.getItem(this.getBanHistoryKey()));
+        if (history) {
+            vueApp.banHistory = history;
+            if (vueApp.banHistory.length) vueApp.selectFirstBan();
+        }
+        this.checkBanHistory();
+        this.updatePlayPanel();
+    }
+
+    checkBanHistory() {
+        vueApp.banHistory.filter(game => game.isOpen).forEach(historyItem => {
+            const savedGame = vueApp.gameHistory.find(game => game.gameCode === historyItem.gameCode);
+            historyItem.isOpen = savedGame?.isOpen ?? false;
+        });
+        this.saveBanHistory();
+    }
+
+    closeBanGames(gameCode) {
+        const banEntries = vueApp.banHistory.filter(ban => ban.gameCode === gameCode);
+        banEntries.forEach(ban => {
+            ban.isOpen = false;
+        });
+        this.saveBanHistory();
+    }
+
+    saveBanHistory() {
+        localStore.setItem(this.getBanHistoryKey(), JSON.stringify(vueApp.banHistory));
     }
     
     specESPNotif() {

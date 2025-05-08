@@ -975,6 +975,13 @@
 				"defaultVal": true
 			},
 			{
+				"id": "betterEggforce_banHistory",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterEggforce_banHistory",
+				"defaultVal": true
+			},
+			{
 				"id": "betterEggforce_specESP",
 				"type": 1,
 				"active": false,

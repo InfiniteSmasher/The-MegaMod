@@ -1,11 +1,12 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "Added small in-game alerts for mods with toggle keybinds (Hide HUD & Freeze Frame)",
-        "Chat Event messages now have different icons to represent each chat event",
-        "Added chat events for spatula pick up and drop",
-        "Better UI now restyles the join game code input to work better with the new game code format",
-        "Added the Better Eggforce mod, exclusive to Eggforcers, which introduces some helpful Eggforcing-related features",
-        "Fixed alignment issues with the Chick'n Winner despawn menu bar"
+        "New code input now works with pasted game links and autofills observer details from pasted links",
+        "Accounts that don't have profile pictures get a default one shown on the profile screen",
+        "Added some more preset ban reasons",
+        "Tweaked default selected ban reason and chat message",
+        "Minor tweaks made to observer toggle - it no longer needs to open a new link when changing the WatchPlayer UniqueID",
+        "Added Ban History button and popup to the home screen",
+        "Added the \"Eggcellent Hatchday!\" badge - obtainable on your account's birthday!"
     ]
 }

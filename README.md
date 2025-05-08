@@ -48,14 +48,14 @@ The script is set to auto-update and will prompt you to install the latest updat
 
 ## Changelog
 <details>
-<summary>See Changelog</summary>
+<summary>Changelog</summary>
 
 </details>
 
 ## The MegaMod
 ### General Settings (Click The Gear Tab)
 <details>
-<summary>See General Settings</summary>
+<summary>General Settings</summary>
 
 > - **MegaMod UI Sound Effects** - Enables sound effects related to the MegaMod
 >   - **Specific Sounds**:
@@ -112,7 +112,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >    - Added Icons to challenges to show if they're unique or already completed
 > >    - Restyled Challenge "Claimed" Banner to match checkmark banner
 > >      <details>
-> >      <summary>See Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
+> >      <summary>Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
 > >       
 > >      ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
 > >      </details>
@@ -122,21 +122,21 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Added claim sound effect when auto-claiming challenges through notification popup
 > >   - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
 > >     <details>
-> >     <summary>See Challenge Info Popup (Image)</summary>
+> >     <summary>Challenge Info Popup (Image)</summary>
 > >     
 > >     ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
 > >     </details>
 > >
 > >   - Added Button (on Home Screen) and Popup to Show Current Public Map Pool
 > >     <details>
-> >     <summary>See Public Map Popup (Image)</summary>
+> >     <summary>Public Map Popup (Image)</summary>
 > >     
 > >     ![Public Map Popup](img/docs/betterUI/misc/Public%20Map%20Popup.png)
 > >     </details>
 > > 
 > >   - Added Button (on Home Screen) and Popup to Game History (Daily Lobbies)
 > >     <details>
-> >     <summary>See Game History Popup (Image)</summary>
+> >     <summary>Game History Popup (Image)</summary>
 > >     
 > >     ![Game History Popup](img/docs/betterUI/misc/Game%20History%20Popup.png)
 > >     </details>
@@ -150,7 +150,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Chick'n Winner now shows when you pull an item you already own.
 > >   - Fixed Chick'n Winner egg icon not being on the same line as egg reward amount
 > >     <details>
-> >     <summary>See Updated Chick'n Winner (Image)</summary>
+> >     <summary>Updated Chick'n Winner (Image)</summary>
 > >     
 > >     ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
 > >     </details>
@@ -196,7 +196,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - ``YT CC`` - BWD YouTube CC shop items
 > >   - ``Twitch CC`` - BWD Twitch CC shop items
 > >   <details>
-> >   <summary>See Item Themes (Image)</summary>
+> >   <summary>Item Themes (Image)</summary>
 > >    
 > >   ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
 > >   </details>
@@ -241,7 +241,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Clicking an unowned social item opens the social media page and rewards the item.
 > >   - Clicking an unowned VIP item opens the VIP subscription popup
 > >   <details>
-> >   <summary>See Item Vault UI (Image)</summary>
+> >   <summary>Item Vault UI (Image)</summary>
 > >   
 > >   ![Item Vault](img/docs/betterUI/inventory/Item%20Vault.png)
 > >   </details>
@@ -252,15 +252,15 @@ There's a new link added to the footer on the home screen, which opens a changel
 > <details>
 > <summary>More Info</summary>
 > 
-> > - **Profile Pictures** have returned in the profile section! Some people have one, others don't - that's just the way it is :)
+> > - **Profile Pictures** have returned in the profile section! Accounts that don't have a profile picture get a default one displayed.
 > >   <details>
-> >   <summary>See Updated Profile Section (Image)</summary>
+> >   <summary>Updated Profile Section (Image)</summary>
 > > 
 > >   ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
 > >   </details>
 > > 
 > > <details>
-> > <summary>See Tier Badge Level Up Alert (Image)</summary>
+> > <summary>Tier Badge Level Up Alert (Image)</summary>
 > > 
 > > ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
 > > </details>
@@ -268,30 +268,31 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > - **Profile Badges** - Clickable & Automatically Computed/Displayed:
 > >   - Core Badges (26):
 > >     - General Badges (10):
-> >       | Badge Name          | Description                                             |
-> >       | ------------------- | ------------------------------------------------------- |
-> >       | VIP Subscriber      | Have an active VIP subscription                         |
-> >       | Wizard              | Be one of the developers (Wizards)                      |
-> >       | BWD Mod             | Be one of the BWD Discord moderators                    |
-> >       | Eggforcer           | Be one of the Shell moderators (Eggforcers)             |
-> >       | Shell League Staff  | Be a staff member of the Shell League                   |
-> >       | Shell Wiki Staff    | Be a staff member on the official Shell Shockers Wiki    |
-> >       | OG Player           | Account Created in 2019 or Earlier                      |
-> >       | Pandemic Player     | Account Created in 2020                                 |
-> >       | Farm-Fresh Player   | Account less than a month old                           |
-> >       | MegaMod Playtester  | Helped playtest The MegaMod before its release - tysm!  |
+> >       | Badge Name           | Description                                             |
+> >       | -------------------- | ------------------------------------------------------- |
+> >       | VIP Subscriber       | Have an active VIP subscription                         |
+> >       | Wizard               | Be one of the developers (Wizards)                      |
+> >       | BWD Mod              | Be one of the BWD Discord moderators                    |
+> >       | Eggforcer            | Be one of the Shell moderators (Eggforcers)             |
+> >       | Shell League Staff   | Be a staff member of the Shell League                   |
+> >       | Shell Wiki Staff     | Be a staff member on the official Shell Shockers Wiki    |
+> >       | OG Player            | Account Created in 2019 or Earlier                      |
+> >       | Pandemic Player      | Account Created in 2020                                 |
+> >       | Farm-Fresh Player    | Account less than a month old                           |
+> >       | Eggcellent Hatchday! | Account Created in 2020                                 |
+> >       | MegaMod Playtester   | Today is your account's birthday!                       |
 > >     - Event Badges (9):
-> >       | Badge Name          | Description                                                                |
-> >       | ------------------- | -------------------------------------------------------------------------- |
-> >       | Treasure Hunter     | Participated in the Scavenger Hunt 2022 event                              |
-> >       | ATTN: EGG ORG.      | Participated in the first EGG ORG event (2020)                              |
-> >       | Pablo > Diablo      | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event               |
-> >       | Pablo's Saviour     | Participated in the "Timetwist" (EGG ORG 2022) event                       |
-> >       | Monsters Win!       | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event            |
-> >       | N0 M0R3 R0B0TS      | Participated in the "Rise of the Robots" (EGG ORG 2024) event              |
-> >       | Egg-Fu Master       | Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event  |
-> >       | Eggsassin           | Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event      |
-> >       | Shadowborn Survivor | Participated in the "Shadow War" (EGG ORG 2025) event                      |
+> >       | Badge Name           | Description                                                                |
+> >       | -------------------- | -------------------------------------------------------------------------- |
+> >       | Treasure Hunter      | Participated in the Scavenger Hunt 2022 event                              |
+> >       | ATTN: EGG ORG.       | Participated in the first EGG ORG event (2020)                              |
+> >       | Pablo > Diablo       | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event               |
+> >       | Pablo's Saviour      | Participated in the "Timetwist" (EGG ORG 2022) event                       |
+> >       | Monsters Win!        | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event            |
+> >       | N0 M0R3 R0B0TS       | Participated in the "Rise of the Robots" (EGG ORG 2024) event              |
+> >       | Egg-Fu Master        | Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event  |
+> >       | Eggsassin            | Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event      |
+> >       | Shadowborn Survivor  | Participated in the "Shadow War" (EGG ORG 2025) event                      |
 > >     - Social Badges (7) - **BWD Content Creators Only**:
 > >       > Matches the CC social media linked to your Shell Shockers account!
 > >       - Facebook
@@ -328,7 +329,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >     | Poached Promoter     | % Owned of Promo Items                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
 > > 
 > >   <details>
-> >   <summary>See Profile Badge Popup (Image)</summary>
+> >   <summary>Profile Badge Popup (Image)</summary>
 > >   
 > >   ![Profile Badge Popup](img/docs/betterUI/profile/Profile%20Badge%20Info%20Popup.png)
 > >   </details>
@@ -347,7 +348,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > - Increased Chat History from 5 to 7 messages
 > > - Added Icons next to to MOD, SERVER, and ANNOUNCEMENT Chat messages
 > >   <details>
-> >   <summary>See Chat Icons (Image)</summary>
+> >   <summary>Chat Icons (Image)</summary>
 > >   
 > >   ![Chat Icons](img/docs/betterUI/chat/Chat%20Icons.png)
 > >   </details>
@@ -359,7 +360,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Pick Up Spatula - _PLAYER_ picked up the spatula.
 > >   - Drop Spatula - _PLAYER_ dropped the spatula.
 > >   <details>
-> >   <summary>See Chat Events (Image)</summary>
+> >   <summary>Chat Events (Image)</summary>
 > >   
 > >   ![Chat Events](img/docs/betterUI/chat/Chat%20Events.png)
 > >   </details>
@@ -378,7 +379,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - **Color Randomizer Button**: Adds a button to randomize your egg color (Color Slider included).
 > 
 > <details>
-> <summary>See Color Slider (Images)</summary>
+> <summary>Color Slider (Images)</summary>
 > 
 > ![Color Slider](img/docs/colorSlider/Slider.png)
 > ![Slider Disabled](img/docs/colorSlider/Slider%20Disabled.png)
@@ -393,7 +394,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > ### **Settings**:
 > - **Legacy Default Skins**: Enable old default weapon skin models.
 >   <details>
->   <summary>See Legacy Weapon Skins (Image)</summary>
+>   <summary>Legacy Weapon Skins (Image)</summary>
 > 
 >   ![Legacy Skins](img/docs/legacyMode/Legacy%20Items.png)
 >   </details>
@@ -438,7 +439,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - Hide Player Outlines
 > 
 >   <details>
->   <summary>See HUD, Nametags, Player Outlines, & Pickups Hidden (Image)</summary>
+>   <summary>HUD, Nametags, Player Outlines, & Pickups Hidden (Image)</summary>
 > 
 >   ![HUD & Pickups Hidden](img/docs/hideHUD/HUD%20Hidden.png)
 >   </details>
@@ -453,7 +454,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > <!--**Hide/Show Info Popup**: Toggle the display of kill streak stats.-->
 >
 >   <details>
->   <summary>See Killstreak Stopwatch (Image)</summary>
+>   <summary>Killstreak Stopwatch (Image)</summary>
 > 
 >   ![Killstreak Stopwatch](img/docs/killstreakInfo/Stopwatch.png)
 >   </details>
@@ -466,7 +467,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > Sets the grenade pickups to match your equipped grenade skin, also works in first-person spectate mode.
 > 
 >   <details>
->   <summary>See Matching Grenade Pickups In-Game (Image)</summary>
+>   <summary>Matching Grenade Pickups In-Game (Image)</summary>
 > 
 >   ![Matching Grenade Pickups](img/docs/matchGrenades/Matching%20Pickups.png)
 >   </details>
@@ -586,7 +587,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 </details>
 
 <details>
-<summary>Better Eggforce</summary>
+<summary>Better Eggforce (Eggforcer-Only)</summary>
  
 > > Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!
 > ### **Settings**:
@@ -603,5 +604,13 @@ There's a new link added to the footer on the home screen, which opens a changel
 >   
 >   ![Observer Toggle](img/docs/betterEggforce/Observer%20Toggle.png)
 >   </details>
+> 
+> - **Ban History**: Adds a button on homescreen and new popup to show the past bans you've handed out.
+>   <details>
+>   <summary>Ban History Popup (Image)</summary>
+>   
+>   ![Ban History Popup](img/docs/betterEggforce/Ban%20History%20Popup.png)
+>   </details>
+> 
 
 </details>

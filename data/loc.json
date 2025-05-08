@@ -39,7 +39,7 @@
 
 	
 	"p_settings_mods_betterUI_title": "Better UI",
-	"p_settings_mods_betterUI_desc": "Inventory & Profile Upgrades - new item themes, skin randomizer, profile badges, UI improvements, and MOAR!<br>NOTE: Some people have profile pictures on their accounts and others don't - just deal with it :D",
+	"p_settings_mods_betterUI_desc": "Inventory & Profile Upgrades - new item themes, skin randomizer, profile badges, UI improvements, and MOAR!<br>NOTE: Accounts that don't have a profile picture get a default one displayed.",
 	"p_settings_mods_betterUI_ui": "General UI Tweaks",
 	"p_settings_mods_betterUI_inventory": "Better Inventory",
 	"p_settings_mods_betterUI_pfp": "Profile Picture",
@@ -113,6 +113,9 @@
 
 	"megaMod_betterUI_badge_newbie_title": "Farm-Fresh Player",
 	"megaMod_betterUI_badge_newbie_desc": "Account less than a month old",
+
+	"megaMod_betterUI_badge_bday_title": "Eggcellent Hatchday!",
+	"megaMod_betterUI_badge_bday_desc": "Today is your account's birthday!",
 	
 	"megaMod_betterUI_badge_eggorg20_title": "ATTN: EGG ORG.",
 	"megaMod_betterUI_badge_eggorg20_desc": "Participated in the first EGG ORG event (2020)",
@@ -249,7 +252,9 @@
 	"megaMod_betterUI_gameHistoryPopup_refresh": "<i class='fas fa-refresh'></i> Refresh",
 
 	"megaMod_betterUI_chwOwnedItem": "(Already Owned)",
-	"megamod_betterUI_itemVault": "<i class='fas fa-lock vault-lock'></i> The Item Vault",
+	"megamod_betterUI_itemVault_title": "<i class='fas fa-lock vault-lock'></i> The Item Vault",
+	"megamod_betterUI_itemVault_enter": "<i class='fas fa-lock'></i> Enter The Item Vault",
+	"megamod_betterUI_itemVault_exit": "<i class='fas fa-arrow-left'></i> Leave The Item Vault",
 	"megamod_betterUI_i_eq_emptyVault_head": "Vault Empty!",
 	"megamod_betterUI_i_eq_emptyVault_text": "You have fully looted the Item Vault. Nice!",
 	
@@ -373,7 +378,7 @@
 	"p_settings_mods_themeManager_theme_meno": "menoXD (WIP)",
 	"p_settings_mods_themeManager_theme_meno_desc": "<a target='_blank' href='https://twitch.tv/menoxd'>menoXD</a>'s Theme. Created by Jayvan and updated by Infinite Smasher.",
 	"p_settings_mods_themeManager_theme_gus": "Gus (WIP)",
-	"p_settings_mods_themeManager_theme_gus_desc": "Gus's Theme. Created by Gus. Thanks to @d4n_143, @infinitesmasher, @grifmin, @jayvan., and @renzooo_ss for the help. Thanks to @.norra., blue panda, and @ishmyster for the art. Check out the matching \"Gus\" Skybox available through the Custom Skybox mod!",
+	"p_settings_mods_themeManager_theme_gus_desc": "Gus's Theme. Created by Gus. Thanks to d4n, Infinite Smasher, Grif, Jayvan, and Renzo for the help. Thanks to Astra, Blue Panda, and Ishmyster for the art. Check out the matching \"Gus\" Skybox available through the Custom Skybox mod!",
 
 
 	"p_settings_mods_customSkybox_title": "Custom Skybox",
@@ -479,11 +484,13 @@
 	"p_settings_mods_betterEggforce_desc": "Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!",
 	"p_settings_mods_betterEggforce_banPopup": "Improved Ban UI",
 	"p_settings_mods_betterEggforce_observeToggle": "Observer Toggle",
+	"p_settings_mods_betterEggforce_banHistory": "Ban History",
 	"p_settings_mods_betterEggforce_specESP": "Spectate-Only ESP",
 	"p_settings_mods_betterEggforce_specESP_keybind": "Toggle ESP",
 
 	"p_game_code_observe": "Observer Mode",
 	"p_game_code_watchplayer": "Watch Player UniqueID",
+	"megaMod_betterEggforce_copied": "Player Name & UniqueID Copied",
 	"ui_game_playeractions_uniqueid": "UniqueID:",
 	"ui_game_playeractions_ban_reason": "Ban Reason",
 	"ui_game_playeractions_ban_duration": "Ban Duration",
@@ -498,9 +505,16 @@
 	"ui_game_playeractions_reason_custom": "Custom",
 	"ui_game_playeractions_reason_default": "Breaking The Rules",
 	"ui_game_playeractions_reason_cheats": "Using Cheats",
+	"ui_game_playeractions_reason_aimbot": "Using Aimbot",
+	"ui_game_playeractions_reason_esp": "Using ESP",
+	"ui_game_playeractions_reason_aimesp": "Using Aimbot/ESP",
+	"ui_game_playeractions_reason_roll": "Using Roll Hacks",
+	"ui_game_playeractions_reason_skin": "Using Skin Hacks",
 	"ui_game_playeractions_reason_name": "Inappropriate Username",
 	"ui_game_playeractions_reason_chat": "Inappropriate Chat Message(s)",
+	"ui_game_playeractions_reason_toxicity": "Toxicity",
 	"ui_game_playeractions_reason_spam": "Spamming in Chat",
+	"ui_game_playeractions_reason_advert": "Advertising in Chat",
 	"ui_game_playeractions_reason_bots": "Botting",
 	"ui_game_playeractions_reason_report": "False Reporting",
 	"ui_game_playeractions_reason_impersonation": "Impersonation",
@@ -514,5 +528,19 @@
 
 	"ui_game_spectate_controls_esp": "<br>{0} : Toggle Spectate ESP",
 	"megaMod_specESP_enabled": "Spectate ESP Enabled",
-	"megaMod_specESP_disabled": "Spectate ESP Disabled"
+	"megaMod_specESP_disabled": "Spectate ESP Disabled",
+
+	"megaMod_betterEggforce_banHistory": "<i class='fas fa-lg fa-gavel ss_marginright_sm'></i>Ban History",
+	"megaMod_betterEggforce_banHistory_alt": "Ban History",
+	"megaMod_betterEggforce_banHistoryPopup_title": "Ban History",
+	"megaMod_betterEggforce_banHistoryPopup_desc": "Below is a list of all the bans you have handed out with The MegaMod enabled. Click on a ban to view all the previous bans for that player.",
+	"megaMod_betterEggforce_banHistoryPopup_list_title": "Bans",
+	"megaMod_betterEggforce_banHistoryPopup_search": "Search Bans",
+	"megaMod_betterEggforce_banHistoryPopup_column_name": "Name",
+	"megaMod_betterEggforce_banHistoryPopup_column_duration": "Duration",
+	"megaMod_betterEggforce_banHistoryPopup_column_reason": "Reason",
+	"megaMod_betterEggforce_banHistoryPopup_column_id": "UniqueID",
+	"megaMod_betterEggforce_banHistoryPopup_column_date": "Date",
+
+	"megaMod_betterEggforce_banHistoryPopup_player_title": "Previous Bans"
 }

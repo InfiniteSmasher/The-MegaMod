@@ -125,6 +125,10 @@
 	background: linear-gradient(to bottom, #68e36e, #10850c);
 }
 
+.badge-bday {
+    background: linear-gradient(to top, #ffd888, beige 30%, #714ae3 30%, #8564E8 37%, #D832F5 55%, beige 58% 70%,  #ff0000 70%, #fdcf58 97%, yellow);
+}
+
 .badge-eggorg20 {
 	background: radial-gradient(#171717, #B42F2B 80%);
 }

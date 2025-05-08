@@ -534,16 +534,16 @@ h1:not(.text_blue5),
 @keyframes fillAnim
 {
 	100%, 
-	00% { fill: #0a1633 }
-	08% { fill: #0a1633; }
+	00% { fill: white }
+	08% { fill: white; }
 	16% { fill: #1795d2; }
 	25% { fill: #1795d2; }
-	33% { fill: #0a1633; }
-	41% { fill: #0a1633; }
+	33% { fill: white; }
+	41% { fill: white; }
 	50% { fill: #1795d2; }
 	58% { fill: #1795d2; }
-	66% { fill: #0a1633; }
-	75% { fill: #0a1633; }
+	66% { fill: white; }
+	75% { fill: white; }
 	83% { fill: #1795d2; }
 	91% { fill: #1795d2; }
 }
@@ -608,16 +608,16 @@ h1:not(.text_blue5),
 @keyframes strokeAnim
 {
 	100%, 
-	00% { stroke: #0a1633 }
-	08% { stroke: #0a1633; }
+	00% { stroke: white }
+	08% { stroke: white; }
 	16% { stroke: #1795d2; }
 	25% { stroke: #1795d2; }
-	33% { stroke: #0a1633; }
-	41% { stroke: #0a1633; }
+	33% { stroke: white; }
+	41% { stroke: white; }
 	50% { stroke: #1795d2; }
 	58% { stroke: #1795d2; }
-	66% { stroke: #0a1633; }
-	75% { stroke: #0a1633; }
+	66% { stroke: white; }
+	75% { stroke: white; }
 	83% { stroke: #1795d2; }
 	91% { stroke: #1795d2; }
 }

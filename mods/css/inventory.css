@@ -143,7 +143,7 @@
 .vaultbtn {
     border-width: var(--ss-common-border-width);
     border-style: solid;
-    right: -20em;
+    right: -18em;
     position: relative;
     align-items: center;
     width: 5em;
@@ -1000,3 +1000,10 @@
 #bundlePopup .item-icon {
 	margin-left: -3em;
 }
+
+/* Compensate for Small Item Vault Button */
+/*
+#item_grid {
+    height: calc(33em - var(--ss-item-mask-height) - 2.45em)
+}
+*/
