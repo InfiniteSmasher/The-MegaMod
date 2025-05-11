@@ -47,9 +47,10 @@ Once the script is installed, head to [Shell Shockers](https://shellshock.io/) a
 The script is set to auto-update and will prompt you to install the latest update of The MegaMod if your version is outdated.
 
 ## Changelog
-<details>
-<summary>Changelog</summary>
-
+<div id="content"></div>
+<details id="changelog">
+  <summary>Changelog</summary>
+  <div id="changelog-content"></div>
 </details>
 
 ## The MegaMod
@@ -266,8 +267,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > </details>
 > > 
 > > - **Profile Badges** - Clickable & Automatically Computed/Displayed:
-> >   - Core Badges (26):
-> >     - General Badges (10):
+> >   - Core Badges (27):
+> >     - General Badges (11):
 > >       | Badge Name           | Description                                             |
 > >       | -------------------- | ------------------------------------------------------- |
 > >       | VIP Subscriber       | Have an active VIP subscription                         |

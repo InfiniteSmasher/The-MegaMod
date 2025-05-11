@@ -24,6 +24,11 @@
       font-family: Arial, sans-serif;
       margin: 20px;
     }
+    #changelog-content {
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -33,16 +38,54 @@
   </div>
 
   <script>
-    // Fetch README.md and display it in the page
+    // Fetch README.md and display it on the page
     fetch('/mmTest/README.md')
       .then(response => response.text())
       .then(text => {
-        // Convert Markdown to HTML (using a library like marked.js)
-        const markedText = marked.parse(text);  // You need to include marked.js for this to work
+        // Convert Markdown to HTML (using marked.js)
+        const markedText = marked.parse(text);
         document.getElementById('content').innerHTML = markedText;
       })
       .catch(error => {
         console.error('Error loading README.md:', error);
+      });
+
+      // Load changelog data from the changelog.json
+      fetch('/mmTest/data/changelog.json')
+        .then(response => response.json())
+        .then(data => {
+          const changelogContent = document.getElementById('changelog-content');
+
+          // Function to format a changelog entry into HTML
+          function createChangelogEntry(versionData) {
+            let entryHTML = `<h4>Version ${versionData.version} - ${versionData.date}</h4>`;
+            entryHTML += '<ul>';
+            versionData.content.forEach(item => {
+              entryHTML += `<li>${item}</li>`;
+            });
+            entryHTML += '</ul>';
+            entryHTML += '<hr>';
+            return entryHTML;
+          }
+
+          // Start with the current changelog section
+          let changelogHTML = '<h3>Current Version</h3>';
+          data.current.forEach(version => {
+            changelogHTML += createChangelogEntry(version);
+          });
+
+          // Add the old changelog entries
+          if (data.old.length > 0) {
+            changelogHTML += '<h3>Older Versions</h3>';
+            data.old.forEach(version => {
+              changelogHTML += createChangelogEntry(version);
+            });
+          }
+
+          // Set the inner HTML of the changelog content
+          changelogContent.innerHTML = changelogHTML;
+      }).catch(error => {
+        console.error('Error loading changelog.json:', error);
       });
   </script>
 
