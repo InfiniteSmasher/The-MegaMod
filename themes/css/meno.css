@@ -1,6 +1,6 @@
 
 #ss_background {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno_bg.png') center center no-repeat !important;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno/bg.png') center center no-repeat !important;
 	background-size: cover !important;
 }
 :root {
@@ -318,17 +318,17 @@
 	padding-left: 1.5em;
 	padding-top: 0em;
 
-	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno_logo.png');
+	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno/logo.png');
     background-position: left center;
 	background-size: contain;
     background-repeat: no-repeat;
 }
 .playerSlot-player-is-me {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno_bg.png') center center no-repeat !important;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno/bg.png') center center no-repeat !important;
 	background-size: cover;
 }
 .account_eggs div {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno_logo.png') center center no-repeat !important;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno/logo.png') center center no-repeat !important;
 	background-size: contain !important;
 	margin-right: 3px;
 }
@@ -340,7 +340,7 @@
 }
 
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/meno/scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;

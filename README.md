@@ -613,5 +613,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 >   ![Ban History Popup](img/docs/betterEggforce/Ban%20History%20Popup.png)
 >   </details>
 > 
+> - **Spectate-Only ESP**: Enables ESP that only works in spectate mode.
+> - **Toggle ESP**: Sets the keybind to toggle on/offf Spectate-Only ESP.
 
 </details>

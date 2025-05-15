@@ -96,7 +96,7 @@
 		{
 			"type": 2,
 			"value": "d <= new Date('2022-09-15')",
-			"condition": "&& extern.isItemOwned(extern.catalog.findItemById(1350))",
+			"condition": "&& extern.isItemOwned(extern.catalog.findItemById(1340))",
 			"locKey": "megaMod_betterUI_badge_scavenger22",
 			"icon": "fas fa-map-marked-alt",
 			"class": "badge-scavenger22"

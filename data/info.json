@@ -1,12 +1,9 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "New code input now works with pasted game links and autofills observer details from pasted links",
-        "Accounts that don't have profile pictures get a default one shown on the profile screen",
-        "Added some more preset ban reasons",
-        "Tweaked default selected ban reason and chat message",
-        "Minor tweaks made to observer toggle - it no longer needs to open a new link when changing the WatchPlayer UniqueID",
-        "Added Ban History button and popup to the home screen",
-        "Added the \"Eggcellent Hatchday!\" badge - obtainable on your account's birthday!"
+        "The MegaMod works once again...for now anyway! Yay, I guess...",
+        "Observe toggle longer needs to open a new link when toggling observer mode",
+        "Added Spectate-Only ESP to the Better Eggforce mod",
+        "Fixed bug with the requirements for \"Treasure Hunter\" Badge"
     ]
 }

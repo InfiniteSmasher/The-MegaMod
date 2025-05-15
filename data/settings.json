@@ -984,17 +984,24 @@
 			{
 				"id": "betterEggforce_specESP",
 				"type": 1,
-				"active": false,
+				"active": true,
 				"locKey": "p_settings_mods_betterEggforce_specESP",
 				"defaultVal": true
 			},
 			{
-				"id": "betterEggforce_specESP_keybind",
-				"type": 2,
-				"active": false,
-				"showCondition": "extern.modSettingEnabled('betterEggforce_specESP', true)",
-				"locKey": "p_settings_mods_betterEggforce_specESP_keybind",
-				"defaultVal": "E"
+				"type": 4,
+				"active": true,
+				"parentId": "betterEggforce_specESP",
+				"settings": [
+					{
+						"id": "betterEggforce_specESP_keybind",
+						"type": 2,
+						"active": true,
+						"showCondition": "extern.modSettingEnabled('betterEggforce_specESP', true)",
+						"locKey": "p_settings_mods_betterEggforce_specESP_keybind",
+						"defaultVal": "X"
+					}
+				]
 			}
 		]
 	}

@@ -1,5 +1,5 @@
 #ss_background, .playerSlot-player-is-me {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_bg1.png') no-repeat center center fixed;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/bg1.png') no-repeat center center fixed;
 	background-size: cover !important;
 }
 /* ----------------------------------------------------------------- Global -- */
@@ -259,14 +259,14 @@
 .popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
 #notificationPopup .notify-group,
 .play-panel-panels {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_bg2.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/bg2.png') center center no-repeat;
 	background-size: cover;
 }
 #settingsPopup div, #settingsPopup label {
 	color: #ffdf00;
 }
 .account_eggs div {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_eggIcon.png') center center no-repeat !important;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/eggIcon.png') center center no-repeat !important;
 	background-size: cover !important;
 	margin-right: 3px;
 }
@@ -302,7 +302,7 @@
 	padding-left: 1.3em;
 	padding-top: 0em;
 
-	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_eggIcon.png');
+	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/eggIcon.png');
     background-position: left center;
 	background-size: contain;
     background-repeat: no-repeat;
@@ -311,7 +311,7 @@
 	background: #48484866 !important;
 }
 .home-screen-logo, #logo-svg {
-  content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_logo.svg') !important;
+  content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/logo.svg') !important;
 }
 .twitch-drops-img {
 	visibility: hidden;
@@ -328,7 +328,7 @@
 	color: black !important;
 }
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;
@@ -413,7 +413,7 @@
     display: none !important;
 }
 #killBox::after {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_jackhammer.gif') !important;
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/jackhammer.gif') !important;
 	width: 100px !important;
 	height: 100px !important;
 }
@@ -422,7 +422,7 @@
 	text-shadow: 0 0 8px yellow !important;
 }
 .vip-egg {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo_eggIcon.png') !important;
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/novo/eggIcon.png') !important;
 	width: 25px;
 	height: 25px;
 }

@@ -846,11 +846,13 @@ class MegaMod {
 
                 if (modEnabled) {
                     const currentWatchPlayer = this.watchPlayerID || watchPlayer;
-                    const needsRefresh = !extern.setWatchPlayer && this.watchPlayerID !== watchPlayer;                    ;
+                    const observeChanged = !extern?.setObserving && this.isObserve !== hasObserve;
+                    const watchPlayerChanged = !extern?.setWatchPlayer && this.watchPlayerID !== watchPlayer;
                 
+                    if (extern?.setObserving) extern.setObserving(this.isObserve);
                     if (extern?.setWatchPlayer) extern.setWatchPlayer(currentWatchPlayer);
-                
-                    if (this.isObserve !== hasObserve || needsRefresh) {
+
+                    if (observeChanged || watchPlayerChanged) {
                         const params = [];
                 
                         if (this.isObserve) params.push('observe');
@@ -860,6 +862,7 @@ class MegaMod {
                         url.hash = this.home.joinPrivateGamePopup.code;
                 
                         window.location.href = url.toString();
+                        return;
                     }
                 }                
                 oldOnJoinConfirmed.call(this);
@@ -1458,7 +1461,7 @@ class MegaMod {
                 };
                 addModSettingKey("hideHUD", "hideHUD_keybind", 'ui_game_spectate_controls_hud');
                 addModSettingKey("specTweaks", "specTweaks_freezeKeybind", 'ui_game_spectate_controls_freeze');
-                //if(extern.isEggforcer()) addModSettingKey("betterEggforce", "betterEggforce_specESP_keybind", 'ui_game_spectate_controls_esp');
+                if(extern?.isEggforcer?.()) addModSettingKey("betterEggforce_specESP", "betterEggforce_specESP_keybind", 'ui_game_spectate_controls_esp');
     
     
                 this.spectateControlTxt = controlTxt;
@@ -2508,11 +2511,13 @@ class MegaMod {
         }
     
         // VIP Slider Color In-Game Init
+        let actorVar = null;
         const [mePlayerInit, mePlayerVar, playerInst] = regex`\((${v})\=(${v})\)\.ws`.safeExec(src, "colorSlider");
         if (mePlayerInit && mePlayerVar) {
-            const [,actorVar] = regex`${mePlayerVar}\.(${v})\.hit\(\)`.safeExec(src, "colorSlider");
-            if (actorVar) {
-                src = src.safeReplace(mePlayerInit, `(extern?.usingSlider?.() && vueApp.equip.colorIdx === 14 && ${playerInst}.${actorVar}.setShellColor(14)), ${mePlayerInit}`, "colorSlider");
+            const [,meActorVar] = regex`${mePlayerVar}\.(${v})\.hit\(\)`.safeExec(src, "colorSlider");
+            if (meActorVar) {
+                actorVar = meActorVar;
+                src = src.safeReplace(mePlayerInit, `(extern?.usingSlider?.() && vueApp.equip.colorIdx === 14 && ${playerInst}.${meActorVar}.setShellColor(14)), ${mePlayerInit}`, "colorSlider");
             }
         }
         src = src.safeReplace("this.upgradeExpiryDate:", "(this.upgradeExpiryDate || extern?.usingSlider?.() && this.colorIdx === 14):", "colorSlider");
@@ -2766,6 +2771,50 @@ class MegaMod {
         const [,watchplayerVar] = regex`(${v})\=parsedUrl\.query\.watchPlayer`.safeExec(src, "");
         if (watchplayerVar) src = src.safeReplace("catalog:", `setWatchPlayer: watchPlayer => ${watchplayerVar} = watchPlayer,catalog:`, "");
 
+        // Set Observe 
+        const [,observerVar] = regex`get\s+observingGame\s*\(\)\s*{\s*return\s+(${v})\s*;?\s*}`.safeExec(src, "");
+        if (observerVar) src = src.safeReplace("catalog:", `setObserving: observing => ${observerVar} = observing,catalog:`, "");
+
+        // Spectate-Only ESP
+        const [,playerMeshVar] = regex`this\.(${v})\=${v}\(\"egg\"`.safeExec(src, "betterEggforce_specESP");
+        if (playerMeshVar) {
+            const [materialMatch, materialVar] = regex`this\.${playerMeshVar}.(${v})\=${v}\(\"shell\"`.safeExec(src, "betterEggforce_specESP");
+            if (materialMatch && materialVar) {
+                src = src.safeReplace(
+                    materialMatch, 
+                    `window?.megaMod?.betterEggforce?.specESP && this.${playerMeshVar}.setRenderingGroupId(2),
+                    ${materialMatch}`,
+                     "betterEggforce_specESP"
+                );
+            }
+            if (playerArr && actorVar && materialVar) {
+                const espFunc = `
+                    toggleSpecESP: enabled => {
+                        window.players = ${playerArr};
+                        const messageLoc = enabled ? 'megaMod_specESP_enabled' : 'megaMod_specESP_disabled';
+                        if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
+                        
+                        const modifyMesh = mesh => mesh.setRenderingGroupId(enabled ? 3 : 0);
+                        ${playerArr}.forEach(player => {
+                            if(!player) return;
+                            modifyMesh(player.${actorVar}.${playerMeshVar});
+                        });
+                    }
+                `;
+                src = src.safeReplace("catalog:", `${espFunc},catalog:`, "betterEggforce_specESP");
+            }
+        }
+
+        // Disable Chat Blacklist
+        /*
+        const [,filterFunc] = regex`\|\|(${v})\(${v}.normalName`.safeExec(src, "");
+        const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "");
+        if (func && msgElem && msgContent) {
+            src = src.safeReplace(`!${filterFunc}(${msgContent})`, `true`);
+            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent})&&!arguments[2]&&(${msgElem}.style.color="red"),`);
+        }
+        */
+
         // All done...yay! :)
         return src;
     }
@@ -2999,7 +3048,11 @@ class MegaMod {
                 break;
             case "betterEggforce":
                 this.betterEggforce.updatePlayPanel();
+                vueApp.$refs.gameScreen.updateSpectateControls();
                 break;
+            case "betterEggforce_specESP":
+                    vueApp.$refs.gameScreen.updateSpectateControls();
+                    break;
             case "betterEggforce_banHistoryn":
                 this.betterEggforce.updatePlayPanel();
                 break;
@@ -3037,6 +3090,7 @@ class MegaMod {
 			case "toggle_freecam":
 			case "hideHUD_keybind":
 			case "specTweaks_freezeKeybind":
+            case "betterEggforce_specESP_keybind":
 				vueApp.$refs.gameScreen.updateSpectateControls();
 				break;
 		}
@@ -3119,7 +3173,7 @@ class MegaMod {
         const hideHUDErr = checkErrs(["hideHUD", "hideHUD_keybind"]);
         const freezeErr = checkErrs(["specTweaks", "specTweaks_freezeKeybind"]);
         //const ksInfoErr = checkErrs(["killstreakInfo", "killstreakInfo_keybind"]);
-        //const espErr = checkErrs(["betterEggForce", "betterEggforce_specESP", "betterEggforce_specESP_keybind"]);
+        const espErr = checkErrs(["betterEggForce", "betterEggforce_specESP", "betterEggforce_specESP_keybind"]);
         document.addEventListener('keydown', (e) => {
             const modsDisabled = !(extern.modSettingEnabled("hideHUD") || extern.modSettingEnabled("killstreakInfo") || extern.modSettingEnabled("specTweaks"));
             if (document.activeElement.tagName === "INPUT" || !extern.inGame || vueApp.game.isPaused || modsDisabled) {
@@ -3133,7 +3187,7 @@ class MegaMod {
             };
             const hideKey = unsafeWindow.megaMod.getModSettingById("hideHUD_keybind")?.value.toLowerCase();
             const freezeKey = unsafeWindow.megaMod.getModSettingById("specTweaks_freezeKeybind")?.value.toLowerCase();
-            //const espKey = unsafeWindow.megaMod.getModSettingById("betterEggforce_specESP_keybind")?.value.toLowerCase();
+            const espKey = unsafeWindow.megaMod.getModSettingById("betterEggforce_specESP_keybind")?.value.toLowerCase();
             //const ksKey = this.getModSettingById("killstreakInfo_keybind")?.value.toLowerCase();
             switch (e.key.toLowerCase()) {
                 case hideKey:
@@ -3149,12 +3203,10 @@ class MegaMod {
                     if (!freezeErr && extern.modSettingEnabled("specTweaks") && vueApp.ui.game.spectate) this.spectateTweaks.toggleFreezeFrame();
                     break;
                 
-                /*
                 case espKey:
                     // TODO: toggle Spectate ESP
                     if (!espErr && extern.modSettingEnabled("betterEggforce_specESP") && vueApp.ui.game.spectate) this.betterEggforce.toggleSpecESP();
                     break;
-                */
             }
         });
     }
@@ -3162,6 +3214,7 @@ class MegaMod {
     modSettingEnabled(id, ignoreParent) {
         const setting = this.getModSettingById(id);
         const parent = this.getModSettingById(setting?.parentId);
+        //console.log(id, setting?.value, setting?.parentId, parent?.value); // uh oh lots of settings being checked :(
         return !this.modErrs.includes(id) 
             && (setting?.value ?? false) && (!setting?.disabled ?? false) 
             && (ignoreParent || (parent?.value ?? true) && (!parent?.disabled ?? true));
@@ -3975,8 +4028,14 @@ class BetterUI {
 
         const oldRespawn = extern.respawn;
         extern.respawn = () => {
-            oldRespawn.call(this);
             if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
+            oldRespawn.call(this);
+        };
+
+        const oldSpectate = extern.enterSpectatorMode;
+        extern.enterSpectatorMode = () => {
+            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
+            oldSpectate.call(this);
         };
 
         const oldPlayIncentivizedAd = vueApp.playIncentivizedAd;
@@ -4929,6 +4988,7 @@ class BetterEggforce {
         });
 
         this.initBanHistory();
+        vueApp.$refs.gameScreen.updateSpectateControls();
     }
 
     getBanHistoryKey() {
@@ -4946,7 +5006,7 @@ class BetterEggforce {
             vueApp.banHistory = history;
             if (vueApp.banHistory.length) vueApp.selectFirstBan();
         }
-        this.checkBanHistory();
+        //this.checkBanHistory(); // Bugged 
         this.updatePlayPanel();
     }
 
@@ -4960,33 +5020,23 @@ class BetterEggforce {
 
     closeBanGames(gameCode) {
         const banEntries = vueApp.banHistory.filter(ban => ban.gameCode === gameCode);
-        banEntries.forEach(ban => {
-            ban.isOpen = false;
-        });
+        banEntries.forEach(ban => ban.isOpen = false);
         this.saveBanHistory();
     }
 
     saveBanHistory() {
         localStore.setItem(this.getBanHistoryKey(), JSON.stringify(vueApp.banHistory));
     }
-    
-    specESPNotif() {
-        const messageLoc = this.specEsp ? 'megaMod_specESP_enabled' : 'megaMod_specESP_disabled';
-        if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
-    }
 
     toggleSpecESP() {
-        //extern.toggleSpecESP(this.specEsp = !this.specEsp);
-        this.specEsp = extern.isEggforcer() ? !this.specEsp : false;
-        this.specESPNotif();
-        if (this.specEsp && extern.isEggforcer()) {
-            if (this.specESP) clearInterval(this.specESPInterval);
+        if (![2, 4, 8192].some(role => extern.adminRoles & role)) return;
+        extern.toggleSpecESP(this.specESP = !this.specESP);
+        if (this.specESP) {
+            if (this.specESPInterval) clearInterval(this.specESPInterval);
             this.specESPInterval = setInterval(() => {
                 if (vueApp.ui.game.spectate) return;
                 clearInterval(this.specESPInterval);
-                this.specESP = false
-                //extern.toggleSpecESP(this.specESP = false);
-                this.specESPNotif();
+                extern.toggleSpecESP(this.specESP = false);
             }, 100);
         }
     }
@@ -5120,13 +5170,29 @@ Object.assign(unsafeWindow, {
     megaMod: new MegaMod()
 });
 
+let shellshockJS = null;
 const oldAppend = HTMLElement.prototype.appendChild;
 HTMLElement.prototype.appendChild = function(child) {
-    if (this.tagName === "BODY" && child?.tagName === "SCRIPT" && child.textContent?.includes("babylonjs")) {
-        child.textContent = MegaMod.editSource(child.textContent);
+    if (this.tagName === "BODY" && child.tagName === 'SCRIPT' && child?.innerHTML.startsWith('(()=>{')) {
+        shellshockJS = child.innerHTML;
+        child.innerHTML = MegaMod.editSource(child.innerHTML);
         HTMLElement.prototype.appendChild = oldAppend;
-    }
+    };
     return oldAppend.call(this, child);
 };
+
+// ty op7
+const scriptPrototype = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, "textContent")
+const oldTextContent = scriptPrototype || Object.getOwnPropertyDescriptor(Node.prototype, "textContent");
+if (oldTextContent) {
+    const prototypeToModify = oldTextContent === scriptPrototype ? HTMLScriptElement.prototype : Node.prototype;
+    Object.defineProperty(prototypeToModify, "textContent", {
+        get() {
+            const textContent = oldTextContent.get.call(this);
+            return textContent?.startsWith('(()=>{') ? shellshockJS : textContent;
+        },
+        set: oldTextContent.set
+    });
+}
 
 MegaMod.log("Script Loaded:", `Page Status - ${document.readyState}`);

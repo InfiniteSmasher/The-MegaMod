@@ -31,8 +31,8 @@
 	--ss-red-btn-fill: #000000;
 	--ss-red-btn-outline: #000000;
 
-	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet_bg1.jpeg');
-	--bg2: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet_bg2.png');
+	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet/bg1.jpeg');
+	--bg2: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet/bg2.png');
 	--ss-me-player-bg: var(--bg2);
 
 	/* shadows */
@@ -42,7 +42,7 @@
 	--egg-pack-small-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, var(--ss-blue2) 60%);
 	--egg-pack-md-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%, var(--ss-blue4) 0%, var(--ss-blue3) 60%);
 	--egg-pack-lg-bg: linear-gradient(146deg, rgba(2,0,36,1) 0%,  var(--ss-blue5) 0%,  var(--ss-blue3) 90%);
-	--boolet-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet_logo.svg");
+	--boolet-logo: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet/logo.svg");
 }
 
 .media-tab-container {
@@ -158,7 +158,7 @@
 }
 
 #megaModLogo {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet_megaMod.png');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet/megaMod.png');
 }
 
 .is-paused .pause-ui-element,
@@ -311,7 +311,7 @@
 .egg_icon,
 .btn_buy_item img,
 .egg-price-egg {
-	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite_goldenEgg.svg");
+	 content: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/infinite/goldenEgg.svg");
 }
 */
 
@@ -454,7 +454,7 @@ h1:not(.text_blue5),
 }
 
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/boolet/scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;

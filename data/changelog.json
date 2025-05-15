@@ -1,6 +1,18 @@
 {
 	"current": [
 		{
+			"version": "0.29",
+			"date": "May 15 2025",
+			"content": [
+				"The MegaMod works once again...for now anyway! Yay, I guess...",
+				"Observe toggle longer needs to open a new link when toggling observer mode",
+				"Added Spectate-Only ESP to the Better Eggforce mod",
+				"Fixed bug with the requirements for \"Treasure Hunter\" Badge"
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.28",
 			"date": "May 8 2025",
 			"content": [
@@ -12,9 +24,7 @@
 				"Added Ban History button and popup to the home screen",
 				"Added the \"Eggcellent Hatchday!\" badge - obtainable on your account's birthday!"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.27",
 			"date": "May 5 2025",

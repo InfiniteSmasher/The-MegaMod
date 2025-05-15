@@ -1,9 +1,9 @@
 #ss_background {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_bg.png') no-repeat center center fixed; 
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/bg.png') no-repeat center center fixed; 
 	background-size: cover !important; 
 }
 .home-screen-logo {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_logo.png');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/logo.png');
 	width: 150px !important;
 	height: 150px;
 }
@@ -226,7 +226,7 @@
 .player-challenge-single-reward img,
 .chw-winner-egg,
 .egg-price-egg {
-	 content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_eggIcon.png');
+	 content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/eggIcon.png');
 	 object-fit: cover; 
 }
 .chw-winner-egg {
@@ -252,7 +252,7 @@
 .popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
 #notificationPopup .notify-group,
 .play-panel-panels {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_bg.png') no-repeat center center fixed !important; 
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/bg.png') no-repeat center center fixed !important; 
 }
 
 #healthContainer {
@@ -294,11 +294,11 @@
 }
 
 #ammo {
-	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_ammo.png');
+	background-image: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/ammo.png');
 	color: orange !important;
 }
 #maskmiddle {
-	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_scope.png') center center no-repeat;
+	background: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/scope.png') center center no-repeat;
 	background-size: contain;
 	width: 100vh;
 	height: 100vh;
@@ -337,14 +337,14 @@
 	content: "You are now imprisoned by";
 }
 .kill-death-box-img {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_crown.gif');
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/crown.gif');
 }
 .chw-pie-num,
 .chw-msg {
 	color: black !important;
 }
 .vip-egg {
-	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden_vipIcon.png') !important;
+	content: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/hayden/vipIcon.png') !important;
 	width: 20px;
 	height: 20px;
 }
