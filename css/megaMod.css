@@ -722,6 +722,7 @@
 
 .mod-container {
     min-height: 255px;
+	overflow: hidden;
 }
 
 .pagination-controls {
