@@ -1,9 +1,17 @@
 {
 	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
     "updateInfo": [
-        "The MegaMod works once again...for now anyway! Yay, I guess...",
-        "Observe toggle longer needs to open a new link when toggling observer mode",
-        "Added Spectate-Only ESP to the Better Eggforce mod",
-        "Fixed bug with the requirements for \"Treasure Hunter\" Badge"
+        "<b>[MegaMod Settings]</b> Mods are now put on pages which can be scrolled through!",
+        "<b>[Hide HUD]</b> Minor tweaks made to show HUD when despawning and auto-hide HUD when spawning or spectating",
+        "<b>[Hide HUD]</b> Challenge Sound Effect no longer plays when HUD is hidden with \"Hide Game Messages\" setting enabled",
+        "<b>[Better UI]</b> Fixed errors with Game History when checking if games are still open",
+        "<b>[Better UI]</b> Fixed issues with chat scrolling",
+        "<b>[Better Eggforce]</b> Added Auto-Ban feature",
+        "<b>[Better Eggforce]</b> Eggforcers can now disable the chat filter",
+        "<b>[Custom Theme]</b> Added the Zaxonius Theme (WIP)",
+        "<b>[Custom Skybox]</b> Added Randomize Skybox setting to randomize the skybox each time you enter a game",
+        "<b>[Custom Skybox]</b> Tron Skybox actually works now :o",
+        "<b>[Custom Skybox]</b> You can now see a small preview of the selected skybox in settings",
+        "<b>[Custom Fog]</b> Added Randomize Fog setting to randomize the fog density and color each time you enter a game"
     ]
 }

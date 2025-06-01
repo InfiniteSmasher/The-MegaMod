@@ -836,11 +836,12 @@
 							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"      },
 							{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1" },
 							{ "id": "graysocean2", "locKey": "p_settings_mods_themeManager_theme_graysocean2" },
-							{ "id": "gus",         "locKey": "p_settings_mods_themeManager_theme_gus"    },
-							{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden"    },
-							{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite"    },
-							{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno"    },
-							{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo"    }
+							{ "id": "gus",         "locKey": "p_settings_mods_themeManager_theme_gus"    	  },
+							{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden"      },
+							{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite"     },
+							{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno"    	  },
+							{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo"   	  },
+							{ "id": "zaxonius",    "locKey": "p_settings_mods_themeManager_theme_zaxonius"    }
 						],
 						"defaultVal": "graysocean1"
 					},
@@ -870,27 +871,27 @@
 		"defaultVal": true,
 		"settings": [
 			{
-				"id": "customSkybox_skyboxCategorySelect",
-				"type": 3,
-				"active": true,
-				"locKey": "p_settings_mods_customSkybox_skyboxCategorySelect",
-				"options": [
-					{ "id": "official",     "locKey": "p_settings_mods_customSkybox_category_official"    },
-					{ "id": "colors",      "locKey": "p_settings_mods_customSkybox_category_colors"      },
-					{ "id": "landscapes",  "locKey": "p_settings_mods_customSkybox_category_landscapes"  },
-					{ "id": "allSky",      "locKey": "p_settings_mods_customSkybox_category_allSky"      },
-					{ "id": "cloudyCrown", "locKey": "p_settings_mods_customSkybox_category_cloudyCrown" },
-					{ "id": "colorSkies",  "locKey": "p_settings_mods_customSkybox_category_colorSkies"  },
-					{ "id": "space",       "locKey": "p_settings_mods_customSkybox_category_space"       },
-					{ "id": "nebula",      "locKey": "p_settings_mods_customSkybox_category_nebula"      },
-					{ "id": "other",       "locKey": "p_settings_mods_customSkybox_category_other"       }
-				],
-				"defaultVal": "allSky"
-			},
-			{
 				"type": 4,
 				"active": true,
 				"settings": [
+					{
+						"id": "customSkybox_skyboxCategorySelect",
+						"type": 3,
+						"active": true,
+						"locKey": "p_settings_mods_customSkybox_skyboxCategorySelect",
+						"options": [
+							{ "id": "official",     "locKey": "p_settings_mods_customSkybox_category_official"     },
+							{ "id": "colors",      "locKey": "p_settings_mods_customSkybox_category_colors"      },
+							{ "id": "landscapes",  "locKey": "p_settings_mods_customSkybox_category_landscapes"  },
+							{ "id": "allSky",      "locKey": "p_settings_mods_customSkybox_category_allSky"      },
+							{ "id": "cloudyCrown", "locKey": "p_settings_mods_customSkybox_category_cloudyCrown" },
+							{ "id": "colorSkies",  "locKey": "p_settings_mods_customSkybox_category_colorSkies"  },
+							{ "id": "space",       "locKey": "p_settings_mods_customSkybox_category_space"       },
+							{ "id": "nebula",      "locKey": "p_settings_mods_customSkybox_category_nebula"      },
+							{ "id": "other",       "locKey": "p_settings_mods_customSkybox_category_other"       }
+						],
+						"defaultVal": "allSky"
+					},
 					{
 						"id": "customSkybox_skyboxSelect",
 						"type": 3,
@@ -901,12 +902,32 @@
 						"defaultVal": "blueSky"
 					},
 					{
+						"id": "customSkybox_randomSkybox",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_customSkybox_randomSkybox",
+						"defaultVal": false
+					}
+				]
+			},
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
 						"id": "customSkybox_colorPicker",
 						"type": 7,
 						"active": true,
 						"locKey": "p_settings_mods_customSkybox_colorPicker",
 						"showCondition": "window.megaMod.customSkybox.usingSkyboxColor",
 						"defaultVal": "#832cab"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"locKey": "p_settings_mods_customSkybox_skyboxPreview",
+						"showCondition": "!window.megaMod.customSkybox.usingSkyboxColor",
+						"html": "<div id='skyboxPreview'></div>"
 					}
 				]
 			}
@@ -932,6 +953,13 @@
 						"max": 100,
 						"step": 1,
 						"defaultVal": 75
+					},
+					{
+						"id": "customFog_randomizeFog",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_customFog_randomizeFog",
+						"defaultVal": false
 					},
 					{
 						"type": 6,
@@ -961,45 +989,86 @@
 		"defaultVal": true,
 		"settings": [
 			{
-				"id": "betterEggforce_banPopup",
-				"type": 1,
+				"type": 4,
 				"active": true,
-				"locKey": "p_settings_mods_betterEggforce_banPopup",
-				"defaultVal": true
-			},
-			{
-				"id": "betterEggforce_observeToggle",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterEggforce_observeToggle",
-				"defaultVal": true
-			},
-			{
-				"id": "betterEggforce_banHistory",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterEggforce_banHistory",
-				"defaultVal": true
-			},
-			{
-				"id": "betterEggforce_specESP",
-				"type": 1,
-				"active": true,
-				"locKey": "p_settings_mods_betterEggforce_specESP",
-				"defaultVal": true
+				"settings": [
+					{
+						"id": "betterEggforce_banPopup",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_banPopup",
+						"defaultVal": true
+					},
+					{
+						"id": "betterEggforce_autoBan",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_autoBan",
+						"defaultVal": true
+					},
+					{
+						"type": 4,
+						"active": true,
+						"parentId": "betterEggforce_autoBan",
+						"settings": [
+							{
+								"id": "betterEggforce_autoBan_list",
+								"type": 8,
+								"active": true,
+								"disableCondition": "!extern.modSettingEnabled('betterEggforce_autoBan', true)",
+								"locKey": "p_settings_mods_betterEggforce_autoBan_list",
+								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS"]
+							}
+						]
+					}
+				]
 			},
 			{
 				"type": 4,
 				"active": true,
-				"parentId": "betterEggforce_specESP",
 				"settings": [
 					{
-						"id": "betterEggforce_specESP_keybind",
-						"type": 2,
+						"id": "betterEggforce_observeToggle",
+						"type": 1,
 						"active": true,
-						"showCondition": "extern.modSettingEnabled('betterEggforce_specESP', true)",
-						"locKey": "p_settings_mods_betterEggforce_specESP_keybind",
-						"defaultVal": "X"
+						"locKey": "p_settings_mods_betterEggforce_observeToggle",
+						"defaultVal": true
+					},
+					{
+						"id": "betterEggforce_banHistory",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_banHistory",
+						"defaultVal": true
+					},
+					{
+						"id": "betterEggforce_specESP",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_specESP",
+						"defaultVal": true
+					},
+					{
+						"type": 4,
+						"active": true,
+						"parentId": "betterEggforce_specESP",
+						"settings": [
+							{
+								"id": "betterEggforce_specESP_keybind",
+								"type": 2,
+								"active": true,
+								"showCondition": "extern.modSettingEnabled('betterEggforce_specESP', true)",
+								"locKey": "p_settings_mods_betterEggforce_specESP_keybind",
+								"defaultVal": "X"
+							}
+						]
+					},
+					{
+						"id": "betterEggforce_chatBlacklist",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_chatBlacklist",
+						"defaultVal": true
 					}
 				]
 			}

@@ -78,7 +78,7 @@
 		{ "id": "tsd",   "locKey": "p_settings_mods_customSkybox_skybox_tsd",   "path": "bjs/tsd"     },
 		{ "id": "city",  "locKey": "p_settings_mods_customSkybox_skybox_city",  "path": "bjs/city"    },
 		{ "id": "space", "locKey": "p_settings_mods_customSkybox_skybox_space", "path": "bjs/space"   },
-		{ "id": "tron",  "locKey": "p_settings_mods_customSkybox_skybox_tron",  "path": "other/space" },
+		{ "id": "tron",  "locKey": "p_settings_mods_customSkybox_skybox_tron",  "path": "other/tron" },
 		{ "id": "gus",   "locKey": "p_settings_mods_customSkybox_skybox_gus",   "path": "other/gus"   }
 	]
 }

@@ -543,6 +543,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > Choose from over 60+ different skyboxes (or use a solid color) for all maps.  
 > ### **Settings**:
 > - **Skybox Category**: Select a category of skyboxes.
+> - **Randomize Skybox**: Randomizes the skybox each time you enter a lobby.
 > - **Select Skybox**: Choose a specific skybox from the selected category.
 > - **Skybox Color (Color Picker)**: Set the skybox color when "Solid Colors" is selected as the Skybox Category.
 > - **Skybox Categories**:
@@ -577,6 +578,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > ### **Settings**:
 > - **Fog Density (%)**: Set the density of the fog.
 > - **Fog Color (Color Picker)**: Set the color of the fog.
+> - **Randomize Fog**: Randomizes the fog density and color each time you enter a lobby.
 > - **Reset to Map Defaults**: Resets fog density & color to the default for the map you're playing on.
 > 
 > <details>
@@ -592,11 +594,11 @@ There's a new link added to the footer on the home screen, which opens a changel
  
 > > Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!
 > ### **Settings**:
-> - **Improved Ban UI**: Adds ability to copy a player's UniqueID, preset ban reasons, and automatic chat message sending functionality (with presets or custom message text box) to the ban player popup.
+> - **Improved Ban Popup**: Adds ability to copy a player's UniqueID, preset ban reasons, and automatic chat message sending functionality (with presets or custom message text box) to the ban player popup.
 >   <details>
 >   <summary>Improved Ban Player Popup (Image)</summary>
 >   
->   ![Improved Ban UI](img/docs/betterEggforce/Ban%20Popup.png)
+>   ![Improved Ban Popup](img/docs/betterEggforce/Ban%20Popup.png)
 >   </details>
 > 
 > - **Observer Toggle**: Adds a toggle on the join game popup to toggle on/off observer mode and enter a player UniqueID.
@@ -615,5 +617,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > 
 > - **Spectate-Only ESP**: Enables ESP that only works in spectate mode.
 > - **Toggle ESP**: Sets the keybind to toggle on/offf Spectate-Only ESP.
+> - **Auto Ban**: Auto-bans users with names/uniqueIDs that match the ones in the list.
+> - **Name / UniqueID List**: Allows you to enter names/uniqueIDs to auto-ban.
+> - **Disable Chat Filter**: Disables the Chat Filter and makes inappropriate chat messages red.
 
 </details>

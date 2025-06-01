@@ -49,6 +49,8 @@
 	"p_settings_mods_betterUI_hitMarkers": "Yellow Hit Markers",
 	"p_settings_mods_betterUI_chat":  "Chat Upgrades",
 
+	"p_settings_tag_input_placeholder": "Type & Press Enter",
+
 	"eq_search_items_new": "Search Items",
 	"p_bundle_item_banner_txt": "Bundle",
 	"p_premium_item_banner_txt": "Premium",
@@ -379,6 +381,8 @@
 	"p_settings_mods_themeManager_theme_meno_desc": "<a target='_blank' href='https://twitch.tv/menoxd'>menoXD</a>'s Theme. Created by Jayvan and updated by Infinite Smasher.",
 	"p_settings_mods_themeManager_theme_gus": "Gus (WIP)",
 	"p_settings_mods_themeManager_theme_gus_desc": "Gus's Theme. Created by Gus. Thanks to d4n, Infinite Smasher, Grif, Jayvan, and Renzo for the help. Thanks to Astra, Blue Panda, and Ishmyster for the art. Check out the matching \"Gus\" Skybox available through the Custom Skybox mod!",
+	"p_settings_mods_themeManager_theme_zaxonius": "Zaxonius",
+	"p_settings_mods_themeManager_theme_zaxonius_desc": "<a target='_blank' href='https://youtube.com/@Zaxonius'>Zaxonius</a>' Theme. Created by Created by <a target='_blank' href='https://www.youtube.com/@Zaxonius'>Zaxonius</a>, based on the Infinite Smasher theme.",
 
 
 	"p_settings_mods_customSkybox_title": "Custom Skybox",
@@ -386,6 +390,8 @@
 	"p_settings_mods_customSkybox_skyboxCategorySelect": "Skybox Category",
 	"p_settings_mods_customSkybox_skyboxSelect": "Select Skybox",
 	"p_settings_mods_customSkybox_colorPicker": "Skybox Color",
+	"p_settings_mods_customSkybox_randomSkybox": "Randomize Skybox",
+	"p_settings_mods_customSkybox_skyboxPreview": "Skybox Preview",
 	
 	"p_settings_mods_customSkybox_category_official": "Official (In-Game Skyboxes)",
 	"p_settings_mods_customSkybox_category_colors": "Solid Colors",
@@ -478,15 +484,20 @@
 	"p_settings_mods_customFog_densitySlider": "Fog Density (%)",
 	"p_settings_mods_customFog_colorPicker": "Fog Color",
 	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map",
+	"p_settings_mods_customFog_randomizeFog": "Randomize Fog",
 
 
 	"p_settings_mods_betterEggforce_title": "Better Eggforce",
 	"p_settings_mods_betterEggforce_desc": "Adds some useful improvements and new features to make Eggforcing better! Now go swing that ban hammer!",
-	"p_settings_mods_betterEggforce_banPopup": "Improved Ban UI",
+	"p_settings_mods_betterEggforce_banPopup": "Improved Ban Popup",
 	"p_settings_mods_betterEggforce_observeToggle": "Observer Toggle",
 	"p_settings_mods_betterEggforce_banHistory": "Ban History",
 	"p_settings_mods_betterEggforce_specESP": "Spectate-Only ESP",
 	"p_settings_mods_betterEggforce_specESP_keybind": "Toggle ESP",
+	"p_settings_mods_betterEggforce_autoBan": "Auto Ban",
+	"p_settings_mods_betterEggforce_autoBan_list": "Name / UniqueID List",
+	"megaMod_betterEggforce_autoBanned": "Autobanned {0}",
+	"p_settings_mods_betterEggforce_chatBlacklist": "Disable Chat Filter",
 
 	"p_game_code_observe": "Observer Mode",
 	"p_game_code_watchplayer": "Watch Player UniqueID",

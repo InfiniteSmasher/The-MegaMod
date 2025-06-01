@@ -54,6 +54,7 @@
 }
 
 #themeDesc,
+#skyboxPreview,
 .table-div,
 .egg-color-select {
 	border-radius: var(--ss-space-lg) !important; 
@@ -79,4 +80,21 @@
 
 .megamod-popup th:last-child {
 	border-top-right-radius: calc(var(--ss-space-lg) * 0.8) !important;
+}
+
+#skyboxPreview img:nth-child(2) {
+	border-top-left-radius: var(--ss-space-lg) !important;
+	border-bottom-left-radius: var(--ss-space-lg) !important;
+}
+#skyboxPreview img:nth-child(5) {
+	border-top-right-radius: var(--ss-space-lg) !important;
+	border-bottom-right-radius: var(--ss-space-lg) !important;
+}
+#skyboxPreview img:nth-child(1) {
+	border-top-left-radius: var(--ss-space-lg) !important;
+	border-top-right-radius: var(--ss-space-lg) !important;
+}
+#skyboxPreview img:nth-child(6) {
+	border-bottom-left-radius: var(--ss-space-lg) !important;
+	border-bottom-right-radius: var(--ss-space-lg) !important;
 }

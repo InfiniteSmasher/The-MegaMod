@@ -6,5 +6,6 @@
 	{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden_desc"      },
 	{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite_desc"     },
 	{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno_desc"        },
-	{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo_desc"        }
+	{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo_desc"        },
+	{ "id": "zaxonius",    "locKey": "p_settings_mods_themeManager_theme_zaxonius_desc", "url": "https://zaxonius.github.io/Zax-Theme-Assets/ZaxoniusTheme.css" }
 ]

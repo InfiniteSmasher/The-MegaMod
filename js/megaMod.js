@@ -73,8 +73,10 @@ class MegaMod {
             </div>
         </div>
         <div v-if="s.type === SettingType.HTML">
-            <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
-            <div v-show="eval(s.showCondition)" v-html="s.html"></div>
+            <div v-show="eval(s.showCondition)">
+                <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                <div v-html="s.html"></div>
+            </div>
         </div>
          <div v-if="s.type === SettingType.Button">
             <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
@@ -95,6 +97,19 @@ class MegaMod {
                 </span>
             </div>
         </div>
+        <div v-if="s.type === SettingType.TagInput">
+            <div v-show="eval(s.showCondition)">
+                <h3 class="margin-bottom-none h-short">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                <tag-input
+                    :loc="loc"
+                    :modId="s.id"
+                    :disabled="eval(s.disableCondition)"
+                    :tags="s.value"
+                    :placeholder="s.placeholder"
+                    @update-tags="onTagInputUpdate"
+                ></tag-input>
+            </div>
+        </div>
         `;
     
         const settings = document.getElementById("settings-template");
@@ -112,17 +127,39 @@ class MegaMod {
         ).replace(`toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>`, `toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>
             <div id="settings_mods" v-show="showModsTab" class="settings-section">
                 <h3 class="margin-bottom-none h-short" v-html="loc.p_settings_mods_title"></h3>
-                <div class="display-grid grid-column-2-eq">
-                    <div v-for="s in settingsUi?.modSettings?.filter(s => !s.disabled && s.id !== 'megaMod') || []" v-show="eval(s?.showCondition ?? true)" class="f_col">
-                        <div v-if="s.type === SettingType.Toggler">
-                            <div class="nowrap" :class="s.showInfo ? 'has-settings' : ''">
-                                <settings-toggler :loc="loc" :loc-key="s.locKey + '_title'" :control-id="s.id" :control-value="s.value" @setting-toggled="onSettingToggled"></settings-toggler>
-                                <span v-if="s.showInfo" @click="showModSettings(s.id)">
-                                    <i class="fas fa-cog modsettings-icon" @mouseenter="modSettingsHover"></i>
-                                </span>
+                <div class="mod-container">
+                    <transition :name="pageDirectionForward ? 'slide-left' : 'slide-right'" mode="out-in">
+                        <div :key="currentPage" class="display-grid grid-column-2-eq">
+                            <div v-for="s in paginatedSettings" :key="s.id" v-show="eval(s?.showCondition ?? true)" class="f_col">
+                                <div v-if="s.type === SettingType.Toggler">
+                                    <div class="nowrap" :class="s.showInfo ? 'has-settings' : ''">
+                                    <settings-toggler
+                                        :loc="loc"
+                                        :loc-key="s.locKey + '_title'"
+                                        :control-id="s.id"
+                                        :control-value="s.value"
+                                        @setting-toggled="onSettingToggled"
+                                    ></settings-toggler>
+                                    <span v-if="s.showInfo" @click="showModSettings(s.id)">
+                                        <i class="fas fa-cog modsettings-icon" @mouseenter="modSettingsHover"></i>
+                                    </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </transition>
+                </div>
+
+                 <div class="pagination-controls">
+                    <button @click="prevPage" :disabled="currentPage === 1" class="pagination-button">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span v-for="page in totalPages" :key="page" class="dot-icon" @click="goToPage(page)">
+                        <i :class="page === currentPage ? 'fas fa-circle selected' : 'far fa-circle'"></i>
+                    </span>
+                    <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination-button">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
                 ${messages}
             </div>
@@ -155,7 +192,116 @@ class MegaMod {
             </div>
         </div>`
         );
+        const tagInputTemplate = document.createElement('script');
+        tagInputTemplate.id = 'tag-input-template';
+        tagInputTemplate.type = 'text/x-template';
+        tagInputTemplate.innerHTML = `
+            <div class="tag-container">
+                <div class="tag-box" ref="tagBox" :class="{ disabled }" @click="$refs.input.focus()">
+                    <span v-for="(tag, index) in tags" :key="tag" class="tag">
+                    <span class="tag-label">{{ tag }}</span>
+                    <span class="tag-remove" @click="removeTag(index)">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                    </span>
+                </div>
+                <input
+                    class="ss_field tag-input"
+                    ref="input"
+                    type="text"
+                    v-model="inputValue"
+                    @keydown="handleKeydown"
+                    :placeholder="placeholder"
+                    :disabled="disabled"
+                />
+            </div>
 
+        `.trim();
+        settings.parentNode.insertBefore(tagInputTemplate, settings.nextSibling);
+        unsafeWindow.comp_tag_input = {
+            template: '#tag-input-template',
+            props: {
+                loc: {
+                    type: Object,
+                    default: () => ({})
+                },
+                modId: {
+                    type: String,
+                    default: () => ""
+                },
+                disabled: {
+                    type: Boolean,
+                    default: false
+                },
+                tags: {
+                    type: Array,
+                    default: () => []
+                },
+                placeholder: {
+                    type: String,
+                    default() {
+                        return typeof loc !== 'undefined' && loc.p_settings_tag_input_placeholder
+                        ? loc.p_settings_tag_input_placeholder
+                        : 'Type & Press Enter';
+                    }
+                }
+            },
+            data() {
+                return {
+                    inputValue: '',
+                };
+            },
+            mounted() {
+                this.scrollToBottom();
+            },
+            methods: {
+                scrollToBottom() {
+                    this.$nextTick(() => {
+                        const tagBox = this.$refs.tagBox;
+                        if (tagBox) tagBox.scrollTop = tagBox.scrollHeight;
+                    });
+                },
+                handleKeydown(e) {
+                    if (this.disabled) return;
+
+                    const value = this.inputValue.trim();
+                    if (e.key === 'Enter') {
+                        if (value && !this.tags.includes(value)) {
+                            e.preventDefault();
+                            this.tags.push(value);
+                            this.inputValue = '';
+                            this.$emit('update-tags', this.modId, this.tags);
+                            this.scrollToBottom();
+                            BAWK.play("ui_onchange");
+                        } else {
+                            BAWK.play("ui_reset");
+                        }
+                    }
+                },
+                removeTag(index) {
+                    if (this.disabled) return;
+                    this.tags.splice(index, 1);
+                    this.$emit('update-tags', this.modId, this.tags);
+                    BAWK.play("ui_reset");
+                }
+            }
+        };
+        Object.assign(comp_settings.components, {
+            'tag-input': unsafeWindow.comp_tag_input
+        });
+        Object.assign(comp_settings.watch, {
+            
+        });
+        Object.assign(comp_settings.computed, {
+            totalPages() {
+                return Math.ceil(this.filteredSettings.length / this.pageSize);
+            },
+            paginatedSettings() {
+                const start = (this.currentPage - 1) * this.pageSize;
+                return this.filteredSettings.slice(start, start + this.pageSize);
+            }
+        });
+        
         const oldSettingsData = comp_settings.data;
         comp_settings.data = function() {
             return {
@@ -164,7 +310,11 @@ class MegaMod {
                 showSettingsTab: false,
                 reloadNeeded: false,
                 currentMod: null,
-                flashTimeouts: []
+                flashTimeouts: [],
+                filteredSettings: [],
+                currentPage: 1,
+                pageSize: 10,
+                pageDirectionForward: true,
             };
         };
     
@@ -175,7 +325,7 @@ class MegaMod {
                 vueApp.$refs.settings.showSettingsTab = false;
                 vueApp.$refs.settings.showModsTab = true;
             }
-        }
+        };
     
         const {
             switchTab: oldSwitchTab,
@@ -196,7 +346,15 @@ class MegaMod {
                         break;
                     case 'settings_button':
                         this.currentMod = this.settingsUi.modSettings.find(m => m.id === modId);
-                        if (modId === "themeManager") unsafeWindow.megaMod.customTheme.setThemeDesc(); // Eh this is a lazy solution but hey it works
+                        // Eh this is a lazy solution but hey it works
+                        switch(modId) {
+                            case "themeManager":
+                                unsafeWindow.megaMod.customTheme.setThemeDesc(); 
+                                break;
+                            case "customSkybox":
+                                if (!unsafeWindow.megaMod.customSkybox.usingSkyboxColor) unsafeWindow.megaMod.customSkybox.updateSkyboxPreview();
+                                break;
+                        }
                         this.showSettingsTab = true;
                         if (extern?.modSettingEnabled?.("megaMod_sfx_tabs")) BAWK.play("settingsTab");
                         break;
@@ -222,7 +380,20 @@ class MegaMod {
                 };
     
                 const ignoreSetting = [SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type);
-                let storedSetting = (setting.type === SettingType.Slider) ? localStore.getNumItem(setting.id) : (setting.type === SettingType.Toggler) ? localStore.getBoolItem(setting.id) : localStore.getItem(setting.id);
+                let storedSetting;
+                switch (setting.type) {
+                    case SettingType.Slider:
+                        storedSetting = localStore.getNumItem(setting.id);
+                        break;
+                    case SettingType.Toggler:
+                        storedSetting = localStore.getBoolItem(setting.id);
+                        break;
+                    case SettingType.TagInput:
+                        storedSetting = localStore.getObjItem(setting.id);
+                        break;
+                    default:
+                        storedSetting = localStore.getItem(setting.id);
+                }
                 // Validate storedSetting
                 if (storedSetting === "undefined") storedSetting = null;
                 if (storedSetting != null && !ignoreSetting) {
@@ -242,16 +413,19 @@ class MegaMod {
                         case SettingType.ColorPicker:
                             if (typeof storedSetting !== "string" || !/^#[0-9A-F]{6}$/i.test(storedSetting)) storedSetting = null;
                             break;
+                        case SettingType.TagInput:
+                            if (!Array.isArray(storedSetting)) storedSetting = null;
+                            break;
                     }
                 }
                 if (!ignoreSetting) {
-                    if (storedSetting == null) localStore.setItem(setting.id, setting.value)
-                    setting.storedVal = (storedSetting != null) ? storedSetting : setting.defaultVal;
+                    if (storedSetting == null) localStore.setItem(setting.id, typeof setting.value === "string" ? setting.value : JSON.stringify(setting.value))
+                    setting.storedVal = (storedSetting != null) ? storedSetting : (setting.type === SettingType.TagInput) ? [...setting.defaultVal] : setting.defaultVal;
                     setting.refreshReq = setting.refreshReq != null && setting.refreshReq;
                 }
                 Object.assign(setting, {
                     disabled: !setting.active || unsafeWindow.megaMod.regexErrs.includes(setting.id),
-                    value: (storedSetting != null) ? storedSetting : setting.defaultVal,
+                    value: (storedSetting != null) ? storedSetting : (setting.type === SettingType.TagInput) ? [...setting.defaultVal] : setting.defaultVal,
                     settings: initSettings(setting.settings, (setting.type === SettingType.Group ? (setting?.parentId || parentId) : setting.id)) || [],
                     showCondition: setting.showCondition || 'true',
                     disableCondition: setting.disableCondition || 'false',
@@ -268,6 +442,7 @@ class MegaMod {
                     });
                     return mod;
                 });
+                this.filteredSettings = this.settingsUi.modSettings.filter(s => !s.disabled && s.id !== 'megaMod');
             },
             updateSettingTab() {
                 // Meh.
@@ -303,10 +478,13 @@ class MegaMod {
                             this.onSelectChanged(setting.id, setting.defaultVal);
                             break;
                         case SettingType.ColorPicker:
-                            this.onColorPickerChanged(setting.id, setting.defaultVal);
+                            this.onColorPickerInput(setting.id, setting.defaultVal);
+                            break;
+                        case SettingType.TagInput:
+                            this.onTagInputUpdate(setting.id, [...setting.defaultVal]);
                             break;
                     }
-                    //this.updateSettingTab();
+                    this.updateSettingTab();
                 }
             },
             resetModSettings() {
@@ -322,7 +500,7 @@ class MegaMod {
                 const saveSetting = (setting) => {
                     if (![SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type)) {
                         if (setting.storedVal != setting.value) {
-                            localStore.setItem(setting.id, setting.value);
+                            localStore.setItem(setting.id, typeof setting.value === "string" ? setting.value : JSON.stringify(setting.value));
                             setting.storedVal = setting.value;
                         }
                     }
@@ -372,6 +550,26 @@ class MegaMod {
             },
             settingsTabHover() {
                 if (extern?.modSettingEnabled?.("megaMod_sfx_hover") && !this.showSettingsTab) BAWK.play("settingsTabHover");
+            },
+            nextPage() {
+                if (this.currentPage < this.totalPages) {
+                    this.pageDirectionForward = true;
+                    this.currentPage++;
+                    BAWK.play("ui_onchange");
+                }
+            },
+            prevPage() {
+                if (this.currentPage > 1) {
+                    this.pageDirectionForward = false;
+                    this.currentPage--;
+                    BAWK.play("ui_onchange");
+                }
+            },
+            goToPage(page) {
+                if (page === this.currentPage) return;
+                this.pageDirectionForward = page > this.currentPage;
+                this.currentPage = page;
+                BAWK.play("ui_click");
             }
         });
 
@@ -530,7 +728,7 @@ class MegaMod {
                             const premMeleeMeshNames = extern.catalog.melee.filter(item => item.unlock === "premium" || (item.unlock === "purchase" && item.item_data?.tags.includes("Premium"))).map(item => item.item_data.meshName);
                             if (!premMeleeMeshNames.includes(meshName)) break;
                             const sounds = Object.keys(BAWK.sounds).filter(s => s.startsWith(meshName));
-                            selectSound = sounds[Math.floor(Math.random() * sounds.length)];
+                            selectSound = sounds.getRandom();
                             break;
                         default:
                             const weaponClass = meshName.split("_Legacy")[0];
@@ -652,7 +850,7 @@ class MegaMod {
             `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`
         ).replace(
             `<p v-if="showItemOnly"`,
-            `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && showLockIcon" class="centered"><i :class="lockIconClass" class="lock-icon"></i></div> <p v-if="showItemOnly"`
+            `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && (showLockIcon ?? false)" class="centered"><i :class="lockIconClass" class="lock-icon"></i></div> <p v-if="showItemOnly"`
         );
     
         // Add Profile Image and Badges
@@ -716,7 +914,7 @@ class MegaMod {
                 isObserve: parsedUrl?.query?.observe ?? false,
                 watchPlayerID: parsedUrl?.query?.watchPlayer ?? "",
             };
-        }
+        };
         
         const oldOnJoinConfirmed = comp_play_panel.methods.onJoinConfirmed;
         Object.assign(comp_play_panel.methods, {
@@ -1136,7 +1334,7 @@ class MegaMod {
     
         STATSPOPUP.computed.statsClassName = function() {
             return `shorter-stats-container-${vueData.badges.rows.length}`;
-        }
+        };
         
         // VIP Color Slider
         const sliderUnlocked = `extern?.modSettingEnabled?.('colorSlider_unlock')`;
@@ -1288,12 +1486,12 @@ class MegaMod {
             },
             randomizeColor() {
                 if (Math.random() < 0.5 || this.sliderDisabled || !extern?.modSettingEnabled?.("colorSlider")) {
-                    extern.setShellColor(Math.floor(Math.random() * ((this.isUpgrade) ? 14 : 7)));
+                    extern.setShellColor(Math.randomInt(0, this.isUpgrade ? 14 : 7));
                 } else {
                     Object.assign(this, {
-                        hueSliderVal: Math.floor(Math.random() * 101),
-                        saturationSliderVal: Math.floor(Math.random() * 101),
-                        brightnessSliderVal: Math.floor(Math.random() * 101)
+                        hueSliderVal: Math.randomInt(0, 101),
+                        saturationSliderVal: Math.randomInt(0, 101),
+                        brightnessSliderVal: Math.randomInt(0, 101)
                     });
                     this.updateColor(true);
                 }
@@ -1520,22 +1718,15 @@ class MegaMod {
                 const { playerName, uniqueId } = this.playerActionsPopup;
                 navigator.clipboard.writeText(`${playerName} (${uniqueId})`);
             },
-            addBanToHistory() {
-                const gameCode = this.game.shareLinkPopup.code.toUpperCase();;
+            addBan(name, uniqueId, duration, reason) {
+                const gameCode = this.game.shareLinkPopup.code.toUpperCase();
                 if (!gameCode) return;
-        
-                const { playerName, uniqueId } = this.playerActionsPopup;
+
                 const { mapName, gameType } = this.game;
                 const banData = {
                     date: new Date().toJSON(),
-                    player: {
-                        name: playerName,
-                        uniqueId
-                    },
-                    ban: {
-                        duration: this.$refs.banDuration.value,
-                        reason: extern?.modSettingEnabled?.('betterEggforce_banPopup') ? this.getBanReason() : this.$refs.banReason.value
-                    },
+                    player: { name, uniqueId },
+                    ban: { duration, reason },
                     map: { name: mapName },
                     modeLoc: this.gameTypes.find(type => type.value === gameType).locKey,
                     serverLoc: `server_${this.currentRegionId}`,
@@ -1544,10 +1735,13 @@ class MegaMod {
                     isOpen: true
                 };
                 banData.map.filename = this.maps.find(map => map.name === banData.map.name).filename;
-        
                 this.banHistory.push(banData);
-        
                 if (unsafeWindow.megaMod?.betterEggforce) unsafeWindow.megaMod.betterEggforce.checkBanHistory();
+            },
+            addBanToHistory() {
+                const { playerName, uniqueId } = this.playerActionsPopup;
+                const banReason = extern?.modSettingEnabled?.('betterEggforce_banPopup') ? this.getBanReason() : this.$refs.banReason.value;
+                this.addBan(playerName, uniqueId, this.$refs.banDuration.value, banReason);
             }
         });
 
@@ -1710,7 +1904,7 @@ class MegaMod {
                 });
             }
             oldActionBtnClick.apply(this, args);
-        }
+        };
         
         // (Home Screen) Clock Icon Next To Challenge Timer, Challenge Info Button
         const chlgInfoIcon = `<i v-show="${betterUIEnabled}" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
@@ -1744,7 +1938,7 @@ class MegaMod {
             vals.forEach(val => {
                 template.innerHTML = template.innerHTML.replace(val, `(typeof ${val} === 'number' ? ${val.trim()}.addSeparators() : ${val})`);
             });
-        }
+        };
 
         [
             { id: "account-panel-template", vals: ['eggBalance'] },
@@ -1769,19 +1963,19 @@ class MegaMod {
                     return this.data.goal.addSeparators(); // removed + 'm'
             }
             return typeof oldGoal === "number" ? oldGoal.addSeparators() : oldGoal;
-        }
+        };
 
         const oldSetupStat = StatTemplate.methods.setupStat;
         StatTemplate.methods.setupStat = function(stat) {
             if (stat?.length && !this.stat.kdr) stat = stat.map(s => typeof s === "number" ? s.addSeparators() : s);
 			return oldSetupStat.call(this, stat);
-		}
+		};
 
         const oldPlayAdText = CompChwHomeScreen.computed.playAdText;
         CompChwHomeScreen.computed.playAdText = function() {
             const oldTxt = oldPlayAdText.call(this);
             return this.chw.limitReached ? this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators()) : oldTxt;
-        }
+        };
         Object.assign(comp_game_screen.computed, {
             wakeTheChw() {
                 return `(${this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators())})`;
@@ -1838,7 +2032,7 @@ class MegaMod {
             if (count > 5) {
                 return `chick-alive ${hide} egg-${count} cyborg-egg`;
             }
-        }
+        };
 
         const hasOwnedItem = `${betterUIEnabled} && rewardHasOwnedItem`;
         const chicknWinner = document.getElementById("chickn-winner-template");
@@ -2236,7 +2430,7 @@ class MegaMod {
             const megaModLogo = document.createElement('img');
             Object.assign(megaModLogo, {
                 id: "megaModLogo",
-                src: `${rawPath}/img/assets/logos/megaMod-${Math.floor(Math.random()*5)}.png`,
+                src: `${rawPath}/img/assets/logos/megaMod-${Math.randomInt(0, 5)}.png`,
                 style: `
                     width: 19em;
                     display: block;
@@ -2288,6 +2482,7 @@ class MegaMod {
             strings.raw.reduce((acc, str, i) => acc + str + (values[i] ?? ""), ""),
             "g"
         );
+        const escSymbols = x => x.replaceAll(/[\$_]/g, '\\$&');
 
         String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
             ids = Array.isArray(ids) ? ids : [ids];
@@ -2322,7 +2517,7 @@ class MegaMod {
         const [,itemManagerClass] = regex`(${v})\.Constructors`.safeExec(src, "matchGrenades");
         let itemManagerInst;
         if (itemManagerClass) {
-            const [itemManagerInit, tempItemManagerInst] = regex`(${v})\=new\s${itemManagerClass}`.safeExec(src, "matchGrenades");
+            const [itemManagerInit, tempItemManagerInst] = regex`(${v})\=new\s${escSymbols(itemManagerClass)}`.safeExec(src, "matchGrenades");
             if (itemManagerInit && tempItemManagerInst) {
                 itemManagerInst = tempItemManagerInst;
                 const [,meshVar] = regex`this\.(${v})\.rotation\.y\+\=\.[0-9]+\*${v}`.safeExec(src, "matchGrenades");
@@ -2421,7 +2616,7 @@ class MegaMod {
         if (paperDollMatch && paperDollClass) {
             const [,pdActorVar] = regex`dualAvatar\.(${v})\.setupStowAnims`.safeExec(src, "pbSpin");
             if (pdActorVar) {
-                const [,pdMeshVar] = regex`dualAvatar\.${pdActorVar}\.(${v})\.scaling`.safeExec(src, "pbSpin");
+                const [,pdMeshVar] = regex`dualAvatar\.${escSymbols(pdActorVar)}\.(${v})\.scaling`.safeExec(src, "pbSpin");
                 if (pdMeshVar) {
                     const spinEggFuncs = `
                             ${paperDollClass}.prototype.spinning = false,
@@ -2470,8 +2665,8 @@ class MegaMod {
             src = src.safeReplace(skyboxInit, `(extern?.modSettingEnabled?.("customSkybox") ? (extern.getSkybox() || ${skyboxInit})  : ${skyboxInit})`, "customSkybox");
             const [skyboxVarMatch, skyboxVar] = regex`(${v})\.infiniteDistance\=\!0\;`.safeExec(src, "customSkybox");
             if (cubeTextureMatch && skyboxVarMatch && skyboxVar) {
-                src = src.safeReplace(skyboxVarMatch, `${skyboxVarMatch}window.megaMod.setSkybox(${skyboxVar});`, "customSkybox")
-                cubeTextureMatch = `window.megaMod.customSkybox.skybox.material${cubeTextureMatch}`;
+                src = src.safeReplace(skyboxVarMatch, `${skyboxVarMatch}window.megaMod.setMapSkybox(${skyboxVar});`, "customSkybox")
+                cubeTextureMatch = `window.megaMod.customSkybox.mapSkybox.material${cubeTextureMatch}`;
                 const customCubeTexture = cubeTextureMatch.safeReplace(skyboxInit, `extern.getSkybox()`, "customSkybox");
                 const [,mapDataVar] = regex`(${v})\.skybox\|\|`.safeExec(src, "customSkybox");
                 if (mapDataVar) {
@@ -2480,7 +2675,7 @@ class MegaMod {
                     if (fromHexStringFunc && skyboxModeVar) {
                         const skyboxFunc = `
                             updateSkybox: (enabled = false, hex="#ffffff") => {
-                                const skybox = window.megaMod.customSkybox?.skybox;
+                                const skybox = window.megaMod.customSkybox?.mapSkybox;
                                 if (!skybox) return;
                                 if (!enabled || !window.megaMod.customSkybox.usingSkyboxColor) hex = "#000000";
                                 skybox.material.emissiveColor = ${fromHexStringFunc}(hex);
@@ -2494,7 +2689,7 @@ class MegaMod {
                             }
                         `;
                         src = src.safeReplace("catalog:", `${skyboxFunc},catalog:`, "customSkybox");
-                        src = src.safeReplace("crazySdk.showInviteButton", "(window.megaMod.customSkybox.usingSkyboxColor && window.megaMod.customSkybox.onSkyboxCategoryChanged('colors')),crazySdk.showInviteButton", "customSkybox");
+                        src = src.safeReplace("crazySdk.showInviteButton", "(window.megaMod.customSkybox.usingSkyboxColor && window.megaMod.customSkybox.onSkyboxCategoryChanged('colors')),(extern?.modSettingEnabled?.('customSkybox_randomSkybox') && window.megaMod.customSkybox.randomizeSkybox()),crazySdk.showInviteButton", "customSkybox");
                     }
                 }
             }
@@ -2514,7 +2709,7 @@ class MegaMod {
         let actorVar = null;
         const [mePlayerInit, mePlayerVar, playerInst] = regex`\((${v})\=(${v})\)\.ws`.safeExec(src, "colorSlider");
         if (mePlayerInit && mePlayerVar) {
-            const [,meActorVar] = regex`${mePlayerVar}\.(${v})\.hit\(\)`.safeExec(src, "colorSlider");
+            const [,meActorVar] = regex`${escSymbols(mePlayerVar)}\.(${v})\.hit\(\)`.safeExec(src, "colorSlider");
             if (meActorVar) {
                 actorVar = meActorVar;
                 src = src.safeReplace(mePlayerInit, `(extern?.usingSlider?.() && vueApp.equip.colorIdx === 14 && ${playerInst}.${meActorVar}.setShellColor(14)), ${mePlayerInit}`, "colorSlider");
@@ -2644,11 +2839,10 @@ class MegaMod {
             `;
             src = src.safeReplace("window.BAWK", `${chatEventFunc}window.BAWK`, "");
         }
+        const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterEggforce_autoBan"]);
         if (src.includes("clientReady = false;")) {
             src = src.safeReplace(`vueApp.gameJoined`, `clientReady = false;vueApp.gameJoined`, "");
             src = src.safeReplace(`vueApp.delayInGamePlayButtons`, `clientReady = true;vueApp.delayInGamePlayButtons`, "");
-            
-            const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, "");
             if (joinGameMatch && joinPlayerVar) {
                 src = src.safeReplace(joinGameMatch, `if (clientReady) addChatEvent(ChatEvent.joinGame, ${joinPlayerVar});${joinGameMatch}`, "");
             }
@@ -2697,11 +2891,8 @@ class MegaMod {
         if (itemRendererVar) {
             const legacyIconFunction = `
                 updateLegacyIcons: (enabled, meshName) => {
-                    if (enabled) {
-                        ${itemRendererVar}.meshRenderStaging[meshName + "_Legacy"] = ${itemRendererVar}.meshRenderStaging[meshName];
-                    } else {
-                        ${itemRendererVar}.meshRenderStaging[meshName.replace("_Legacy", "")] = ${itemRendererVar}.meshRenderStaging[meshName];
-                    }
+                    const key = enabled ? meshName + "_Legacy" : meshName.replace("_Legacy", "");
+                    ${itemRendererVar}.meshRenderStaging[key] = ${itemRendererVar}.meshRenderStaging[meshName];
                 }
             `;
             src = src.safeReplace("catalog:", `${legacyIconFunction},catalog:`, "legacyMode_skins");
@@ -2710,8 +2901,8 @@ class MegaMod {
         // Fog Mode
         const [,fogScene, mapDataVar2] = regex`(${v})\.fogDensity\=(${v})\.fog\.density`.safeExec(src, "customFog");
         if (fogScene) {
-            const [,fogModeVar] = regex`${fogScene}\.fogMode\=(${v}\.FOGMODE_EXP2)`.safeExec(src, "customFog");
-            const [,defaultFogColor] = regex`${fogScene}\.fogColor\=(new\s${v}\(\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*\))`.safeExec(src, "customFog");
+            const [,fogModeVar] = regex`${escSymbols(fogScene)}\.fogMode\=(${v}\.FOGMODE_EXP2)`.safeExec(src, "customFog");
+            const [,defaultFogColor] = regex`${escSymbols(fogScene)}\.fogColor\=(new\s${v}\(\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*,\s*\d*\.?\d+\s*\))`.safeExec(src, "customFog");
             if (fogScene && fogModeVar && fromHexStringFunc && defaultFogColor) {
                 const fogColorFunc = `
                 updateFog: (enabled = false, density = 0, hex="#ffffff") => {
@@ -2745,7 +2936,7 @@ class MegaMod {
             }
         }
         if (mapDataVar2) {
-            const [mapInit] = regex`${mapDataVar2}\.extents\.x\.min\=0`.safeExec(src, "customFog");
+            const [mapInit] = regex`${escSymbols(mapDataVar2)}\.extents\.x\.min\=0`.safeExec(src, "customFog");
             if (mapInit) {
                 src = src.safeReplace(mapInit, `${mapInit},window.megaMod.customFog.initFog(${mapDataVar2}.fog)`, "customFog");
             }
@@ -2778,7 +2969,7 @@ class MegaMod {
         // Spectate-Only ESP
         const [,playerMeshVar] = regex`this\.(${v})\=${v}\(\"egg\"`.safeExec(src, "betterEggforce_specESP");
         if (playerMeshVar) {
-            const [materialMatch, materialVar] = regex`this\.${playerMeshVar}.(${v})\=${v}\(\"shell\"`.safeExec(src, "betterEggforce_specESP");
+            const [materialMatch, materialVar] = regex`this\.${escSymbols(playerMeshVar)}.(${v})\=${v}\(\"shell\"`.safeExec(src, "betterEggforce_specESP");
             if (materialMatch && materialVar) {
                 src = src.safeReplace(
                     materialMatch, 
@@ -2790,11 +2981,11 @@ class MegaMod {
             if (playerArr && actorVar && materialVar) {
                 const espFunc = `
                     toggleSpecESP: enabled => {
-                        window.players = ${playerArr};
+                        //window.players = ${playerArr};
                         const messageLoc = enabled ? 'megaMod_specESP_enabled' : 'megaMod_specESP_disabled';
                         if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
                         
-                        const modifyMesh = mesh => mesh.setRenderingGroupId(enabled ? 3 : 0);
+                        const modifyMesh = mesh => mesh.setRenderingGroupId(enabled ? 2 : 0);
                         ${playerArr}.forEach(player => {
                             if(!player) return;
                             modifyMesh(player.${actorVar}.${playerMeshVar});
@@ -2805,15 +2996,57 @@ class MegaMod {
             }
         }
 
-        // Disable Chat Blacklist
-        /*
-        const [,filterFunc] = regex`\|\|(${v})\(${v}.normalName`.safeExec(src, "");
+        // Disable Chat Blacklist (Eggforcers)
+        // ty A3+++
+        const isEggforcer = "[2, 4, 8192].some(role => extern.adminRoles & role)";
+        const blacklistDisabled = `(extern?.modSettingEnabled?.('betterEggforce_chatBlacklist') && ${isEggforcer})`
+        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*\2\.indexOf\("<"\)`.safeExec(src, "");
         const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "");
-        if (func && msgElem && msgContent) {
-            src = src.safeReplace(`!${filterFunc}(${msgContent})`, `true`);
-            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent})&&!arguments[2]&&(${msgElem}.style.color="red"),`);
+        if (filterFunc && msgElem && msgContent) {
+            src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`));
+            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null && ${blacklistDisabled} && (${msgElem}.style.color="red"),`);
         }
-        */
+        
+        // Auto Ban
+        const [,packInt8] = regex`${v}\.(${v})\(${v}\.serverStateIdx\)`.safeExec(src, "betterEggforce_autoBan");
+        const [,packString] = regex`${v}\.(${v})\(${v}\.${v}\.firebaseId\)`.safeExec(src, "betterEggforce_autoBan");
+        const [,sendWS] = regex`${v}\.serialize\(\)\.(${v})\(${v}\)`.safeExec(src, "betterEggforce_autoBan");
+        if (joinGameMatch && joinPlayerVar && uniqueIDVar && packInt8 && packString && sendWS) {
+            const [banPlayerFunc, outBufferVar, uniqueId, reason, duration] = regex`var\s(${v})\s*\=\s*${v}\.getBuffer\(\);\s*\1\.${packInt8}\(${v}\.${v}\),\s*\1\.${packString}\((${v})\),\s*\1\.${packString}\((${v})\),\s*\1\.${packInt8}\((${v})\),\s*\1\.${sendWS}\(${v}\)`.safeExec(src, "betterEggforce_autoBan");
+            if (banPlayerFunc && uniqueId && reason && duration) {
+                const newBanPlayerFunc = `
+                    const newBanPlayer = (uniqueId, reason, duration) => {
+                        ${banPlayerFunc.replace(`(${uniqueId})`, "(uniqueId)").replace(`(${reason})`, "(reason)").replace(`(${duration})`, "(duration)")}
+                    };
+                `;
+                const checkAutoBanFunc = `
+                    const checkAutoBan = (player, autoBanList = window?.megaMod?.betterEggforce?.getAutoBanList?.()) => {
+                        if (!(player && autoBanList)) return;
+
+                        const nameMatch = autoBanList.includes(player.name);
+                        const uniqueIdMatch = autoBanList.includes(player.${uniqueIDVar});
+                        if (!(nameMatch || uniqueIdMatch)) return;
+
+                        const banReason = "MegaMod Auto Ban" + (nameMatch ? \` (Name: \${player.name})\` : " (UniqueID)");
+                        vueApp.$refs.gameScreen.showInGameNotif(vueApp.loc['megaMod_betterEggforce_autoBanned'].format(player.name));
+                        newBanPlayer(player.${uniqueIDVar}, banReason, 2);
+                        vueApp.$refs.gameScreen.addBan(player.name, player.${uniqueIDVar}, 2, banReason);
+                        window.megaMod.constructor.log("checkAutoBan() -", \`Autobanned \${player.name} (\${player.${uniqueIDVar}})\`);
+                    };
+                `;
+                src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${checkAutoBanFunc}window.BAWK`, "betterEggforce_autoBan");
+                src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
+                const autoBanUpdateFunc = `
+                    autoBanUpdate: list => {
+                        ${playerArr}.forEach(player => {
+                            if(!player) return;
+                            checkAutoBan(player, list);
+                        });
+                    }
+                `;
+                src = src.safeReplace("catalog:", `${autoBanUpdateFunc},catalog:`, "betterEggforce_autoBan");
+            }
+        }
 
         // All done...yay! :)
         return src;
@@ -2885,6 +3118,10 @@ class MegaMod {
         }
     }
 
+    static getRandomHex() {
+        return `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
+    }
+
     constructor() {
         if (localStorage.getItem(MegaMod.KEYS.ErrVersion) === null) MegaMod.addPopups();
         MegaMod.addLoadLogo();
@@ -2949,9 +3186,9 @@ class MegaMod {
 	updateModSetting(id, value) {
 		const setting = this.getModSettingById(id);
 		if (setting) setting.value = value;
-		const origSetting = this.extractSettings(vueApp.$refs.settings.originalSettings.modSettings).find(m => m.id === id);
+		const origSetting = this.extractSettings(vueApp.$refs.settings?.originalSettings?.modSettings || []).find(m => m.id === id);
 		if (origSetting) origSetting.value = value;
-		localStore.setItem(id, value);
+		localStore.setItem(id, typeof value === "string" ? value : JSON.stringify(value));
 	}
 
 	newTogglerFunc(id, value) {
@@ -3049,12 +3286,16 @@ class MegaMod {
             case "betterEggforce":
                 this.betterEggforce.updatePlayPanel();
                 vueApp.$refs.gameScreen.updateSpectateControls();
+                if (extern.inGame && extern.modSettingEnabled("betterEggforce_autoBan")) extern.autoBanUpdate();
                 break;
             case "betterEggforce_specESP":
                     vueApp.$refs.gameScreen.updateSpectateControls();
                     break;
-            case "betterEggforce_banHistoryn":
+            case "betterEggforce_banHistory":
                 this.betterEggforce.updatePlayPanel();
+                break;
+            case "betterEggforce_autoBan":
+                if (extern.inGame && settingEnabled) extern.autoBanUpdate();
                 break;
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
@@ -3108,6 +3349,7 @@ class MegaMod {
 				break;
 			case 'customSkybox_skyboxSelect':
 				extern.updateSkybox(settingEnabled);
+                this.customSkybox.updateSkyboxPreview();
 				break;
 		}
 	}
@@ -3126,6 +3368,18 @@ class MegaMod {
                     value, 
                 );
 				break;
+        }
+    }
+
+    newTagInputFunc(id, value) {
+        const oldValue = this.getModSettingById(id)?.value;
+        if (this.isModSetting(id)) this.updateModSetting(id, value);
+        switch (id) {
+            case "betterEggforce_autoBan_list":
+                if (!(extern.inGame && extern.modSettingEnabled("betterEggforce_autoBan"))) break;
+                const newValues = value.filter(item => !oldValue.includes(item));
+                if (newValues?.length) extern.autoBanUpdate(newValues);
+                break;
         }
     }
 
@@ -3162,7 +3416,9 @@ class MegaMod {
             },
             onColorPickerInput(id, value) {
                 unsafeWindow.megaMod.newColorPickerFunc(id, value);
-                this.updateSettingTab();
+            },
+            onTagInputUpdate(id, value) {
+                unsafeWindow.megaMod.newTagInputFunc(id, value);
             }
         });
     }
@@ -3191,7 +3447,7 @@ class MegaMod {
             //const ksKey = this.getModSettingById("killstreakInfo_keybind")?.value.toLowerCase();
             switch (e.key.toLowerCase()) {
                 case hideKey:
-                    if (!hideHUDErr && extern.modSettingEnabled("hideHUD")) this.hideHUD.toggleHideHUD();
+                    if (!hideHUDErr && extern.modSettingEnabled("hideHUD") && !vueApp.game.isPaused) this.hideHUD.toggleHideHUD();
                     break;
                 /*
                 case ksKey:
@@ -3279,8 +3535,8 @@ class MegaMod {
         });
     }
 
-    setSkybox(skybox) {
-        if (this.customSkybox) this.customSkybox.setSkybox(skybox);
+    setMapSkybox(skybox) {
+        if (this.customSkybox) this.customSkybox.setMapSkybox(skybox);
     }
 
     addAllModFunctions() {
@@ -3378,9 +3634,9 @@ class MegaMod {
             const settingError = this.modErrs.includes(setting.id);
             if (settingError) {
                 setting.active = false;
-                if (setting.type === SettingType.Toggler) setting.value = setting.safeVal || false;
+                if (setting.type === SettingType.Toggler) this.updateModSetting(setting.id, setting.safeVal || false);
             } else if (localStore.getBoolItem(errorKey)) {
-                if (setting.type === SettingType.Toggler) setting.value = setting.defaultVal;
+                if (setting.type === SettingType.Toggler) this.updateModSetting(setting.id, setting.defaultVal);
             }
             localStore.setItem(errorKey, settingError);
         });
@@ -3525,8 +3781,19 @@ class MegaMod {
             getNumItem(key) {
                 const value = parseFloat(this.getItem(key));
                 return (!isNaN(value)) ? value : null;
+            },
+            // Workaround for localStorage storing objects as strings
+            getObjItem(key) {
+                const value = this.getItem(key);
+                try {
+                    return value ? JSON.parse(value) : null;
+                } catch (e) {
+                    console.warn(`Invalid JSON in localStorage for key: ${key}`);
+                    return null;
+                }
             }
         });
+        
         MegaMod.setFatalErr(localStore.getItem(MegaMod.KEYS.ErrVersion) !== null); 
 
         if (!MegaMod.fatalErr) {
@@ -3686,7 +3953,7 @@ class BetterUI {
                 "creator", "shop", "legacy", "eggpremium"
             ];
             this.themeMap = Object.fromEntries(themes.map(theme => [theme, extern.isThemedItem(this.item, theme)]));
-        }
+        };
         Object.assign(comp_item.computed, {
             isBundle() { return this.themeMap.bundle; },
             isMerch() { return this.themeMap.physical; },
@@ -3911,14 +4178,14 @@ class BetterUI {
         extern.playerChallenges.claim = function(...args) {
             oldChallengeClaim.apply(this, args);
             if (extern.modSettingEnabled("betterUI_ui")) BAWK.play("challenge_notify");
-        }
+        };
 
         // Notify Popup Claim SFX
         const oldNextItem = NotifiSlider.methods.nextItem;
         NotifiSlider.methods.nextItem = function(...args) {
             oldNextItem.apply(this, args);
             if (extern.modSettingEnabled("betterUI_ui") && this.isChallenge) BAWK.play("challenge_notify");
-        }
+        };
 
         // Fixed Weapon Deselect Bug
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
@@ -3991,7 +4258,7 @@ class BetterUI {
                     badgeName: badge.title
                 });
             })(vueApp.getBadges(true).main.find(badge => badge.classList.includes("badge-newbie")));
-        }
+        };
 
         // Init Game Histry 
         this.initGameHistory();
@@ -4016,26 +4283,31 @@ class BetterUI {
             MegaMod.createFocusTimer(100, 1500, function() {
                 if(extern.inGame) megaMod.betterUI.addGameToHistory();
             });
-        }
+        };
 
         // Chat Auto Scroll
         const chatOut = document.getElementById('chatOut');
         const scrollChat = () => chatOut.scrollTop = chatOut.scrollHeight;
-        const observer = new MutationObserver(() => {
-            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
-        });
-        observer.observe(chatOut, { childList: true });
+        new MutationObserver(() => {
+            if (extern.modSettingEnabled("betterUI_infChat") && !vueApp.game.isPaused) scrollChat();
+        }).observe(chatOut, { childList: true });
 
         const oldRespawn = extern.respawn;
         extern.respawn = () => {
-            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
             oldRespawn.call(this);
+            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
+        };
+
+        const oldSendChat = extern.sendChat;
+        extern.sendChat = (...args) => {
+            oldSendChat.apply(this, args);
+            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
         };
 
         const oldSpectate = extern.enterSpectatorMode;
         extern.enterSpectatorMode = () => {
-            if (extern.modSettingEnabled("betterUI_infChat")) scrollChat();
             oldSpectate.call(this);
+            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
         };
 
         const oldPlayIncentivizedAd = vueApp.playIncentivizedAd;
@@ -4050,7 +4322,7 @@ class BetterUI {
                 }).bind(this), 200);
             }
             oldPlayIncentivizedAd.call(this, e);
-        }
+        };
     }
 
     initGameHistory() {
@@ -4071,7 +4343,7 @@ class BetterUI {
 
     addGameToHistory() {
         this.checkGameHistory();
-        const gameCode = vueApp.game.shareLinkPopup.code.toUpperCase();;
+        const gameCode = vueApp.game.shareLinkPopup.code.toUpperCase();
         if (!gameCode) return;
 
         const mapData = {
@@ -4113,9 +4385,17 @@ class BetterUI {
                 }));
             },
             onmessage(e) { 
-                const { command, error } = JSON.parse(e.data);
+                const data = JSON.parse(e.data);
+                const { command, error } = data;
                 if (this.noticeReceived && error === "gameNotFound") {
                     unsafeWindow.megaMod.betterUI.setGameClosed(id.toUpperCase());
+                }
+                if (command === "validateUUID") {
+                    this.send(JSON.stringify({
+                        command: "validateUUID",
+                        hash: unsafeWindow.validate(data.uuid)
+                    }));
+                    return;
                 }
                 this.noticeReceived = command === "notice";
             }
@@ -4343,17 +4623,17 @@ class BetterUI {
         const randomItems = {};
         Object.values(ItemType).forEach(type => {
             const typeItems = extern.getItemsOfType(type).filter(item => item.unlock === "default" || extern.isItemOwned(item));
-            randomItems[type] = typeItems[Math.floor(Math.random() * typeItems.length)];
+            randomItems[type] = typeItems.getRandom();
         });
 
         vueData.equip.selectedItem = randomItems[vueApp.equip.selectedItemType];
         Object.values(randomItems).filter(item => item != null).forEach(item => extern.tryEquipItem(item));
         extern.poseWithItems(randomItems);
-        //extern.setShellColor(Math.floor(Math.random() * (extern.account.isUpgraded() ? 14 : 7)));
+        //extern.setShellColor(Math.randomInt(0, extern.account.isUpgraded() ? 13 : 6));
         vueApp.$refs.equipScreen.updateEquippedItems();
         vueApp.$refs.equipScreen.moveStamp(
-            Math.floor(Math.random() * 25) - 12, // -12 to 12 inclusive
-            Math.floor(Math.random() * 33) - 15 // -15 to 17 inclusive
+            Math.randomInt(-12, 13), // -12 to 12 inclusive
+            Math.randomInt(-15, 18) // -15 to 17 inclusive
         );
         vueApp.$refs.equipScreen.renderStamp();
         BAWK.play("ui_equip");
@@ -4514,7 +4794,7 @@ class ColorSlider {
         vueApp.authCompleted = function() {
             oldAuthCompleted.call(this);
             if (extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
-        }
+        };
        if (extern?.account?.colorIdx != null && extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
     }
 
@@ -4646,6 +4926,29 @@ class HideHUD {
         this.hudElemSelectors = hudElemSelectors;
         this.hudHidden = false;
         vueApp.$refs.gameScreen.updateSpectateControls();
+
+        const tryHideHUD = () => {
+            const hideHUDErr = ["hideHUD", "hideHUD_keybind"].some(settingId => unsafeWindow.megaMod.modErrs.includes(settingId));
+            if (extern.modSettingEnabled("hideHUD") && !hideHUDErr) this.updateHUDVisibility(this.hudHidden);
+        };
+
+        const oldRespawn = extern.respawn;
+        extern.respawn = () => {
+            tryHideHUD();
+            oldRespawn.call(this);
+        };
+
+        const oldSpectate = extern.enterSpectatorMode;
+        extern.enterSpectatorMode = () => {
+            oldSpectate.call(this);
+            tryHideHUD();
+        };
+        
+        const oldChallengeMsg = vueApp.challengeMsg;
+        vueApp.challengeMsg = function(...args) {
+            if (extern.modSettingEnabled("hideHUD_gametext") && unsafeWindow?.megaMod?.hideHUD?.hudHidden) return;
+            oldChallengeMsg.apply(this, args);
+        }
     }
     
     getHUDElems() {
@@ -4656,21 +4959,29 @@ class HideHUD {
     }
 
     toggleHideHUD(disable) {
-        this.hudHidden = disable ? false : !this.hudHidden;
-        const messageLoc = this.hudHidden ? 'megaMod_hideHUD_hidden' : 'megaMod_hideHUD_showing';
-        if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
-        this.updateHUDVisibility();
+        this.updateHUDVisibility(this.hudHidden = disable ? false : !this.hudHidden);
     }
 
     disableHideHUD() {
         if (this.hudHidden) this.toggleHideHUD(true);
     }
 
-    updateHUDVisibility() {
-        this.getHUDElems().forEach(e => e.style.opacity = this.hudHidden ? 0 : 1);
-        if (!this.hudHidden || extern.modSettingEnabled("hideHUD_nametags")) extern.hideNametags(this.hudHidden);
-        if (!this.hudHidden || extern.modSettingEnabled("hideHUD_outlines")) extern.hideOutlines(this.hudHidden);
-        if (extern.inGame && (!this.hudHidden || extern.modSettingEnabled("hideHUD_pickups"))) extern.hidePickups(this.hudHidden);
+    updateHUDVisibility(hidden) {
+        const messageLoc = hidden ? 'megaMod_hideHUD_hidden' : 'megaMod_hideHUD_showing';
+        if (!vueApp.game.isPaused && hidden === this.hudHidden) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
+        this.getHUDElems().forEach(e => e.style.opacity = hidden ? 0 : 1);
+        if (!hidden || extern.modSettingEnabled("hideHUD_nametags")) extern.hideNametags(hidden);
+        if (!hidden || extern.modSettingEnabled("hideHUD_outlines")) extern.hideOutlines(hidden);
+        if (extern.inGame && (!hidden || extern.modSettingEnabled("hideHUD_pickups"))) extern.hidePickups(hidden);
+
+        if (hidden) {
+            if (this.hudInterval) clearInterval(this.hudInterval);
+            this.hudInterval = setInterval(() => {
+                if (!vueApp.game.isPaused) return;
+                clearInterval(this.hudInterval);
+                this.updateHUDVisibility(false);
+            }, 100);
+        }
     }
 }
 
@@ -4873,7 +5184,7 @@ class CustomTheme {
                         style.disabled = disabled;
                     });
             } else {
-                Object.assign(style, { rel: 'stylesheet', href: (cdnPath + theme.url), disabled: disabled });
+                Object.assign(style, { rel: 'stylesheet', href: !theme.url.startsWith('http') ? `${cdnPath}${theme.url}` : theme.url, disabled: disabled });
                 document.body.appendChild(style);
             }
         });
@@ -4886,9 +5197,10 @@ class CustomTheme {
     
     setThemeDesc() {
         const themeDescInterval = setInterval(() => {
-            if (!document.getElementById('themeDesc')) return;
+            const descElem = document.getElementById('themeDesc');
+            if (!descElem) return;
             clearInterval(themeDescInterval);
-            document.getElementById('themeDesc').innerHTML = vueApp.loc[this.themes.find(t => t.id === unsafeWindow.megaMod.getModSettingById('themeManager_themeSelect').value).locKey];
+            descElem.innerHTML = vueApp.loc[this.themes.find(t => t.id === unsafeWindow.megaMod.getModSettingById('themeManager_themeSelect').value).locKey];
         }, 50);
     }
 }
@@ -4911,12 +5223,39 @@ class CustomSkybox {
         this.onSkyboxCategoryChanged(unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxCategorySelect').value, true);
     }
 
-    setSkybox(skybox) {
-        this.skybox = skybox;
+    setMapSkybox(mapSkybox) {
+        this.mapSkybox = mapSkybox;
     }
 
-    onSkyboxCategoryChanged(value, init) {
-        const isCustomSkyboxEnabled = extern.modSettingEnabled("customSkybox");
+    updateSkyboxPreview() {
+        const skyboxPath = extern.getSkybox();
+        const layout = {
+            py: [0, 1],
+            nx: [1, 0],
+            pz: [1, 1],
+            px: [1, 2],
+            nz: [1, 3],
+            ny: [2, 1],
+        };
+
+        const skyboxPreviewInterval = setInterval(() => {
+            const previewElem = document.getElementById('skyboxPreview');
+            if (!previewElem) return;
+            clearInterval(skyboxPreviewInterval);
+            previewElem.innerHTML = ''; // Clear previous preview
+            Object.entries(layout).forEach(([dir, [row, col]]) => {
+                const img = document.createElement('img');
+                img.src = `${skyboxPath}/skybox_${dir}.jpg`;
+                Object.assign(img.style, {
+                    gridRowStart: row + 1,
+                    gridColumnStart: col + 1
+                });
+                previewElem.appendChild(img);
+            });
+        }, 50);
+    }
+
+    onSkyboxCategoryChanged(value, init=false) {
         this.usingSkyboxColor = value === "colors";
         let hex;
         if (this.usingSkyboxColor) {
@@ -4924,11 +5263,22 @@ class CustomSkybox {
         } else {
             const select = unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxSelect');
             select.options = this.skyboxes[value];
-            if (!init) unsafeWindow.megaMod.updateModSetting("customSkybox_skyboxSelect", select.options[0].id);
+            if (!init) unsafeWindow.megaMod.updateModSetting(
+                "customSkybox_skyboxSelect", 
+                extern.modSettingEnabled("customSkybox_randomSkybox") ? select.options.getRandom().id : select.options[0].id
+            );
+            this.updateSkyboxPreview();
         }
         // Source Modification is goofy - reload if function doesn't exist
         //if (!extern?.updateSkybox) window.location.reload();
-        extern.updateSkybox(isCustomSkyboxEnabled, hex);
+        extern.updateSkybox(extern.modSettingEnabled("customSkybox"), hex);
+    }
+
+    randomizeSkybox() {
+        const categorySetting = unsafeWindow.megaMod.getModSettingById("customSkybox_skyboxCategorySelect");
+        unsafeWindow.megaMod.updateModSetting("customSkybox_skyboxCategorySelect", categorySetting.options.getRandom().id);
+        if (categorySetting.value === "colors") unsafeWindow.megaMod.updateModSetting("customSkybox_colorPicker", MegaMod.getRandomHex());
+        this.onSkyboxCategoryChanged(categorySetting.value);
     }
 }
 
@@ -4954,6 +5304,11 @@ class CustomFog {
 
     initFog(fog) {
         this.fog = fog;
+        if (extern.modSettingEnabled("customFog_randomizeFog")) {
+            const densitySetting = unsafeWindow.megaMod.getModSettingById('customFog_densitySlider');
+            unsafeWindow.megaMod.updateModSetting(densitySetting.id, Math.randomInt(densitySetting.min, densitySetting.max + 1));
+            unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", MegaMod.getRandomHex());
+        }
         if (extern.modSettingEnabled("customFog")) extern.updateFog(
             true,
             unsafeWindow.megaMod.getModSettingById('customFog_densitySlider').value / 100, 
@@ -5040,6 +5395,10 @@ class BetterEggforce {
             }, 100);
         }
     }
+
+    getAutoBanList() {
+        return unsafeWindow.megaMod.getModSettingById("betterEggforce_autoBan_list").value;
+    }
 }
 
 MegaMod.setDebug(true);
@@ -5052,7 +5411,8 @@ Object.assign(unsafeWindow, {
 		Group: 4,
 		HTML: 5,
         Button: 6,
-        ColorPicker: 7
+        ColorPicker: 7,
+        TagInput: 8
 	},
 	PrettyChallengeType: {
 		 0: "Kills",
@@ -5193,6 +5553,16 @@ if (oldTextContent) {
         },
         set: oldTextContent.set
     });
+}
+
+// Get random value in array
+Array.prototype.getRandom = function() {
+    return this[Math.floor(Math.random() * this.length)];
+};
+
+// Get Random Integer (e <= X < t)
+Math.randomInt = function(e, t) {
+    return Math.floor(Math.random() * (t - e) + e)
 }
 
 MegaMod.log("Script Loaded:", `Page Status - ${document.readyState}`);
