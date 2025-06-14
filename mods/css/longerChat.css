@@ -1,0 +1,19 @@
+:root {
+	--ss--chat-height: 20.5em;
+	--ss-chat-height-accouncement: 22.5em;
+}
+
+.game-screen:not(.is-paused) .chat-container {
+    max-height: 14em !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.is-paused .chw-home-timer {
+    margin-left: 15em;
+    margin-bottom: -14em;
+}
+
+#welcome-bundle-ui {
+	display: none;
+}

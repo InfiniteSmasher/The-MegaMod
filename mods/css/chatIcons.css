@@ -1,0 +1,5 @@
+/* Better Chat - Icons */
+.chat-event,
+.chat-icon {
+	display: inherit !important;
+}

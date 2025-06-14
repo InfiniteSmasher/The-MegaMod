@@ -126,17 +126,29 @@
 	margin-bottom: .5em;
 }
 
+.mod-msg.reload h4,
+.mod-msg.reload button:not(.dismiss_btn),
 .mod-msg.info h4 {
 	font-size: .85em;
 }
 
+.mod-msg.reload p,
 .mod-msg.info p {
 	font-size: .75em;
 }
+.mod-msg.reload b {
+    font-size: 1em;
+}
 
+.mod-msg.reload a,
+.mod-msg.reload i:not(.fa-times),
 .mod-msg.info a,
 .mod-msg.info i { 
 	font-size: .95em;
+}
+
+.mod-msg.reload i.fa-times {
+    font-size: 1.7em;
 }
 
 #settings_mods .margin-bottom-none {
@@ -801,4 +813,44 @@
 .slide-right-enter-to, .slide-right-leave-from {
   transform: translateX(0%);
   opacity: 1;
+}
+
+/* Chat Blacklist Highlight */
+.chat-highlight {
+	color: red;
+	text-decoration: underline solid red;
+	font-weight: bolder;
+}
+
+.chat-item mark {
+	color: red;
+	border-radius: var(--ss-space-sm);
+}
+
+/* Chat Translate */
+.translate-icon {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.translate-icon.translated {
+    color: var(--ss-green1);
+}
+
+.translate-icon.original {
+    color: var(--ss-red);
+}
+
+/* Chat Game Code */
+.game-code-link {
+	font-weight: bolder;
+	color: var(--ss-yolk);
+}
+.game-code-link:hover {
+	color: inherit;
+}
+
+/* Chick'n Winner Owned Item */
+.chw-reward-amount.ownedItem h2 {
+    bottom: .2em;
 }

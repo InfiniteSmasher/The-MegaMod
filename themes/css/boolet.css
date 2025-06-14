@@ -720,3 +720,18 @@ h1:not(.text_blue5),
 .vault-txt {
 	color: var(--ss-white) !important;
 }
+
+.pagination-button,
+.dot-icon {
+  color: var(--ss-blue2);
+}
+
+.dot-icon .selected,
+.dot-icon:hover i:not(.selected) {
+  color: var(--ss-white);
+}
+
+.pagination-button:not(:disabled):hover i {
+  transform: scale(1.2);
+  color: var(--ss-white);
+}

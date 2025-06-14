@@ -6,62 +6,77 @@
 		"clan"
 	],
 	"tagEdits": [
-		{ "add": 0, "id": 1474,  "tags": ["promo"] },
-		{ "add": 0, "id": 1552,  "tags": ["Newsletter"] },
-		{ "add": 1, "id": 16013, "tags": ["Premium"] },
-		{ "add": 0, "id": 1474,  "tags": ["promo"] },
-		{ "add": 1, "id": 1587,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1579,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1573,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1494,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2600,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2592,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1546,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2584,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2454,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2467,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1465,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2488,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2500,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1503,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2519,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1515,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2551,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2562,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1538,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 2573,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 3060,  "tags": ["Bundle"] },
-		{ "add": 1, "id": 1001,  "tags": ["Default"] },
-		{ "add": 1, "id": 1002,  "tags": ["Default"] },
-		{ "add": 1, "id": 1003,  "tags": ["Default"] },
-		{ "add": 1, "id": 1004,  "tags": ["Default"] },
-		{ "add": 1, "id": 1005,  "tags": ["Default"] },
-		{ "add": 1, "id": 1006,  "tags": ["Default"] },
-		{ "add": 1, "id": 3000,  "tags": ["Default"] },
-		{ "add": 1, "id": 3100,  "tags": ["Default"] },
-		{ "add": 1, "id": 3400,  "tags": ["Default"] },
-		{ "add": 1, "id": 3600,  "tags": ["Default"] },
-		{ "add": 1, "id": 3800,  "tags": ["Default"] },
-		{ "add": 1, "id": 4000,  "tags": ["Default"] },
-		{ "add": 1, "id": 4200,  "tags": ["Default"] },
-		{ "add": 1, "id": 15000, "tags": ["Default"] },
-		{ "add": 1, "id": 15001, "tags": ["Default"] },
-		{ "add": 1, "id": 15002, "tags": ["Default"] },
-		{ "add": 1, "id": 16000, "tags": ["Default"] },
-		{ "add": 1, "id": 2633,  "tags": ["event"] },
-		{ "add": 1, "id": 2632,  "tags": ["event"] },
-		{ "add": 1, "id": 1340,  "tags": ["event"] },
-		{ "add": 1, "id": 2263,  "tags": ["event"] },
-		{ "add": 1, "id": 2388,  "tags": ["event"] },
-		{ "add": 1, "id": 2389,  "tags": ["event"] },
-		{ "add": 1, "id": 2540,  "tags": ["event"] },
-		{ "add": 1, "id": 1200,  "tags": ["social"] },
-		{ "add": 1, "id": 1208,  "tags": ["social"] },
-		{ "add": 1, "id": 1219,  "tags": ["social"] },
-		{ "add": 1, "id": 1223,  "tags": ["social"] },
-		{ "add": 1, "id": 1227,  "tags": ["social"] },
-		{ "add": 1, "id": 1234,  "tags": ["social"] },
-		{ "add": 1, "id": 1268,  "tags": ["social"] }
+		{ "add": true,  "id": 2641,  "tags": ["Newsletter"] },
+		{ "add": false, "id": 2640,  "tags": ["Newsletter"] },
+		{ "add": false, "id": 1474,  "tags": ["promo"] },
+		{ "add": false, "id": 1552,  "tags": ["Newsletter"] },
+		{ "add": true,  "id": 16013, "tags": ["Premium"] },
+		{ "add": false, "id": 1474,  "tags": ["promo"] },
+		{ "add": true,  "id": 15089, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15088, "tags": ["Bundle"] },
+		{ "add": true,  "id": 16089, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15084, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15081, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15075, "tags": ["Bundle"] },
+		{ "add": true,  "id": 16083, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15061, "tags": ["Bundle"] },
+		{ "add": true,  "id": 16078, "tags": ["Bundle"] },
+		{ "add": true,  "id": 4546,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 15049, "tags": ["Bundle"] },
+		{ "add": true,  "id": 15045, "tags": ["Bundle"] },
+		{ "add": false, "id": 3416,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1587,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1579,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1573,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1494,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2600,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2592,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1546,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2584,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2454,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2467,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1465,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2488,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2500,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1503,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2519,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1515,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2551,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2562,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1538,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 2573,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 3060,  "tags": ["Bundle"] },
+		{ "add": true,  "id": 1001,  "tags": ["Default"] },
+		{ "add": true,  "id": 1002,  "tags": ["Default"] },
+		{ "add": true,  "id": 1003,  "tags": ["Default"] },
+		{ "add": true,  "id": 1004,  "tags": ["Default"] },
+		{ "add": true,  "id": 1005,  "tags": ["Default"] },
+		{ "add": true,  "id": 1006,  "tags": ["Default"] },
+		{ "add": true,  "id": 3000,  "tags": ["Default"] },
+		{ "add": true,  "id": 3100,  "tags": ["Default"] },
+		{ "add": true,  "id": 3400,  "tags": ["Default"] },
+		{ "add": true,  "id": 3600,  "tags": ["Default"] },
+		{ "add": true,  "id": 3800,  "tags": ["Default"] },
+		{ "add": true,  "id": 4000,  "tags": ["Default"] },
+		{ "add": true,  "id": 4200,  "tags": ["Default"] },
+		{ "add": true,  "id": 15000, "tags": ["Default"] },
+		{ "add": true,  "id": 15001, "tags": ["Default"] },
+		{ "add": true,  "id": 15002, "tags": ["Default"] },
+		{ "add": true,  "id": 16000, "tags": ["Default"] },
+		{ "add": true,  "id": 2633,  "tags": ["event"] },
+		{ "add": true,  "id": 2632,  "tags": ["event"] },
+		{ "add": true,  "id": 1340,  "tags": ["event"] },
+		{ "add": true,  "id": 2263,  "tags": ["event"] },
+		{ "add": true,  "id": 2388,  "tags": ["event"] },
+		{ "add": true,  "id": 2389,  "tags": ["event"] },
+		{ "add": true,  "id": 2540,  "tags": ["event"] },
+		{ "add": true,  "id": 1200,  "tags": ["social"] },
+		{ "add": true,  "id": 1208,  "tags": ["social"] },
+		{ "add": true,  "id": 1219,  "tags": ["social"] },
+		{ "add": true,  "id": 1223,  "tags": ["social"] },
+		{ "add": true,  "id": 1227,  "tags": ["social"] },
+		{ "add": true,  "id": 1234,  "tags": ["social"] },
+		{ "add": true,  "id": 1268,  "tags": ["social"] }
 	],
 	"tags": {
 		"promo": "promo",
@@ -211,27 +226,6 @@
 			"itemIds": [16039]
 		}
 	],
-	"themeOrder": [
-		{ "theme": "premium",    "custom": false },
-		{ "theme": "eggpremium", "custom": true },
-		{ "theme": "vip",        "custom": false },
-		{ "theme": "Bundle",     "custom": true },
-		{ "theme": "physical",   "custom": false },
-		{ "theme": "manual",     "custom": false },
-		{ "theme": "drops",      "custom": true },
-		{ "theme": "yolker",     "custom": true },
-		{ "theme": "league",     "custom": true },
-		{ "theme": "notif",      "custom": true },
-		{ "theme": "egglite",    "custom": true },
-		{ "theme": "promo",      "custom": true },
-		{ "theme": "event",      "custom": true },
-		{ "theme": "social",     "custom": true },
-		{ "theme": "default",    "custom": false },
-		{ "theme": "purchase",   "custom": false },
-		{ "theme": "limited",    "custom": true },
-		{ "theme": "creator",    "custom": true },
-		{ "theme": "shop",       "custom": true }
-	],
 	"currencyIcons": {
 		"USD": "fas fa-dollar-sign",
 		"EUR": "fas6 fa-euro-sign",
@@ -288,5 +282,111 @@
 		"PYG": "fas6 fa-guarani-sign",
 		"ANG":  "fas6 fa-florin-sign",
 		"CRC":  "fas6 fa-colon-sign"
+	},
+	"themes": [
+		"bundle", "premium", "eggpremium", "vip", "physical", "drops", "yolker", 
+		"league", "notif", "egglite", "promo", "event", "social", "manual", "legacy", 
+		"limited", "creatorttv", "creatoryt", "creator", "shop", "purchase"
+	],
+	"themeOrder": [
+		{ "theme": "bundle",     "custom": true },
+		{ "theme": "premium",    "custom": false },
+		{ "theme": "eggpremium", "custom": true },
+		{ "theme": "vip",        "custom": false },
+		{ "theme": "physical",   "custom": false },
+		{ "theme": "manual",     "custom": false },
+		{ "theme": "drops",      "custom": true },
+		{ "theme": "yolker",     "custom": true },
+		{ "theme": "league",     "custom": true },
+		{ "theme": "notif",      "custom": true },
+		{ "theme": "egglite",    "custom": true },
+		{ "theme": "promo",      "custom": true },
+		{ "theme": "event",      "custom": true },
+		{ "theme": "social",     "custom": true },
+		{ "theme": "default",    "custom": false },
+		{ "theme": "purchase",   "custom": false },
+		{ "theme": "limited",    "custom": true },
+		{ "theme": "creator",    "custom": true },
+		{ "theme": "shop",       "custom": true }
+	],
+	"themeData": {
+		"premium": {
+			"themeLocKey": "p_premium_item_banner_txt",
+			"descLocKey": "p_premium_item_desc"
+		},
+		"eggpremium": {
+			"themeLocKey": "p_eggpremium_item_txt",
+			"descLocKey": "p_eggpremium_item_desc"
+		},
+		"vip": {
+			"themeLocKey": "p_vip_item_banner_txt",
+			"descLocKey": "p_vip_item_desc",
+			"btnLocKey": "p_vip_item_btn",
+			"clickFunc": "vueApp.showSubStorePopup"
+		},
+		"bundle": {
+			"themeLocKey": "p_bundle_item_banner_txt",
+			"descLocKey": "p_bundle_item_desc"
+		},
+		"physical": {
+			"themeLocKey": "p_merch_item_banner_txt",
+			"descLocKey": "p_merch_item_desc",
+			"btnLocKey": "p_merch_item_btn",
+			"clickFunc": "() => { open('https://bluewizard.threadless.com/') }"
+		},
+		"drops": {
+			"themeLocKey": "p_drops_item_title",
+			"descLocKey": "p_drops_item_desc",
+			"btnLocKey": "p_drops_item_btn",
+			"clickFunc": "() => { open((dynamicContentPrefix || '') + 'twitch') }"
+		},
+		"yolker": {
+			"themeLocKey": "p_yolker_item_title",
+			"descLocKey": "p_yolker_item_desc",
+			"btnLocKey": "p_yolker_item_btn",
+			"clickFunc": "() => { open('https://bluewizard.com/subscribe-to-the-new-yolker/') }"
+		},
+		"league": {
+			"themeLocKey": "p_league_item_banner_txt",
+			"descLocKey": "p_league_item_desc"
+		},
+		"notif": {
+			"themeLocKey": "p_notif_item_title",
+			"descLocKey": "p_notif_item_desc",
+			"btnLocKey": "p_notif_item_btn",
+			"clickFunc": "() => { Notification.requestPermission() }"
+		},
+		"egglite": {
+			"themeLocKey": "p_egglite_item_banner_txt",
+			"descLocKey": "p_egglite_item_desc"
+		},
+		"promo": {
+			"themeLocKey": "p_promo_item_banner_txt",
+			"descLocKey": "p_promo_item_desc"
+		},
+		"event": {
+			"themeLocKey": "p_event_item_banner_txt",
+			"descLocKey": "p_event_item_desc"
+		},
+		"social": {
+			"themeLocKey": "p_social_item_banner_txt",
+			"descLocKey": "p_social_item_desc"
+		},
+		"limited": {
+			"themeLocKey": "p_limited_item_banner_txt",
+			"descLocKey": "p_limited_item_desc"
+		},
+		"creatoryt": {
+			"themeLocKey": "p_creatoryt_item_title",
+			"descLocKey": "p_creatoryt_item_desc"
+		},
+		"creatorttv": {
+			"themeLocKey": "p_creatorttv_item_title",
+			"descLocKey": "p_creatorttv_item_desc"
+		},
+		"legacy": {
+			"themeLocKey": "p_legacy_item_banner_txt",
+			"descLocKey": "p_legacy_item_desc"
+		}
 	}
 }

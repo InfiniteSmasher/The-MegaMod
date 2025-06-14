@@ -608,3 +608,8 @@ h1:not(.text_blue5),
 .megamod-popup tbody tr:nth-child(even) {
 	background: var(--ss-blue6) !important;
 }
+
+.dot-icon .selected,
+.dot-icon:hover i:not(.selected) {
+  color: var(--ss-blue2);
+}

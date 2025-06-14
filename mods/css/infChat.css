@@ -1,33 +1,9 @@
-:root {
-	--ss--chat-height: 20.5em;
-	--ss-chat-height-accouncement: 22.5em;
-}
-
-.chat-event,
-.chat-icon {
-	display: inherit !important;
-}
-
-.is-paused .chw-home-timer {
-    margin-left: 15em;
-    margin-bottom: -14em;
-}
-
-#welcome-bundle-ui {
-	display: none;
-}
-
-.game-screen:not(.is-paused) .chat-container {
-    max-height: 14em !important;
-    display: flex;
-    flex-direction: column;
-}
-
 .game-screen:not(.is-paused) #chatOut {
     scrollbar-width: none;
 }
 
 .game-screen:not(.is-paused) #chatOut {
+    width: 35em;
     overflow-y: auto;
     flex: 1 1 auto;
     display: flex;

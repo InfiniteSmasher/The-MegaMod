@@ -27,12 +27,13 @@ class MegaMod {
                 <h4 v-html="loc.p_settings_mods_reload_title"></h4>
                 <span>
                     <p v-html="loc.p_settings_mods_reload_desc1"></p>
+                    <p v-html="reloadModTxt"></p>
                     <p v-html="loc.p_settings_mods_reload_desc2"></p>
                 </span>
                 <button class="fa ss_button btn_red bevel_red fullwidth" style="margin-bottom: 0 !important;" @click="refreshPage"><i class="fas fa-sync"></i> Reload Page</button>
             </div>
         </div>
-        <div v-show="(!reloadNeeded && showModsTab) || (showSettingsTab && currentMod.noSettings)" class="roundme_md mod-msg info ss_margintop_lg ss_marginbottom_lg">
+        <div v-show="!reloadNeeded && (showModsTab || showSettingsTab && currentMod.noSettings)" class="roundme_md mod-msg info ss_margintop_lg ss_marginbottom_lg">
             <div>
                 <h4 v-html="loc.p_settings_mods_info_title"></h4>
                 <span>
@@ -309,12 +310,13 @@ class MegaMod {
                 showModsTab: false,
                 showSettingsTab: false,
                 reloadNeeded: false,
+                reloadModTxt: "",
                 currentMod: null,
                 flashTimeouts: [],
                 filteredSettings: [],
                 currentPage: 1,
                 pageSize: 10,
-                pageDirectionForward: true,
+                pageDirectionForward: true
             };
         };
     
@@ -460,7 +462,24 @@ class MegaMod {
             },
             checkReloadNeeded() {
                 const isReloadNeeded = (setting) => (setting.refreshReq && setting.value !== setting.storedVal) || (setting.settings && setting.settings.some(isReloadNeeded));
-                this.reloadNeeded = this.settingsUi.modSettings.some(isReloadNeeded);
+                const collectLeafReloadNeededIds = (settings) => {
+                    const result = [];
+                    const traverse = (setting) => {
+                        if (isReloadNeeded(setting)) {
+                            // If it has nested reload-needed settings, skip this one
+                            if (setting.settings && setting.settings.some(isReloadNeeded)) {
+                                setting.settings.forEach(traverse);
+                            } else if (setting.id) {
+                                result.push(setting.id);
+                            }
+                        }
+                    };
+                    settings.forEach(traverse);
+                    return result;
+                };
+                const reloadSettings = collectLeafReloadNeededIds(this.settingsUi.modSettings);
+                this.reloadNeeded = reloadSettings.length;
+                this.reloadModTxt = this.loc['p_settings_mods_reload_affected'].format(MegaMod.getModNames(reloadSettings).join(", "));
             },
             resetModSetting(setting) {
                 if (![SettingType.Group, SettingType.HTML, SettingType.Button].includes(setting.type) && setting.value !== setting.defaultVal) {
@@ -576,6 +595,8 @@ class MegaMod {
         // Chick'n Winner Popup Overlay Dismiss Disabled
         // TODO: Set the chwMiniGameComplete variable instead of overriding it
         const betterUIEnabled = `extern?.modSettingEnabled?.('betterUI_ui')`;
+        const chlgUpgrades = `extern?.modSettingEnabled?.('betterUI_chlg')`;
+        const chicknWinnerUpgrades = `extern?.modSettingEnabled?.('betterUI_cw')`;
         const chwComplete = "$refs.chickenNugget.isMiniGameComplete";
         const cwInterval = setInterval(() => {
             const chicknWinner = document.getElementById("chicknWinner");
@@ -583,10 +604,10 @@ class MegaMod {
             clearInterval(cwInterval);
             chicknWinner.outerHTML = chicknWinner.outerHTML.replace(
                 `:overlay-close="chwMiniGameComplete"`, 
-                `:overlay-close="${betterUIEnabled} && ${chwComplete}"`
+                `:overlay-close="${chicknWinnerUpgrades} && ${chwComplete}"`
             ).replace(
                 `:hide-close="!chwMiniGameComplete"`, 
-                `:hide-close="${betterUIEnabled} && !${chwComplete}"`
+                `:hide-close="${chicknWinnerUpgrades} && !${chwComplete}"`
             );
         });
 
@@ -617,7 +638,7 @@ class MegaMod {
             `${invEditsEnabled} ? loc.eq_search_items_new : loc.eq_search_items`
         ).replace(
             `<div v-show="isEquipModeInventory`,
-            `<div v-show="isEquipModeInventory && ${invEditsEnabled}" class="roundme_lg clickme vaultbtn box_relative f_row align-items-center justify-content-center" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled, 'disabled': !ui.showHomeEquipUi }" @click="onSwitchToVaultClicked">
+            `<div v-show="isEquipModeInventory && ${invEditsEnabled}" class="roundme_lg clickme vaultbtn box_relative f_row align-items-center justify-content-center" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled, 'disabled': !ui.showHomeEquipUi }" @click="onSwitchToVaultClicked()">
                 <i v-if="!itemVaultEnabled" class="fas fa-3x fa-lock text_white"></i>
                 <i v-else class="fas fa-3x fa-arrow-left text_white"></i>
             </div> <div v-show="isEquipModeInventory`
@@ -630,6 +651,19 @@ class MegaMod {
         ).replace(
             `id="equip_panel_right"`,
             `id="equip_panel_right" :class="{ 'vaultopen' : (${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled) }"`
+        ).replace(
+            `<small-popup id="redeemCodePopup"`,
+            `<large-popup id="itemThemePopup" ref="itemThemePopup" hide-confirm="true" :overlay-close="true" class="megamod-popup" :class="equip.theme.class">
+                <template slot="content">
+                    <h1 v-html="equip.theme.titleTxt"></h1>
+                    <p v-html="loc[equip.theme.descLocKey]"></p>
+                    <header>
+                        <h3 class="text-center text-uppercase" v-html="equip.theme.itemTxt"></h3>
+                    </header>
+                    <item-grid id="item_grid" :loc="loc" :items="equip.theme.items" :has-buy-btn="false" :selectedItem="null" @item-selected="onItemSelected" :in-inventory="true" :theme-popup="true" :show-tooltips="true"></item-grid>
+                    <button v-if="equip.theme.btnLocKey" class="ss_button fullwidth ss_margintop_lg" v-html="loc[equip.theme.btnLocKey]" @click="equip.theme.clickFunc"></button>
+                    </template>
+            </large-popup><small-popup id="redeemCodePopup"`
         );
         
         /*
@@ -637,18 +671,25 @@ class MegaMod {
         .replace(
             `loc.eq_redeem }}</button>`,
             `loc.eq_redeem }}</button>
-            <button v-show="isEquipModeInventory && ${invEditsEnabled}" class="ss_button box_relative fullwidth text-uppercase" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled }" :disabled="!ui.showHomeEquipUi" @click="onSwitchToVaultClicked" v-html="itemVaultEnabled ? loc.megamod_betterUI_itemVault_exit : loc.megamod_betterUI_itemVault_enter"></button>
+            <button v-show="isEquipModeInventory && ${invEditsEnabled}" class="ss_button box_relative fullwidth text-uppercase" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled }" :disabled="!ui.showHomeEquipUi" @click="onSwitchToVaultClicked()" v-html="itemVaultEnabled ? loc.megamod_betterUI_itemVault_exit : loc.megamod_betterUI_itemVault_enter"></button>
             `
         )
         */
             
         // Item Vault: Hide Shop Button in Item Grid
         const itemGrid = document.getElementById("item-grid-template");
-        itemGrid.innerHTML = itemGrid.innerHTML.replace("&& !isSearching", `&& !isSearching && (!${invEditsEnabled} || !itemVaultEnabled)`);
+        itemGrid.innerHTML = itemGrid.innerHTML.replace("&& !isSearching", `&& !isSearching && (!${invEditsEnabled} || !itemVaultEnabled) && !themePopup`);
+        comp_item_grid.props.push("themePopup");
 
         Object.assign(vueData.equip, {
             showingItemTotal: 0,
-            itemTotals: {}
+            itemTotals: {},
+            theme: {
+                titleTxt: "",
+                itemTxt: "",
+                class: "",
+                items: [],
+            }
         });
     
         const {
@@ -758,7 +799,7 @@ class MegaMod {
                         items = items.filter(i => extern.isItemOwned(i) || (i.is_available && i.unlock === "default"));
                     }
                 } else {
-                    items = items.filter(i => i.is_available && !extern.isItemOwned(i) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
+                    items = items.filter(i => i.is_available && !extern.isItemOwned(i) && !this.store.itemIdsToHide.includes(i.id) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
                 }
                 
                 this.equip.showingItems = items;
@@ -780,14 +821,29 @@ class MegaMod {
                         document.addEventListener("visibilitychange", onVisible);
                     }
                 }
+                if(vueApp.$refs.equipScreen.$refs.itemThemePopup.isShowing) {
+                    const { item_type_id, exclusive_for_class } = item;
+                    const { selectedItemType } = this.equip;
+
+                    const itemOwned = extern.isItemOwned(item) || item.unlock === "default";
+                    const vaultItem = !itemOwned && !item.is_available;
+                    if (this.itemVaultEnabled !== vaultItem) this.onSwitchToVaultClicked(vaultItem, true);
+                    if (itemOwned || vaultItem) {
+                        if (item_type_id === ItemType.Primary && this.classIdx !== exclusive_for_class) {
+                            extern.changeClass(exclusive_for_class);
+                            this.onChangedClass();
+                        }
+                        if (item_type_id !== selectedItemType) this.switchItemType(item_type_id);
+                    }
+                }
                 oldOnItemSelected.call(this, item);
             },
-            onSwitchToVaultClicked() {
-                this.itemVaultEnabled = !this.itemVaultEnabled;
+            onSwitchToVaultClicked(itemVaultEnabled, ignoreSelect=false) {
+                this.itemVaultEnabled = itemVaultEnabled ?? !this.itemVaultEnabled;
                 this.populateItemGrid(extern.getItemsOfType((this.equip.selectedItemType)));
                 
                 if (this.itemVaultEnabled) {
-                    this.selectItem(this.equip.showingItems[0]);
+                    if (!ignoreSelect) this.selectItem(this.equip.showingItems[0]);
                 } else {
                     this.updateEquippedItems();
                     this.poseEquippedItems();
@@ -802,7 +858,7 @@ class MegaMod {
                 const isShopItem = i => i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct);
 
                 // Featured mode: # of currently purchasable limited items
-                this.equip.itemTotals[featured] = extern.getTaggedItems(extern.specialItemsTag).filter(i => isShopItem(i) && i.is_available).length;
+                this.equip.itemTotals[featured] = extern.getTaggedItems(extern.specialItemsTag).filter(i => isShopItem(i) && i.is_available && !this.store.itemIdsToHide.includes(i.id)).length;
 
                 // Pre-filter items once per type to avoid repeating logic
                 const itemTypeMap = Object.fromEntries(Object.values(ItemType).map(type => [type, extern.getItemsOfType(type)]));
@@ -838,25 +894,53 @@ class MegaMod {
             switchTo(mode, useItemType) {
                 oldSwitchTo.call(this, mode, useItemType);
                 this.updateShowingItemTotal();
+            },
+            showItemTheme(theme) {
+                const { themeData } = unsafeWindow.megaMod.betterUI;
+                if (!themeData[theme]) return;
+
+                const data = themeData[theme];
+                const themeName = this.loc[data.themeLocKey];
+                const items = extern.getThemedItems(theme).filter(item => !this.store.itemIdsToHide.includes(item.id));
+                const ownedCount = items.filter(item => item.unlock === "default" || extern.isItemOwned(item)).length;
+                this.equip.theme = {
+                    ...data,
+                    titleTxt: this.loc.p_item_theme_title.format(themeName),
+                    itemTxt: this.loc.p_item_theme_items.format(themeName, ownedCount, items.length),
+                    class: theme,
+                    items
+                };
+                if (this.equip.theme.clickFunc) {
+                    const oldClickFunc = eval(this.equip.theme.clickFunc);
+                    this.equip.theme.clickFunc = () => {
+                        BAWK.play("ui_click");
+                        oldClickFunc()
+                    };
+                }
+
+                BAWK.play("ui_popupopen");
+                this.$refs.itemThemePopup.show();
             }
         });
     
         // Add Item Icons & Price Commas
         const item = document.getElementById("item-template");
         item.innerHTML = item.innerHTML.replace(`<span v-if="isVipItem`,
-            `<i v-if="${invEditsEnabled} && hasIcon" :class="iconClass" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
-            <span @click="iconClick" @mouseenter="iconHover" v-if="isVipItem`
+            `<i v-if="${invEditsEnabled} && showIcon" :class="iconClass" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
+            <span @click.stop="iconClick" @mouseenter="iconHover" v-if="isVipItem`
         ).replace(`itemPrice`, 
             `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`
         ).replace(
             `<p v-if="showItemOnly"`,
             `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && (showLockIcon ?? false)" class="centered"><i :class="lockIconClass" class="lock-icon"></i></div> <p v-if="showItemOnly"`
         );
+        SvgIcon.template = SvgIcon.template.replace(`<svg`, `<svg id="test" @click="$emit('click', $event)" @mouseenter="$emit('mouseenter', $event)`);
+        Vue.component('icon', SvgIcon);
     
         // Add Profile Image and Badges
         const profileScreen = document.getElementById("profile-screen-template");
-        const badgesEnabled = `extern?.modSettingEnabled?.('betterUI_badges')`;
-        const pfpEnabled = `extern?.modSettingEnabled?.('betterUI_pfp')`;
+        const badgesEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
+        const pfpEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
         profileScreen.innerHTML = profileScreen.innerHTML.replace(
             `center">\n\t\t\t\t\t<section>`,
             `center">
@@ -1107,7 +1191,7 @@ class MegaMod {
                         </div>
                     </li>
                 </template>
-            </ss-button-dropdown> `
+            </ss-button-dropdown>`
         ).replace(
             `<input type="text"`,
             `<div v-show="${betterUIEnabled}" class="game_code_inputs">
@@ -1186,7 +1270,7 @@ class MegaMod {
                 const newTierBadgeDict = newTierBadges.reduce((dict, badge) => ((dict[getBadgeClass(badge)] = badge.tier), dict), {});
                 localStore.setItem(TIER_KEY, JSON.stringify(newTierBadgeDict));
 
-                if (!ignoreNotif && extern.modSettingEnabled('betterUI_badges')) {
+                if (!ignoreNotif && extern.modSettingEnabled('betterUI_profile')) {
                     const allBadges = this.getBadges(true);
                     const processBadges = (badges, type, filterFn = () => true) => {
                         const removeHover = style => style.replaceAll(/\bbadge-hover(-alt)?\b/g, '').trim();
@@ -1254,8 +1338,9 @@ class MegaMod {
                     BAWK.play("ui_reset");
                     return;
                 }
-                vueApp.$refs.gameHistoryPopup.close();
-                vueApp.$refs.banHistoryPopup.close();
+                [vueApp.$refs.gameHistoryPopup, vueApp.$refs.banHistoryPopup].forEach(popup => {
+                    if (popup.isShowing) popup.close();
+                });
                 BAWK.play("ui_popupopen");
                 vueApp.showJoinPrivateGamePopup(code);
             },
@@ -1322,6 +1407,20 @@ class MegaMod {
                 const targetProp = mainBanArr ? 'showingBanHistory' : 'showingPlayerBanHistory';
                 this[targetProp] = source.filter(filterFn);
                 if (mainBanArr) this.selectFirstBan();
+            },
+            leaveToJoinGame: false,
+            leaveToJoinGameCode: "",
+            onLeaveGameConfirmedJoinGame() {
+                vueApp.leaveToJoinGame = true;
+                vueApp.onLeaveGameConfirm();
+            },
+            onLeaveGameResetJoinGame() {
+                vueApp.leaveToJoinGame = false;
+            },
+            leaveGameToJoinOther(code) {
+                vueApp.leaveToJoinGameCode = code;
+                BAWK.play("ui_popupopen");
+                vueApp.$refs.leaveGameWarningPopup.show();
             }
         });
     
@@ -1539,14 +1638,14 @@ class MegaMod {
             `div>{{ spectateControls }}`, `div v-html="spectateControlTxt">`
         ).replace(
             `<span class="text_yellow"`,
-            `<i v-show="extern?.modSettingEnabled?.('betterUI_chat')" class="fas6 fa-bullhorn hidden text_yellow ss_marginright_xs"></i><span class="text_yellow"`
+            `<i v-show="extern?.modSettingEnabled?.('betterChat_chatIcons')" class="fas6 fa-bullhorn hidden text_yellow ss_marginright_xs"></i><span class="text_yellow"`
         ).replace(
             `<small-popup id="playerActionsPopup"`,
             `<small-popup id="playerActionsPopup"`
         ).replace(
             `<div id="respawn-menu">`,
             `<div id="respawn-menu" class="display-grid align-items-center gap-sm">
-            <div v-show="!isPoki && firebaseId && ${betterUIEnabled} && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
+            <div v-show="!isPoki && firebaseId && ${chicknWinnerUpgrades} && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
                 <!-- incentivized-mini-game -->
                 <img class="box_aboslute chw-progress-img chw-chick" :src="chwChickSrc">
                 <div class="chw-progress-bar-wrap roundme_sm box_relative btn_blue bevel_blue" :class="progressBarWrapClass" @click="playIncentivizedAd">
@@ -1620,11 +1719,12 @@ class MegaMod {
             customChatMsg: "",
             censorName: false,
             sendThanksMsg: true
-        })
-        
+        });
+
         const oldGameScreenData = comp_game_screen.data;
         Object.assign(comp_game_screen, {
-            data() {
+            data() { 
+                // Don't use return {...oldGameScreenData.call(this)} cuz it breaks game screen
                 const data = oldGameScreenData.call(this);
                 Object.assign(data, {
                     upSpectateTxt: "",
@@ -1907,11 +2007,11 @@ class MegaMod {
         };
         
         // (Home Screen) Clock Icon Next To Challenge Timer, Challenge Info Button
-        const chlgInfoIcon = `<i v-show="${betterUIEnabled}" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
+        const chlgInfoIcon = `<i v-show="${chlgUpgrades}" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
         const mediaTabs = document.getElementById("media-tabs-template");
         mediaTabs.innerHTML = mediaTabs.innerHTML.replace(
             `<span v-show="challengeDailyData.days"`,
-            `<i v-show="${betterUIEnabled}" class="far fa-clock"></i><span <span v-show="challengeDailyData.days"`
+            `<i v-show="${chlgUpgrades}" class="far fa-clock"></i><span <span v-show="challengeDailyData.days"`
         ).replace(
             `</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`,
             `${chlgInfoIcon}</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`
@@ -1950,7 +2050,7 @@ class MegaMod {
         ].forEach(x => localizeNumber(x.id, x.vals))
 
         const giveStuff = document.getElementById('give-stuff-popup');
-        giveStuff.innerHTML = giveStuff.innerHTML.replace(`{{giveStuffPopup.eggs}}`, `{{ giveStuffPopup.eggs.addSeparators() }}`);
+        giveStuff.innerHTML = giveStuff.innerHTML.replace(`{{giveStuffPopup.eggs}}`, `{{ giveStuffPopup.eggs && giveStuffPopup.eggs.addSeparators() }}`);
 
         const oldGetGoal = CompPlayerChallengeSingle.computed.getGoal;
         CompPlayerChallengeSingle.computed.getGoal = function() {
@@ -2009,7 +2109,15 @@ class MegaMod {
         });
 
          // Show Chick'n Winner Owned Item
-        vueData.chw.reward.ownedItem = null;
+        Object.assign(vueData.chw.reward, {
+            ownedItem: null,
+            theme: ""
+        });
+        const oldBusted = comp_chickn_winner_popup.watch.busted;
+        comp_chickn_winner_popup.watch.busted = function(val) {
+            oldBusted.call(this, val);
+            if (extern.modSettingEnabled("betterUI_cw") && this.rewardItem) this.reward.theme = extern.getThemeForItem(this.rewardItem);
+        }
         const oldRewardItem = comp_chickn_winner_popup.computed.rewardItem;
         Object.assign(comp_chickn_winner_popup.computed, {
             // Add Separators
@@ -2024,17 +2132,24 @@ class MegaMod {
             }
         });
         
-        comp_chickn_winner_popup.methods.eggClass = function(count) {
-            let hide;
-            if (count > 5 && (this.reward.itemIds.length || (extern?.modSettingEnabled?.('betterUI_ui') && this.reward.ownedItem))) {
-                hide = 'visibility-hidden cyborg-egg';
+        const oldResetGame = comp_chickn_winner_popup.methods.resetGame;
+        Object.assign(comp_chickn_winner_popup.methods, {
+            eggClass(count) {
+                let hide;
+                if (count > 5 && (this.reward.itemIds.length || (extern?.modSettingEnabled?.('betterUI_cw') && this.reward.ownedItem))) {
+                    hide = 'visibility-hidden cyborg-egg';
+                }
+                if (count > 5) {
+                    return `chick-alive ${hide} egg-${count} cyborg-egg`;
+                }
+            },
+            resetGame(...args) {
+                oldResetGame.apply(this, args);
+                setTimeout(() => { this.reward.theme = ""; }, 500);
             }
-            if (count > 5) {
-                return `chick-alive ${hide} egg-${count} cyborg-egg`;
-            }
-        };
+        });
 
-        const hasOwnedItem = `${betterUIEnabled} && rewardHasOwnedItem`;
+        const hasOwnedItem = `${chicknWinnerUpgrades} && rewardHasOwnedItem`;
         const chicknWinner = document.getElementById("chickn-winner-template");
         chicknWinner.innerHTML = chicknWinner.innerHTML.replace(
             `rewardHasItem`,
@@ -2045,6 +2160,9 @@ class MegaMod {
         ).replace(
             `rewardItem.name }}</h4>`,
             `rewardItem.name }}</h4><h4 v-if="${hasOwnedItem}" class="text_white text-center nospace text-shadow-black-40">{{ loc.megaMod_betterUI_chwOwnedItem }}</h4>`
+        ).replace(
+            `<item`,
+            `<item is-reward="true"`
         );
     }
 
@@ -2409,14 +2527,35 @@ class MegaMod {
             </div>
         `;
 
+        const gameLeavePopup = `
+            <small-popup id="leaveGameWarningPopup" ref="leaveGameWarningPopup" @popup-confirm="onLeaveGameConfirmedJoinGame" @popup-closed="onLeaveGameResetJoinGame" hide-close="true" @popup-cancel="onLeaveGameResetJoinGame">
+                <template slot="header">{{ loc.leave_game_to_join_other }}</template>
+                <template slot="content">
+                    <div class="nowrap ss_margintop_lg ss_marginbottom_lg">
+                        <i :class="icon.invite" class="text_blue5" style="size: 1em; zoom: 1.5;"></i>
+                        <h1 class="display-inline ss_marginleft ss_marginright text_blue5">{{ leaveToJoinGameCode }}</h1>
+                    </div>
+                 </template>
+                <template slot="cancel">{{ loc.no }}</template>
+                <template slot="confirm">{{ loc.yes }}</template>
+            </small-popup>
+        `;
+
         // Add Popups
         const popupInterval = setInterval(() => {
             const gameDesc = document.getElementById('gameDescription');
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
+                `${gameLeavePopup} ${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
             );
+        });
+        // CW Popup Theme
+        const cwInterval = setInterval(() => {
+            const cwPopup = document.getElementById('chicknWinner');
+            if (!cwPopup) return;
+            clearInterval(cwInterval);
+            cwPopup.setAttribute(':class', 'chw.reward.theme');
         });
     }
 
@@ -2743,7 +2882,7 @@ class MegaMod {
         }
     
         // Hide Nametags, Outlines, & Pickups
-        const [,teamColors] = regex`(${v})\.outline\[`.safeExec(src, ["hideHUD_nametags", "hideHUD_outlines", "betterUI_chatEvent_joinGame", "betterUI_chatEvent_leaveGame", "betterUI_chatEvent_switchTeam"]);
+        const [,teamColors] = regex`(${v})\.outline\[`.safeExec(src, ["hideHUD_nametags", "hideHUD_outlines", "betterChat_chatEvents"]);
         if (teamColors && itemManagerInst && itemManagerClass) {
             const hideHUDFuncs = `
                 hideNametags: (hide) => ${teamColors}.textColor.forEach(c => c.a = +!hide),
@@ -2780,7 +2919,7 @@ class MegaMod {
         // Longer Chat
         const [chatLengthMatch] = regex`\}${v}\.length\>4`.safeExec(src, "");
         if (chatLengthMatch) {
-            src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterUI_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterUI_chat") ? 6 : 4)`));
+            src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterChat_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterChat_longerChat") ? 6 : 4)`));
         }
     
         // Chat Events
@@ -2831,7 +2970,7 @@ class MegaMod {
                     chatItem.append(nameDiv, msgContent);
                     chatOut.appendChild(chatItem);
 
-                    if (extern.modSettingEnabled("betterUI_infChat")) return;
+                    if (extern.modSettingEnabled("betterChat_infChat")) return;
                     const chatItems = Array.from(chatOut.querySelectorAll(".chat-item"));
                     chatItems.slice(0, Math.max(0, chatItems.length - 7)).forEach(item => item.remove());
                 }
@@ -3004,7 +3143,7 @@ class MegaMod {
         const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "");
         if (filterFunc && msgElem && msgContent) {
             src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`));
-            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null && ${blacklistDisabled} && (${msgElem}.style.color="red"),`);
+            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`);
         }
         
         // Auto Ban
@@ -3121,6 +3260,67 @@ class MegaMod {
     static getRandomHex() {
         return `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
     }
+
+    static addModCSS(filename) {
+        const preload = extern.modSettingEnabled("megaMod_cssPreload");
+        const url = `/mods/css/${filename}.css`;
+        const style = document.createElement(preload ? 'style' : 'link');
+        document.body.appendChild(style);
+        if (preload) {
+            MegaMod.fetchCSS(url).then(css => style.textContent = css);
+        } else {
+            Object.assign(style, { rel: 'stylesheet', href: (cdnPath + url) });
+        }
+        return style;
+    }
+
+    static getModNames(arr) {
+        const getModName = (id) => {
+            const findTopmostLocKey = (arr, id) => {
+                for (const obj of arr) {
+                    if (containsId(obj, id)) {
+                        return obj.locKey;
+                    }
+                }
+                return null;
+            };
+
+            const containsId = (obj, targetId) => {
+                if (obj.id === targetId) return true;
+                if (obj.settings) {
+                    for (const child of obj.settings) {
+                        if (containsId(child, targetId)) return true;
+                    }
+                }
+                return false;
+            };
+
+            const findExactLocKey = (arr, id) => {
+                for (const obj of arr) {
+                    if (obj.id === id && obj.locKey) {
+                        return obj.locKey;
+                    }
+                    if (obj.settings) {
+                        const result = findExactLocKey(obj.settings, id);
+                        if (result) return result;
+                    }
+                }
+                return null;
+            };
+
+            const outerLocKey = findTopmostLocKey(vueApp.settingsUi.modSettings, id);
+            const exactLocKey = findExactLocKey(vueApp.settingsUi.modSettings, id);
+
+            if (!outerLocKey || !exactLocKey) return id;
+
+            const outerTitle = vueData.loc[`${outerLocKey}_title`] || outerLocKey;
+            const specific = vueData.loc[exactLocKey] || exactLocKey;
+
+            return outerLocKey === exactLocKey ? outerTitle : `${outerTitle} (${specific})`;
+        };
+
+        return [...new Set(arr.map(id => getModName(id)))];
+    };
 
     constructor() {
         if (localStorage.getItem(MegaMod.KEYS.ErrVersion) === null) MegaMod.addPopups();
@@ -3244,8 +3444,7 @@ class MegaMod {
 			case 'betterUI_inventory':
 				this.betterUI.switchBetterInv(settingEnabled);
 				break;
-			case 'betterUI_pfp':
-			case 'betterUI_badges':
+			case 'betterUI_profile':
 				this.betterUI.refreshProfileScreen();
 				break;
 			case 'betterUI_roundness':
@@ -3254,12 +3453,27 @@ class MegaMod {
 			case 'betterUI_colors':
 				this.betterUI.switchColored(settingEnabled);
 				break;
+            case 'betterUI_chlg':
+				this.betterUI.switchChlg(settingEnabled);
+				break;
 			case 'betterUI_hitMarkers':
 				if (extern.inGame) extern.switchHitMarkerColor(settingEnabled);
 				break;
-			case 'betterUI_chat':
-				this.betterUI.switchChatUpgrades(settingEnabled);
+			case 'betterChat':
+				this.betterChat.switchBetterChat();
 				break;
+            case 'betterChat_chatIcons':
+				this.betterChat.switchChatIcons(settingEnabled);
+				break;
+            case "betterChat_longerChat":
+                this.betterChat.switchLongerChat(settingEnabled);
+                break;
+            case "betterChat_infChat":
+                this.betterChat.switchInfChat(settingEnabled);
+                break;
+            case "betterChat_chatEvents":
+                this.betterChat.switchChatEvents(settingEnabled);
+                break;
 			case 'specTweaks':
 			case 'specTweaks_updown':
 				vueApp.$refs.gameScreen.updateSpectateControls();
@@ -3280,9 +3494,6 @@ class MegaMod {
                     this.getModSettingById('customFog_colorPicker').value
                 );
                 break;
-            case "betterUI_infChat":
-                if (!settingEnabled) this.betterUI.adjustChatLength();
-                break;
             case "betterEggforce":
                 this.betterEggforce.updatePlayPanel();
                 vueApp.$refs.gameScreen.updateSpectateControls();
@@ -3300,9 +3511,9 @@ class MegaMod {
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
 		if (id.includes("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode"));
-		if (id.includes("betterUI_chatEvent_")) {
+		if (id.includes("betterChat_chatEvent_")) {
 			const types = Object.keys(ChatEventData).filter(k => ChatEventData[k].setting === id);
-			types.forEach(type => this.betterUI.switchChatEvent(type, settingEnabled));
+			types.forEach(type => this.betterChat.switchChatEvent(type, settingEnabled));
 		}
 		vueApp.$refs.settings.checkReloadNeeded();
 	}
@@ -3549,7 +3760,8 @@ class MegaMod {
             { id: "matchGrenades",  constructor: MatchGrenades },
             { id: "changeFPS",      constructor: ChangeFPS },
             { id: "colorSlider",    constructor: ColorSlider },
-            { id: "customFog",      constructor: CustomFog }
+            { id: "customFog",      constructor: CustomFog },
+            { id: "betterChat",     constructor: BetterChat },
         ];
 
         for (const { id, constructor, propKey = id } of mods) {
@@ -3690,33 +3902,12 @@ class MegaMod {
 
     showModErrorPopup() {
         MegaMod.log("showModErrorPopup() -", "Checking whether to show Mod Error popups");
-
-        const getModNames = (arr) => {
-            const getModName = (id) => {
-                const getTitleLocKey = (arr, id) => {
-                    for (const obj of arr) {
-                        if (obj.id === id) return obj.locKey;
-                        if (obj.settings) {
-                            const result = getTitleLocKey(obj.settings, id);
-                            if (result) return `${obj.locKey || result}_title`;
-                        }
-                    }
-                    return null;
-                }
-                const setting = this.getModSettingById(id);
-                if (!setting) return id;
-                return vueData.loc[(setting.settings) ? `${setting.locKey}_title` : getTitleLocKey(vueApp.settingsUi.modSettings, id)];
-            };
-
-            return [...new Set(arr.map(id => getModName(id)))];
-        };
-        
         if (this.regexErrs.length) {
-            vueData.modErrsPopupContent = vueData.loc['megaMod_modErrsPopup_desc'].format(getModNames(this.regexErrs).join("<br>"));
+            vueData.modErrsPopupContent = vueData.loc['megaMod_modErrsPopup_desc'].format(MegaMod.getModNames(this.regexErrs).join("<br>"));
             vueApp.$refs.modErrsPopup.show();
         }
         if (this.modConflicts.length) {
-            vueData.disableModsPopupContent = vueData.loc['megaMod_disableModsPopup_desc'].format(getModNames(this.modConflicts).join("<br>"));
+            vueData.disableModsPopupContent = vueData.loc['megaMod_disableModsPopup_desc'].format(MegaMod.getModNames(this.modConflicts).join("<br>"));
             vueApp.$refs.disableModsPopup.show();
         }
     }
@@ -3835,17 +4026,19 @@ class BetterUI {
                 //MegaMod.log("extern.isThemedItem() - ", `Checking if ${item.name} is ${theme}`);
                 theme = theme.toLowerCase();
                 switch (theme) {
-                    case "premium":
                     case "vip":
-                    case "bundle":
                     case "physical":
                     case "manual":
                     case "default":
                     case "purchase":
                         // Nice and ez checks, W devs.
                         return item.unlock === theme;
+                    case "premium":
+                        return item.unlock === theme && !this.isThemedItem(item, "bundle");
+                    case "bundle":
+                        return item.unlock === theme || item.unlock == "premium" && item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.bundle);
                     case "eggpremium":
-                        return this.isThemedItem(item, "purchase") && (item?.item_data?.tags?.some(t => t.toLowerCase() === 'premium') ?? false);
+                        return this.isThemedItem(item, "purchase") && (item?.item_data?.tags?.some(tag => tag.toLowerCase() === 'premium') ?? false);
                     case "legacy":
                         return this.isThemedItem(item, "default") && item?.item_data?.meshName?.includes("_Legacy");
                     case "limited":
@@ -3872,15 +4065,15 @@ class BetterUI {
                     case "creator":
                         const creatorTags = unsafeWindow.megaMod.betterUI.creatorTypes.map(type => unsafeWindow.megaMod.betterUI.tags.creator.format(type));
                         return item?.item_data?.tags?.some(tag => creatorTags.includes(tag)) ?? false;
-                    case "creatoryoutube":
+                    case "creatoryt":
                         return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[4])) ?? false;
-                    case "creatortwitch":
+                    case "creatorttv":
                         return item?.item_data?.tags?.includes(unsafeWindow.megaMod.betterUI.tags.creator.format(unsafeWindow.megaMod.betterUI.creatorTypes[6])) ?? false;
                     case "shop":
                         return this.isThemedItem(item, "purchase") && ["creator", "limited", "event"].every(theme => !this.isThemedItem(item, theme));
                 }
             },
-            getThemedItems(theme) {
+            getAllItems() {
                 return [
                     ...this.catalog.hats, 
                     ...this.catalog.stamps, 
@@ -3888,7 +4081,30 @@ class BetterUI {
                     ...this.catalog.primaryWeapons, 
                     ...this.catalog.secondaryWeapons, 
                     ...this.catalog.melee
-                ].filter(item => !theme || this.isThemedItem(item, theme));
+                ];
+            },
+            getThemedItems(theme) {
+                return this.getAllItems().filter(item => !theme || this.isThemedItem(item, theme));
+            },
+            getThemeMap(item) {
+                return Object.fromEntries(unsafeWindow.megaMod.betterUI.themes.map(theme => [theme, this.isThemedItem(item, theme)]));
+            },
+            getThemeForItem(item) {
+                const themeMap = this.getThemeMap(item);
+                return Object.keys(themeMap).find(theme => themeMap[theme]);
+            },
+            getThemeForItems(items) {
+                const themes = items.map(item => this.getThemeForItem(item));
+                const countMap = {};
+                for (const str of themes) countMap[str] = (countMap[str] || 0) + 1;
+
+                const entries = Object.entries(countMap);
+                entries.sort((a, b) => b[1] - a[1]);
+
+                const [topStr, topCount] = entries[0];
+                const allEqual = entries.every(([_, count]) => count === topCount);
+
+                return allEqual ? themes.getRandom() : topStr;
             },
             tryEquipItem(item, type) {
                 if (!vueApp.itemVaultEnabled || (item && this.isItemOwned(item))) oldTryEquipItem.call(this, item, type);
@@ -3947,14 +4163,16 @@ class BetterUI {
 
         // Better Inventory - Item Properties
         comp_item.created = function() {
-            const themes = [
-                "bundle", "physical", "drops", "notif", "league", "yolker", "egglite",
-                "creatortwitch", "creatoryoutube", "promo", "event", "social",
-                "creator", "shop", "legacy", "eggpremium"
-            ];
-            this.themeMap = Object.fromEntries(themes.map(theme => [theme, extern.isThemedItem(this.item, theme)]));
+            this.themeMap = extern.getThemeMap(this.item);
         };
+        Object.assign(comp_item.props, {
+            isReward: {
+                type: Boolean,
+                default: false
+            }
+        });
         Object.assign(comp_item.computed, {
+            isPremium() { return this.themeMap.premium; },
             isBundle() { return this.themeMap.bundle; },
             isMerch() { return this.themeMap.physical; },
             isDrops() { return this.themeMap.drops; },
@@ -3962,12 +4180,12 @@ class BetterUI {
             isLeague() { return this.themeMap.league; },
             isNewYolker() { return this.themeMap.yolker; },
             isEgglite() { return this.themeMap.egglite; },
-            isTwitchCreator() { return this.themeMap.creatortwitch; },
-            isYTCreator() { return this.themeMap.creatoryoutube; },
+            isCreator() { return this.themeMap.creator; },
+            isTwitchCreator() { return this.themeMap.creatorttv; },
+            isYTCreator() { return this.themeMap.creatoryt; },
             isPromo() { return this.themeMap.promo; },
             isEvent() { return this.themeMap.event; },
             isSocial() { return this.themeMap.social; },
-            isCreator() { return this.themeMap.creator; },
             isNormalShop() { return this.themeMap.shop; },
             isLegacy() { return this.themeMap.legacy; },
             isPremiumEggPurchase() { return this.themeMap.eggpremium; },
@@ -3986,7 +4204,7 @@ class BetterUI {
         
             // Banner Text
             bannerTxt() {
-                if (!this.hasBanner) return;
+                if (!this.hasBanner) return '';
 
                 const bannerLocMap = [
                     ['isBundle', 'p_bundle_item_banner_txt'],
@@ -4006,7 +4224,6 @@ class BetterUI {
                     ['isEvent', 'p_event_item_banner_txt'],
                     ['isLegacy', 'p_legacy_item_banner_txt']
                 ];
-            
                 return this.loc[bannerLocMap.find(([themeProp]) => this[themeProp])?.[1]] || '';
             },
         
@@ -4028,7 +4245,7 @@ class BetterUI {
                     'is-event': invEditsEnabled && this.isEvent,
                     'is-social': invEditsEnabled && this.isSocial,
                     'is-creator-yt': invEditsEnabled && this.isYTCreator,
-                    'is-creator-twitch': invEditsEnabled && this.isTwitchCreator,
+                    'is-creator-ttv': invEditsEnabled && this.isTwitchCreator,
                     'is-shop': invEditsEnabled && this.isNormalShop,
                     'is-legacy': invEditsEnabled && this.isLegacy,
                     'is-locked': invEditsEnabled && this.showLockIcon,
@@ -4059,7 +4276,7 @@ class BetterUI {
                     ['isEvent', 'event'],
                     ['isSocial', 'social'],
                     ['isYTCreator', 'ytcc'],
-                    ['isTwitchCreator', 'twitchcc'],
+                    ['isTwitchCreator', 'ttvcc'],
                     ['isLegacy', 'legacy']
                 ];
                 const tooltipStyle = tooltipStyleMap.find(([themeProp]) => this[themeProp])?.[1];
@@ -4068,38 +4285,40 @@ class BetterUI {
         
             // Icon Check
             hasIcon() {
-                return this.isBundle || vueApp.currentEquipMode === vueApp.equipMode.inventory && (
-                    this.isPremium || this.isPremiumEggPurchase || this.isLeague || this.isEgglite ||
+                return this.isBundle || this.isPremium || this.isPremiumEggPurchase || this.isLeague || this.isEgglite ||
                     this.isLimited || this.isDrops || this.isNotif || this.isMerch || 
                     this.isCreator || this.isNewYolker || this.isPromo || 
-                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/
-                );
+                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/;
+            },
+
+            showIcon() {
+                return this.hasIcon && (this.isBundle || this.itemOnly || this.isReward || vueApp.currentEquipMode === vueApp.equipMode.inventory);
             },
 
             // Premium Icon
             premiumIcon() {
-                return unsafeWindow.megaMod.betterUI.currencyIcons[vueApp.currencyCode];
+                return unsafeWindow.megaMod.betterUI.currencyIcons[vueApp.currencyCode] || '';
             },
         
             // Icon CSS Class
             iconClass() {
-                if (!this.hasIcon) return;
+                if (!this.hasIcon) return '';
                 return this.isBundle ? 'fas fa-box-open hover' :
                     this.isPremium ? this.premiumIcon + ' hover' :
                     this.isMerch ? 'fas fa-tshirt hover' :
                     this.isDrops ? 'fab fa-twitch hover' :
                     this.isNotif ? 'fas fa-bell hover' :
-                    this.isLeague ? 'fas fa-trophy' :
+                    this.isLeague ? 'fas fa-trophy hover' :
                     this.isNewYolker ? 'fas fa-envelope-open-text hover' :
-                    this.isEgglite ? 'fas6 fa-sparkles' :
+                    this.isEgglite ? 'fas6 fa-sparkles hover' :
                     this.isYTCreator ? 'fab fa-youtube hover' :
                     this.isTwitchCreator ? 'fab fa-twitch hover' :
                     this.isLimited ? 'far fa-gem hover' :
                     this.isSocial ? 'fas fa-share hover' :
                     this.isPromo ? 'fas fa-ad hover' :
-                    this.isEvent ? 'fas fa-calendar-alt' :
-                    (this.isNormalShop || this.isPremiumEggPurchase) ? 'fas fa-egg' :
-                    this.isLegacy ? 'fas6 fa-history' : '';
+                    this.isEvent ? 'fas fa-calendar-alt hover' :
+                    (this.isNormalShop || this.isPremiumEggPurchase) ? 'fas fa-egg hover' :
+                    this.isLegacy ? 'fas6 fa-history hover' : '';
             },
         
             // Icon Hover
@@ -4109,22 +4328,16 @@ class BetterUI {
         
             // Icon Click
             iconClick() {
-                const addClickSFX = (fn) => () => { BAWK.play("ui_equip"); fn(); };
-                if (this.isPremium || this.isBundle) return () => vueApp.openEquipSwitchTo(vueApp.equipMode.shop);
-                if (this.isPremiumEggPurchase) return () => vueApp.openEquipSwitchTo(vueApp.equipMode.skins);
-                if (this.isMerch) return addClickSFX(() => open('https://bluewizard.threadless.com/'));
-                if (this.isVipItem) return vueApp.showSubStorePopup;
-                if (this.isDrops) return addClickSFX(() => open((dynamicContentPrefix || '') + 'twitch'));
-                if (this.isNotif) return addClickSFX(() => Notification.requestPermission());
-                if (this.isNewYolker) return addClickSFX(() => open('https://bluewizard.com/subscribe-to-the-new-yolker/'));
-                if (this.item.creatorUrl && this.isCreator) return addClickSFX(() => open(`https://${this.item.creatorUrl}`));
-                if (this.item.promoUrl && this.isPromo) return addClickSFX(() => open(`https://${this.item.promoUrl}`));
-                if (this.isSocial) return addClickSFX(() => open(vueApp.ui.socialMedia.footer.find(social => social.id === this.item.id).url));
-                if (this.isLimited) return () => {
-                    vueApp.openEquipSwitchTo(vueApp.equipMode.featured);
-                    vueApp.equip.showingItems = extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && extern.isItemOwned(item));
-                };
-                return () => {};
+                let fn = () => {};
+
+                const addClickSFX = (func) => () => { BAWK.play("ui_equip"); func(); };
+                if (this.item.creatorUrl && this.isCreator) fn = addClickSFX(() => open(`https://${this.item.creatorUrl}`));
+                if (this.item.promoUrl && this.isPromo) fn = addClickSFX(() => open(`https://${this.item.promoUrl}`));
+                if (this.isSocial) fn = addClickSFX(() => open(vueApp.ui.socialMedia.footer.find(social => social.id === this.item.id).url));
+                
+                const theme = extern.getThemeForItem(this.item);
+                if (theme) return (() => { vueApp.$refs.equipScreen.showItemTheme(theme); fn() });
+                return fn;
             },
 
             // Lock Icon
@@ -4177,14 +4390,14 @@ class BetterUI {
         const oldChallengeClaim = extern.playerChallenges.claim;
         extern.playerChallenges.claim = function(...args) {
             oldChallengeClaim.apply(this, args);
-            if (extern.modSettingEnabled("betterUI_ui")) BAWK.play("challenge_notify");
+            if (extern.modSettingEnabled("betterUI_chlg")) BAWK.play("challenge_notify");
         };
 
         // Notify Popup Claim SFX
         const oldNextItem = NotifiSlider.methods.nextItem;
         NotifiSlider.methods.nextItem = function(...args) {
             oldNextItem.apply(this, args);
-            if (extern.modSettingEnabled("betterUI_ui") && this.isChallenge) BAWK.play("challenge_notify");
+            if (extern.modSettingEnabled("betterUI_chlg") && this.isChallenge) BAWK.play("challenge_notify");
         };
 
         // Fixed Weapon Deselect Bug
@@ -4215,30 +4428,19 @@ class BetterUI {
             },
         });
 
-        const addStyle = (name) => {
-            const preload = extern.modSettingEnabled("megaMod_cssPreload");
-            const url = `/mods/css/${name}.css`;
-            const style = document.createElement(preload ? 'style' : 'link');
-            document.body.appendChild(style);
-            if (preload) {
-                MegaMod.fetchCSS(url).then(css => style.textContent = css);
-            } else {
-                Object.assign(style, { rel: 'stylesheet', href: (cdnPath + url) });
-            }
-            return style;
-        };
         // Add CSS
         Promise.all([
-            addStyle('ui'),
-            addStyle('inventory'),
-            addStyle('roundness'),
-            addStyle('colors'),
-            addStyle('chat')
+            MegaMod.addModCSS('ui'),
+            MegaMod.addModCSS('inventory'),
+            MegaMod.addModCSS('roundness'),
+            MegaMod.addModCSS('colors'),
+            MegaMod.addModCSS('chlg')
         ]).then(styles => {
-            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chatUpgradeStyle] = styles;
-            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chatUpgradeStyle });
+            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle] = styles;
+            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle });
             setTimeout(this.switchBetterUI.bind(this), 250, true);
         });
+
 
         // Init Profile Badges
         MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
@@ -4247,7 +4449,7 @@ class BetterUI {
         const oldOnTutorialPopupClick = vueApp.onTutorialPopupClick;
         vueApp.onTutorialPopupClick = function(...args) {
             oldOnTutorialPopupClick.apply(this, args);
-            if (!extern.modSettingEnabled('betterUI_badges')) return;
+            if (!extern.modSettingEnabled('betterUI_profile')) return;
             ((badge) => {
                 if (!badge) return;
                 const removeHover = style => style.replace(/\bbadge-hover(-alt)?\b/g, '').trim();
@@ -4277,6 +4479,7 @@ class BetterUI {
             onCloseClick: wrapWithHashCode(oldCodeCloseClick)
         });
 
+        // Add to Game History
         const oldProgBarReset = vueApp.progressBarReset;
         vueApp.progressBarReset = function() {
             oldProgBarReset.call(this);
@@ -4285,34 +4488,10 @@ class BetterUI {
             });
         };
 
-        // Chat Auto Scroll
-        const chatOut = document.getElementById('chatOut');
-        const scrollChat = () => chatOut.scrollTop = chatOut.scrollHeight;
-        new MutationObserver(() => {
-            if (extern.modSettingEnabled("betterUI_infChat") && !vueApp.game.isPaused) scrollChat();
-        }).observe(chatOut, { childList: true });
-
-        const oldRespawn = extern.respawn;
-        extern.respawn = () => {
-            oldRespawn.call(this);
-            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
-        };
-
-        const oldSendChat = extern.sendChat;
-        extern.sendChat = (...args) => {
-            oldSendChat.apply(this, args);
-            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
-        };
-
-        const oldSpectate = extern.enterSpectatorMode;
-        extern.enterSpectatorMode = () => {
-            oldSpectate.call(this);
-            if (extern.modSettingEnabled("betterUI_infChat")) setTimeout(scrollChat, 250);
-        };
-
+        // Chick'n Winner Bar
         const oldPlayIncentivizedAd = vueApp.playIncentivizedAd;
         vueApp.playIncentivizedAd = function() {
-            if (extern.modSettingEnabled("betterUI_ui") && this.chw.limitReached && extern.inGame && !this.chw.ready) {
+            if (extern.modSettingEnabled("betterUI_cw") && this.chw.limitReached && extern.inGame && !this.chw.ready) {
                 BAWK.play("ui_playconfirm");
                 this.chwBarVisible = false;
                 const barInterval = setInterval(((chq) => {
@@ -4418,7 +4597,8 @@ class BetterUI {
         const {
             switchToProfileUi : oldSwitchToProfileUi,
             statsLoading: oldStatsLoading,
-            switchToHomeUi: oldSwitchToHomeUi
+            switchToHomeUi: oldSwitchToHomeUi,
+            showGiveStuffPopup: oldShowGiveStuffPopup
         } = vueApp;
         Object.assign(vueApp, {
             separateRows(badges) {
@@ -4578,6 +4758,10 @@ class BetterUI {
             switchToHomeUi() {
                 vueApp.updateBadges();
                 oldSwitchToHomeUi.call(this);
+            },
+            showGiveStuffPopup(titleLoc, eggs, items, type, callback) {
+                if (items?.length && !type || type === "abTestReward") type = extern.getThemeForItems(items);
+                oldShowGiveStuffPopup.call(this, titleLoc, eggs, items, type, callback);
             }
         });
 
@@ -4665,13 +4849,17 @@ class BetterUI {
     switchColored(enabled) {
         this.coloredStyle.disabled = !enabled;
     }
+
+    switchChlg(enabled) {
+        this.chlgStyle.disabled = !enabled;
+    }
     
     isThemed(item) {
         return ["default", "premium", "drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
     }
 
     updateBundleItems(enabled) {
-        extern.getTaggedItems(this.tags.bundle).forEach(item => {
+        extern.getTaggedItems(this.tags.bundle).filter(i => i.unlock !== "premium").forEach(item => {
             if (!item.origUnlock) item.origUnlock = item.unlock;
             item.unlock = enabled && !this.isThemed(item) ? "bundle" : item.origUnlock;
         });
@@ -4682,7 +4870,7 @@ class BetterUI {
         this.updateBundleItems(enabled);
 
         // Add/Remove "Limited" tag to Monthly Featured Items
-        extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && !["premium", "bundle"].includes(item.unlock)).forEach(item => {
+        extern.getTaggedItems(extern.specialItemsTag).filter(item => item.is_available && !["bundle"].includes(item.unlock)).forEach(item => {
             if (!Array.isArray(item?.item_data?.tags)) item.item_data.tags = [];
             if (!enabled && item.item_data.tags.includes("Limited")) {
                 item.item_data.tags.splice(item.item_data.tags.indexOf("Limited"), 1);
@@ -4734,25 +4922,6 @@ class BetterUI {
         }
     }
 
-    adjustChatLength() {
-        if (extern.modSettingEnabled("betterUI_infChat")) return;
-        const chatItems = Array.from(document.getElementById("chatOut").querySelectorAll(".chat-item"));
-        const maxLength = extern.modSettingEnabled?.("betterUI_chat") ? 7 : 5;
-        chatItems.slice(0, Math.max(0, chatItems.length - maxLength)).forEach(item => item.remove());
-    }
-
-    switchChatUpgrades(enabled) {
-        this.chatUpgradeStyle.disabled = !enabled;
-        if (!enabled) this.adjustChatLength();
-        Object.entries(ChatEventData).forEach(([type, v]) => this.switchChatEvent(type, extern.modSettingEnabled(v.setting)));
-    }
-
-    switchChatEvent(type, enabled) {
-        const chatItems = Array.from(document.getElementById("chatOut").querySelectorAll(`.chat-item.type-${type}`));
-        chatItems.forEach(item => item.style.setProperty("display", enabled ? "" : "none", 'important'));
-        this.adjustChatLength();
-    }
-
     switchBetterUI(init) {
         if (extern.inGame) extern.switchHitMarkerColor(extern.modSettingEnabled("betterUI_hitMarkers"));
         this.switchUITweaks(extern.modSettingEnabled("betterUI_ui"));
@@ -4761,7 +4930,256 @@ class BetterUI {
         unsafeWindow.megaMod.colorSlider.refreshColorSelect();
         this.switchRoundness(extern.modSettingEnabled("betterUI_roundness"));
         this.switchColored(extern.modSettingEnabled("betterUI_colors"));
-        this.switchChatUpgrades(extern.modSettingEnabled("betterUI_chat"));
+        this.switchChlg(extern.modSettingEnabled("betterUI_chlg"));
+    }
+}
+
+class BetterChat {
+    constructor() {
+        Promise.all([
+            MegaMod.addModCSS('chatIcons'),
+            MegaMod.addModCSS('longerChat'),
+            MegaMod.addModCSS('infChat')
+        ]).then(styles => {
+            const [chatIconStyle, longChatStyle, infChatStyle] = styles;
+            Object.assign(this, { chatIconStyle, longChatStyle, infChatStyle });
+            setTimeout(this.switchBetterChat.bind(this), 250);
+        });
+
+        // Chat Auto Scroll + Translate
+        const scrollChat = () => chatOut.scrollTop = chatOut.scrollHeight;
+        const chatOut = document.getElementById('chatOut');
+        new MutationObserver((mutations) => {
+            if (extern.modSettingEnabled("betterChat_infChat") && !vueApp.game.isPaused) scrollChat();
+
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.classList && node.classList.contains('chat-item') && !node.classList.contains('chat-event') && node !== chatOut.firstElementChild) {
+                        if (extern.modSettingEnabled("betterChat_translateChat")) this.handleNewChatMessage(node);
+                        else if (extern.modSettingEnabled("betterChat_detectCodes")) this.detectAndLinkGameCodes(node);
+                    }
+                });
+            });
+        }).observe(chatOut, { childList: true });
+
+        const oldRespawn = extern.respawn;
+        extern.respawn = () => {
+            oldRespawn.call(this);
+            if (extern.modSettingEnabled("betterChat_infChat")) setTimeout(scrollChat, 250);
+        };
+
+        const oldSendChat = extern.sendChat;
+        extern.sendChat = (...args) => {
+            oldSendChat.apply(this, args);
+            if (extern.modSettingEnabled("betterChat_infChat")) setTimeout(scrollChat, 250);
+        };
+
+        const oldSpectate = extern.enterSpectatorMode;
+        extern.enterSpectatorMode = () => {
+            oldSpectate.call(this);
+            if (extern.modSettingEnabled("betterChat_infChat")) setTimeout(scrollChat, 250);
+        };
+
+        const oldSwitchToHomeUi = vueApp.switchToHomeUi;
+        vueApp.switchToHomeUi = function() {
+            oldSwitchToHomeUi.call(this);
+            this.$nextTick( ()=> {
+                if (this.leaveToJoinGame) {
+                    this.openGameCode(this.leaveToJoinGameCode, true);
+                    this.onLeaveGameResetJoinGame();
+                }
+            });
+        }
+    }
+
+    switchBetterChat() {
+        this.switchChatIcons(extern.modSettingEnabled("betterChat_chatIcons"));
+        this.switchLongerChat(extern.modSettingEnabled("betterChat_longerChat"));
+        this.switchInfChat(extern.modSettingEnabled("betterChat_infChat"));
+        this.switchChatEvents(extern.modSettingEnabled("betterChat_chatEvents"));
+    }
+
+    switchChatIcons(enabled) {
+        this.chatIconStyle.disabled = !enabled;
+    }
+
+    switchLongerChat(enabled) {
+        this.longChatStyle.disabled = !enabled;
+        this.adjustChatLength();
+    }
+
+    switchInfChat(enabled) {
+        this.infChatStyle.disabled = !enabled;
+        if (!enabled) this.adjustChatLength();
+    }
+
+    adjustChatLength() {
+        if (extern.modSettingEnabled("betterChat_infChat")) return;
+        const chatItems = Array.from(document.getElementById("chatOut").querySelectorAll(".chat-item"));
+        const maxLength = extern.modSettingEnabled?.("betterChat_longerChat") ? 7 : 5;
+        chatItems.slice(0, Math.max(0, chatItems.length - maxLength)).forEach(item => item.remove());
+    }
+
+    switchChatEvents(enabled) {
+        Object.entries(ChatEventData).forEach(([type, v]) => this.switchChatEvent(type, enabled));
+    }
+
+    switchChatEvent(type, enabled) {
+        const chatItems = Array.from(document.getElementById("chatOut").querySelectorAll(`.chat-item.type-${type}`));
+        chatItems.forEach(item => item.style.setProperty("display", enabled ? "" : "none", 'important'));
+        this.adjustChatLength();
+    }
+
+    async translateText(originalText, targetLang, sourceLang = 'auto') {
+        try {
+            // translate
+            const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(originalText)}`);
+            const data = await response.json();
+
+            const sameLanguage = data[2] === targetLang;
+            const translatedText = data[0][0][0];
+            const sameText = translatedText.toLowerCase() === originalText.toLowerCase();
+            return {
+                translatedText: (sameLanguage || sameText) ? originalText : translatedText,
+                translated: !(sameLanguage || sameText)
+            };
+        } catch (error) {
+            console.error('Error during translation:', error);
+            return { translatedText: null, translated: false };
+        }
+    }
+
+    async handleNewChatMessage(msgElem) {
+        const autoTranslate = extern.modSettingEnabled("betterChat_autoTranslate");
+        const detectCodes = extern.modSettingEnabled("betterChat_detectCodes");
+        const langMap = { "zh": "zh-CN" };
+        const spans = msgElem.querySelectorAll('span');
+        const textSpan = spans[spans.length - 1];
+        let originalText = textSpan.innerText;
+
+        // Extract game codes from the original text and temporarily remove them
+        const gameCodes = [];
+        const textWithoutCodes = originalText.replaceAll(/#?([A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4})\b/g, (match, code) => {
+            gameCodes.push({ full: match, code }); // Store full match and raw code
+            return `__${gameCodes.length - 1}__`; // Use placeholder
+        });
+
+        // Translate the message without game codes
+        const { translatedText, translated } = await this.translateText(textWithoutCodes, langMap[vueApp.currentLanguageCode] || vueApp.currentLanguageCode);
+        if (!translated) {
+            if (detectCodes) this.detectAndLinkGameCodes(msgElem);
+            return;
+        }
+
+        // Reinstate the game codes in the translated text (case insensitive)
+        let finalTranslatedText = translatedText;
+        gameCodes.forEach(({ full }, index) => {
+            finalTranslatedText = finalTranslatedText.replace(`__${index}__`, full);
+        });
+
+        // Update the message in the DOM with translated or original text based on autoTranslate setting
+        Object.assign(msgElem.dataset, {
+            original: originalText,
+            translated: finalTranslatedText,
+            showingTranslated: autoTranslate
+        });
+        textSpan.innerHTML = autoTranslate ? finalTranslatedText : originalText;
+
+        // Run detectAndLinkGameCodes on both original and translated dataset properties if needed
+        if (detectCodes) this.detectAndLinkGameCodes(msgElem);
+
+        // Step 5: Add a translation toggle icon if it doesn't exist
+        if (!msgElem.querySelector('.translate-icon')) {
+            const icon = document.createElement('i');
+            icon.className = `fas6 fa-language translate-icon ${autoTranslate ? "translated" : "original"}`;
+
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const showingTranslated = msgElem.dataset.showingTranslated === "true";
+                textSpan.innerHTML = showingTranslated ? msgElem.dataset.original : msgElem.dataset.translated;
+                msgElem.dataset.showingTranslated = !showingTranslated;
+                icon.classList.remove(showingTranslated ? "translated" : "original");
+                icon.classList.add(showingTranslated ? "original" : "translated");
+            });
+            msgElem.appendChild(icon);
+        }
+    }
+
+    detectAndLinkGameCodes(msgElem) {
+        const replaceGameCodes = (text) => {
+            return text.replace(/#?([A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4})\b/g, (match, code) => {
+                const upperCode = code.toUpperCase();
+                const display = match.startsWith('#') ? `#${upperCode}` : upperCode;
+                return `<span class="game-code-link" onclick="vueApp.leaveGameToJoinOther('${upperCode}');">${display}</span>`;
+            });
+        };
+        const spans = msgElem.querySelectorAll('span');
+        const textSpan = spans[spans.length - 1];
+        if (textSpan?.innerHTML) textSpan.innerHTML = replaceGameCodes(textSpan.innerHTML);
+        ['original', 'translated'].forEach(key => {
+            const text = msgElem.dataset[key];
+            if (text) msgElem.dataset[key] = replaceGameCodes(text);
+        });
+    }
+
+    highlightBlacklist(input, blacklistFunc) {
+        const n = input.length;
+        const allRanges = [];
+
+        // Find all blacklisted substrings
+        for (let start = 0; start < n; start++) {
+            for (let end = start + 1; end <= n; end++) {
+            const substr = input.slice(start, end);
+            if (blacklistFunc(substr)) {
+                allRanges.push([start, end]);
+            }
+            }
+        }
+
+        // Sort by start ascending, then length ascending
+        allRanges.sort((a, b) => {
+            if (a[0] !== b[0]) return a[0] - b[0];
+            return (a[1] - a[0]) - (b[1] - b[0]);
+        });
+
+        // Filter out any range fully containing another
+        const filtered = [];
+        for (let i = 0; i < allRanges.length; i++) {
+            const [startI, endI] = allRanges[i];
+            let isContained = false;
+            for (let j = 0; j < allRanges.length; j++) {
+            if (i === j) continue;
+            const [startJ, endJ] = allRanges[j];
+            if (startI <= startJ && endI >= endJ && (startI !== startJ || endI !== endJ)) {
+                isContained = true;
+                break;
+            }
+            }
+            if (!isContained) filtered.push(allRanges[i]);
+        }
+
+        // Merge overlapping or adjacent filtered ranges
+        filtered.sort((a, b) => a[0] - b[0]);
+        const merged = [];
+        for (const [start, end] of filtered) {
+            if (merged.length === 0 || merged[merged.length - 1][1] < start) {
+            merged.push([start, end]);
+            } else {
+            merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], end);
+            }
+        }
+
+        // Build result string with <b> tags
+        let result = '';
+        let lastIdx = 0;
+        for (const [start, end] of merged) {
+            result += input.slice(lastIdx, start);
+            result += `<span class="chat-highlight">${input.slice(start, end)}</span>`;
+            lastIdx = end;
+        }
+        result += input.slice(lastIdx);
+
+        return result;
     }
 }
 
@@ -4823,11 +5241,12 @@ class LegacyMode {
         }, 250);
         
         // TODO: Fix This (bugs on startup when defaults are equipped)
+        // setTimetout is a temp fix, find better fix later
         const skinsInterval = setInterval(() => {
             if (extern.account && extern.account.colorIdx == null) return;
             clearInterval(skinsInterval);
             vueApp.$refs.equipScreen.equipped = extern.account.getEquippedItems();
-            if (extern.modSettingEnabled("legacyMode")) this.switchLegacySkins(extern.modSettingEnabled("legacyMode_skins"));
+            if (extern.modSettingEnabled("legacyMode")) setTimeout(this.switchLegacySkins, 500, extern.modSettingEnabled("legacyMode_skins"));
         }, 250);
     }
 
@@ -5474,29 +5893,29 @@ Object.assign(unsafeWindow, {
 Object.assign(unsafeWindow, {
     ChatEventData: {
         [ChatEvent.joinGame]: {
-            locKey: 'megaMod_betterUI_chatEvent_joinGame',
+            locKey: 'megaMod_betterChat_chatEvent_joinGame',
             iconClass: "fas6 fa-person-running-fast",
-            setting: 'betterUI_chatEvent_joinGame'
+            setting: 'betterChat_chatEvent_joinGame'
         },
         [ChatEvent.leaveGame]: {
-            locKey: 'megaMod_betterUI_chatEvent_leaveGame',
+            locKey: 'megaMod_betterChat_chatEvent_leaveGame',
             iconClass: "fas6 fa-person-running-fast fa-flip-horizontal",
-            setting: 'betterUI_chatEvent_leaveGame'
+            setting: 'betterChat_chatEvent_leaveGame'
         },
         [ChatEvent.switchTeam]: {
-            locKey: 'megaMod_betterUI_chatEvent_switchTeam',
+            locKey: 'megaMod_betterChat_chatEvent_switchTeam',
             iconClass: "fas6 fa-sync",
-            setting: 'betterUI_chatEvent_switchTeam'
+            setting: 'betterChat_chatEvent_switchTeam'
         },
         [ChatEvent.pickSpatula]: {
-            locKey: 'megaMod_betterUI_chatEvent_pickSpatula',
+            locKey: 'megaMod_betterChat_chatEvent_pickSpatula',
             iconClass: "fas6 fa-fork",
-            setting: 'betterUI_chatEvent_pickSpatula'
+            setting: 'betterChat_chatEvent_pickSpatula'
         },
         [ChatEvent.dropSpatula]: {
-            locKey: 'megaMod_betterUI_chatEvent_dropSpatula',
+            locKey: 'megaMod_betterChat_chatEvent_dropSpatula',
             iconClass: "fas6 fa-fork",
-            setting: 'betterUI_chatEvent_dropSpatula'
+            setting: 'betterChat_chatEvent_dropSpatula'
         }
     },
     BadgeMsgTypeData: {

@@ -110,23 +110,6 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >       - Adjusted Create Private Game Popup Alignments
 > >       - Fixed Slightly Taller Challenge Box
 > >       - Stretched Chick'n Winner Bar (on Despawn Menu) to fix text wrap (and for better looks ofc)
-> >    - Added Icons to challenges to show if they're unique or already completed
-> >    - Restyled Challenge "Claimed" Banner to match checkmark banner
-> >      <details>
-> >      <summary>Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
-> >       
-> >      ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
-> >      </details>
-> > 
-> >   - Added missing clock icon next to challenge timer on home screen
-> >   - Added claim sound effect when claiming challenges 
-> >   - Added claim sound effect when auto-claiming challenges through notification popup
-> >   - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
-> >     <details>
-> >     <summary>Challenge Info Popup (Image)</summary>
-> >     
-> >     ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
-> >     </details>
 > >
 > >   - Added Button (on Home Screen) and Popup to Show Current Public Map Pool
 > >     <details>
@@ -148,6 +131,22 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >     - Profile Stats Values
 > >     - Egg Reward Amounts
 > >     - etc.
+> >   - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
+> >   - Server Select dropdown is back on the Home Screen!
+> >   - Restyled Join Code Input to work better with the new game code format (WORD-WORD-WORD)
+> >     - Detects and fills in the code when pasting a full game link
+> >     - Autofills observe toggle and watchPlayer info (Eggforcers Only)
+> >     <details>
+> >     <summary>New Code Input (Image)</summary>
+> >     
+> >     ![New Code Input](img/docs/betterUI/misc/New%20Code%20Input.png)
+> >     </details>
+> </details>
+> 
+> - **Chick'n Winner Upgrades**: Adds various upgrades to Chick'n Winner.
+> <details>
+> <summary>More Info</summary>
+> 
 > >   - Chick'n Winner now shows when you pull an item you already own.
 > >   - Fixed Chick'n Winner egg icon not being on the same line as egg reward amount
 > >     <details>
@@ -155,11 +154,31 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >     
 > >     ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
 > >     </details>
-> >
-> >   - The Chick'n Winner Popup can only be closed after you get your reward  - no more accidental closures!
-> >   - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
-> >   - Server Select dropdown is back on the Home Screen!
-> >
+> >   
+> >   - The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!
+> </details>
+> 
+> - **Challenge Upgrades**: Adds various upgrades to Challenges.
+> <details>
+> <summary>More Info</summary>
+> 
+> >   - Added Icons to challenges to show if they're unique or already completed
+> >   - Restyled Challenge "Claimed" Banner to match checkmark banner
+> >     <details>
+> >     <summary>Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
+> >      
+> >     ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
+> >     </details>
+> >   
+> >   - Added missing clock icon next to challenge timer on home screen
+> >   - Added claim sound effect when claiming challenges 
+> >   - Added claim sound effect when auto-claiming challenges through notification popup
+> >   - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
+> >    <details>
+> >    <summary>Challenge Info Popup (Image)</summary>
+> >     
+> >    ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
+> >    </details>
 > </details>
 > 
 > - **Better Inventory**
@@ -201,12 +220,24 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >    
 > >   ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
 > >   </details>
+> > - Code Cracked popup is themed to match the item theme of the cracked item
+> >   <details>
+> >   <summary>Themed Code Cracked Popup (Image)</summary>
+> >    
+> >   ![Item Themes](img/docs/betterUI/inventory/Code%20Cracked.png)
+> >   </details>
+> > - Chick'n Winner popup is themed to match the item theme of the cracked item (after you reveal the item)
+> >   <details>
+> >   <summary>Themed Chick'n Winner Popup (Image)</summary>
+> >    
+> >   ![Item Themes](img/docs/betterUI/inventory/Chick'n%20Winner.png)
+> >   </details>
 > > 
 > > - __Changed Item Sorting Order__:
-> >   1. Premium ($)
-> >   2. Premium (Eggs)
-> >   3. VIP
-> >   4. Bundle
+> >   1. Bundle
+> >   2. Premium (Money)
+> >   3. Premium (Golden Eggs)
+> >   4. VIP
 > >   5. Merch
 > >   6. Twitch Drops
 > >   7. New Yolker
@@ -249,7 +280,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   - Server Select dropdown is back on the home screen!
 > </details>
 > 
-> - **Profile Picture & Badges**
+> - **Better Profile**
 > <details>
 > <summary>More Info</summary>
 > 
@@ -280,8 +311,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >       | OG Player            | Account Created in 2019 or Earlier                      |
 > >       | Pandemic Player      | Account Created in 2020                                 |
 > >       | Farm-Fresh Player    | Account less than a month old                           |
-> >       | Eggcellent Hatchday! | Account Created in 2020                                 |
-> >       | MegaMod Playtester   | Today is your account's birthday!                       |
+> >       | Eggcellent Hatchday! | Today is your account's birthday!                       |
+> >       | MegaMod Playtester   | Helped playtest The MegaMod before its release - tysm!  |
 > >     - Event Badges (9):
 > >       | Badge Name           | Description                                                                |
 > >       | -------------------- | -------------------------------------------------------------------------- |
@@ -303,7 +334,8 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >       - YouTube
 > >       - Twitter (X)
 > >       - Twitch
-> >  - Tier Badges (18 Unique, 88 Total):
+> >     
+> >   - Tier Badges (18 Unique, 88 Total):
 > >     > The highest tier of a particular badge is displayed on your profile
 > >  
 > >     | Badge Name           | Description                                | Tier Requirements |
@@ -341,32 +373,55 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - **MOAR Colored UI**: Adds a splash of color to buttons and icons such as the News Tabs and social media footer icons.
 > 
 > - **Yellow Hit Markers**: Makes the hit markers yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
+</details>
+
+<details>
+<summary>Better Chat</summary>
+ 
+> > Various Upgrades & Additions to In-Game Chat.
+> ### **Settings**:
+> - **Chat Icons**: Added Icons next to to MOD, SERVER, ANNOUNCEMENT, and Chat Event messages.
+>   <details>
+>   <summary>Chat Icons (Image)</summary>
+>   
+>   ![Chat Icons](img/docs/betterChat/Chat%20Icons.png)
+>   </details>
 > 
-> - **Chat Upgrades**: Various Upgrades & Additions to In-Game Chat.
-> <details>
-> <summary>More Info</summary>
+> - **Longer Chat**: Increases the visible chat message limit from 5 to 7 messages
 > 
-> > - Increased Chat History from 5 to 7 messages
-> > - Added Icons next to to MOD, SERVER, and ANNOUNCEMENT Chat messages
-> >   <details>
-> >   <summary>Chat Icons (Image)</summary>
-> >   
-> >   ![Chat Icons](img/docs/betterUI/chat/Chat%20Icons.png)
-> >   </details>
-> > 
-> > - **Chat Events Added to Chat**:
-> >   - Join Game - _PLAYER_ joined the game.
-> >   - Leave Game - _PLAYER_ left the game.
-> >   - Switch Team - _PLAYER_ switched to BLUE/RED team.
-> >   - Pick Up Spatula - _PLAYER_ picked up the spatula.
-> >   - Drop Spatula - _PLAYER_ dropped the spatula.
-> >   <details>
-> >   <summary>Chat Events (Image)</summary>
-> >   
-> >   ![Chat Events](img/docs/betterUI/chat/Chat%20Events.png)
-> >   </details>
-> > - **Infinite Chat History**: Removes the chat message limit, allowing you to scroll through all of the messages sent after you joined a game.
-> </details>
+> - **Infinite Chat History**: Removes the chat history limit, allowing you to scroll through all of the messages sent after you joined a game.
+> 
+> - **Chat Translator**: Translates chat messages into the language you're using for Shell Shockers with a toggle to switch between translated and original.
+>   <details>
+>   <summary>Chat Translator UI (Image)</summary>
+>   
+>   ![Chat Translator](img/docs/betterChat/Auto%20Translate.png)
+>   </details>
+>
+> - **Auto-Translate Chat**: Automatically translates incoming chat messages by default.
+>
+> - **Detect Game Codes**: Lets you click on game codes in chat messages to join them.
+>   <details>
+>   <summary>Detect Game Codes UI (Image)</summary>
+>   
+>   ![Detect Game Codes](img/docs/betterChat/Detected%20Codes.png)
+>   ![Leave Game Popup](img/docs/betterChat/Leave%20Game%20Popup.png)
+>   </details>
+> 
+> - **Chat Events**: Adds messages in chat for different player events (below):
+>     > (each Chat Event has its own dedicated setting to enable/disable it)
+>   - **Chat Events Added to Chat**:
+>     - Join Game - _PLAYER_ joined.
+>     - Leave Game - _PLAYER_ left.
+>     - Switch Team - _PLAYER_ switched to BLUE/RED team.
+>     - Pick Up Spatula - _PLAYER_ picked up the spatula.
+>     - Drop Spatula - _PLAYER_ dropped the spatula.
+>     <details>
+>     <summary>Chat Events (Image)</summary>
+>   
+>     ![Chat Events](img/docs/betterChat/Chat%20Events.png)
+>     </details>
+
 </details>
 
 <details>
@@ -619,6 +674,11 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - **Toggle ESP**: Sets the keybind to toggle on/offf Spectate-Only ESP.
 > - **Auto Ban**: Auto-bans users with names/uniqueIDs that match the ones in the list.
 > - **Name / UniqueID List**: Allows you to enter names/uniqueIDs to auto-ban.
-> - **Disable Chat Filter**: Disables the Chat Filter and makes inappropriate chat messages red.
+> - **Disable Chat Filter**: Disables the Chat Filter and makes inappropriate chat messages red, highlighting the innapropriate parts.
+>   <details>
+>   <summary>Disabled Chat Filter (Image)</summary>
+>   
+>   ![Disabled Chat Filter](img/docs/betterEggforce/Disabled%20Chat%20Filter.png)
+>   </details>
 
 </details>

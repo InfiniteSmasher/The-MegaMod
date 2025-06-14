@@ -73,56 +73,116 @@
 		"defaultVal": true,
 		"settings": [
 			{
+				"id": "betterUI_ui",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_ui",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_inventory",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_inventory",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_profile",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_profile",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_roundness",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_roundness",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_colors",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_colors",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_hitMarkers",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_hitMarkers",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_cw",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_cw",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_chlg",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_chlg",
+				"defaultVal": true
+			}
+		]
+	},
+	{
+		"id": "betterChat",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_betterChat",
+		"defaultVal": true,
+		"settings": [
+			{
 				"type": 4,
 				"active": true,
 				"settings": [
 					{
-						"id": "betterUI_ui",
+						"id": "betterChat_chatIcons",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_ui",
+						"locKey": "p_settings_mods_betterChat_chatIcons",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_inventory",
+						"id": "betterChat_longerChat",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_inventory",
+						"locKey": "p_settings_mods_betterChat_longerChat",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_pfp",
+						"id": "betterChat_infChat",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_pfp",
+						"locKey": "p_settings_mods_betterChat_infChat",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_badges",
+						"id": "betterChat_translateChat",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_badges",
+						"locKey": "p_settings_mods_betterChat_translateChat",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_roundness",
+						"id": "betterChat_autoTranslate",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_roundness",
+						"parentId": "betterChat_translateChat",
+						"showCondition": "extern.modSettingEnabled('betterChat_translateChat', true)",
+						"locKey": "p_settings_mods_betterChat_autoTranslate",
 						"defaultVal": true
 					},
 					{
-						"id": "betterUI_colors",
+						"id": "betterChat_detectCodes",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_colors",
-						"defaultVal": true
-					},
-					{
-						"id": "betterUI_hitMarkers",
-						"type": 1,
-						"active": true,
-						"locKey": "p_settings_mods_betterUI_hitMarkers",
+						"locKey": "p_settings_mods_betterChat_detectCodes",
 						"defaultVal": true
 					}
 				]
@@ -132,59 +192,56 @@
 				"active": true,
 				"settings": [
 					{
-						"id": "betterUI_chat",
+						"id": "betterChat_chatEvents",
 						"type": 1,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_chat",
-						"defaultVal": true
-					},
-					{
-						"id": "betterUI_infChat",
-						"type": 1,
-						"active": true,
-						"locKey": "p_settings_mods_betterUI_infChat",
-						"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+						"locKey": "p_settings_mods_betterChat_chatEvents",
 						"defaultVal": true
 					},
 					{
 						"type": 4,
 						"active": true,
-						"locKey": "p_settings_mods_betterUI_chatEvents",
-						"showCondition": "extern.modSettingEnabled('betterUI_chat', true)",
+						"locKey": "p_settings_mods_betterChat_chatEvents",
+						"showCondition": "extern.modSettingEnabled('betterChat_chatEvents', true)",
 						"settings": [
 							{
-								"id": "betterUI_chatEvent_joinGame",
+								"id": "betterChat_chatEvent_joinGame",
 								"type": 1,
 								"active": true,
-								"locKey": "p_settings_mods_betterUI_chatEvent_joinGame",
+								"parentId": "betterChat_chatEvents",
+								"locKey": "p_settings_mods_betterChat_chatEvent_joinGame",
 								"defaultVal": true
 							},
 							{
-								"id": "betterUI_chatEvent_leaveGame",
+								"id": "betterChat_chatEvent_leaveGame",
 								"type": 1,
 								"active": true,
-								"locKey": "p_settings_mods_betterUI_chatEvent_leaveGame",
+								"parentId": "betterChat_chatEvents",
+								"locKey": "p_settings_mods_betterChat_chatEvent_leaveGame",
 								"defaultVal": true
 							},
 							{
-								"id": "betterUI_chatEvent_switchTeam",
+								"id": "betterChat_chatEvent_switchTeam",
 								"type": 1,
 								"active": true,
-								"locKey": "p_settings_mods_betterUI_chatEvent_switchTeam",
+								"parentId": "betterChat_chatEvents",
+								"locKey": "p_settings_mods_betterChat_chatEvent_switchTeam",
 								"defaultVal": true
 							},
 							{
-								"id": "betterUI_chatEvent_pickSpatula",
+								"id": "betterChat_chatEvent_pickSpatula",
 								"type": 1,
 								"active": true,
-								"locKey": "p_settings_mods_betterUI_chatEvent_pickSpatula",
+								"parentId": "betterChat_chatEvents",
+								"locKey": "p_settings_mods_betterChat_chatEvent_pickSpatula",
 								"defaultVal": true
 							},
 							{
-								"id": "betterUI_chatEvent_dropSpatula",
+								"id": "betterChat_chatEvent_dropSpatula",
 								"type": 1,
 								"active": true,
-								"locKey": "p_settings_mods_betterUI_chatEvent_dropSpatula",
+								"parentId": "betterChat_chatEvents",
+								"locKey": "p_settings_mods_betterChat_chatEvent_dropSpatula",
 								"defaultVal": true
 							}
 						]

@@ -189,140 +189,9 @@ input[type='range']::-webkit-slider-thumb {
 	transform: rotate(-45deg);
 }
 
-
-/* Fix Challenge Height Change After Reroll */
-.player-challenge-single-content .display-grid.grid-column-2-eq {
-	 min-height: 1.5em;
-}
-
-/* Challenge Status Icon */
-.player-challenge-single .player-challenge-tool-tip.status {
-	display: block;
-}
-
-/* Challenge Status Icon */
-.player-challenge-single .challenge-status {
-	position: absolute;
-	color: var(--ss-blue5);
-	right: 11.3em;
-}
-
-.player-challenge-single:not(.claimed) .challenge-status,
-#respawn-menu .player-challenge-single:not(.claimed) .challenge-status {
-	top: .35em;
-}
-
-.player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text,
-#respawn-menu .player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text {
-	top: 0em;
-}
-
-.player-challenge-single.claimed .challenge-status {
-	 top: .65em;
-}
-
-.player-challenge-tool-tip.status .tool-tip-text {
-	top: .25em;
-	right: 2.4em;
-}
-
-#respawn-menu .player-challenge-single:not(.claimed) .challenge-status {
-	left: 5.75em;
-}
-
-#respawn-menu .player-challenge-single.claimed .challenge-status {
-	top: .7em;
-	right: 12.8em;
-}
-
-#respawn-menu .player-challenge-single:not(.claimed) .player-challenge-tool-tip.status .tool-tip-text,
-#respawn-menu .player-challenge-single.claimed .player-challenge-tool-tip.status .tool-tip-text {
-	right: 4.2em;
-}
-
-#respawn-menu .player-challenge-single.claimed .player-challenge-tool-tip.status .tool-tip-text {
-	top: .3em;
-}
-
-.player-challenge-tool-tip.status .tool-tip > span:after,
-.player-challenge-tool-tip.status .tool-tip div.tool-tip--bubble:after {
-	filter: drop-shadow(3px 1px 0 var(--ss-blue4));
-	transform: rotate(90deg);
-	left: -.8rem;
-	top: auto;
-	bottom: .6rem;
-}
-
-.player-challenge-tool-tip.status .tool-tip > span,
-.player-challenge-tool-tip.status .tool-tip div.tool-tip--bubble{
-	color: var(--ss-blue4);
-	box-shadow: 0.1em 0.2em 0em 0.1em var(--ss-blue4);
-}
-
-/* Challenge Container Height Fix */
-.media-tabs-wrapper {
-	height: 19.2em;
-}
-
-.player-challenges-aside .news-container {
-	min-height: 12em;
-}
-
 /* Slightly Longer Stats Container */
 .stats-container {
 	max-height: 28.75em !important;
-}
-
-#challengeInfoPopup .table-div {
-	max-height: 30em;
-}
-
-#challengeInfoPopup td img {
-	 width: 4em;
-}
-
-#challengeInfoPopup .egg-icon {
-	 margin-top: 0em !important;
-}
-
-#challengeInfoPopup tbody tr td:not(:nth-child(3), :nth-child(4)) {
-	 text-align: center;
-}
-
-#challengeInfoPopup .egg-icon img {
-	 width: 1em;
-	 margin-right: .2em;
-}
-
-#challengeInfoPopup p {
-	 margin-top: .75em;
-}
-
-#challengeInfoPopup h3 {
-	 margin-top: 0em;
-}
-
-.media-tab-challenges .info-btn {
-	 color: var(--ss-white);
-}
-
-.secondary-aside .info-btn,
-.secondary-aside .info-btn:hover {
-	 color: var(--ss-vip-yellow);
-}
-
-.player-challenges-aside:not(:hover) .info-btn,
-.secondary-aside:not(:hover) .info-btn {
-	animation: icon-alert-idle 10s infinite;
-}
-
-/* Challenge "Claimed" Banner */
-.player-challenge-single-action-claimed {
-	 background: var(--ss-pink);
-}
-.player-challenge-claimed {
-	 color: var(--ss-vip-yellow) !important;
-	 text-shadow: var(--ss-space-micro) var(--ss-space-micro) var(--ss-blue5);
 }
 
 /* So the chick img doesn't get in the way of info button hitbox */
@@ -401,11 +270,6 @@ input[type='range']::-webkit-slider-thumb {
 .chw-reward-amount {
     width: 18em;
     margin-left: -2em !important;
-}
-
-/* Chick'n Winner Owned Item */
-.chw-reward-amount.ownedItem h2 {
-    bottom: .2em;
 }
 
 .game_code {

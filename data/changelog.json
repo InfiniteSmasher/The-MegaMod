@@ -1,6 +1,28 @@
 {
 	"current": [
 		{
+			"version": "0.31",
+			"date": "June 14 2025",
+			"content": [
+				"<b>[MegaMod Settings]</b> Reload Required Popup now shows which settings require a reload",
+      		    "<b>[Better UI: Better Inventory]</b> Premium Items that are only obtainable through bundles now have the Bundle item theme",
+				"<b>[Better UI: Better Inventory]</b> Tweaked item sorting order so Bundle Items are now above Premium Items",
+				"<b>[Better UI: Better Inventory]</b> Added Item Theme Info Popup, opened by clicking the item theme icon on a selected item",
+				"<b>[Better UI: Better Inventory]</b> Code Cracked popup now matches the item theme of the redeemed item",
+				"<b>[Better UI: Better Inventory]</b> Chick'n Winner popup now matches the item theme of the rewarded item or owned item (after you reveal the item)",
+				"<b>[Better UI]</b> Merged Profile Badges and Profile Picture into one setting: Better Profile",
+				"<b>[Better UI]</b> More Settings! Separated Chick'n Winner and Challenge Upgrades from General UI Tweaks",
+				"<b>[Better UI]</b> All the chat features have moved to a separate mod, <b>Better Chat</b>!",
+				"<b>[Better Chat: Chat Icons]</b> Created separate setting for chat icons",
+				"<b>[Better Chat: Chat Translator]</b> Introducing the Translate feature for chat messages (ty Google Translate)!",
+				"<b>[Better Chat: Detect Game Codes]</b> Game codes in chat messages are now clickable!",
+				"<b>[Better Chat: Chat Events]</b> Shortened player join/leave message.",
+				"<b>[Better Eggforce: Disable Chat Filter]</b> Blacklisted chat messages now highlight what parts of the message are blacklisted."
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.30",
 			"date": "June 1 2025",
 			"content": [
@@ -17,9 +39,7 @@
 				"<b>[Custom Skybox]</b> You can now see a small preview of the selected skybox in settings",
 				"<b>[Custom Fog]</b> Added Randomize Fog setting to randomize the fog density and color each time you enter a game"
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.29",
 			"date": "May 15 2025",
