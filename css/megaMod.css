@@ -815,6 +815,11 @@
   opacity: 1;
 }
 
+/* Fix Chat Event Visibility */
+.chat-event {
+    display: inherit !important;
+}
+
 /* Chat Blacklist Highlight */
 .chat-highlight {
 	color: red;

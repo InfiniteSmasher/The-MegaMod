@@ -201,6 +201,7 @@
 					{
 						"type": 4,
 						"active": true,
+						"parentId": "betterChat_chatEvents",
 						"locKey": "p_settings_mods_betterChat_chatEvents",
 						"showCondition": "extern.modSettingEnabled('betterChat_chatEvents', true)",
 						"settings": [
@@ -208,7 +209,6 @@
 								"id": "betterChat_chatEvent_joinGame",
 								"type": 1,
 								"active": true,
-								"parentId": "betterChat_chatEvents",
 								"locKey": "p_settings_mods_betterChat_chatEvent_joinGame",
 								"defaultVal": true
 							},
@@ -216,7 +216,6 @@
 								"id": "betterChat_chatEvent_leaveGame",
 								"type": 1,
 								"active": true,
-								"parentId": "betterChat_chatEvents",
 								"locKey": "p_settings_mods_betterChat_chatEvent_leaveGame",
 								"defaultVal": true
 							},
@@ -224,7 +223,6 @@
 								"id": "betterChat_chatEvent_switchTeam",
 								"type": 1,
 								"active": true,
-								"parentId": "betterChat_chatEvents",
 								"locKey": "p_settings_mods_betterChat_chatEvent_switchTeam",
 								"defaultVal": true
 							},
@@ -232,7 +230,6 @@
 								"id": "betterChat_chatEvent_pickSpatula",
 								"type": 1,
 								"active": true,
-								"parentId": "betterChat_chatEvents",
 								"locKey": "p_settings_mods_betterChat_chatEvent_pickSpatula",
 								"defaultVal": true
 							},
@@ -240,7 +237,6 @@
 								"id": "betterChat_chatEvent_dropSpatula",
 								"type": 1,
 								"active": true,
-								"parentId": "betterChat_chatEvents",
 								"locKey": "p_settings_mods_betterChat_chatEvent_dropSpatula",
 								"defaultVal": true
 							}
