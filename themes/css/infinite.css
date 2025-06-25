@@ -634,3 +634,28 @@ h1:not(.text_blue5),
 .vault-txt {
 	color: var(--ss-white) !important;
 }
+
+.translate-icon.translated {
+    color: var(--ss-blue2);
+}
+
+#shareLinkPopup h1.text_gold,
+#gameOptionsPopup h1.display-inline {
+    color: var(--ss-blue2) !important;
+}
+
+#price_tag .ss_button {
+    border-color: var(--ss-blue5);
+}
+
+.game-mode-0 .chat-icon,
+.game-mode-0 .chat-player-name,
+.game-mode-0 #killTicker.chat span {
+	color: var(--ss-blue2) !important;
+}
+.game-mode-0 #killTicker span svg {
+	fill: var(--ss-blue2);
+}
+.game-mode-0 #killTicker.chat:not(span) {
+	color: var(--ss-blue5) !important;
+}

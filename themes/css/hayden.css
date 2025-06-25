@@ -443,3 +443,15 @@
 .spinner-tips.LoadingMsgs p {
 	color: orange !important;
 }
+
+.translate-icon {
+    color: var(--ss-blue2);
+}
+.translate-icon.translated {
+    color: var(--ss-blue5);
+}
+
+#shareLinkPopup h1.text_gold,
+#gameOptionsPopup h1.display-inline {
+    color: var(--ss-blue5) !important;
+}

@@ -127,6 +127,20 @@
 				"active": true,
 				"locKey": "p_settings_mods_betterUI_chlg",
 				"defaultVal": true
+			},
+			{
+				"id": "betterUI_weapons",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_weapons",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_distance",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_distance",
+				"defaultVal": true
 			}
 		]
 	},

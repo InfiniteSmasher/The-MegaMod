@@ -98,3 +98,7 @@
 	border-bottom-left-radius: var(--ss-space-lg) !important;
 	border-bottom-right-radius: var(--ss-space-lg) !important;
 }
+
+#killTicker .weapon-icon {
+	border-radius: 50% !important;
+}

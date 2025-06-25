@@ -1,6 +1,22 @@
 {
 	"current": [
 		{
+			"version": "0.32",
+			"date": "June 25 2025",
+			"content": [
+				"<b>[Better Chat: Detect Game Codes]</b> Fixed bug with player popup opening when game codes were clicked.",
+				"<b>[Better UI: Better Inventory]</b> Fixed bug with VIP item reward not showing on VIP item popup.",
+				"<b>[Better UI: Better Inventory]</b> Bundle and VIP Notification popups have been tweaked to match their item themes.",
+				"<b>[Better UI: Player Weapon Icons]</b> Scoreboard now shows the primary weapons used by players.",
+				"<b>[Better UI: Player Weapon Icons]</b> Kill Feed now show the primary weapons (or pistol) used by players.",
+				"<b>[Better UI: Kill Distance]</b> Shows the kill distance next to kills in the Kill Feed.",
+				"<b>[Theme Manager]</b> Infinite, Graysocean, Boolet themes now change name colors in Chat and Kill Feed in FFA.",
+				"<b>[Better Eggforce: Disable Chat Filter]</b> Minor bugfix - MOD messages don't show up as blocked."
+			]
+		}
+	],
+	"old": [
+		{
 			"version": "0.31",
 			"date": "June 14 2025",
 			"content": [
@@ -19,9 +35,7 @@
 				"<b>[Better Chat: Chat Events]</b> Shortened player join/leave message.",
 				"<b>[Better Eggforce: Disable Chat Filter]</b> Blacklisted chat messages now highlight what parts of the message are blacklisted."
 			]
-		}
-	],
-	"old": [
+		},
 		{
 			"version": "0.30",
 			"date": "June 1 2025",

@@ -361,7 +361,6 @@
 }
 
 /* Chat Upgrade Icons */
-.chat-event,
 .chat-icon {
 	display: none;
 }
@@ -596,62 +595,62 @@
 
 /* Container for tag area and input */
 .tag-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  	display: flex;
+  	flex-direction: column;
+  	gap: 8px;
 }
 
 /* Scrollable tag area */
 .tag-box {
-  border-radius: var(--ss-space-lg) !important;
-  border: var(--ss-common-border-width) solid var(--ss-blue5) !important;
-  background: var(--ss-blue1);
-  padding: 5px;
-  max-height: 120px;
-  overflow-y: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  cursor: text;
-  margin-right: .7em;
+  	border-radius: var(--ss-space-lg) !important;
+  	border: var(--ss-common-border-width) solid var(--ss-blue5) !important;
+  	background: var(--ss-blue1);
+  	padding: 5px;
+  	max-height: 120px;
+  	overflow-y: auto;
+  	display: flex;
+  	flex-wrap: wrap;
+  	gap: 4px;
+  	cursor: text;
+  	margin-right: .7em;
 }
 
 /* Individual tag */
 .tag {
-  background: var(--ss-blue3);
-  color: white;
-  padding: 2px 6px;
-  border-radius: var(--ss-space-md);
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  	background: var(--ss-blue3);
+  	color: white;
+  	padding: 2px 6px;
+  	border-radius: var(--ss-space-md);
+  	font-size: 13px;
+  	display: inline-flex;
+  	align-items: center;
+  	gap: 6px;
 }
 
 /* Trash icon and label */
 .tag-label {
-  display: inline-block;
+  	display: inline-block;
 }
 
 .tag-remove {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
+  	cursor: pointer;
+  	display: inline-flex;
+  	align-items: center;
 }
 
 .tag-remove i {
-  font-size: 0.7em;
-  color: var(--ss-white);
+  	font-size: 0.7em;
+  	color: var(--ss-white);
 }
 
 .tag-remove i:hover {
-  color: var(--ss-red);
+  	color: var(--ss-red);
 }
 
 /* Disabled style */
 .tag-box.disabled {
-  pointer-events: none;
-  opacity: 0.6;
+  	pointer-events: none;
+  	opacity: 0.6;
 }
 
 .tag-input {
@@ -738,86 +737,81 @@
 }
 
 .pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
+	display: flex;
+  	justify-content: center;
+ 	align-items: center;
+  	gap: 0.75rem;
+  	margin-top: 1rem;
 }
 
 .pagination-button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: var(--ss-blue5);
-  scale: 1.3;
+  	background: none;
+  	border: none;
+  	font-size: 1.2rem;
+  	cursor: pointer;
+  	color: var(--ss-blue5);
+  	scale: 1.3;
 }
 
 .pagination-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  	opacity: 0.4;
+  	cursor: not-allowed;
 }
 
 .dot-icon {
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: var(--ss-blue5);
+  	cursor: pointer;
+  	font-size: 1.1rem;
+  	color: var(--ss-blue5);
 }
 
 .pagination-button i,
 .dot-icon i {
-  transition: transform 0.2s;
+  	transition: transform 0.2s;
 }
 
 .dot-icon:hover i:not(.selected) {
-  transform: scale(1.1);
-  color: var(--ss-yolk);
+  	transform: scale(1.1);
+  	color: var(--ss-yolk);
 }
 
 .pagination-button:not(:disabled):hover i {
-  transform: scale(1.2);
-  color: var(--ss-white);
+  	transform: scale(1.2);
+  	color: var(--ss-white);
 }
 
 .dot-icon .selected {
-  color: var(--ss-yolk);
+  	color: var(--ss-yolk);
 }
 
 
 .slide-left-enter-active, .slide-left-leave-active,
 .slide-right-enter-active, .slide-right-leave-active {
-  transition: all 0.3s ease;
-  width: 100%;
+  	transition: all 0.3s ease;
+  	width: 100%;
 }
 
 .slide-left-enter-from {
-  transform: translateX(100%);
-  opacity: 0;
+  	transform: translateX(100%);
+  	opacity: 0;
 }
 .slide-left-leave-to {
-  transform: translateX(-100%);
-  opacity: 0;
+  	transform: translateX(-100%);
+  	opacity: 0;
 }
 
 .slide-right-enter-from {
-  transform: translateX(-100%);
-  opacity: 0;
+  	transform: translateX(-100%);
+  	opacity: 0;
 }
 .slide-right-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
+  	transform: translateX(100%);
+  	opacity: 0;
 }
 
 .slide-left-enter-to, .slide-left-leave-from,
 .slide-right-enter-to, .slide-right-leave-from {
-  transform: translateX(0%);
-  opacity: 1;
-}
-
-/* Fix Chat Event Visibility */
-.chat-event {
-    display: inherit !important;
+  	transform: translateX(0%);
+  	opacity: 1;
 }
 
 /* Chat Blacklist Highlight */
@@ -858,4 +852,10 @@
 /* Chick'n Winner Owned Item */
 .chw-reward-amount.ownedItem h2 {
     bottom: .2em;
+}
+
+/* Player List/Kill Feed Weapon Icons & Kill Distance - Hidden by default */
+.kill-dist,
+.weapon-icon {
+	display: none;
 }

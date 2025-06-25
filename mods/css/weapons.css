@@ -1,0 +1,30 @@
+#killTicker {
+    line-height: 1.5em;
+}
+
+#killTicker .weapon-icon {
+    display: inline-block; 
+    vertical-align: middle; 
+    height: 1.5em;
+    width: 1.5em;
+    fill: currentColor;
+    margin-top: -4px;
+    filter: drop-shadow(1.2px 1.2px 0 rgba(0, 0, 0, 0.35));
+    /*
+    padding: .15em;
+    border: 1.5px solid currentColor;
+    border-radius: var(--ss-space-md);
+    */
+}
+.playerSlot--name-score {
+    width: 12.5em;
+}
+
+#playerSlot .weapon-icon {
+    display: inline-block; 
+    vertical-align: middle; 
+    margin-top: -4px;
+    height: 1em;
+    width: 1em;
+    fill: currentColor;
+}

@@ -653,3 +653,11 @@ color: #663ac9 !important;
 .game_code_inputs .game_code:focus {
     background: var(--ss-yolk) !important;
 }
+
+.translate-icon {
+    color: var(--ss-blue3);
+}
+
+.translate-icon.translated {
+    color: var(--ss-blue2);
+}

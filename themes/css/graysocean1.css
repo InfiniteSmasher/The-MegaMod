@@ -32,7 +32,7 @@
 	--ss-red-btn-outline: #022741;
 
 	--ss-lightoverlay: url('https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/themes/img/graysocean/bg1.jpeg');
-	--ss-me-player-bg: linear-gradient(to right, #022741, #0584a4, #09c9d8);
+	--ss-me-player-bg: linear-gradient(to right, var(--ss-blue5), var(--ss-blue3), var(--ss-blue2));
 
 	/* shadows */
 	--ss-box-shadow-1:  .16em .16em 0 #0227417d;
@@ -205,7 +205,7 @@
 .bevel_red {
 	box-shadow: 
 		var(--ss-box-shadow-1),
-		var(--ss-btn-dark-bevel) #022741,
+		var(--ss-btn-dark-bevel) var(--ss-blue5),
 		var(--ss-btn-light-bevel) var(--ss-red0);
 }
 
@@ -263,7 +263,7 @@
 }
 
 .tab-content .media-item:nth-child(even) {
-	background: #09c9d8;
+	background: var(--ss-blue2);
 }
 .main-nav-item-bg {
 	fill: var(--ss-blue4);
@@ -342,7 +342,7 @@ h1:not(.text_blue5),
 /* ------------------------------------ game.css ------------------------------------ */
 
 .healthBar {
-	stroke: #0584a4 !important;
+	stroke: var(--ss-blue3) !important;
 }
 
 .healthYolk {
@@ -350,12 +350,12 @@ h1:not(.text_blue5),
 }
 
 #chatIn {
-	color: #09c9d8;
+	color: var(--ss-blue3);
 }
 
 #inGameUI .title {
 	font-size: .8em;
-	color: #09c9d8;
+	color: var(--ss-blue2);
 }
 
 #maskmiddle {
@@ -492,7 +492,7 @@ h1:not(.text_blue5),
 }
 
 .btn-respawn.bevel_red {
-	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) #022741, var(--ss-btn-light-bevel) var(--ss-red0);
+	box-shadow: .15em .15em 0 rgba(0, 0, 0,.3), var(--ss-btn-dark-bevel) var(--ss-blue5), var(--ss-btn-light-bevel) var(--ss-red0);
 }
 
 .btn-respawn.bevel_green {
@@ -612,4 +612,25 @@ h1:not(.text_blue5),
 .dot-icon .selected,
 .dot-icon:hover i:not(.selected) {
   color: var(--ss-blue2);
+}
+
+.translate-icon.translated {
+    color: var(--ss-blue2);
+}
+
+#shareLinkPopup h1.text_gold,
+#gameOptionsPopup h1.display-inline {
+    color: var(--ss-blue2) !important;
+}
+
+.game-mode-0 .chat-icon,
+.game-mode-0 .chat-player-name,
+.game-mode-0 #killTicker.chat span {
+	color: var(--ss-blue2) !important;
+}
+.game-mode-0 #killTicker span svg {
+	fill: var(--ss-blue2);
+}
+.game-mode-0 #killTicker.chat:not(span) {
+	color: var(--ss-blue5) !important;
 }

@@ -277,7 +277,14 @@ There's a new link added to the footer on the home screen, which opens a changel
 > >   
 > >   ![Item Vault](img/docs/betterUI/inventory/Item%20Vault.png)
 > >   </details>
-> >   - Server Select dropdown is back on the home screen!
+> > - Server Select dropdown is back on the home screen!
+> > - Themed Bundle and VIP Notification Popups
+> >   <details>
+> >   <summary>Themed Notification Popups (Image)</summary>
+> >   
+> >   ![Bundle](img/docs/betterUI/inventory/notification/Bundle.png)
+> >   ![VIP](img/docs/betterUI/inventory/notification/VIP.png)
+> >   </details>
 > </details>
 > 
 > - **Better Profile**
@@ -373,6 +380,33 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - **MOAR Colored UI**: Adds a splash of color to buttons and icons such as the News Tabs and social media footer icons.
 > 
 > - **Yellow Hit Markers**: Makes the hit markers yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
+>
+> - **Weapon Iconss**: Adds weapon icons on the Player List and Kill Feed
+> <details>
+> <summary>More Info</summary>
+> 
+> >   - Shows Primary Weapon Icons on Player List
+> >     <details>
+> >     <summary>Primary Weapon Icons on Player List (Image)</summary>
+> >      
+> >     ![Weapon Icons on Player List](img/docs/betterUI/misc/weapons/Player%20List.png)
+> >     </details>
+> >   
+> >   - Shows Primary Weapon Icons (or Pistol) next to names on the Kill Feed
+> >     <details>
+> >     <summary>Primary Weapon Icons (or Pistol) on Kill Feed (Image)</summary>
+> >     
+> >     ![Weapon Icons on Kill Feed](img/docs/betterUI/misc/weapons/Kill%20Feed.png)
+> >     </details>
+> </details>
+> 
+> - **Kill Distance**: Shows Kill Distance (in m) next to each kill on the Kill Feed
+>   > (This idea was first released in a mod by Agent Adam)
+> <details>
+>   <summary>Kill Distance on Kill Feed (Image)</summary>
+>   
+>   ![Kill Distance on Kill Feed](img/docs/betterUI/misc/Kill%20Distances.png)
+> </details>
 </details>
 
 <details>

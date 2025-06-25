@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         The MegaMod (PLAYTEST) | Shell Shockers
-// @version      0.31
+// @version      0.32
 // @author       Infinite Smasher
 // @description  All of my mods, brought together in one place with added features!
 // @icon         https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/img/assets/logos/modServer.png
 // @updateURL    https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.meta.js
 // @downloadURL  https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js
-// @require      https://1nf1n1t3sm4sh3r.github.io/mmTest/js/megaMod.js?v=0.31
+// @require      https://1nf1n1t3sm4sh3r.github.io/mmTest/js/megaMod.js?v=0.32
 // @match        *://*.shellshock.io/*
 // @match        *://*.algebra.best/*
 // @match        *://*.algebra.vip/*

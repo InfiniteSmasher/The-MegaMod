@@ -442,7 +442,7 @@ h1:not(.text_blue5),
 }
 
 #chatIn {
-	color: var(--ss-blue2);
+	color: var(--ss-blue5);
 }
 
 #inGameUI .title {
@@ -734,4 +734,28 @@ h1:not(.text_blue5),
 .pagination-button:not(:disabled):hover i {
   transform: scale(1.2);
   color: var(--ss-white);
+}
+
+.translate-icon {
+    color: var(--ss-blue3);
+}
+.translate-icon.translated {
+    color: var(--ss-blue2);
+}
+
+#shareLinkPopup h1.text_gold,
+#gameOptionsPopup h1.display-inline {
+    color: var(--ss-blue2) !important;
+}
+
+.game-mode-0 .chat-icon,
+.game-mode-0 .chat-player-name,
+.game-mode-0 #killTicker.chat span {
+	color: var(--ss-blue2) !important;
+}
+.game-mode-0 #killTicker span svg {
+	fill: var(--ss-blue2);
+}
+.game-mode-0 #killTicker.chat:not(span) {
+	color: var(--ss-blue5) !important;
 }

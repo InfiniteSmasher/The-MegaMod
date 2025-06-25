@@ -1,5 +1,6 @@
 class MegaMod {   
     static debug = false; // TODO: Add different debug levels
+    static local = false;
     static fatalErr = false;
     static KEYS = {
         InitFinished: "megaMod_initFinished",
@@ -10,6 +11,10 @@ class MegaMod {
 
     static setDebug(debug) {
         this.debug = debug;
+    }
+
+    static setLocal(local) {
+        this.local = local;
     }
 
     static setFatalErr(fatalErr) {
@@ -926,13 +931,15 @@ class MegaMod {
         // Add Item Icons & Price Commas
         const item = document.getElementById("item-template");
         item.innerHTML = item.innerHTML.replace(`<span v-if="isVipItem`,
-            `<i v-if="${invEditsEnabled} && showIcon" :class="iconClass" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
+            `<i v-if="${invEditsEnabled} && typeof showIcon !== 'undefined' && showIcon" :class="typeof iconClass !== 'undefined' ? iconClass :  ''" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
             <span @click.stop="iconClick" @mouseenter="iconHover" v-if="isVipItem`
         ).replace(`itemPrice`, 
             `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`
         ).replace(
             `<p v-if="showItemOnly"`,
-            `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && (showLockIcon ?? false)" class="centered"><i :class="lockIconClass" class="lock-icon"></i></div> <p v-if="showItemOnly"`
+            `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && (typeof showLockIcon !== 'undefined' && showLockIcon)" class="centered">
+                <i :class="typeof lockIconClass !== 'undefined' ? lockIconClass :  ''" class="lock-icon"></i>
+            </div> <p v-if="showItemOnly"`
         );
         SvgIcon.template = SvgIcon.template.replace(`<svg`, `<svg id="test" @click="$emit('click', $event)" @mouseenter="$emit('mouseenter', $event)`);
         Vue.component('icon', SvgIcon);
@@ -1416,6 +1423,10 @@ class MegaMod {
             },
             onLeaveGameResetJoinGame() {
                 vueApp.leaveToJoinGame = false;
+            },
+            handleGameCodeClick(event, code) {
+                event.stopPropagation();
+                vueApp.leaveGameToJoinOther(code);
             },
             leaveGameToJoinOther(code) {
                 vueApp.leaveToJoinGameCode = code;
@@ -2076,6 +2087,7 @@ class MegaMod {
             const oldTxt = oldPlayAdText.call(this);
             return this.chw.limitReached ? this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators()) : oldTxt;
         };
+        const oldPauseScreenStateClass = comp_game_screen.computed.pauseScreenStateClass;
         Object.assign(comp_game_screen.computed, {
             wakeTheChw() {
                 return `(${this.loc.chw_wake.format((200 * (this.chw.resets + 1)).addSeparators())})`;
@@ -2105,6 +2117,9 @@ class MegaMod {
                     return this.chw.winnerCounter > 0 ? this.loc.chw_cooldown_msg : this.loc.chw_ready_msg;
                 }
                 return this.loc.chw_time_until;
+            },
+            pauseScreenStateClass() {
+                return `${oldPauseScreenStateClass.call(this) || ''} game-mode-${this.game.gameType}`;
             }
         });
 
@@ -2733,7 +2748,7 @@ class MegaMod {
                             src = src.safeReplace("generateLoadoutObject();", `generateLoadoutObject();if(extern.inGame){extern.tryUpdateGrenades();}`, "matchGrenades");
     
                             // Calling checkCurrentGrenadeMesh() during first-person spectate
-                            let specMatches = Array.from(src.matchAll(regex`this\.spectatePlayer\(${v}\)`, "g"));
+                            const specMatches = Array.from(src.matchAll(regex`this\.spectatePlayer\(${v}\)`, "g"));
                             if (spectatingPlayer && specMatches.length) {
                                 specMatches.forEach(([match]) => {
                                     src = src.safeReplace(match, `(${match}, extern.tryUpdateGrenades(${spectatingPlayer}.grenadeItem.item_data.meshName))`, "matchGrenades", true);
@@ -2948,7 +2963,7 @@ class MegaMod {
                     
                     const eventIcon = document.createElement("i");
                     const iconClasses = ChatEventData[type]?.iconClass.split(" ") || ["fas", "fa-info-circle"];
-                    eventIcon.classList.add(...iconClasses, "ss_marginright_xs");
+                    eventIcon.classList.add(...iconClasses, "ss_marginright_xs", "chat-icon");
                     
                     const nameSpan = document.createElement("span");
                     nameSpan.classList.add("chat-player-name");
@@ -3139,11 +3154,12 @@ class MegaMod {
         // ty A3+++
         const isEggforcer = "[2, 4, 8192].some(role => extern.adminRoles & role)";
         const blacklistDisabled = `(extern?.modSettingEnabled?.('betterEggforce_chatBlacklist') && ${isEggforcer})`
-        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*\2\.indexOf\("<"\)`.safeExec(src, "");
-        const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "");
+        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*\2\.indexOf\("<"\)`.safeExec(src, "betterEggforce_chatBlacklist");
+        const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "betterEggforce_chatBlacklist");
         if (filterFunc && msgElem && msgContent) {
-            src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`));
-            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`);
+            const [,idVar] = regex`(${v})>253`.safeExec(src, "betterEggforce_chatBlacklist");
+            src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`), "betterEggforce_chatBlacklist");
+            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null ${idVar && `&& ${idVar} < 253`} && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`, "betterEggforce_chatBlacklist");
         }
         
         // Auto Ban
@@ -3187,6 +3203,36 @@ class MegaMod {
             }
         }
 
+        // Kill Feed icons 
+        const weaponIcon = `<svg class="weapon-icon"><use xlink:href="#\${GUNICON\}"></use></svg>`
+        const feedMatches = Array.from(src.matchAll(regex`((${v})\.name)\s*\+\s*"<\/span>"`, "g"));
+        if (feedMatches.length) {
+            feedMatches.forEach(([match, name, player], idx) => {
+                src = src.safeReplace(match, match.safeReplace(name, `${name} + \` ${weaponIcon.replace("GUNICON", `${player}.equipWeaponIdx ? "ico-weapon-cluck9mm" : WeaponIcons[${player}.charClass]`)}\``, "betterUI_weapons"), "betterUI_weapons", true);
+            });
+        } else {
+            unsafeWindow.megaMod.addRegexErrId("betterUI_weapons");
+        }
+
+        // Player List Icons
+        const [slotMatch, slotVar] = regex`(${v}).classList\.add\(\"playerSlot--name\"\)`.safeExec(src, "betterUI_weapons");
+        if (slotMatch && slotVar) {
+            const [nameMatch, playerVar] = regex`${slotVar}\.innerText\s*\=\s*(${v}).name`.safeExec(src, "betterUI_weapons");
+            if (nameMatch && playerVar) {
+                src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replace("GUNICON", `WeaponIcons[${playerVar}.charClass]`)} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
+            }
+        }
+
+        // Kill Distance
+        const [,xVar, yVar, zVar] = regex`\.copyFromFloats\(this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\)`.safeExec(src, "betterUI_distance");
+        if (feedMatches.length === 2) {
+            const [[,,playerA], [,,playerB]] = feedMatches;
+            if (playerA && playerB) {
+                if (xVar && yVar && zVar) {
+                    src = src.safeReplace(`+"<br>"`, `+ \` <span class="kill-dist">(\${Math.floor(Math.length3(${playerA}.${xVar}-${playerB}.${xVar}, ${playerA}.${yVar}-${playerB}.${yVar}, ${playerA}.${zVar}-${playerB}.${zVar})) || "<1"\}m)</span><br>\``, "betterUI_distance");
+                }
+            }
+        }
         // All done...yay! :)
         return src;
     }
@@ -3345,6 +3391,9 @@ class MegaMod {
         Number.prototype.addSeparators = function() {
             return extern?.modSettingEnabled?.('betterUI_ui') ? this.toLocaleString() : this;
         };
+
+        MegaMod.log("Debug:", MegaMod.debug);
+        MegaMod.log("Local:", MegaMod.local);
     }
 
     addRegexErrId(id) {
@@ -3456,6 +3505,11 @@ class MegaMod {
             case 'betterUI_chlg':
 				this.betterUI.switchChlg(settingEnabled);
 				break;
+            case 'betterUI_weapons':
+				this.betterUI.switchWeapons(settingEnabled);
+				break;
+            case 'betterUI_distance':
+				this.betterUI.switchDistance(settingEnabled);
 			case 'betterUI_hitMarkers':
 				if (extern.inGame) extern.switchHitMarkerColor(settingEnabled);
 				break;
@@ -3472,7 +3526,7 @@ class MegaMod {
                 this.betterChat.switchInfChat(settingEnabled);
                 break;
             case "betterChat_chatEvents":
-                this.betterChat.switchChatEvents(settingEnabled);
+                this.betterChat.switchChatEvents();
                 break;
 			case 'specTweaks':
 			case 'specTweaks_updown':
@@ -4122,7 +4176,7 @@ class BetterUI {
                 tags = Array.isArray(tags) ? tags : [tags];
                 tags.forEach(tag => {
                     if (add === item.item_data.tags.includes(tag)) {
-                        MegaMod.error("Better UI", `Check "${tag}" Item Tag for ${item.name}`);
+                        MegaMod.error("Better UI", `"${tag}" Item Tag is Already ${add ? "Present" : "Missing"} for ${item.name}`);
                         return;
                     }
                     if (!item.item_data.tags) item.item_data.tags = [];
@@ -4163,32 +4217,28 @@ class BetterUI {
 
         // Better Inventory - Item Properties
         comp_item.created = function() {
-            this.themeMap = extern.getThemeMap(this.item);
+            this.themeMap = extern?.getThemeMap?.(this.item);
         };
-        Object.assign(comp_item.props, {
-            isReward: {
-                type: Boolean,
-                default: false
-            }
-        });
+        Object.assign(comp_item.props, { isReward: { type: Boolean, default: false } });
+        const oldPremium = comp_item.computed.isPremium;
         Object.assign(comp_item.computed, {
-            isPremium() { return this.themeMap.premium; },
-            isBundle() { return this.themeMap.bundle; },
-            isMerch() { return this.themeMap.physical; },
-            isDrops() { return this.themeMap.drops; },
-            isNotif() { return this.themeMap.notif; },
-            isLeague() { return this.themeMap.league; },
-            isNewYolker() { return this.themeMap.yolker; },
-            isEgglite() { return this.themeMap.egglite; },
-            isCreator() { return this.themeMap.creator; },
-            isTwitchCreator() { return this.themeMap.creatorttv; },
-            isYTCreator() { return this.themeMap.creatoryt; },
-            isPromo() { return this.themeMap.promo; },
-            isEvent() { return this.themeMap.event; },
-            isSocial() { return this.themeMap.social; },
-            isNormalShop() { return this.themeMap.shop; },
-            isLegacy() { return this.themeMap.legacy; },
-            isPremiumEggPurchase() { return this.themeMap.eggpremium; },
+            isPremium() { return this?.themeMap?.premium || oldPremium.call(this); },
+            isBundle() { return this?.themeMap?.bundle; },
+            isMerch() { return this?.themeMap?.physical; },
+            isDrops() { return this?.themeMap?.drops; },
+            isNotif() { return this?.themeMap?.notif; },
+            isLeague() { return this?.themeMap?.league; },
+            isNewYolker() { return this?.themeMap?.yolker; },
+            isEgglite() { return this?.themeMap?.egglite; },
+            isCreator() { return this?.themeMap?.creator; },
+            isTwitchCreator() { return this?.themeMap?.creatorttv; },
+            isYTCreator() { return this?.themeMap?.creatoryt; },
+            isPromo() { return this?.themeMap?.promo; },
+            isEvent() { return this?.themeMap?.event; },
+            isSocial() { return this?.themeMap?.social; },
+            isNormalShop() { return this?.themeMap?.shop; },
+            isLegacy() { return this?.themeMap?.legacy; },
+            isPremiumEggPurchase() { return this?.themeMap?.eggpremium; },
         
             // Banner check
             hasBanner() {
@@ -4434,10 +4484,12 @@ class BetterUI {
             MegaMod.addModCSS('inventory'),
             MegaMod.addModCSS('roundness'),
             MegaMod.addModCSS('colors'),
-            MegaMod.addModCSS('chlg')
+            MegaMod.addModCSS('chlg'),
+            MegaMod.addModCSS('weapons'),
+            MegaMod.addModCSS('distance')
         ]).then(styles => {
-            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle] = styles;
-            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle });
+            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle] = styles;
+            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle });
             setTimeout(this.switchBetterUI.bind(this), 250, true);
         });
 
@@ -4502,6 +4554,41 @@ class BetterUI {
             }
             oldPlayIncentivizedAd.call(this, e);
         };
+
+        // Weapon Icons
+        Object.assign(unsafeWindow, {
+            WeaponIcons: {
+                [CharClass.Soldier]: "ico-weapon-soldier",
+                [CharClass.Scrambler]: "ico-weapon-scrambler",
+                [CharClass.Ranger]: "ico-weapon-ranger",
+                [CharClass.Eggsploder]: "ico-weapon-rpegg",
+                [CharClass.Whipper]: "ico-weapon-whipper",
+                [CharClass.Crackshot]: "ico-weapon-crackshot",
+                [CharClass.TriHard]: "ico-weapon-trihard"
+            }
+        });
+
+        // Switch Local Weapon Icon
+        const oldChangeClass = extern.changeClass;
+        extern.changeClass = function(...args) {
+            oldChangeClass.apply(this, args);
+            if (extern.inGame) document.querySelector(".playerSlot-player-is-me .weapon-icon use").setAttribute("xlink:href", `#${WeaponIcons[extern.account.classIdx]}`);
+        }
+
+        // Cluck 9mm Icon
+        const original = document.getElementById("ico-weapon-crackshot");
+        if (original) {
+            const clone = original.cloneNode(true);
+            if (clone) {
+                clone.setAttribute("id", "ico-weapon-cluck9mm");
+                const path = clone.querySelector("path");
+                if (path) {
+                    path.setAttribute("d", "m 74.123679,15.2632 -3.892051,3.404789 -3.367849,-1.6014 -3.194297,2.569333 1.313599,3.666123 -17.75929,15.559012 -2.997173,0.310288 -13.281248,11.649535 -1.75243,-1.32836 -2.817757,2.294141 1.115857,2.114503 -1.459879,1.280507 c -0.58459,0.512127 -0.702045,1.376148 -0.275445,2.025785 l 7.348988,11.075341 4.831409,0.494124 10.292704,20.059523 5.804954,1.900356 9.419724,-9.891386 L 63.771664,74.93931 58.11778,63.566626 68.469584,53.15475 63.281887,46.248185 69.097355,40.784646 68.27507,38.893585 79.944665,28.442673 79.184156,27.441196 80.5,26.340667 l -2.039778,-2.89704 1.647881,-1.331393 z m -15.757704,31.881959 1.258651,0.610767 4.34759,5.088222 -7.388756,7.502059 -0.973856,-1.968725 3.444783,-3.752319 -5.593756,-2.925061 z");
+                    original.parentNode.insertBefore(clone, original.nextSibling);
+                }
+            }
+        }
+
     }
 
     initGameHistory() {
@@ -4853,6 +4940,14 @@ class BetterUI {
     switchChlg(enabled) {
         this.chlgStyle.disabled = !enabled;
     }
+
+    switchWeapons(enabled) {
+        this.weaponStyle.disabled = !enabled;
+    }
+
+    switchDistance(enabled) {
+        this.distanceStyle.disabled = !enabled;
+    }
     
     isThemed(item) {
         return ["default", "premium", "drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
@@ -4931,6 +5026,8 @@ class BetterUI {
         this.switchRoundness(extern.modSettingEnabled("betterUI_roundness"));
         this.switchColored(extern.modSettingEnabled("betterUI_colors"));
         this.switchChlg(extern.modSettingEnabled("betterUI_chlg"));
+        this.switchWeapons(extern.modSettingEnabled("betterUI_weapons"));
+        this.switchDistance(extern.modSettingEnabled("betterUI_distance"));
     }
 }
 
@@ -4996,7 +5093,7 @@ class BetterChat {
         this.switchChatIcons(extern.modSettingEnabled("betterChat_chatIcons"));
         this.switchLongerChat(extern.modSettingEnabled("betterChat_longerChat"));
         this.switchInfChat(extern.modSettingEnabled("betterChat_infChat"));
-        this.switchChatEvents(extern.modSettingEnabled("betterChat_chatEvents"));
+        this.switchChatEvents();
     }
 
     switchChatIcons(enabled) {
@@ -5020,8 +5117,8 @@ class BetterChat {
         chatItems.slice(0, Math.max(0, chatItems.length - maxLength)).forEach(item => item.remove());
     }
 
-    switchChatEvents(enabled) {
-        Object.entries(ChatEventData).forEach(([type, v]) => this.switchChatEvent(type, enabled));
+    switchChatEvents() {
+        Object.entries(ChatEventData).forEach(([type, v]) => this.switchChatEvent(type, extern.modSettingEnabled(v.setting)));
     }
 
     switchChatEvent(type, enabled) {
@@ -5110,7 +5207,7 @@ class BetterChat {
             return text.replace(/#?([A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4})\b/g, (match, code) => {
                 const upperCode = code.toUpperCase();
                 const display = match.startsWith('#') ? `#${upperCode}` : upperCode;
-                return `<span class="game-code-link" onclick="vueApp.leaveGameToJoinOther('${upperCode}');">${display}</span>`;
+                return `<span class="game-code-link" onclick="vueApp.handleGameCodeClick(event, '${upperCode}');">${display}</span>`;
             });
         };
         const spans = msgElem.querySelectorAll('span');
@@ -5821,6 +5918,7 @@ class BetterEggforce {
 }
 
 MegaMod.setDebug(true);
+MegaMod.setLocal(false); // Local Testing
 Object.assign(unsafeWindow, {
 	SettingType: {
 		Slider: 0,
@@ -5887,8 +5985,8 @@ Object.assign(unsafeWindow, {
         tierDowngrade: 3,
         tierLost: 4
     },
-	rawPath: "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main", // https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main
-	cdnPath: "https://1nf1n1t3sm4sh3r.github.io/mmTest", // https://1nf1n1t3sm4sh3r.github.io/mmTest
+	rawPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main",
+	cdnPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://1nf1n1t3sm4sh3r.github.io/mmTest",
 });
 Object.assign(unsafeWindow, {
     ChatEventData: {
