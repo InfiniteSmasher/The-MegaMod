@@ -64,8 +64,8 @@
 	font-family: "Font Awesome 6";
 	font-weight: 900;
 	font-display: block;
-	src: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-solid-900.woff2") format("woff2"),
-		  url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-solid-900.ttf") format("truetype");
+	src: url("https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/css/fonts/fas6/fa-solid-900.woff2") format("woff2"),
+		  url("https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/css/fonts/fas6/fa-solid-900.ttf") format("truetype");
 }
 
 .fas6 {
@@ -234,8 +234,8 @@
 	 font-family: "Font Awesome 6 Regular";
 	 font-weight: 400;
 	 font-display: block;
-	 src: url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-regular-400.woff2") format("woff2"), 
-			url("https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main/css/fonts/fas6/fa-regular-400.ttf") format("truetype")
+	 src: url("https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/css/fonts/fas6/fa-regular-400.woff2") format("woff2"), 
+			url("https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/css/fonts/fas6/fa-regular-400.ttf") format("truetype")
 }
 
 .far6 {

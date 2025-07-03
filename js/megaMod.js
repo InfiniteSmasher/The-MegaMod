@@ -1969,7 +1969,7 @@ class MegaMod {
     
         Object.assign(vueData.changelog, { megaModChangelog: false, showMegaModHistoryBtn: true });
         vueData.openMegaModInfo = () => {
-            open('https://1nf1n1t3sm4sh3r.github.io/mmTest/');
+            open(cdnPath);
             BAWK.play("ui_click");
         };
     
@@ -5985,8 +5985,8 @@ Object.assign(unsafeWindow, {
         tierDowngrade: 3,
         tierLost: 4
     },
-	rawPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://raw.githubusercontent.com/1nf1n1t3Sm4sh3r/mmTest/main",
-	cdnPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://1nf1n1t3sm4sh3r.github.io/mmTest",
+	rawPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main",
+	cdnPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://infinitesmasher.github.io/The-MegaMod",
 });
 Object.assign(unsafeWindow, {
     ChatEventData: {

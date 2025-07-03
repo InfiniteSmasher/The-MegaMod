@@ -38,7 +38,7 @@ You'll need a userscript manager to run The MegaMod on your browser. I recommend
 The MegaMod isn't optimized or recommended for use along with other mods. Having other mods enabled can break features of the MegaMod and cause unexpected bugs. If you notice any features of the MegaMod not working as expected, try disabling all other mods first before reporting issues.
 
 ### Step 3: Install The MegaMod Script
-After installing the userscript manager, [click here](https://1nf1n1t3sm4sh3r.github.io/mmTest/js/script.user.js) to install **The MegaMod**. Then, follow the prompts to add the script to your userscript manager.
+After installing the userscript manager, [click here](https://infinitesmasher.github.io/The-MegaMod/js/script.user.js) to install **The MegaMod**. Then, follow the prompts to add the script to your userscript manager.
 
 ### Step 4: Enable the MegaMod
 Once the script is installed, head to [Shell Shockers](https://shellshock.io/) and start playing. The MegaMod will load automatically on game start.
