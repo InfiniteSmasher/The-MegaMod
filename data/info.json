@@ -1,13 +1,26 @@
 {
-	"announcement": "<b>October 16th, 2024</b> <br><br>Attention All Playtesters!<br>Welcome to The MegaMod playtest!<br>Explore all the mods and have fun :)<br><br>-Infinite",
+	"announcement": "",
     "updateInfo": [
-        "<b>[Better Chat: Detect Game Codes]</b> Fixed bug with player popup opening when game codes were clicked.",
-        "<b>[Better UI: Better Inventory]</b> Fixed bug with VIP item reward not showing on VIP item popup.",
-        "<b>[Better UI: Better Inventory]</b> Bundle and VIP Notification popups have been tweaked to match their item themes.",
-        "<b>[Better UI: Player Weapon Icons]</b> Scoreboard now shows the primary weapons used by players.",
-        "<b>[Better UI: Player Weapon Icons]</b> Kill Feed now show the primary weapons (or pistol) used by players.",
-        "<b>[Better UI: Kill Distance]</b> Shows the kill distance next to kills in the Kill Feed.",
-        "<b>[Theme Manager]</b> Infinite, Graysocean, Boolet themes now change name colors in Chat and Kill Feed in FFA.",
-        "<b>[Better Eggforce: Disable Chat Filter]</b> Minor bugfix - MOD messages don't show up as blocked."
-    ]
+       "This is the final update before The MegaMod officially releases to the public!",
+       "TYSM once again for all your help with playtesting! :)"
+    ],
+    "currentChangelog": {
+        "version": "0.33",
+        "date": "July 4 2025",
+        "content": [
+            "<b>[MegaMod]</b> Behind-the-scenes reworks of the Update Info and Changelog popups",
+            "<b>[Better UI: Player Weapon Icons]</b> Fixed bug with icons on player list not updating properly",
+            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now show when someone swaps to pistol or uses melee",
+            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now have a small fade animation when they change",
+            "<b>[Better UI: Player Weapon Icons]</b> Kill Feed now shows when someone gets a kill using melee or grenade",
+            "<b>[Better UI: Spatula Icons]</b> Player List Glows and shows a spatula icon next to the player holding the spatula.",
+            "<b>[Better UI: Spatula Icons]</b> Kill Feed shows a spatula icon next to the player holding the spatula.",
+            "<b>[Better UI: General UI Tweaks]</b> Color of everything inside player slot of currently spectating player changed to white.",
+            "<b>[Better UI: General UI Tweaks]</b> Fixed width of horizontal bar below announcement message.",
+            "<b>[Better UI: General UI Tweaks]</b> Fixed bug with game code input typing out modifier key names (SHIFT, CTRL, etc).",
+            "<b>[Better UI: Better Inventory]</b> Fixed minor bugs with Item Vault when switching in/out of inventory",
+            "<b>[Better Chat: Detect Game Codes]</b> Tweaks made to the leave game popup!",
+            "<b>[Better Chat: Detect Game Codes]</b> Alert message added to stop you from joining the game you're currently in."
+        ]
+    }
 }

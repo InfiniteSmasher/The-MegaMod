@@ -50,43 +50,41 @@
         console.error('Error loading README.md:', error);
       });
 
-      // Load changelog data from the changelog.json
-      fetch('/The-MegaMod/data/changelog.json')
-        .then(response => response.json())
-        .then(data => {
-          const changelogContent = document.getElementById('changelog-content');
+      // Function to format a changelog entry into HTML
+      function createChangelogEntry(versionData) {
+        let entryHTML = `<h4>Version ${versionData.version} - ${versionData.date}</h4>`;
+        entryHTML += '<ul>';
+        versionData.content.forEach(item => entryHTML += `<li>${item}</li>`);
+        entryHTML += '</ul>';
+        entryHTML += '<hr>';
+        return entryHTML;
+      }
+      const changelogContent = document.getElementById('changelog-content');
 
-          // Function to format a changelog entry into HTML
-          function createChangelogEntry(versionData) {
-            let entryHTML = `<h4>Version ${versionData.version} - ${versionData.date}</h4>`;
-            entryHTML += '<ul>';
-            versionData.content.forEach(item => {
-              entryHTML += `<li>${item}</li>`;
-            });
-            entryHTML += '</ul>';
-            entryHTML += '<hr>';
-            return entryHTML;
-          }
+      // Load changelog data from the new info.json and oldChangelog.json
+      Promise.all([
+        fetch('/The-MegaMod/data/info.json').then(response => response.json()),
+        fetch('/The-MegaMod/data/oldChangelog.json').then(response => response.json())
+      ]).then(([infoData, oldChangelogData]) => {
+        let changelogHTML = '';
 
-          // Start with the current changelog section
-          let changelogHTML = '<h3>Current Version</h3>';
-          data.current.forEach(version => {
-            changelogHTML += createChangelogEntry(version);
-          });
+        // Add current changelog section
+        if (infoData.currentChangelog) {
+          changelogHTML += '<h3>Current Version</h3>';
+          const current = infoData.currentChangelog;
+          const { version, date, content } = current;
+          changelogHTML += createChangelogEntry({ version, date, content });
+        }
 
-          // Add the old changelog entries
-          if (data.old.length > 0) {
-            changelogHTML += '<h3>Older Versions</h3>';
-            data.old.forEach(version => {
-              changelogHTML += createChangelogEntry(version);
-            });
-          }
+        // Add older changelog entries
+        if (oldChangelogData.length > 0) {
+          changelogHTML += '<h3>Older Versions</h3>';
+          oldChangelogData.forEach(version => changelogHTML += createChangelogEntry(version));
+        }
 
-          // Set the inner HTML of the changelog content
-          changelogContent.innerHTML = changelogHTML;
-      }).catch(error => {
-        console.error('Error loading changelog.json:', error);
-      });
+        // Set the inner HTML of the changelog content
+        changelogContent.innerHTML = changelogHTML;
+      }).catch(error => console.error('Error loading changelog data:', error));
   </script>
 
   <!-- Include Marked.js for Markdown rendering -->

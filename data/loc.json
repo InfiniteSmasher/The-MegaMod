@@ -15,14 +15,14 @@
 	"megaMod_disableModsPopup_title": "Disable Yo Mods!",
 	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod.<br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
 	"megaMod_modErrsPopup_title": "Uh Oh! Some Mods Broke...",
-	"megaMod_modErrsPopup_desc": "There was an error while starting The MegaMod!<br><br>Certain mods may not show up or work correctly.<br><br>This may be due to other mods that you have enabled so please disable any other mod scripts you have running and try again.<h3>Affected Mods:</h3>{0}",
+	"megaMod_modErrsPopup_desc": "<b>There was an error while starting The MegaMod!</b><br><br>Certain mods may not show up or work correctly.<br><br>This may be due to other mods that you have enabled so please disable any other mod scripts you have running and try again.<h3>Affected Mods:</h3>{0}",
 
 	"megaMod_updatePopup_title": "Update Available!",
-	"megaMod_updatePopup_desc": "<br>A new version of The MegaMod is available!<br><br>Please click the \"Gimme Update!\" button to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (outdated) version may lead to Shell Shockers or The MegaMod not working properly!<br><br>This Shell Shockers tab will reload after you install the update and return to this tab.",
+	"megaMod_updatePopup_desc": "<br><b>A new version of The MegaMod is available!</b><br><br>Please click the \"Gimme Update!\" button to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (outdated) version may lead to Shell Shockers or The MegaMod not working properly!<br><br>This Shell Shockers tab will automatically reload after you install the update and return to this tab.",
 	"megaMod_updatePopup_cancelBtn": "Nah :(",
 	"megaMod_updatePopup_okBtn": "Gimme Update!",
 	"megaMod_updatedPopup_title": "Update Installed!",
-	"megaMod_updatedPopup_desc": "<br>The MegaMod has been updated to version {0}!<br><br>Thanks for installing the update and enjoy your enhanced Shell Shockers experience with the latest version of The MegaMod!",
+	"megaMod_updatedPopup_desc": "<br><b>The MegaMod has been updated to version {0}!</b><br><br>Thanks for installing the update and enjoy your enhanced Shell Shockers experience with the latest version of The MegaMod!",
 	"megaMod_updatedPopup_okBtn": "Poggers!",
 	"megaMod_updatePopup_infoTitle": "Update Info",
 
@@ -51,6 +51,7 @@
 	"p_settings_mods_betterUI_chlg": "Challenge Upgrades",
 	"p_settings_mods_betterUI_weapons": "Player Weapon Icons",
 	"p_settings_mods_betterUI_distance": "Kill Distance",
+	"p_settings_mods_betterUI_spatula": "Spatula Icons",
 
 	"p_settings_tag_input_placeholder": "Type & Press Enter",
 
@@ -65,7 +66,7 @@
 	"p_vip_item_desc": "VIP items are exclusive premium items available only while your VIP subscription is active. Once your subscription ends, these items will be removed from your account.",
 	"p_vip_item_btn": "<icon name='ico-vip'></icon> Subscribe to VIP!",
 	"p_merch_item_banner_txt": "Merch",
-	"p_merch_item_desc": "Merch Items are among the rarest of items in Shell Shockers. Players could once obtain them by purchasing official Shell Shockers merch, which came with exclusive item codes. While they are no longer available through merch purchases, the only current way to get them is by winning the 'Nothing Wheel' giveaway on <a target='_blank' href='https://www.twitch.tv/bluewizarddigital'>Blue Wizard Digital's Twitch stream</a> and landing on 'Any one skin'.",
+	"p_merch_item_desc": "Merch Items are among the rarest of items. Players could once obtain them by purchasing official Shell Shockers merch, which came with exclusive item codes. While they are no longer available through merch purchases, the only current way to get them is by winning the 'Nothing Wheel' giveaway on <a target='_blank' href='https://www.twitch.tv/bluewizarddigital'>Blue Wizard Digital's Twitch stream</a> and landing on 'Any one skin'.",
 	"p_merch_item_btn": "<i class='fas fa-shopping-cart'></i> Visit the BWD Merch Store!",
 	"p_drops_item_banner_txt": "Drops",
 	"p_drops_item_title": "Twitch Drops",
@@ -73,7 +74,7 @@
 	"p_drops_item_btn": "<i class='fab fa-twitch'></i> Visit the Twitch Drops Dashboard!",
 	"p_notif_item_banner_txt": "Notif",
 	"p_notif_item_title": "Notification",
-	"p_notif_item_desc": "Notification Items are a collection of super rare and OG Shell Shockers hats. Originally created during the early days of the game's development, these items were designed specifically as notification rewards. The skinset includes iconic subsets like Skull Hats, Egg Hats, Chicken Skull Hats, and the Golden Hats. Over time, some of these items have made a return — for example, some of the Golden Hats were reintroduced during the Fighting Eggflation update and made available in the shop for golden eggs. Many of these items have also recently been included in Chick'n Winner as possible rewards. While once highly sought-after, their return has significantly lowered their rarity in the eyes of veteran \"OG\" players.",
+	"p_notif_item_desc": "Notification Items are a collection of super rare and OG hats. Originally created during the early days of the game's development, these items were designed specifically as notification rewards. The skinset includes iconic subsets like Skull Hats, Egg Hats, Chicken Skull Hats, and the Golden Hats. Over time, some of these items have made a return — for example, some of the Golden Hats were reintroduced during the Fighting Eggflation update and made available in the shop for golden eggs. Many of these items have also recently been included in Chick'n Winner as possible rewards. While once highly sought-after, their return has significantly lowered their rarity in the eyes of veteran \"OG\" players.",
 	"p_notif_item_btn": "<i class='fas fa-bell'></i> Enable Notifications!",
 	"p_league_item_banner_txt": "League",
 	"p_league_item_desc": "League Items are exclusive rewards earned by top-performing clans in competitive Shell Shockers leagues, especially the long-running Shell League. These items include custom clan stamps and, more recently, clan hats. Stamps are given in limited quantities to key clan members and are used to showcase team strength during matches. Some clans, like Aries and DXG, have multiple exclusive stamps, while others like TXC and GOD have one code-exclusive and one shop-available version. Starting in 2022, winning clans could have a custom hat added to the game, with the NPS Hat being the first. However, after Season 5 - Sekuna in 2024, custom hats were discontinued due to internal changes, and winners now receive custom clan stamps instead.",
@@ -91,7 +92,7 @@
 	"p_creatorttv_item_desc": "Twitch Content Creator Items are unique skins inspired by official Blue Wizard Digital Twitch streamers. Like their YouTube counterparts, these items are generally added when a streamer becomes a Partner Creator, though some have been introduced thanks to strong community support. In addition to usually being available in the shop for golden eggs, these skins are often given away on livestreams or special events hosted by the streamer.",
 	"p_creator_item_banner_txt": "Creator",
 	"p_limited_item_banner_txt": "Limited",
-	"p_limited_item_desc": "Limited Items are special skins in Shell Shockers that are only available in the shop until the next game update. They often celebrate holidays like Halloween or Christmas, or showcase fun themes like Dinosaurs or Breakfast. The Limited section also includes Unvaulted Items, which are older skins temporarily brought back based on popularity, including past VIP items and holiday exclusives. Buy them before they're gone!",
+	"p_limited_item_desc": "Limited Items are special skins that are only available in the shop until the next game update. They often celebrate holidays like Halloween or Christmas, or showcase fun themes like Dinosaurs or Breakfast. The Limited section also includes Unvaulted Items, which are older skins temporarily brought back based on popularity, including past VIP items and holiday exclusives. Buy them before they're gone!",
 	"p_social_item_banner_txt": "Social",
 	"p_social_item_desc": "Social Items are skins themed after various social media platforms and are unlocked by following Blue Wizard Digital on the corresponding platform. To claim them, players can click the social media icons located in the bottom right corner of the Shell Shockers homepage or click directly on the items below (if not already owned). Each item represents a different platform and is a fun way to show your support for Blue Wizard Digital!",
 	"p_promo_item_banner_txt": "Promo",
@@ -295,7 +296,9 @@
 	"p_settings_mods_betterChat_chatEvent_pickSpatula": "Pick Up Spatula",
 	"p_settings_mods_betterChat_chatEvent_dropSpatula": "Drop Spatula",
 
-	"leave_game_to_join_other": "Leave Game to Join A Different Lobby?",
+	"leave_game_to_join_other_title": "Leave Game?",
+	"leave_game_to_join_other_desc": "Leave this game to join a different one?",
+	"leave_game_to_join_other_error": "You're currently in that game!",
 
 	"megaMod_betterChat_chatEvent_joinGame": " joined.",
 	"megaMod_betterChat_chatEvent_leaveGame": " left.",
@@ -524,7 +527,7 @@
 
 
 	"p_settings_mods_customFog_title": "Custom Fog",
-	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to a crystal-clear view across all maps.",
+	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to complete blindness across all maps.",
 	"p_settings_mods_customFog_densitySlider": "Fog Density (%)",
 	"p_settings_mods_customFog_colorPicker": "Fog Color",
 	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map",

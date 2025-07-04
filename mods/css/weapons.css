@@ -3,28 +3,34 @@
 }
 
 #killTicker .weapon-icon {
-    display: inline-block; 
-    vertical-align: middle; 
     height: 1.5em;
     width: 1.5em;
-    fill: currentColor;
     margin-top: -4px;
     filter: drop-shadow(1.2px 1.2px 0 rgba(0, 0, 0, 0.35));
+    margin-left: 5px;
     /*
     padding: .15em;
     border: 1.5px solid currentColor;
     border-radius: var(--ss-space-md);
     */
 }
+#killTicker .weapon-icon,
+#playerSlot .weapon-icon {
+    display: inline-block; 
+    vertical-align: middle; 
+    fill: currentColor !important;
+}
 .playerSlot--name-score {
     width: 12.5em;
 }
 
 #playerSlot .weapon-icon {
-    display: inline-block; 
-    vertical-align: middle; 
     margin-top: -4px;
     height: 1em;
     width: 1em;
-    fill: currentColor;
+    transition: opacity .15s ease-in-out;
+}
+
+#playerSlot .weapon-icon.fade {
+  opacity: 0;
 }

@@ -95,284 +95,293 @@ There's a new link added to the footer on the home screen, which opens a changel
 > > Enhances the inventory and profile UI with new themes, a skin randomizer, profile badges, and more.
 > ### **Settings**:
 > - **General UI Tweaks**: Various UI improvements.
-> <details>
-> <summary>More Info</summary>
-> 
-> >    - Latest FontAwesome Social Media Icons
-> >    - Updated Social Media Footer Icon Styles & Tooltip Position
-> >    - Egg-Shaped Settings Sliders
-> >    - Egg-Shaped Settings Checkboxes
-> >    - Added margins around chat (on Despawn Menu) so it isn't fixed to edge of screen
-> >    - Added margins to media tabs and top right buttons (on Home Screen) so they aren't fixed to edge of screen
-> >    - Various UI Bug Fixes:
-> >       - Fixed Short Scrollmask Width
-> >       - Fixed YT + Twitch Box Height
-> >       - Adjusted Create Private Game Popup Alignments
-> >       - Fixed Slightly Taller Challenge Box
-> >       - Stretched Chick'n Winner Bar (on Despawn Menu) to fix text wrap (and for better looks ofc)
-> >
-> >   - Added Button (on Home Screen) and Popup to Show Current Public Map Pool
-> >     <details>
-> >     <summary>Public Map Popup (Image)</summary>
-> >     
-> >     ![Public Map Popup](img/docs/betterUI/misc/Public%20Map%20Popup.png)
-> >     </details>
-> > 
-> >   - Added Button (on Home Screen) and Popup to Game History (Daily Lobbies)
-> >     <details>
-> >     <summary>Game History Popup (Image)</summary>
-> >     
-> >     ![Game History Popup](img/docs/betterUI/misc/Game%20History%20Popup.png)
-> >     </details>
-> >
-> >   - Numbers are localized to add regional separators (make large numbers easier to read) and use the local place value system:
-> >     - Egg Count
-> >     - Item Prices
-> >     - Profile Stats Values
-> >     - Egg Reward Amounts
-> >     - etc.
-> >   - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
-> >   - Server Select dropdown is back on the Home Screen!
-> >   - Restyled Join Code Input to work better with the new game code format (WORD-WORD-WORD)
-> >     - Detects and fills in the code when pasting a full game link
-> >     - Autofills observe toggle and watchPlayer info (Eggforcers Only)
-> >     <details>
-> >     <summary>New Code Input (Image)</summary>
-> >     
-> >     ![New Code Input](img/docs/betterUI/misc/New%20Code%20Input.png)
-> >     </details>
-> </details>
+>   <details>
+>   <summary>More Info</summary>
+>   
+>   > - Latest FontAwesome Social Media Icons
+>   > - Updated Social Media Footer Icon Styles & Tooltip Position
+>   > - Egg-Shaped Settings Sliders
+>   > - Egg-Shaped Settings Checkboxes
+>   > - Added margins around chat (on Despawn Menu) so it isn't fixed to edge of screen
+>   > - Added margins to media tabs and top right buttons (on Home Screen) so they aren't fixed to edge of screen
+>   > - Various UI Bug Fixes:
+>   >   - Fixed Short Scrollmask Width
+>   >   - Fixed YT + Twitch Box Height
+>   >   - Adjusted Create Private Game Popup Alignments
+>   >   - Fixed Slightly Taller Challenge Box
+>   >   - Stretched Chick'n Winner Bar (on Despawn Menu) to fix text wrap (and for better looks ofc)
+>   >   
+>   > - Added Button (on Home Screen) and Popup to Show Current Public Map Pool
+>   >   <details>
+>   >    <summary>Public Map Popup (Image)</summary>
+>   >     
+>   >    ![Public Map Popup](img/docs/betterUI/misc/Public%20Map%20Popup.png)
+>   >   </details>
+>   >   
+>   > - Added Button (on Home Screen) and Popup to Game History (Daily Lobbies)
+>   >   <details>
+>   >   <summary>Game History Popup (Image)</summary>
+>   >   
+>   >   ![Game History Popup](img/docs/betterUI/misc/Game%20History%20Popup.png)
+>   >   </details>
+>   >
+>   > - Numbers are localized to add regional separators (make large numbers easier to read) and use the local place value system:
+>   >   - Egg Count
+>   >   - Item Prices
+>   >   - Profile Stats Values
+>   >   - Egg Reward Amounts
+>   >   - etc.
+>   > - Corrupted Grenade given Premium Item theme to match the other Premium Items purchasable with Golden Eggs
+>   > - Server Select dropdown is back on the Home Screen!
+>   > - Restyled Join Code Input to work better with the new game code format (WORD-WORD-WORD):
+>   >   - Detects and fills in the code when pasting a full game link
+>   >   - Autofills observe toggle and watchPlayer info (Eggforcers Only)
+>   >   <details>
+>   >   <summary>New Code Input (Image)</summary>
+>   >     
+>   >   ![New Code Input](img/docs/betterUI/misc/New%20Code%20Input.png)
+>   >   </details>
+>   >   
+>   > - Restyled everything inside the player slot of the player currently being spectated to be white.
+>   >   <details>
+>   >   <summary>Restyled Spectating Player (Image)</summary>
+>   >   
+>   >   ![Restyled Spectating Player](img/docs/betterUI/misc/Spectating%20Player.png)
+>   >   </details>
+>   >   
+>   > - Fixed width of horizontal bar below announcement message.
+>   </details>
 > 
 > - **Chick'n Winner Upgrades**: Adds various upgrades to Chick'n Winner.
-> <details>
-> <summary>More Info</summary>
-> 
-> >   - Chick'n Winner now shows when you pull an item you already own.
-> >   - Fixed Chick'n Winner egg icon not being on the same line as egg reward amount
-> >     <details>
-> >     <summary>Updated Chick'n Winner (Image)</summary>
-> >     
-> >     ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
-> >     </details>
-> >   
-> >   - The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!
-> </details>
+>   <details>
+>   <summary>More Info</summary>
+>   
+>   > - Chick'n Winner now shows when you pull an item you already own.
+>   > - Fixed Chick'n Winner egg icon not being on the same line as egg reward amount
+>   >   <details>
+>   >   <summary>Updated Chick'n Winner (Image)</summary>
+>   >   
+>   >   ![Chick'n Winner Owned Item](img/docs/betterUI/misc/CHW%20Owned%20Item.png)
+>   >   </details>
+>   >   
+>   > - The Chick'n Winner Popup can now only be closed after you get your reward  - no more accidental closures!
+>   </details>
 > 
 > - **Challenge Upgrades**: Adds various upgrades to Challenges.
-> <details>
-> <summary>More Info</summary>
-> 
-> >   - Added Icons to challenges to show if they're unique or already completed
-> >   - Restyled Challenge "Claimed" Banner to match checkmark banner
-> >     <details>
-> >     <summary>Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
-> >      
-> >     ![Challenges](img/docs/betterUI/misc/challenges/Challenges.png)
-> >     </details>
-> >   
-> >   - Added missing clock icon next to challenge timer on home screen
-> >   - Added claim sound effect when claiming challenges 
-> >   - Added claim sound effect when auto-claiming challenges through notification popup
-> >   - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
-> >    <details>
-> >    <summary>Challenge Info Popup (Image)</summary>
-> >     
-> >    ![Challenge Info Popup](img/docs/betterUI/misc/challenges/Challenge%20List%20Popup.png)
-> >    </details>
-> </details>
+>   <details>
+>   <summary>More Info</summary>
+>   
+>   > - Added Icons to challenges to show if they're unique or already completed
+>   > - Restyled Challenge "Claimed" Banner to match checkmark banner
+>   >   <details>
+>   >   <summary>Challenge Icons & Restyled "Claimed" Banners (Image)</summary>
+>   >   
+>   >   ![Challenges](img/docs/betterUI/challenges/Challenges.png)
+>   >   </details>
+>   > 
+>   > - Added missing clock icon next to challenge timer on home screen
+>   > - Added claim sound effect when claiming challenges 
+>   > - Added claim sound effect when auto-claiming challenges through notification popup
+>   > - Added info popup for challenges which shows all challenges with info such as icon, reward amounts, tier, type, # of claims, etc
+>   >   <details>
+>   >   <summary>Challenge Info Popup (Image)</summary>
+>   >   
+>   >   ![Challenge Info Popup](img/docs/betterUI/challenges/Challenge%20List%20Popup.png)
+>   >   </details>
+>   </details>
 > 
 > - **Better Inventory**
-> <details>
-> <summary>More Info</summary>
+>   <details>
+>   <summary>More Info</summary>
 > 
-> > - __UI Improvements__:
-> >   - Rounded item and weapon select buttons
-> >   - Better **color matching** on existing item theme properties:
-> >     - Price Labels
-> >     - Spinning Egg (Item Image Loading)
-> >     - Item Borders
-> >   - New **gradient effect** (+ fade-in animation) for themed items when selected
-> >   - Item Search Feature (This was added into the game on October 1st, 2023!)
-> >   - EggK-47s and Whippers with sound effects now play a burst of their sound effect when clicked!
-> >   - Fixed Bugs:
-> >     - Equipped weapon skin wasn't highlighted after switching classes
-> >     - Sound effect played when switching tabs in shop
-> >     - Weapon skin buttons could be deselected
-> >     - Photobooth wasn't updating pistol when switching main weapon class
-> >     - Fixed wonky item banners for items showing in bundle popup
-> > - __New Item Themes__:
-> >   - ``Bundle`` - Items available through bundles only
-> >   - ``Limited`` - Limited-time items (in "Limited Edition" shop section)
-> >   - ``Twitch Drops`` - Items available through Twitch Drops
-> >   - ``Merch`` - Hats that were previously obtained through buying Shell Shockers merchandise
-> >   - ``Yolker`` - New Yolker Items
-> >   - ``League`` - Clan/Tournament Hats and Stamps
-> >   - ``Notif`` - Hats created for and rewarded through the (discontinued) Notification System
-> >   - ``Egglite`` - Code-unlockable items that fit no other categories
-> >   - ``Promo`` - Cross-Promotional items unlocked by playing other BWD games (ex: Skull Wand Pistol)
-> >   - ``Event`` - Event rewards from events such as EGG ORG or Scavenger Hunt
-> >   - ``Social`` - Social media rewards (Hats) from the homepage
-> >   - ``Legacy`` - Legacy default weapon skins from 2018/2019
-> >   - ``YT CC`` - BWD YouTube CC shop items
-> >   - ``Twitch CC`` - BWD Twitch CC shop items
-> >   <details>
-> >   <summary>Item Themes (Image)</summary>
-> >    
-> >   ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
-> >   </details>
-> > - Code Cracked popup is themed to match the item theme of the cracked item
-> >   <details>
-> >   <summary>Themed Code Cracked Popup (Image)</summary>
-> >    
-> >   ![Item Themes](img/docs/betterUI/inventory/Code%20Cracked.png)
-> >   </details>
-> > - Chick'n Winner popup is themed to match the item theme of the cracked item (after you reveal the item)
-> >   <details>
-> >   <summary>Themed Chick'n Winner Popup (Image)</summary>
-> >    
-> >   ![Item Themes](img/docs/betterUI/inventory/Chick'n%20Winner.png)
-> >   </details>
-> > 
-> > - __Changed Item Sorting Order__:
-> >   1. Bundle
-> >   2. Premium (Money)
-> >   3. Premium (Golden Eggs)
-> >   4. VIP
-> >   5. Merch
-> >   6. Twitch Drops
-> >   7. New Yolker
-> >   8. League
-> >   9. Notification
-> >   10. Egglite
-> >   11. Promo
-> >   12. Event
-> >   13. Social
-> >   14. Default & Legacy Items
-> >   15. Limited
-> >   16. Content Creator (YouTube & Twitch)
-> >   17. Shop Items 
-> > - **Skin randomizer button** - randomizes all equipped items (including grenade and melee) for the currently selected weapon class
-> > - **Item count information** in inventory, shop, and limited edition section:
-> >   - __Inventory__: shows # of items owned / total # of items
-> >     - __Limited Edition__: shows # of limited items owned / total # of limited items
-> >   - __Shop__: shows # of items remaining to purchase / total # of shop items (including vaulted shop items)
-> >     - __Limited Edition__: shows # of limited items remaining to purchase / total # of limited items
-> > - Clickable **Item Icons** for most of the custom item themes!
-> >   - Premium (matches your local currency) - switches to the shop tab of the shop
-> >   - VIP - opens VIP popup
-> >   - Bundle - switches to the shop tab of the shop
-> >   - Merch - opens merch store
-> >   - Twitch Drops - opens Twitch Drops page
-> >   - New Yolker - opens New Yolker signup page
-> >   - Notification - requests to turn on notifications
-> >   - Promo - opens the particular promotion of the item
-> >   - Social - opens the particular BWD social media page of the item
-> >   - Limited - opens limited edition section and shows all owned limited items
-> >   - Content Creator - links directly to the social media profile of the content creator
-> > - **Item Vault** - lets you preview unowned vaulted items (only in the inventory). Photobooth is disabled while in the Item Vault and you can't use the items in-game.
-> >   - Clicking an unowned social item opens the social media page and rewards the item.
-> >   - Clicking an unowned VIP item opens the VIP subscription popup
-> >   <details>
-> >   <summary>Item Vault UI (Image)</summary>
-> >   
-> >   ![Item Vault](img/docs/betterUI/inventory/Item%20Vault.png)
-> >   </details>
-> > - Server Select dropdown is back on the home screen!
-> > - Themed Bundle and VIP Notification Popups
-> >   <details>
-> >   <summary>Themed Notification Popups (Image)</summary>
-> >   
-> >   ![Bundle](img/docs/betterUI/inventory/notification/Bundle.png)
-> >   ![VIP](img/docs/betterUI/inventory/notification/VIP.png)
-> >   </details>
-> </details>
+>   > - __UI Improvements__:
+>   >   - Rounded item and weapon select buttons
+>   >   - Better **color matching** on existing item theme properties:
+>   >     - Price Labels
+>   >     - Spinning Egg (Item Image Loading)
+>   >     - Item Borders
+>   >   - New **gradient effect** (+ fade-in animation) for themed items when selected
+>   >   - Item Search Feature (This was added into the game on October 1st, 2023!)
+>   >   - EggK-47s and Whippers with sound effects now play a burst of their sound effect when clicked!
+>   >   - Fixed Bugs:
+>   >     - Equipped weapon skin wasn't highlighted after switching classes
+>   >     - Sound effect played when switching tabs in shop
+>   >     - Weapon skin buttons could be deselected
+>   >     - Photobooth wasn't updating pistol when switching main weapon class
+>   >     - Fixed wonky item banners for items showing in bundle popup
+>   > - __New Item Themes__:
+>   >   - ``Bundle`` - Items available through bundles only
+>   >   - ``Limited`` - Limited-time items (in "Limited Edition" shop section)
+>   >   - ``Twitch Drops`` - Items available through Twitch Drops
+>   >   - ``Merch`` - Hats that were previously obtained through buying Shell Shockers merchandise
+>   >   - ``Yolker`` - New Yolker Items
+>   >   - ``League`` - Clan/Tournament Hats and Stamps
+>   >   - ``Notif`` - Hats created for and rewarded through the (discontinued) Notification System
+>   >   - ``Egglite`` - Code-unlockable items that fit no other categories
+>   >   - ``Promo`` - Cross-Promotional items unlocked by playing other BWD games (ex: Skull Wand Pistol)
+>   >   - ``Event`` - Event rewards from events such as EGG ORG or Scavenger Hunt
+>   >   - ``Social`` - Social media rewards (Hats) from the homepage
+>   >   - ``Legacy`` - Legacy default weapon skins from 2018/2019
+>   >   - ``YT CC`` - BWD YouTube CC shop items
+>   >   - ``Twitch CC`` - BWD Twitch CC shop items
+>   >   <details>
+>   >   <summary>Item Themes (Image)</summary>
+>   >    
+>   >   ![Item Themes](img/docs/betterUI/inventory/Item%20Themes.png)
+>   >   </details>
+>   > - Code Cracked popup is themed to match the item theme of the cracked item
+>   >   <details>
+>   >   <summary>Themed Code Cracked Popup (Image)</summary>
+>   >    
+>   >   ![Item Themes](img/docs/betterUI/inventory/Code%20Cracked.png)
+>   >   </details>
+>   > - Chick'n Winner popup is themed to match the item theme of the cracked item (after you reveal the item)
+>   >   <details>
+>   >   <summary>Themed Chick'n Winner Popup (Image)</summary>
+>   >    
+>   >   ![Item Themes](img/docs/betterUI/inventory/Chick'n%20Winner.png)
+>   >   </details>
+>   > 
+>   > - __Changed Item Sorting Order__:
+>   >   1. Bundle
+>   >   2. Premium (Money)
+>   >   3. Premium (Golden Eggs)
+>   >   4. VIP
+>   >   5. Merch
+>   >   6. Twitch Drops
+>   >   7. New Yolker
+>   >   8. League
+>   >   9. Notification
+>   >   10. Egglite
+>   >   11. Promo
+>   >   12. Event
+>   >   13. Social
+>   >   14. Default & Legacy Items
+>   >   15. Limited
+>   >   16. Content Creator (YouTube & Twitch)
+>   >   17. Shop Items 
+>   > - **Skin randomizer button** - randomizes all equipped items (including grenade and melee) for the currently selected weapon class
+>   > - **Item count information** in inventory, shop, and limited edition section:
+>   >   - __Inventory__: shows # of items owned / total # of items
+>   >     - __Limited Edition__: shows # of limited items owned / total # of limited items
+>   >   - __Shop__: shows # of items remaining to purchase / total # of shop items (including vaulted shop items)
+>   >     - __Limited Edition__: shows # of limited items remaining to purchase / total # of limited items
+>   > - Clickable **Item Icons** for most of the custom item themes!
+>   >   - Premium (matches your local currency) - switches to the shop tab of the shop
+>   >   - VIP - opens VIP popup
+>   >   - Bundle - switches to the shop tab of the shop
+>   >   - Merch - opens merch store
+>   >   - Twitch Drops - opens Twitch Drops page
+>   >   - New Yolker - opens New Yolker signup page
+>   >   - Notification - requests to turn on notifications
+>   >   - Promo - opens the particular promotion of the item
+>   >   - Social - opens the particular BWD social media page of the item
+>   >   - Limited - opens limited edition section and shows all owned limited items
+>   >   - Content Creator - links directly to the social media profile of the content creator
+>   > - **Item Vault** - lets you preview unowned vaulted items (only in the inventory). Photobooth is disabled while in the Item Vault and you can't use the items in-game.
+>   >   - Clicking an unowned social item opens the social media page and rewards the item.
+>   >   - Clicking an unowned VIP item opens the VIP subscription popup
+>   >   <details>
+>   >   <summary>Item Vault UI (Image)</summary>
+>   >   
+>   >   ![Item Vault](img/docs/betterUI/inventory/Item%20Vault.png)
+>   >   </details>
+>   > - Server Select dropdown is back on the home screen!
+>   > - Themed Bundle and VIP Notification Popups
+>   >   <details>
+>   >   <summary>Themed Notification Popups (Image)</summary>
+>   >   
+>   >   ![Bundle](img/docs/betterUI/inventory/notification/Bundle.png)
+>   >   ![VIP](img/docs/betterUI/inventory/notification/VIP.png)
+>   >   </details>
+>   </details>
 > 
 > - **Better Profile**
-> <details>
-> <summary>More Info</summary>
-> 
-> > - **Profile Pictures** have returned in the profile section! Accounts that don't have a profile picture get a default one displayed.
-> >   <details>
-> >   <summary>Updated Profile Section (Image)</summary>
-> > 
-> >   ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
-> >   </details>
-> > 
-> > <details>
-> > <summary>Tier Badge Level Up Alert (Image)</summary>
-> > 
-> > ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
-> > </details>
-> > 
-> > - **Profile Badges** - Clickable & Automatically Computed/Displayed:
-> >   - Core Badges (27):
-> >     - General Badges (11):
-> >       | Badge Name           | Description                                             |
-> >       | -------------------- | ------------------------------------------------------- |
-> >       | VIP Subscriber       | Have an active VIP subscription                         |
-> >       | Wizard               | Be one of the developers (Wizards)                      |
-> >       | BWD Mod              | Be one of the BWD Discord moderators                    |
-> >       | Eggforcer            | Be one of the Shell moderators (Eggforcers)             |
-> >       | Shell League Staff   | Be a staff member of the Shell League                   |
-> >       | Shell Wiki Staff     | Be a staff member on the official Shell Shockers Wiki    |
-> >       | OG Player            | Account Created in 2019 or Earlier                      |
-> >       | Pandemic Player      | Account Created in 2020                                 |
-> >       | Farm-Fresh Player    | Account less than a month old                           |
-> >       | Eggcellent Hatchday! | Today is your account's birthday!                       |
-> >       | MegaMod Playtester   | Helped playtest The MegaMod before its release - tysm!  |
-> >     - Event Badges (9):
-> >       | Badge Name           | Description                                                                |
-> >       | -------------------- | -------------------------------------------------------------------------- |
-> >       | Treasure Hunter      | Participated in the Scavenger Hunt 2022 event                              |
-> >       | ATTN: EGG ORG.       | Participated in the first EGG ORG event (2020)                              |
-> >       | Pablo > Diablo       | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event               |
-> >       | Pablo's Saviour      | Participated in the "Timetwist" (EGG ORG 2022) event                       |
-> >       | Monsters Win!        | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event            |
-> >       | N0 M0R3 R0B0TS       | Participated in the "Rise of the Robots" (EGG ORG 2024) event              |
-> >       | Egg-Fu Master        | Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event  |
-> >       | Eggsassin            | Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event      |
-> >       | Shadowborn Survivor  | Participated in the "Shadow War" (EGG ORG 2025) event                      |
-> >     - Social Badges (7) - **BWD Content Creators Only**:
-> >       > Matches the CC social media linked to your Shell Shockers account!
-> >       - Facebook
-> >       - Instagram
-> >       - TikTok
-> >       - Discord
-> >       - YouTube
-> >       - Twitter (X)
-> >       - Twitch
-> >     
-> >   - Tier Badges (18 Unique, 88 Total):
-> >     > The highest tier of a particular badge is displayed on your profile
-> >  
-> >     | Badge Name           | Description                                | Tier Requirements |
-> >     | -------------------- | ------------------------------------------ |------------------ |
-> >     | Eggstra Spender      | % of Premium Items Owned                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
-> >     | Challenge Eggcepted  | # of Unique Challenges Completed           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>75</td></tr><tr><td>V</td><td>100+</td></tr></tbody></table>|
-> >     | Overeggchiever       | # of Total Challenges Completed            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>50</td></tr><tr><td>II</td><td>100</td></tr><tr><td>III</td><td>250</td></tr><tr><td>IV</td><td>500</td></tr><tr><td>V</td><td>1,000+</td></tr></tbody></table>|
-> >     | Eggspenditure        | Golden Eggs Spent                          | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>500,000</td></tr><tr><td>II</td><td>1,000,000</td></tr><tr><td>III</td><td>2,500,000</td></tr><tr><td>IV</td><td>5,000,000</td></tr><tr><td>V</td><td>7,500,000+</td></tr></tbody></table>|
-> >     | Shell Scrambler      | Lifetime Kills                             | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10,000</td></tr><tr><td>II</td><td>25,000</td></tr><tr><td>III</td><td>50,000</td></tr><tr><td>IV</td><td>100,000</td></tr><tr><td>V</td><td>200,000+</td></tr></tbody></table>|
-> >     | Master of Arms       | Lifetime Kills With Every Weapon           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>750</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,500+</td></tr></tbody></table>|
-> >     | Eggsecutioner        | Lifetime Kills in Every Game Mode          | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>500</td></tr><tr><td>II</td><td>1,000</td></tr><tr><td>III</td><td>5,000</td></tr><tr><td>IV</td><td>10,000</td></tr><tr><td>V</td><td>20,000+</td></tr></tbody></table>|
-> >     | Splattered Yolk      | Lifetime Deaths                            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10000</td></tr><tr><td>II</td><td>25000</td></tr><tr><td>III</td><td>50000</td></tr><tr><td>IV</td><td>100000</td></tr><tr><td>V</td><td>200000+</td></tr></tbody></table>|
-> >     | Humpty's Fall        | # of Fall Deaths                           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>100</td></tr><tr><td>V</td><td>250+</td></tr></tbody></table>|
-> >     | Overkill             | Lifetime KDR                               | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
-> >     | Eggsassin            | Lifetime KDR in Every Game Mode            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
-> >     | Royal Rooster        | Lifetime KoTC Round Wins                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>100</td></tr><tr><td>II</td><td>250</td></tr><tr><td>III</td><td>500</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,000+</td></tr></tbody></table>|
-> >     | Coop King            | Lifetime KoTC Coop Captures                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>1,500</td></tr><tr><td>IV</td><td>2,500</td></tr><tr><td>V</td><td>5,000+</td></tr></tbody></table>|
-> >     | Eggsclusive          | % Owned of Current Update's Limited Items  | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
-> >     | Yolky Drip           | # of Merch Items Owned                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>1</td></tr><tr><td>II</td><td>2</td></tr><tr><td>III</td><td>3</td></tr></tbody></table>|
-> >     | Twitch Drops         | % Owned of Twitch Drops Items              | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
-> >     | Colleggter           | % Owned of New Yolker Items                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
-> >     | Pro Egg Gamer        | # of League Items Owned                    | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>1</td></tr><tr><td>II</td><td>2</td></tr><tr><td>III</td><td>3</td></tr><tr><td>IV</td><td>7</td></tr><tr><td>V</td><td>9+</td></tr></tbody></table>|
-> >     | Egglitist            | % Owned of Egglite Items                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>90%+</td></tr></tbody></table>|
-> >     | Poached Promoter     | % Owned of Promo Items                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
-> > 
-> >   <details>
-> >   <summary>Profile Badge Popup (Image)</summary>
-> >   
-> >   ![Profile Badge Popup](img/docs/betterUI/profile/Profile%20Badge%20Info%20Popup.png)
-> >   </details>
+>   <details>
+>   <summary>More Info</summary>
+>   
+>   > - **Profile Pictures** have returned in the profile section! Accounts that don't have a profile picture get a default one displayed.
+>   >   <details>
+>   >   <summary>Updated Profile Section (Image)</summary>
+>   > 
+>   >   ![Profile Section](img/docs/betterUI/profile/Profile%20Picture%20&%20Badges.png)
+>   >   </details>
+>   > 
+>   > <details>
+>   > <summary>Tier Badge Level Up Alert (Image)</summary>
+>   > 
+>   > ![Tier Badge Level Up](img/docs/betterUI/profile/Tier%20Badge%20Level%20Up.png)
+>   > </details>
+>   > 
+>   > - **Profile Badges** - Clickable & Automatically Computed/Displayed:
+>   >   - Core Badges (27):
+>   >     - General Badges (11):
+>   >       | Badge Name           | Description                                             |
+>   >       | -------------------- | ------------------------------------------------------- |
+>   >       | VIP Subscriber       | Have an active VIP subscription                         |
+>   >       | Wizard               | Be one of the developers (Wizards)                      |
+>   >       | BWD Mod              | Be one of the BWD Discord moderators                    |
+>   >       | Eggforcer            | Be one of the Shell moderators (Eggforcers)             |
+>   >       | Shell League Staff   | Be a staff member of the Shell League                   |
+>   >       | Shell Wiki Staff     | Be a staff member on the official Shell Shockers Wiki    |
+>   >       | OG Player            | Account Created in 2019 or Earlier                      |
+>   >       | Pandemic Player      | Account Created in 2020                                 |
+>   >       | Farm-Fresh Player    | Account less than a month old                           |
+>   >       | Eggcellent Hatchday! | Today is your account's birthday!                       |
+>   >       | MegaMod Playtester   | Helped playtest The MegaMod before its release - tysm!  |
+>   >     - Event Badges (9):
+>   >       | Badge Name           | Description                                                                |
+>   >       | -------------------- | -------------------------------------------------------------------------- |
+>   >       | Treasure Hunter      | Participated in the Scavenger Hunt 2022 event                              |
+>   >       | ATTN: EGG ORG.       | Participated in the first EGG ORG event (2020)                              |
+>   >       | Pablo > Diablo       | Participated in the "EGG ORG: Phase II" (EGG ORG 2021) event               |
+>   >       | Pablo's Saviour      | Participated in the "Timetwist" (EGG ORG 2022) event                       |
+>   >       | Monsters Win!        | Participated in the "EGG ORG & Eggventure" (EGG ORG 2023) event            |
+>   >       | N0 M0R3 R0B0TS       | Participated in the "Rise of the Robots" (EGG ORG 2024) event              |
+>   >       | Egg-Fu Master        | Played as an Egg-Fu Master during the \"Shadow War\" (EGG ORG 2025) event  |
+>   >       | Eggsassin            | Played as an Eggsassin during the \"Shadow War\" (EGG ORG 2025) event      |
+>   >       | Shadowborn Survivor  | Participated in the "Shadow War" (EGG ORG 2025) event                      |
+>   >     - Social Badges (7) - **BWD Content Creators Only**:
+>   >       > Matches the CC social media linked to your Shell Shockers account!
+>   >       - Facebook
+>   >       - Instagram
+>   >       - TikTok
+>   >       - Discord
+>   >       - YouTube
+>   >       - Twitter (X)
+>   >       - Twitch
+>   >     
+>   >   - Tier Badges (18 Unique, 88 Total):
+>   >     > The highest tier of a particular badge is displayed on your profile
+>   >  
+>   >     | Badge Name           | Description                                | Tier Requirements |
+>   >     | -------------------- | ------------------------------------------ |------------------ |
+>   >     | Eggstra Spender      | % of Premium Items Owned                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
+>   >     | Challenge Eggcepted  | # of Unique Challenges Completed           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>75</td></tr><tr><td>V</td><td>100+</td></tr></tbody></table>|
+>   >     | Overeggchiever       | # of Total Challenges Completed            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>50</td></tr><tr><td>II</td><td>100</td></tr><tr><td>III</td><td>250</td></tr><tr><td>IV</td><td>500</td></tr><tr><td>V</td><td>1,000+</td></tr></tbody></table>|
+>   >     | Eggspenditure        | Golden Eggs Spent                          | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>500,000</td></tr><tr><td>II</td><td>1,000,000</td></tr><tr><td>III</td><td>2,500,000</td></tr><tr><td>IV</td><td>5,000,000</td></tr><tr><td>V</td><td>7,500,000+</td></tr></tbody></table>|
+>   >     | Shell Scrambler      | Lifetime Kills                             | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10,000</td></tr><tr><td>II</td><td>25,000</td></tr><tr><td>III</td><td>50,000</td></tr><tr><td>IV</td><td>100,000</td></tr><tr><td>V</td><td>200,000+</td></tr></tbody></table>|
+>   >     | Master of Arms       | Lifetime Kills With Every Weapon           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>750</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,500+</td></tr></tbody></table>|
+>   >     | Eggsecutioner        | Lifetime Kills in Every Game Mode          | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>500</td></tr><tr><td>II</td><td>1,000</td></tr><tr><td>III</td><td>5,000</td></tr><tr><td>IV</td><td>10,000</td></tr><tr><td>V</td><td>20,000+</td></tr></tbody></table>|
+>   >     | Splattered Yolk      | Lifetime Deaths                            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10000</td></tr><tr><td>II</td><td>25000</td></tr><tr><td>III</td><td>50000</td></tr><tr><td>IV</td><td>100000</td></tr><tr><td>V</td><td>200000+</td></tr></tbody></table>|
+>   >     | Humpty's Fall        | # of Fall Deaths                           | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10</td></tr><tr><td>II</td><td>25</td></tr><tr><td>III</td><td>50</td></tr><tr><td>IV</td><td>100</td></tr><tr><td>V</td><td>250+</td></tr></tbody></table>|
+>   >     | Overkill             | Lifetime KDR                               | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
+>   >     | Eggsassin            | Lifetime KDR in Every Game Mode            | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>0.75</td></tr><tr><td>II</td><td>1.00</td></tr><tr><td>III</td><td>2.00</td></tr><tr><td>IV</td><td>3.00</td></tr><tr><td>V</td><td>4.00+</td></tr></tbody></table>|
+>   >     | Royal Rooster        | Lifetime KoTC Round Wins                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>100</td></tr><tr><td>II</td><td>250</td></tr><tr><td>III</td><td>500</td></tr><tr><td>IV</td><td>1,000</td></tr><tr><td>V</td><td>2,000+</td></tr></tbody></table>|
+>   >     | Coop King            | Lifetime KoTC Coop Captures                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>250</td></tr><tr><td>II</td><td>500</td></tr><tr><td>III</td><td>1,500</td></tr><tr><td>IV</td><td>2,500</td></tr><tr><td>V</td><td>5,000+</td></tr></tbody></table>|
+>   >     | Eggsclusive          | % Owned of Current Update's Limited Items  | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>80%+</td></tr></tbody></table>|
+>   >     | Yolky Drip           | # of Merch Items Owned                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>1</td></tr><tr><td>II</td><td>2</td></tr><tr><td>III</td><td>3</td></tr></tbody></table>|
+>   >     | Twitch Drops         | % Owned of Twitch Drops Items              | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
+>   >     | Colleggter           | % Owned of New Yolker Items                | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
+>   >     | Pro Egg Gamer        | # of League Items Owned                    | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>1</td></tr><tr><td>II</td><td>2</td></tr><tr><td>III</td><td>3</td></tr><tr><td>IV</td><td>7</td></tr><tr><td>V</td><td>9+</td></tr></tbody></table>|
+>   >     | Egglitist            | % Owned of Egglite Items                   | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>20%</td></tr><tr><td>III</td><td>30%</td></tr><tr><td>IV</td><td>50%</td></tr><tr><td>V</td><td>90%+</td></tr></tbody></table>|
+>   >     | Poached Promoter     | % Owned of Promo Items                     | <table><thead><tr><th>Tier</th><th>Requirement</th></tr></thead><tbody><tr><td>I</td><td>10%</td></tr><tr><td>II</td><td>25%</td></tr><tr><td>III</td><td>50%</td></tr><tr><td>IV</td><td>75%</td></tr><tr><td>V</td><td>100%</td></tr></tbody></table>|
+>   > 
+>   >   <details>
+>   >   <summary>Profile Badge Popup (Image)</summary>
+>   >   
+>   >   ![Profile Badge Popup](img/docs/betterUI/profile/Profile%20Badge%20Info%20Popup.png)
+>   >   </details>
 >   </details>
 > 
 > - **Force Roundness**: Makes the UI more comfy by rounding the corners on buttons, popups, and more! No more nasty sharp edges!
@@ -381,32 +390,44 @@ There's a new link added to the footer on the home screen, which opens a changel
 > 
 > - **Yellow Hit Markers**: Makes the hit markers yolk yellow instead of red because egg yolk is yellow and eggs don't bleed blood :)
 >
-> - **Weapon Iconss**: Adds weapon icons on the Player List and Kill Feed
-> <details>
-> <summary>More Info</summary>
-> 
-> >   - Shows Primary Weapon Icons on Player List
-> >     <details>
-> >     <summary>Primary Weapon Icons on Player List (Image)</summary>
-> >      
-> >     ![Weapon Icons on Player List](img/docs/betterUI/misc/weapons/Player%20List.png)
-> >     </details>
-> >   
-> >   - Shows Primary Weapon Icons (or Pistol) next to names on the Kill Feed
-> >     <details>
-> >     <summary>Primary Weapon Icons (or Pistol) on Kill Feed (Image)</summary>
-> >     
-> >     ![Weapon Icons on Kill Feed](img/docs/betterUI/misc/weapons/Kill%20Feed.png)
-> >     </details>
-> </details>
+> - **Weapon Icons**: Adds weapon icons on the Player List and Kill Feed
+>   <details>
+>   <summary>More Info</summary>
+>     
+>   >   - Shows Primary Weapon Icons (or Pistol) on Player List
+>   >     <details>
+>   >     <summary>Primary Weapon Icons (or Pistol) on Player List (Image)</summary>
+>   >      
+>   >     ![Weapon Icons on Player List](img/docs/betterUI/weapons/Player%20List.png)
+>   >     </details>
+>   >   
+>   >   - Shows Primary Weapon Icons (or Pistol/Grenade/Melee) next to names on the Kill Feed
+>   >     <details>
+>   >     <summary>Primary Weapon Icons (or Pistol/Grenade/Melee) on Kill Feed (Image)</summary>
+>   >     
+>   >     ![Weapon Icons on Kill Feed](img/docs/betterUI/weapons/Kill%20Feed.png)
+>   >     </details>
+>   </details>
 > 
 > - **Kill Distance**: Shows Kill Distance (in m) next to each kill on the Kill Feed
 >   > (This idea was first released in a mod by Agent Adam)
-> <details>
->   <summary>Kill Distance on Kill Feed (Image)</summary>
->   
->   ![Kill Distance on Kill Feed](img/docs/betterUI/misc/Kill%20Distances.png)
-> </details>
+>   <details>
+>     <summary>Kill Distance on Kill Feed (Image)</summary>
+>     
+>     ![Kill Distance on Kill Feed](img/docs/betterUI/misc/Kill%20Distances.png)
+>   </details>
+> 
+> - **Spatula Icons**: Shows Spatula Icon on Player List and Kill Feed for the player currently holding the spatula.
+>   <details>
+>     <summary>Spatula Distance on Player List (Image)</summary>
+>     
+>     ![Kill Icon on Player List](img/docs/betterUI/spatula/Player%20List.png)
+>   </details>
+>   <details>
+>     <summary>Spatula Distance on Kill Feed (Image)</summary>
+>     
+>     ![Kill Icon on Kill Feed](img/docs/betterUI/spatula/Kill%20Feed.png)
+>   </details>
 </details>
 
 <details>
@@ -435,6 +456,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 > - **Auto-Translate Chat**: Automatically translates incoming chat messages by default.
 >
 > - **Detect Game Codes**: Lets you click on game codes in chat messages to join them.
+>   > Also alerts you if you're joining the game you're currently in.
 >   <details>
 >   <summary>Detect Game Codes UI (Image)</summary>
 >   
@@ -663,7 +685,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 <summary>Custom Fog</summary>
 
 > > CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!
-> > Enhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to a crystal-clear view across all maps.
+> > Enhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to complete blindness across all maps.
 > ### **Settings**:
 > - **Fog Density (%)**: Set the density of the fog.
 > - **Fog Color (Color Picker)**: Set the color of the fog.

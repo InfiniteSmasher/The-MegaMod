@@ -420,6 +420,18 @@
 	text-align: left;
 }
 
+#modUpdatedPopup .changelog_content h3 {
+    color: var(--ss-blue3);
+    margin: 0;
+    padding: 0;
+    font-family: Nunito,sans-serif;
+    font-weight: 700;
+}
+
+#modUpdatedPopup .popup_sm_content {
+    min-width: 35em !important;
+}
+
 /* Stops Side Panel from overlapping Photobooth Spin dropdowns*/
 .equip-screen.photo-booth .main-aside {
 	z-index: 0 !important;
@@ -854,8 +866,9 @@
     bottom: .2em;
 }
 
-/* Player List/Kill Feed Weapon Icons & Kill Distance - Hidden by default */
+/* Player List/Kill Feed Weapon Icons, Kill Distance, and Spatula Icon - Hidden by default */
+.weapon-icon,
 .kill-dist,
-.weapon-icon {
+.spatula-icon {
 	display: none;
 }

@@ -1,0 +1,49 @@
+.playerSlot-spatula {
+  color: var(--ss-gold);
+  border: 2px solid var(--ss-gold);
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+.playerSlot-spectating.playerSlot-spatula {
+    color: white;
+    border: 2px solid white;
+    animation: glow-pulse-spectate 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0px var(--ss-gold);
+  }
+  50% {
+    box-shadow: 0 0 5px 3px var(--ss-gold);
+  }
+}
+@keyframes glow-pulse-spectate {
+  0%, 100% {
+    box-shadow: 0 0 0px white;
+  }
+  50% {
+    box-shadow: 0 0 5px 3px white;
+  }
+}
+
+#playerSlot .spatula-icon,
+#killTicker .spatula-icon {
+    display: initial;
+    vertical-align: middle;
+    fill: var(--ss-gold);
+    width: 1.2em;
+    height: 1.2em;
+    transform: rotate(10deg);
+}
+
+#playerSlot .spatula-icon {
+    margin-top: 1px;
+    margin-left: -4px;
+    margin-right: var(--ss-space-xs);
+}
+
+#killTicker .spatula-icon {
+    margin-top: -4px;
+    margin-right: 3px;
+}

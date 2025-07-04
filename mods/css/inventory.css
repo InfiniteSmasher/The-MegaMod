@@ -117,6 +117,7 @@
 }
 
 /* Fade In Item Icon + Banner */
+/* TODO: Fix for .eggpremium because they have .is-shop */
 .highlight .equip-vip-icon,
 .highlight:not(.is-shop) .equip_smallprice i,
 .highlight:not(.is-shop) .equip_smallprice div,
@@ -821,10 +822,12 @@
 	background: radial-gradient(white, red) !important;
 }
 #app .popup_window.creatoryt h3,
-#app .popup_window.creatoryt h4,
+#app .popup_window.creatoryt h4 {
+	color: red !important;
+}
 .is-creator-yt .item-icon,
 .is-creator-yt .equip_cost {
-	color: red !important;
+	color: red;
 }
 #equip_grid .is-creator-yt .egg-stroke {
 	fill: red;
@@ -1660,6 +1663,7 @@
 }
 #app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .item-icon {
 	scale: 5;
+	margin-bottom: 3em;
 }
 #app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .equip-vip-icon {
 	scale: 3;

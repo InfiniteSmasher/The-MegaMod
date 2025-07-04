@@ -297,3 +297,11 @@ input[type='range']::-webkit-slider-thumb {
 .ss_field:disabled {
     background: var(--ss-blue0) !important;
 }
+.playerSlot-spectating {
+    color: white;
+}
+
+/* Fix Horizontal Bar Below Announcement Message */
+#announcement_message::after {
+    width: 100%;
+}

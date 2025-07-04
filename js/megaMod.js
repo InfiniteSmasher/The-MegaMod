@@ -706,7 +706,7 @@ class MegaMod {
         Object.assign(comp_equip_screen.methods, {
             switchItemType(...args) {
                 oldSwitchItemType.apply(this, args);
-                if (extern.modSettingEnabled("betterUI_inventory") && this.isEquipModeInventory && this.itemVaultEnabled) {
+                if (extern.modSettingEnabled("betterUI_inventory") && this.isEquipModeInventory && this.itemVaultEnabled && this.equip.showingItems.length) {
                     this.updateEquippedItems();
                     this.poseEquippedItems();
                     this.selectItem(this.equip.showingItems[0]);
@@ -717,13 +717,16 @@ class MegaMod {
                 oldOnChangedClass.apply(this, args);
                 // Fixes selected item highlight when changing class
                 if (extern.modSettingEnabled("betterUI_inventory") && this.equip.showingItems.length) {
-                    if (this.showShop && (this.isOnEquipModeFeatured || this.isOnEquipModeSkins)) this.selectFirstItemInShop();
-                    else if (this.isEquipModeInventory) {
-                        if (this.itemVaultEnabled) {
-                            this.selectItem(this.equip.showingItems[0]);
+                    if (this.showShop && (this.isOnEquipModeFeatured || this.isOnEquipModeSkins)) {
+                        this.selectFirstItemInShop();
+                    } else if (this.isEquipModeInventory) {
+                        if (this.itemVaultEnabled ) {
+                            if (this.equip.showingItems.length) this.selectItem(this.equip.showingItems[0])
                         } else {
                             this.selectEquippedItemForType();
                         }
+                    } else if (!this.itemVaultEnabled && vueApp.showScreen === vueApp.screens.home) {
+                        this.selectEquippedItemForType();
                     }
                 }
                 this.updateShowingItemTotal();
@@ -738,6 +741,7 @@ class MegaMod {
                         key = parseInt(key, 10);
                         const isPrimaryOrSecondary = selectedItemType === ItemType.Primary && key === ItemType.Secondary;
                         const pistolHidden = !vueApp.$refs.photoBooth.egg.items.find(i => i.value === ItemType.Secondary).hidden;
+                        
                         // Pistol was getting deleted from the array and wasn't updating as a result
                         if (key !== selectedItemType && !(extern.modSettingEnabled("betterUI_inventory") && isPrimaryOrSecondary && pistolHidden)) delete items[key];
                     });
@@ -804,7 +808,11 @@ class MegaMod {
                         items = items.filter(i => extern.isItemOwned(i) || (i.is_available && i.unlock === "default"));
                     }
                 } else {
-                    items = items.filter(i => i.is_available && !extern.isItemOwned(i) && !this.store.itemIdsToHide.includes(i.id) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
+                    if (vueApp.showScreen === vueApp.screens.home && this.itemVaultEnabled) {
+                        items = items.filter(i => extern.isItemOwned(i) || (i.is_available && i.unlock === "default"));
+                    } else {
+                        items = items.filter(i => i.is_available && !extern.isItemOwned(i) && !this.store.itemIdsToHide.includes(i.id) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
+                    }
                 }
                 
                 this.equip.showingItems = items;
@@ -848,7 +856,7 @@ class MegaMod {
                 this.populateItemGrid(extern.getItemsOfType((this.equip.selectedItemType)));
                 
                 if (this.itemVaultEnabled) {
-                    if (!ignoreSelect) this.selectItem(this.equip.showingItems[0]);
+                    if (!ignoreSelect && this.equip.showingItems.length) this.selectItem(this.equip.showingItems[0]);
                 } else {
                     this.updateEquippedItems();
                     this.poseEquippedItems();
@@ -899,6 +907,11 @@ class MegaMod {
             switchTo(mode, useItemType) {
                 oldSwitchTo.call(this, mode, useItemType);
                 this.updateShowingItemTotal();
+                if (mode === this.equipMode.inventory) {
+                    if (extern.modSettingEnabled("betterUI_inventory") && this.itemVaultEnabled && this.equip.showingItems.length) {
+                        this.selectItem(this.equip.showingItems[0]);
+                    }
+                }
             },
             showItemTheme(theme) {
                 const { themeData } = unsafeWindow.megaMod.betterUI;
@@ -1031,16 +1044,22 @@ class MegaMod {
             },
             onCodeKeydown(index, event) {
                 const key = event.key;
+
+                // Allow Ctrl+V / Cmd+V so the browser can trigger the paste event
+                if ((event.ctrlKey || event.metaKey) && key.toLowerCase() === 'v') return;
             
-                // Allow special keys and modifiers to propagate (e.g., Cmd+V for paste)
-                if (event.metaKey || event.ctrlKey || ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(key)) return;
-            
+                // Only allow single A–Z letters (case insensitive)
+                if (!/^[a-zA-Z]$/.test(key)) {
+                    event.preventDefault();
+                    return;
+                }
+
                 const letter = this.sanitizeCode(key);
                 if (!letter) {
                     event.preventDefault();
                     return; // not a valid letter/number, skip
                 }
-            
+
                 event.preventDefault(); // only prevent default if we're inserting a valid char
                 
                 const inputs = this.$refs.codeInputs;
@@ -1334,7 +1353,7 @@ class MegaMod {
             modErrsPopupContent: "",
             modUpdatePopupContent: "",
             modUpdatedPopupContent: "",
-            updateInfo: "",
+            updateContent: { updateInfo: [], currentChangelog: {}},
             modAnnouncement: "",
             openMegaModUpdate() {
                 BAWK.play("ui_click");
@@ -1426,7 +1445,12 @@ class MegaMod {
             },
             handleGameCodeClick(event, code) {
                 event.stopPropagation();
-                vueApp.leaveGameToJoinOther(code);
+                if (code.toLowerCase() === this.game.shareLinkPopup.code.toLowerCase()) {
+                    BAWK.play("ui_reset");
+                    vueApp.$refs.gameScreen.showInGameNotif('leave_game_to_join_other_error');
+                } else {
+                    vueApp.leaveGameToJoinOther(code);
+                }
             },
             leaveGameToJoinOther(code) {
                 vueApp.leaveToJoinGameCode = code;
@@ -1939,7 +1963,7 @@ class MegaMod {
         });
     
         const changelog = document.getElementById("changelogPopup");
-        const megaModChangelog = "changelog.megaModChangelog || false";
+        const megaModChangelog = "changelog.isMegaMod || false";
         changelog.innerHTML = changelog.innerHTML.replace(
             `{{ loc.changelog_title }}`,
             ``
@@ -1953,7 +1977,7 @@ class MegaMod {
             `changelog.showHistoryBtn`,
             `(${megaModChangelog}) ? changelog.showMegaModHistoryBtn : changelog.showHistoryBtn`
         ).replace(
-            "showHistoryChangelogPopup", "showHistoryChangelogPopup(changelog.megaModChangelog)"
+            "showHistoryChangelogPopup", `showHistoryChangelogPopup(${megaModChangelog})`
         ).replace(
             `<div id="btn`,
             `<button v-if="${megaModChangelog}" @click="openMegaModInfo" class="ss_button btn_yolk bevel_yolk ss_margintop_lg">{{ loc.megaMod_changelog_wtc }}</button> <div id="btn`
@@ -1967,7 +1991,7 @@ class MegaMod {
             <button class="ss_button_as_text" target="_blank" @click="onChangelogClicked(true)">The MegaMod <i class='fas fa-tools fa-sm'></i></button> | 
             <button class="ss_button_as_text modServer" target="_blank" @click="onServerClicked"><img src="${unsafeWindow.rawPath}/img/assets/logos/modServer.png" class='serverIcon'></img></button> | `);
     
-        Object.assign(vueData.changelog, { megaModChangelog: false, showMegaModHistoryBtn: true });
+        Object.assign(vueData.changelog, { isMegaMod: false, showMegaModHistoryBtn: true, megaMod: {} });
         vueData.openMegaModInfo = () => {
             open(cdnPath);
             BAWK.play("ui_click");
@@ -2515,10 +2539,17 @@ class MegaMod {
                 <template slot="content">
                     <p v-html="modUpdatedPopupContent"></p>
                     <h3>{{ loc['megaMod_updatePopup_infoTitle'] }}</h3>
-                    <div class="changelog_content roundme_md">
-                        <ul>
-                            <li v-for="info in updateInfo" v-html="info">
-                        </ul>
+                    <div class="changelog_content roundme_lg">
+                        <section>
+                            <ul>
+                                <li v-for="data in updateContent.updateInfo" v-html="data"></li>
+                            </ul>
+                            <hr v-show="updateContent.updateInfo.length" class="blue">
+                            <h3>{{ updateContent.currentChangelog.version }} - <i><time>{{ updateContent.currentChangelog.date }}</time></i></h3>
+                            <ul>
+                                <li v-for="data in updateContent.currentChangelog.content" v-html="data"></li>
+                            </ul>
+                        </section>
                     </div>
                 </template>
                 <template slot="confirm">{{ loc['megaMod_updatedPopup_okBtn'] }}</template>
@@ -2544,8 +2575,9 @@ class MegaMod {
 
         const gameLeavePopup = `
             <small-popup id="leaveGameWarningPopup" ref="leaveGameWarningPopup" @popup-confirm="onLeaveGameConfirmedJoinGame" @popup-closed="onLeaveGameResetJoinGame" hide-close="true" @popup-cancel="onLeaveGameResetJoinGame">
-                <template slot="header">{{ loc.leave_game_to_join_other }}</template>
+                <template slot="header">{{ loc.leave_game_to_join_other_title }}</template>
                 <template slot="content">
+                    <p>{{ loc.leave_game_to_join_other_desc }}</p>
                     <div class="nowrap ss_margintop_lg ss_marginbottom_lg">
                         <i :class="icon.invite" class="text_blue5" style="size: 1em; zoom: 1.5;"></i>
                         <h1 class="display-inline ss_marginleft ss_marginright text_blue5">{{ leaveToJoinGameCode }}</h1>
@@ -2632,10 +2664,7 @@ class MegaMod {
         if (MegaMod.fatalErr) return src;
         this.checkError();
 
-        const regex = (strings, ...values) => new RegExp(
-            strings.raw.reduce((acc, str, i) => acc + str + (values[i] ?? ""), ""),
-            "g"
-        );
+        const regex = (strings, ...values) => new RegExp(strings.raw.reduce((acc, str, i) => acc + str + (values[i] ?? ""), ""), "g");
         const escSymbols = x => x.replaceAll(/[\$_]/g, '\\$&');
 
         String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
@@ -2648,6 +2677,22 @@ class MegaMod {
                 return str;
             }
             return all ? str.replaceAll(searchStr, replacement) : str.replace(searchStr, replacement);
+        };
+        String.prototype.safeMatchAll = function(regex, ids, ignoreSymbols = false) {
+            ids = Array.isArray(ids) ? ids : [ids];
+
+            if (!regex.global) {
+                MegaMod.error("RegExp must have the global (g) flag for matchAll:", regex);
+                return [];
+            }
+
+            const matches = [...this.matchAll(regex)];
+            if (!matches.length) {
+                ids.forEach(id => unsafeWindow.megaMod.addRegexErrId(id));
+                MegaMod.error("matchAll found no matches for RegExp pattern:", regex);
+                return [];
+            }
+            return matches.map(match => ignoreSymbols ? match : match.map((m, i) => i ? m.replace(/_/g, "\\_").replace(/\$/g, "\\$") : m));
         };
         RegExp.prototype.safeExec = function(src, ids, ignoreSymbols = false) {
             ids = Array.isArray(ids) ? ids : [ids];
@@ -2682,10 +2727,8 @@ class MegaMod {
                         const [cloneGrenadeMesh] = regex`${v}\(${v}\.catalog\.grenades\[${v}\]\.item_data\.meshName\,${v}\,null\,${v}\.getMaterialByName\(\"emissive\"\)\)\.setEnabled\(\!1\)`.safeExec(src, "matchGrenades");
                         if (cloneGrenadeMesh) {
                             let standardInstancedMesh = cloneGrenadeMesh.safeReplace("emissive", "standardInstanced", "matchGrenades");
-                            if (standardInstancedMesh) {
-                                // cloneMesh for other grenades
-                                src = src.safeReplace(cloneGrenadeMesh, `${standardInstancedMesh};${cloneGrenadeMesh};`, "matchGrenades");
-                            }
+                            // cloneMesh for other grenades
+                            if (standardInstancedMesh) src = src.safeReplace(cloneGrenadeMesh, `${standardInstancedMesh};${cloneGrenadeMesh};`, "matchGrenades");
     
                             // ItemManager Class Modifications
                             const updateGrenadesFunc = `,
@@ -2748,13 +2791,11 @@ class MegaMod {
                             src = src.safeReplace("generateLoadoutObject();", `generateLoadoutObject();if(extern.inGame){extern.tryUpdateGrenades();}`, "matchGrenades");
     
                             // Calling checkCurrentGrenadeMesh() during first-person spectate
-                            const specMatches = Array.from(src.matchAll(regex`this\.spectatePlayer\(${v}\)`, "g"));
+                            const specMatches = Array.from(src.safeMatchAll(regex`this\.spectatePlayer\(${v}\)`, "matchGrenades"));
                             if (spectatingPlayer && specMatches.length) {
                                 specMatches.forEach(([match]) => {
                                     src = src.safeReplace(match, `(${match}, extern.tryUpdateGrenades(${spectatingPlayer}.grenadeItem.item_data.meshName))`, "matchGrenades", true);
                                 });
-                            } else {
-                                unsafeWindow.megaMod.addRegexErrId("matchGrenades");
                             }
     
                             // Calling checkCurrentGrenadeMesh() when exiting first-person spectate
@@ -2855,9 +2896,7 @@ class MegaMod {
     
         // Color Slider Non-VIP Fix
         const [vipCheckMatch] = regex`\!${v}\.playerAccount\.isSubscriber`.safeExec(src, "colorSlider");
-        if (vipCheckMatch) {
-            src = src.safeReplace(vipCheckMatch, `${vipCheckMatch} && !extern?.usingSlider?.()`, "colorSlider");
-        }
+        if (vipCheckMatch) src = src.safeReplace(vipCheckMatch, `${vipCheckMatch} && !extern?.usingSlider?.()`, "colorSlider");
     
         // VIP Slider Color In-Game Init
         let actorVar = null;
@@ -2927,19 +2966,15 @@ class MegaMod {
         src = src.safeReplace("resize(){", `${hitIndicatorFunc}resize(){`, "betterUI_hitMarkers");
     
         const [,hitMarkers] = regex`${v}\.hitMarkers\?(${v})\.show`.safeExec(src, "betterUI_hitMarkers");
-        if (hitMarkers) {
-            src = src.safeReplace("catalog:", `switchHitMarkerColor: (enabled) => ${hitMarkers}.switchColor(enabled),catalog:`, "betterUI_hitMarkers");
-        }
+        if (hitMarkers) src = src.safeReplace("catalog:", `switchHitMarkerColor: (enabled) => ${hitMarkers}.switchColor(enabled),catalog:`, "betterUI_hitMarkers");
     
         // Longer Chat
-        const [chatLengthMatch] = regex`\}${v}\.length\>4`.safeExec(src, "");
-        if (chatLengthMatch) {
-            src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterChat_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterChat_longerChat") ? 6 : 4)`));
-        }
+        const [chatLengthMatch] = regex`\}${v}\.length\>4`.safeExec(src, ["betterChat_longerChat", "betterChat_infChat"]);
+        if (chatLengthMatch) src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterChat_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterChat_longerChat") ? 6 : 4)`));
     
         // Chat Events
-        const [,playerClickFunc, uniqueIdVar] = regex`onclick\=(${v})\(${v}\.(${v})\,${v}\,${v}\)`.safeExec(src, "");
-        const [,playerSocialFunc] = regex`\=(${v})\(${v}\.social\)`.safeExec(src, "");
+        const [,playerClickFunc, uniqueIdVar] = regex`onclick\=(${v})\(${v}\.(${v})\,${v}\,${v}\)`.safeExec(src, "betterChat_chatEvents");
+        const [,playerSocialFunc] = regex`\=(${v})\(${v}\.social\)`.safeExec(src, "betterChat_chatEvents");
         if (teamColors && playerClickFunc && playerSocialFunc) {
             const chatEventFunc = `
                 function addChatEvent (type, player) {
@@ -2991,25 +3026,40 @@ class MegaMod {
                 }
                 let clientReady = false;
             `;
-            src = src.safeReplace("window.BAWK", `${chatEventFunc}window.BAWK`, "");
+            src = src.safeReplace("window.BAWK", `${chatEventFunc}window.BAWK`, "betterChat_chatEvents");
         }
-        const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterEggforce_autoBan"]);
-        if (src.includes("clientReady = false;")) {
-            src = src.safeReplace(`vueApp.gameJoined`, `clientReady = false;vueApp.gameJoined`, "");
-            src = src.safeReplace(`vueApp.delayInGamePlayButtons`, `clientReady = true;vueApp.delayInGamePlayButtons`, "");
-            if (joinGameMatch && joinPlayerVar) {
-                src = src.safeReplace(joinGameMatch, `if (clientReady) addChatEvent(ChatEvent.joinGame, ${joinPlayerVar});${joinGameMatch}`, "");
-            }
-        }
-    
-        const [leaveGameMatch, leavePlayerVar] = regex`\b(?!this\b)(${v})\.${v}\.remove\(\)`.safeExec(src, "");
-        if (leaveGameMatch && leavePlayerVar) {
-            src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "");
+
+        // Join Game Chat Event
+        const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterChat_chatEvent_joinGame", "betterEggforce_autoBan"]);
+        const chatEventFuncAdded = src.includes("clientReady = false;");
+        if (chatEventFuncAdded) {
+            src = src.safeReplace(`vueApp.gameJoined`, `clientReady = false;vueApp.gameJoined`, "betterChat_chatEvent_joinGame");
+            src = src.safeReplace(`vueApp.delayInGamePlayButtons`, `clientReady = true;vueApp.delayInGamePlayButtons`, "betterChat_chatEvent_joinGame");
+            if (joinGameMatch && joinPlayerVar) src = src.safeReplace(joinGameMatch, `if (clientReady) addChatEvent(ChatEvent.joinGame, ${joinPlayerVar});${joinGameMatch}`, "betterChat_chatEvent_joinGame");
         }
     
-        const [switchTeamMatch, switchPlayerVar] = regex`(${v})\.stats\.kills\=0`.safeExec(src, "");
-        if (switchTeamMatch && switchPlayerVar) {
-            src = src.safeReplace(switchTeamMatch, `addChatEvent(ChatEvent.switchTeam, ${switchPlayerVar}),${switchTeamMatch}`, "");
+        // Leave Game Chat Event
+        const [leaveGameMatch, leavePlayerVar] = regex`\b(?!this\b)(${v})\.${v}\.remove\(\)`.safeExec(src, "betterChat_chatEvent_leaveGame");
+        if (chatEventFuncAdded && leaveGameMatch && leavePlayerVar) {
+            src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "betterChat_chatEvent_leaveGame");
+        }
+    
+        // Switch Team Chat Event
+        const [switchTeamMatch, switchPlayerVar] = regex`(${v})\.stats\.kills\=0`.safeExec(src, "betterChat_chatEvent_switchTeam");
+        if (chatEventFuncAdded && switchTeamMatch && switchPlayerVar) {
+            src = src.safeReplace(switchTeamMatch, `addChatEvent(ChatEvent.switchTeam, ${switchPlayerVar}),${switchTeamMatch}`, "betterChat_chatEvent_switchTeam");
+        }
+
+        // Spatula Chat Events
+        const [captureMatch, capturePlayerVar, uniqueIDVar] = regex`(${v})\.ctsCapture\(${v}\.(${v})\)`.safeExec(src, ["betterChat_chatEvent_pickSpatula", "betterUI_spatula"]);
+        if (captureMatch && capturePlayerVar) {
+            if (chatEventFuncAdded) src = src.safeReplace(captureMatch, `(${captureMatch}, addChatEvent(ChatEvent.pickSpatula, ${capturePlayerVar}))`, "betterChat_chatEvent_pickSpatula");
+            src = src.safeReplace(captureMatch, `${captureMatch}, ${capturePlayerVar}.showSpatulaIcon(true)`, "betterUI_spatula");
+        }
+        const [dropMatch, dropPlayerVar] = regex`(${v})\.ctsCapture\(\!1\)`.safeExec(src, ["betterChat_chatEvent_dropSpatula", "betterUI_spatula"]);
+        if (dropMatch && dropPlayerVar) {
+            if (chatEventFuncAdded) src = src.safeReplace(dropMatch, `(${dropMatch}, addChatEvent(ChatEvent.dropSpatula, ${dropPlayerVar}))`, "betterChat_chatEvent_dropSpatula");
+            src = src.safeReplace(dropMatch, `${dropMatch}, ${dropPlayerVar}.showSpatulaIcon(false)`, "betterUI_spatula");
         }
     
         // SERVER and MOD Chat Icons
@@ -3031,14 +3081,11 @@ class MegaMod {
         
         // Reconfigure playerAccount dateCreated (for badges) 
         const [,strDate, rawDate] = regex`(${v})\=new\sDate\((${v})\)\.toLocaleDateString`.safeExec(src, "");
-        if (strDate && rawDate) {
-            src = src.safeReplace(`._dateCreated=${strDate}`, `._dateCreated=${rawDate}`, "");
-        }
+        if (strDate && rawDate) src = src.safeReplace(`._dateCreated=${strDate}`, `._dateCreated=${rawDate}`, "");
+
         // Reconfigure playerAccount social (for badges)
         const [,socialVar] = regex`set\((${v})\)\s*\{[^{}]*this\._contentCreator\s*=\s*!0`.safeExec(src, "");
-        if (socialVar) {
-            src = src.safeReplace(`this._contentCreator=!0`, `this._contentCreator=${socialVar}`, "");
-        }
+        if (socialVar) src = src.safeReplace(`this._contentCreator=!0`, `this._contentCreator=${socialVar}`, "");
 
         // Legacy Mode Inventory Icons
         const [,itemRendererVar] = regex`(${v})\.clearCanvas\(${v}\)`.safeExec(src, "legacyMode_skins");
@@ -3091,26 +3138,12 @@ class MegaMod {
         }
         if (mapDataVar2) {
             const [mapInit] = regex`${escSymbols(mapDataVar2)}\.extents\.x\.min\=0`.safeExec(src, "customFog");
-            if (mapInit) {
-                src = src.safeReplace(mapInit, `${mapInit},window.megaMod.customFog.initFog(${mapDataVar2}.fog)`, "customFog");
-            }
-        }
-
-        // Spatula Chat Events
-        const [captureMatch, capturePlayerVar, uniqueIDVar] = regex`(${v})\.ctsCapture\(${v}\.(${v})\)`.safeExec(src, "");
-        if (captureMatch && capturePlayerVar) {
-            src = src.safeReplace(captureMatch, `(${captureMatch}, addChatEvent(ChatEvent.pickSpatula, ${capturePlayerVar}))`, "");
-        }
-        const [dropMatch, dropPlayerVar] = regex`(${v})\.ctsCapture\(\!1\)`.safeExec(src, "");
-        if (dropMatch && dropPlayerVar) {
-            src = src.safeReplace(dropMatch, `(${dropMatch}, addChatEvent(ChatEvent.dropSpatula, ${dropPlayerVar}))`, "");
+            if (mapInit) src = src.safeReplace(mapInit, `${mapInit},window.megaMod.customFog.initFog(${mapDataVar2}.fog)`, "customFog");
         }
         
         // UniqueID Fix
         const [uniqueIDMatch, uniqueIDPlayerVar] =  regex`playerName\:(${v})\.name`.safeExec(src, "");
-        if (uniqueIDMatch && uniqueIDPlayerVar && uniqueIDVar) {
-            src = src.safeReplace(uniqueIDMatch, `${uniqueIDMatch}, uniqueId: ${uniqueIDPlayerVar}.${uniqueIDVar}`, ""); 
-        }
+        if (uniqueIDMatch && uniqueIDPlayerVar && uniqueIDVar) src = src.safeReplace(uniqueIDMatch, `${uniqueIDMatch}, uniqueId: ${uniqueIDPlayerVar}.${uniqueIDVar}`, ""); 
         
         // Set WatchPlayer 
         const [,watchplayerVar] = regex`(${v})\=parsedUrl\.query\.watchPlayer`.safeExec(src, "");
@@ -3159,7 +3192,7 @@ class MegaMod {
         if (filterFunc && msgElem && msgContent) {
             const [,idVar] = regex`(${v})>253`.safeExec(src, "betterEggforce_chatBlacklist");
             src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`), "betterEggforce_chatBlacklist");
-            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null ${idVar && `&& ${idVar} < 253`} && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`, "betterEggforce_chatBlacklist");
+            src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null ${idVar ? `&& ${idVar} < 253` : ''} && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`, "betterEggforce_chatBlacklist");
         }
         
         // Auto Ban
@@ -3205,33 +3238,126 @@ class MegaMod {
 
         // Kill Feed icons 
         const weaponIcon = `<svg class="weapon-icon"><use xlink:href="#\${GUNICON\}"></use></svg>`
-        const feedMatches = Array.from(src.matchAll(regex`((${v})\.name)\s*\+\s*"<\/span>"`, "g"));
-        if (feedMatches.length) {
-            feedMatches.forEach(([match, name, player], idx) => {
-                src = src.safeReplace(match, match.safeReplace(name, `${name} + \` ${weaponIcon.replace("GUNICON", `${player}.equipWeaponIdx ? "ico-weapon-cluck9mm" : WeaponIcons[${player}.charClass]`)}\``, "betterUI_weapons"), "betterUI_weapons", true);
-            });
-        } else {
-            unsafeWindow.megaMod.addRegexErrId("betterUI_weapons");
-        }
-
-        // Player List Icons
-        const [slotMatch, slotVar] = regex`(${v}).classList\.add\(\"playerSlot--name\"\)`.safeExec(src, "betterUI_weapons");
-        if (slotMatch && slotVar) {
-            const [nameMatch, playerVar] = regex`${slotVar}\.innerText\s*\=\s*(${v}).name`.safeExec(src, "betterUI_weapons");
-            if (nameMatch && playerVar) {
-                src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replace("GUNICON", `WeaponIcons[${playerVar}.charClass]`)} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
-            }
-        }
-
-        // Kill Distance
-        const [,xVar, yVar, zVar] = regex`\.copyFromFloats\(this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\)`.safeExec(src, "betterUI_distance");
+        const weaponTemplateA = `PLAYER.meleeCountdown ? "ico-weapon-melee" : PLAYER.equipWeaponIdx ? "ico-weapon-cluck9mm" : WeaponIcons[PLAYER.charClass]`;
+        const spatulaIcon = `<svg class="spatula-icon" style="display: \${PLAYER?.spatula && extern?.modSettingEnabled?.("betterUI_spatula") ? "inline-block" : "none"\};"><use xlink:href="#ico_spatula"></use></svg>`
+        const feedMatches = Array.from(src.safeMatchAll(regex`((${v})\.name)\s*\+\s*"<\/span>"`, ["betterUI_weapons", "betterUI_distance"]));
+        //const [,byPlayerVar] = regex`(${v})\.bestOverallStreak\)`.safeExec(src, "betterUI_weapons");
         if (feedMatches.length === 2) {
+            const dmgTypeMatches = Array.from(src.safeMatchAll(regex`(?!this)\b(${v})\.lastDmgType\s*\=\s*${v}\,`, "betterUI_weapons")); 
+            if (dmgTypeMatches.length == 2) {
+                const [[,killedPlayer], [dmgTypeMatch, byPlayer]] = dmgTypeMatches;
+                if (killedPlayer && dmgTypeMatch && byPlayer) {
+                    const [killTxtFunc] = regex`(?<!\.)\b${v}\(${killedPlayer}\s*\,\s*${byPlayer}\)`.safeExec(src, "betterUI_weapons");
+                    if (killTxtFunc) {
+                        src = src.safeReplace(killTxtFunc, `(()=>{})()`, "betterUI_weapons");
+                        src = src.safeReplace(dmgTypeMatch, `${dmgTypeMatch}${killTxtFunc},`, "betterUI_weapons");
+                    }
+                }
+            }
+
             const [[,,playerA], [,,playerB]] = feedMatches;
+            feedMatches.forEach(([match, name, player], idx) => {
+                src = src.safeReplace(match, match.safeReplace(name, `(${player}?.spatula ? \`${spatulaIcon.replace("PLAYER", player)}\` : '') + ${name} + \`${weaponIcon.replace("GUNICON", idx ? weaponTemplateA.replaceAll("PLAYER", player) : `${playerB}.lastDmgType === 8 ? "ico-weapon-grenade" : ${playerB}.lastDmgType === 9 ? "ico-weapon-melee" : ${weaponTemplateA.replaceAll("PLAYER", player)}`)}\``, "betterUI_weapons"), "betterUI_weapons");
+                //src = src.safeReplace(match, match.safeReplace(name, `${name} + \` ${weaponIcon.replace("GUNICON", weaponTemplateA.replaceAll("PLAYER", player))}\``, "betterUI_weapons"), "betterUI_weapons");
+            });
             if (playerA && playerB) {
+                // Kill Distance
+                const [,xVar, yVar, zVar] = regex`\.copyFromFloats\(this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\,\s*this\.${v}\.(${v})\)`.safeExec(src, "betterUI_distance");
                 if (xVar && yVar && zVar) {
                     src = src.safeReplace(`+"<br>"`, `+ \` <span class="kill-dist">(\${Math.floor(Math.length3(${playerA}.${xVar}-${playerB}.${xVar}, ${playerA}.${yVar}-${playerB}.${yVar}, ${playerA}.${zVar}-${playerB}.${zVar})) || "<1"\}m)</span><br>\``, "betterUI_distance");
                 }
             }
+        }
+
+        // Player List Icons
+        let slotPlayerVar = null;
+        const [slotMatch, slotVar] = regex`(${v}).classList\.add\(\"playerSlot--name\"\)`.safeExec(src, "betterUI_weapons");
+        const weaponTemplateB = `vueApp.game.isPaused && PLAYER.ws ? WeaponIcons[extern.account.classIdx] : ${weaponTemplateA}`;
+        if (slotMatch && slotVar) {
+            const [nameMatch, playerVar] = regex`${slotVar}\.innerText\s*\=\s*(${v}).name`.safeExec(src, ["betterUI_weapons", "betterUI_spatula"]);
+            if (nameMatch && playerVar) {
+                slotPlayerVar = playerVar;
+                src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replace("GUNICON", weaponTemplateB.replaceAll("PLAYER", playerVar))} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
+            }
+        }
+
+        const [,scoreVar] = regex`this\.(${v})\s*\=\s*this\.stats\.streak`.safeExec(src, "");
+        if (playerArr && scoreVar) {
+            const [playerClassMatch, playerClassVar] = regex`(${v})\.prototype\.swapWeapon`.safeExec(src, "");
+            if (playerClassMatch && playerClassVar) {
+                src = src.safeReplace(playerClassMatch, `
+                    ${playerClassVar}.prototype.getPlayerSlot = function() {
+                        const playerSlots = [...document.querySelectorAll(".playerSlot")].filter(x => x.style.display === "block");
+                        const redFirst = playerSlots?.length && playerSlots[0].querySelector(".playerSlot--name-score").className.includes("red");
+                        const playerListIdx = [...${playerArr}.filter(Boolean)].sort((a, b) => a.team !== b.team ? redFirst ? b.team - a.team : a.team - b.team :  b.${scoreVar} - a.${scoreVar}).findIndex(player => player.id === this.id); 
+                        if (playerSlots?.length && playerListIdx != null) return playerSlots[playerListIdx];
+                    },
+                    ${playerClassVar}.prototype.setWeaponIcon = function(icon) {
+                        const playerSlot = this.getPlayerSlot();
+                        if (!playerSlot) return;
+                        const iconElem = playerSlot.querySelector(".weapon-icon");
+                        if (!iconElem) return;
+                        iconElem.classList.add('fade');
+                        setTimeout(() => {
+                            const useElem = iconElem.querySelector('use');
+                            if (useElem) useElem.setAttribute("xlink:href", icon || \`#\${${weaponTemplateA.replaceAll("PLAYER", "this")}}\`);
+                            iconElem.classList.remove('fade');
+                        }, 150);
+                    },
+                    ${playerClassVar}.prototype.showMeleeIcon = function() {
+                        this.setWeaponIcon("#ico-weapon-melee");
+                        if (this?.iconTimeout) clearTimeout(this.iconTimeout);
+                        this.iconTimeout = setTimeout(this.setWeaponIcon.bind(this), (1000/30)*17);
+                    },
+                    ${playerClassVar}.prototype.showSpatulaIcon = function(picked=false) {
+                        this.spatula = picked;
+                        const playerSlot = this.getPlayerSlot();
+                        if (!playerSlot) return;
+                        const spatIcon = playerSlot.querySelector(".spatula-icon");
+                        if (spatIcon) spatIcon.style.display = this.spatula && extern?.modSettingEnabled?.("betterUI_spatula") ? "inline-block" : "none";
+                        const nameScore = playerSlot.querySelector(".playerSlot--name-score");
+                        if (nameScore) {
+                            if (this.spatula) nameScore.classList.add("playerSlot-spatula");
+                            else nameScore.classList.remove("playerSlot-spatula");
+                        }
+                    },${playerClassMatch}`, 
+                "");
+
+                // Pistol Swap
+                const [swapWeaponMatch] = regex`this\.equipWeaponIdx\s*=\s*${v}\,`.safeExec(src, "");
+                if (swapWeaponMatch) src = src.safeReplace(swapWeaponMatch, `${swapWeaponMatch}this.setWeaponIcon(),`, "");
+
+                // Melee (Me)
+                const [meleeMatch] = regex`this\.${v}\.melee\(\)`.safeExec(src, "");
+                if (meleeMatch) src = src.safeReplace(meleeMatch, `${meleeMatch},this.showMeleeIcon()`, "");
+                
+                // Melee (Them)
+                if (playerArr) {
+                    const [meleeMatch, meleePlayer] = regex`(${playerArr}\[${v}\])\.${v}\.melee\(\)`.safeExec(src, "");
+                    if (meleeMatch) src = src.safeReplace(meleeMatch, `${meleeMatch},${meleePlayer}.showMeleeIcon()`);
+                }
+            }
+        }
+
+        // Player List Spatula Icon
+        if (slotPlayerVar) {
+            const [,iconDiv] = regex`(${v})\.classList\.add\(\"playerSlot--icons\"\)`.safeExec(src, "betterUI_spatula");
+            if (iconDiv) {
+                const [iconMatch] = regex`${iconDiv}\.innerText\s*\=\s*\"\"`.safeExec(src, "betterUI_spatula");
+                if (iconMatch) src = src.safeReplace(iconMatch, `${iconMatch},${iconDiv}.insertAdjacentHTML('beforeend', \`${spatulaIcon.replace("PLAYER", slotPlayerVar)}\`)`, "betterUI_spatula");
+            }
+        }
+
+        // Player Slot Spatula Styling
+        const spatulaMatches = Array.from(src.safeMatchAll(regex`(${v})\.team\]\}\``));
+        spatulaMatches.forEach(([match, player]) => {
+            src = src.safeReplace(match, `${match.replace("`", "")} \$\{${player}?.spatula ? "playerSlot-spatula" : ""}\``);
+        });
+
+        // Spatula Init
+        if (playerArr) {
+            const [spatInitMatch, spatInitPlayer] = regex`${v}\.${v}\.capture\((${playerArr}\[${v}\])\)`.safeExec(src, "");
+            if (spatInitMatch && spatInitPlayer) src = src.safeReplace(spatInitMatch, `${spatInitMatch}, ${spatInitPlayer}?.showSpatulaIcon(true)`, "");
         }
         // All done...yay! :)
         return src;
@@ -3510,6 +3636,10 @@ class MegaMod {
 				break;
             case 'betterUI_distance':
 				this.betterUI.switchDistance(settingEnabled);
+                break;
+            case 'betterUI_spatula':
+				this.betterUI.switchSpatula(settingEnabled);
+                break;
 			case 'betterUI_hitMarkers':
 				if (extern.inGame) extern.switchHitMarkerColor(settingEnabled);
 				break;
@@ -3765,19 +3895,17 @@ class MegaMod {
 
     addChangelog() {
         MegaMod.log("addChangelog() -", "Adding changelog");
-
-        MegaMod.fetchJSON('/data/changelog.json').then(data => vueData.changelog.megaMod = data);
         Object.assign(vueApp, {
-            showChangelogPopup(megaMod = false) {
-                this.changelog.megaModChangelog = megaMod;
+            showChangelogPopup(isMegaMod = false) {
+                this.changelog.isMegaMod = isMegaMod;
                 this.$refs.changelogPopup.show();
             },
-            showMegaModTab(changelog = false) {
-                if (changelog) vueApp.hideChangelogPopup();
+            showMegaModTab(changelogOpen = false) {
+                if (changelogOpen) vueApp.hideChangelogPopup();
                 vueApp.showSettingsPopup();
                 vueApp.$refs.settings.switchTab('mod_button');
             },
-            showHistoryChangelogPopup(megaMod = false) {
+            showHistoryChangelogPopup(isMegaMod = false) {
                 const processChangelog = (logs, target) => {
                     logs.forEach(log => {
                         const content = this.changelogSetup(log);
@@ -3787,8 +3915,9 @@ class MegaMod {
                     });
                 };
                 
-                if (megaMod) {
-                    processChangelog(this.changelog.megaMod.old, this.changelog.megaMod.current);
+                if (isMegaMod) {
+                    MegaMod.fetchJSON('/data/oldChangelog.json')
+                        .then(data => processChangelog(data, this.changelog.megaMod.current));
                     this.changelog.showMegaModHistoryBtn = false;
                 } else {
                     fetch('./changelog/oldChangelog.json', { cache: "no-cache" })
@@ -3908,7 +4037,7 @@ class MegaMod {
         });
     }
 
-    checkForUpdate(updateInfo) {
+    checkForUpdate(updateContent) {
         MegaMod.log("checkForUpdate() -", "Checking if update available for The MegaMod");
 
         fetch(`${cdnPath}/js/script.meta.js`, { cache: 'no-cache' })
@@ -3937,7 +4066,7 @@ class MegaMod {
                             window.location.reload();
                         } else {
                             vueData.modUpdatedPopupContent = vueData.loc['megaMod_updatedPopup_desc'].format(localVersion);
-                            vueData.updateInfo = updateInfo;
+                            vueData.updateContent = updateContent;
                             vueApp.$refs.modUpdatedPopup.show();
                         }
                         localStore.removeItem(MegaMod.KEYS.Updated);
@@ -3985,7 +4114,9 @@ class MegaMod {
 
     checkInfo() {
         MegaMod.fetchJSON('/data/info.json').then(data => {
-            this.checkForUpdate(data.updateInfo);
+            const { updateInfo, currentChangelog } = data;
+            vueApp.changelog.megaMod.current = [currentChangelog];
+            this.checkForUpdate({ updateInfo, currentChangelog });
             if (!MegaMod.fatalErr) this.checkForAnnouncement(data.announcement);
         });
     }
@@ -4161,9 +4292,10 @@ class BetterUI {
                 return allEqual ? themes.getRandom() : topStr;
             },
             tryEquipItem(item, type) {
-                if (!vueApp.itemVaultEnabled || (item && this.isItemOwned(item))) oldTryEquipItem.call(this, item, type);
-            },
-        })
+                if (!(this.isEquipModeInventory && vueApp.itemVaultEnabled) || (item && this.isItemOwned(item))) oldTryEquipItem.call(this, item, type);
+            }
+        });
+
         // Add needed item tags to items - hopefully this will be done natively, BWD will get around to it...eventually :)
         // Wait for specialItemsTag and catalog to be initialized
         // I could just fetch shellshock.io/data/housePromo.json to get the specialItemsTag
@@ -4180,17 +4312,21 @@ class BetterUI {
                         return;
                     }
                     if (!item.item_data.tags) item.item_data.tags = [];
-                    if (add) item.item_data.tags.push(tag);
-                    else item.item_data.tags.splice(item.item_data.tags.indexOf(tag), 1);
+                    if (add) {
+                        item.item_data.tags.push(tag);
+                    } else {
+                        item.item_data.tags.splice(item.item_data.tags.indexOf(tag), 1);
+                    }
                 });
             };
+
+            // Bundle Items
+            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(bundle => bundle.itemIds)).filter(item => !this.isThemed(item)).forEach(item => addTags(true, item, this.tags.bundle));
 
             // Add or Remove Missing/Wrong Item Tags
             this.tagEdits.forEach(edit => addTags(edit.add, extern.catalog.findItemById(edit.id), edit.tags));
 
             this.updateBundleItems(extern.modSettingEnabled("betterUI_inventory"));
-
-            extern.catalog.findItemsByIds(extern.getActiveBundles().flatMap(bundle => bundle.itemIds)).filter(item => !this.isThemed(item)).forEach(item => addTags(true, item, this.tags.bundle));
 
             // Add "Creator" and Social Type tags to Content Creator Shop Items
             this.creatorData.forEach(creator => {
@@ -4342,7 +4478,7 @@ class BetterUI {
             },
 
             showIcon() {
-                return this.hasIcon && (this.isBundle || this.itemOnly || this.isReward || vueApp.currentEquipMode === vueApp.equipMode.inventory);
+                return this.hasIcon && ((this.isBundle && !this.isItemOwned) || this.itemOnly || this.isReward || vueApp.currentEquipMode === vueApp.equipMode.inventory);
             },
 
             // Premium Icon
@@ -4486,10 +4622,11 @@ class BetterUI {
             MegaMod.addModCSS('colors'),
             MegaMod.addModCSS('chlg'),
             MegaMod.addModCSS('weapons'),
-            MegaMod.addModCSS('distance')
+            MegaMod.addModCSS('distance'),
+            MegaMod.addModCSS('spatula')
         ]).then(styles => {
-            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle] = styles;
-            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle });
+            const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle, spatulaStyle] = styles;
+            Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle, spatulaStyle });
             setTimeout(this.switchBetterUI.bind(this), 250, true);
         });
 
@@ -4572,23 +4709,45 @@ class BetterUI {
         const oldChangeClass = extern.changeClass;
         extern.changeClass = function(...args) {
             oldChangeClass.apply(this, args);
-            if (extern.inGame) document.querySelector(".playerSlot-player-is-me .weapon-icon use").setAttribute("xlink:href", `#${WeaponIcons[extern.account.classIdx]}`);
+            if (!extern.inGame) return;
+            const iconElem = document.querySelector(".playerSlot-player-is-me .weapon-icon");
+            if (iconElem) {
+                iconElem.classList.add('fade');
+                setTimeout(() => {
+                    const useElem = iconElem.querySelector('use');
+                    if (useElem) useElem.setAttribute("xlink:href", `#${WeaponIcons[extern.account.classIdx]}`);
+                    iconElem.classList.remove('fade');
+                }, 150);
+            }
         }
 
-        // Cluck 9mm Icon
-        const original = document.getElementById("ico-weapon-crackshot");
-        if (original) {
-            const clone = original.cloneNode(true);
+        // Add Cluck 9mm Icon
+        const origCS = document.getElementById("ico-weapon-crackshot");
+        if (origCS) {
+            const clone = origCS.cloneNode(true);
             if (clone) {
                 clone.setAttribute("id", "ico-weapon-cluck9mm");
                 const path = clone.querySelector("path");
                 if (path) {
                     path.setAttribute("d", "m 74.123679,15.2632 -3.892051,3.404789 -3.367849,-1.6014 -3.194297,2.569333 1.313599,3.666123 -17.75929,15.559012 -2.997173,0.310288 -13.281248,11.649535 -1.75243,-1.32836 -2.817757,2.294141 1.115857,2.114503 -1.459879,1.280507 c -0.58459,0.512127 -0.702045,1.376148 -0.275445,2.025785 l 7.348988,11.075341 4.831409,0.494124 10.292704,20.059523 5.804954,1.900356 9.419724,-9.891386 L 63.771664,74.93931 58.11778,63.566626 68.469584,53.15475 63.281887,46.248185 69.097355,40.784646 68.27507,38.893585 79.944665,28.442673 79.184156,27.441196 80.5,26.340667 l -2.039778,-2.89704 1.647881,-1.331393 z m -15.757704,31.881959 1.258651,0.610767 4.34759,5.088222 -7.388756,7.502059 -0.973856,-1.968725 3.444783,-3.752319 -5.593756,-2.925061 z");
-                    original.parentNode.insertBefore(clone, original.nextSibling);
+                    origCS.parentNode.insertBefore(clone, origCS.nextSibling);
                 }
             }
         }
 
+        // Zoomed In Grenade & Melee Icons
+        ["ico-grenade", "ico-melee"].forEach(id => {
+            const origIcon = document.getElementById(id);
+            if (origIcon) {
+                origIcon.querySelector("path").style.fill = "";
+                const clone = origIcon.cloneNode(true);
+                if (clone) {
+                    clone.setAttribute("id", id.replace("-", "-weapon-"));
+                    clone.setAttribute("viewBox", "5 5 48 48");
+                    origIcon.parentNode.insertBefore(clone, origIcon.nextSibling);
+                }
+            }
+        });
     }
 
     initGameHistory() {
@@ -4749,8 +4908,9 @@ class BetterUI {
                             const existingBadge = badgeMap.get(mapKey);
                             if (info || (!existingBadge || badge.tier > existingBadge.tier)) 
                                 badgeMap.set(mapKey, newBadge);
-                        } else 
+                        } else {
                             badgeMap.set(mapKey, newBadge);
+                        }
                         
                         if (info) {
                             badge.precision = data.precision || badge.precision;
@@ -4769,10 +4929,8 @@ class BetterUI {
                 };
                 
                 badges.forEach(badge => {
-                    if (badge.tierValues) 
-                        badge.tierValues.forEach((value, i) => setupBadge({ ...badge, value }, i));
-                    else 
-                        setupBadge(badge);
+                    if (badge.tierValues) badge.tierValues.forEach((value, i) => setupBadge({ ...badge, value }, i));
+                    else setupBadge(badge);
                 });
                 const contentCreator = info ? creatorData : (this.contentCreator?.filter?.(s => s.active) || []);
                 if (contentCreator?.length) {
@@ -4948,6 +5106,18 @@ class BetterUI {
     switchDistance(enabled) {
         this.distanceStyle.disabled = !enabled;
     }
+
+    switchSpatula(enabled) {
+        const display = enabled ? "inline-block" : "none";
+        const activeIcons = [...document.querySelectorAll(".playerSlot")].filter(slot => {
+            if (slot.style.display !== "block") return false;
+            const nameScore = slot.querySelector(".playerSlot--name-score");
+            return nameScore?.classList.contains("playerSlot-spatula");
+        }).map(slot => slot.querySelector(".spatula-icon"));
+        if (activeIcons.length) activeIcons[0].style.display = display;
+        document.querySelectorAll('#killTicker .spatula-icon').forEach(icon => icon.style.display = display);
+        this.spatulaStyle.disabled = !enabled;
+    }
     
     isThemed(item) {
         return ["default", "premium", "drops", "notif", "yolker", "promo", "event", "creator", "shop"].some(theme => extern.isThemedItem(item, theme));
@@ -5028,6 +5198,7 @@ class BetterUI {
         this.switchChlg(extern.modSettingEnabled("betterUI_chlg"));
         this.switchWeapons(extern.modSettingEnabled("betterUI_weapons"));
         this.switchDistance(extern.modSettingEnabled("betterUI_distance"));
+        this.switchSpatula(extern.modSettingEnabled("betterUI_spatula"));
     }
 }
 
@@ -5079,8 +5250,9 @@ class BetterChat {
 
         const oldSwitchToHomeUi = vueApp.switchToHomeUi;
         vueApp.switchToHomeUi = function() {
+           //if (vueApp.currentEquipMode === vueApp.equipMode.inventory && this.itemVaultEnabled) this.$refs.equipScreen.onSwitchToVaultClicked(false);
             oldSwitchToHomeUi.call(this);
-            this.$nextTick( ()=> {
+            this.$nextTick(()=> {
                 if (this.leaveToJoinGame) {
                     this.openGameCode(this.leaveToJoinGameCode, true);
                     this.onLeaveGameResetJoinGame();
@@ -5130,6 +5302,7 @@ class BetterChat {
     async translateText(originalText, targetLang, sourceLang = 'auto') {
         try {
             // translate
+            MegaMod.log("BetterChat - translateText()", `Translating ${originalText}`);
             const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(originalText)}`);
             const data = await response.json();
 
@@ -5163,6 +5336,7 @@ class BetterChat {
 
         // Translate the message without game codes
         const { translatedText, translated } = await this.translateText(textWithoutCodes, langMap[vueApp.currentLanguageCode] || vueApp.currentLanguageCode);
+        MegaMod.log("BetterChat - handleNewChatMessage()", (!translated ? "Not " : "") + `Translatated` + (translated ? ` : ${translatedText}` : ""));
         if (!translated) {
             if (detectCodes) this.detectAndLinkGameCodes(msgElem);
             return;
@@ -5185,7 +5359,7 @@ class BetterChat {
         // Run detectAndLinkGameCodes on both original and translated dataset properties if needed
         if (detectCodes) this.detectAndLinkGameCodes(msgElem);
 
-        // Step 5: Add a translation toggle icon if it doesn't exist
+        // Add translation toggle icon if it doesn't exist
         if (!msgElem.querySelector('.translate-icon')) {
             const icon = document.createElement('i');
             icon.className = `fas6 fa-language translate-icon ${autoTranslate ? "translated" : "original"}`;
@@ -5226,10 +5400,8 @@ class BetterChat {
         // Find all blacklisted substrings
         for (let start = 0; start < n; start++) {
             for (let end = start + 1; end <= n; end++) {
-            const substr = input.slice(start, end);
-            if (blacklistFunc(substr)) {
-                allRanges.push([start, end]);
-            }
+                const substr = input.slice(start, end);
+                if (blacklistFunc(substr)) allRanges.push([start, end]);
             }
         }
 
@@ -5245,12 +5417,12 @@ class BetterChat {
             const [startI, endI] = allRanges[i];
             let isContained = false;
             for (let j = 0; j < allRanges.length; j++) {
-            if (i === j) continue;
-            const [startJ, endJ] = allRanges[j];
-            if (startI <= startJ && endI >= endJ && (startI !== startJ || endI !== endJ)) {
-                isContained = true;
-                break;
-            }
+                if (i === j) continue;
+                const [startJ, endJ] = allRanges[j];
+                if (startI <= startJ && endI >= endJ && (startI !== startJ || endI !== endJ)) {
+                    isContained = true;
+                    break;
+                }
             }
             if (!isContained) filtered.push(allRanges[i]);
         }
@@ -5260,9 +5432,9 @@ class BetterChat {
         const merged = [];
         for (const [start, end] of filtered) {
             if (merged.length === 0 || merged[merged.length - 1][1] < start) {
-            merged.push([start, end]);
+                merged.push([start, end]);
             } else {
-            merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], end);
+                merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], end);
             }
         }
 
@@ -5350,8 +5522,11 @@ class LegacyMode {
     getAllLegacySounds(obj = this.legacySounds) {
         const values = [];
         for (const key in obj) {
-            if (Array.isArray(obj[key])) values.push(...obj[key]);
-            else if (typeof obj[key] === 'object') values.push(...this.getAllLegacySounds(obj[key]));
+            if (Array.isArray(obj[key])) {
+                values.push(...obj[key]);
+            } else if (typeof obj[key] === 'object') {
+                values.push(...this.getAllLegacySounds(obj[key]));
+            }
         }
         return values;
     }

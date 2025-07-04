@@ -141,6 +141,13 @@
 				"active": true,
 				"locKey": "p_settings_mods_betterUI_distance",
 				"defaultVal": true
+			},
+			{
+				"id": "betterUI_spatula",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_spatula",
+				"defaultVal": true
 			}
 		]
 	},
