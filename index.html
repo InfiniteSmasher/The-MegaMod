@@ -45,27 +45,23 @@
         // Convert Markdown to HTML (using marked.js)
         const markedText = marked.parse(text);
         document.getElementById('content').innerHTML = markedText;
-      })
-      .catch(error => {
-        console.error('Error loading README.md:', error);
-      });
 
-      // Function to format a changelog entry into HTML
-      function createChangelogEntry(versionData) {
-        let entryHTML = `<h4>Version ${versionData.version} - ${versionData.date}</h4>`;
-        entryHTML += '<ul>';
-        versionData.content.forEach(item => entryHTML += `<li>${item}</li>`);
-        entryHTML += '</ul>';
-        entryHTML += '<hr>';
-        return entryHTML;
-      }
-      const changelogContent = document.getElementById('changelog-content');
+        const changelogContent = document.getElementById('changelog-content');
+        // Function to format a changelog entry into HTML
+        const createChangelogEntry = (versionData) => {
+          let entryHTML = `<h4>Version ${versionData.version} - ${versionData.date}</h4>`;
+          entryHTML += '<ul>';
+          versionData.content.forEach(item => entryHTML += `<li>${item}</li>`);
+          entryHTML += '</ul>';
+          entryHTML += '<hr>';
+          return entryHTML;
+        };
 
-      // Load changelog data from the new info.json and oldChangelog.json
-      Promise.all([
-        fetch('/The-MegaMod/data/info.json').then(response => response.json()),
-        fetch('/The-MegaMod/data/oldChangelog.json').then(response => response.json())
-      ]).then(([infoData, oldChangelogData]) => {
+        // Load changelog data from the new info.json and oldChangelog.json
+        Promise.all([
+          fetch('/The-MegaMod/data/info.json').then(response => response.json()),
+          fetch('/The-MegaMod/data/oldChangelog.json').then(response => response.json())
+        ]).then(([infoData, oldChangelogData]) => {
         let changelogHTML = '';
 
         // Add current changelog section
@@ -73,6 +69,7 @@
           changelogHTML += '<h3>Current Version</h3>';
           const current = infoData.currentChangelog;
           const { version, date, content } = current;
+          document.getElementById("version").innerHTML = version;
           changelogHTML += createChangelogEntry({ version, date, content });
         }
 
@@ -84,7 +81,59 @@
 
         // Set the inner HTML of the changelog content
         changelogContent.innerHTML = changelogHTML;
-      }).catch(error => console.error('Error loading changelog data:', error));
+
+        // Proxy List
+        const proxyContent = document.getElementById('proxy-content');
+        fetch('/The-MegaMod/js/script.meta.js')
+            .then(response => response.text())
+            .then(text => {
+                const regex = /@match\s+([\S]+)/g;
+                let match;
+                const urls = [];
+
+                while ((match = regex.exec(text)) !== null) urls.push(match[1]);
+                urls.sort();
+                if (urls.length) {
+                  document.getElementById("proxy-title").innerHTML += ` (${urls.length})`;
+                  const ul = document.createElement('ul');
+                  urls.forEach(url => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    
+                    // Clean the URL
+                    url = url.replace('*.', '').replace('/*', '');
+
+                    // Clean the URL for the display text (domain only):
+                    const domainOnly = url.replace('*://', '').replace('*', '');
+
+                    // Clean the URL for the href (full path):
+                    const fullUrl = url.replace('*://', 'https://').replace('*', '');
+
+                    // Set the href to the full URL (including path)
+                    a.href = fullUrl;
+                    a.target = '_blank';
+
+                    // Display the domain only
+                    a.textContent = domainOnly;
+
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                  });
+                  proxyContent.appendChild(ul);
+                } else {
+                  proxyContent.innerHTML = 'No proxies found.';
+                }
+            }).catch(error => {
+                console.error('Error loading script.meta.js:', error);
+                proxyContent.innerHTML = 'Failed to load proxies.';
+            });
+        }).catch(error => {
+          console.error('Error loading changelog data:', error);
+          changelogContent.innerHTML = 'Failed to load changelog.'
+        });
+      }).catch(error => {
+        console.error('Error loading README.md:', error);
+      });
   </script>
 
   <!-- Include Marked.js for Markdown rendering -->

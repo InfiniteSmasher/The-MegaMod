@@ -1,5 +1,9 @@
 ![The MegaMod](img/docs/megaMod/The%20MegaMod%20Logo.png)
 # The MegaMod
+<blockquote>
+  <p><b>Current Version: </b><span id="version"></span></p>
+</blockquote>
+
 [![Shell Mods Discord](https://img.shields.io/discord/1273986972389474374?label=Infinite%27s%20Shell%20Mods%20Server&logo=discord&color=5865F2)](https://discord.gg/Cxggadazy4)
 
 ### Created by Infinite Smasher
@@ -49,14 +53,20 @@ The script is set to auto-update and will prompt you to install the latest updat
 ## Changelog
 <div id="content"></div>
 <details id="changelog">
-  <summary>Changelog</summary>
+  <summary>View Changelog</summary>
   <div id="changelog-content"></div>
+</details>
+
+<h2 id="proxy-title">Supported Proxies</h2>
+<details id="proxies">
+  <summary>View Supported Proxies</summary>
+  <div id="proxy-content"></div>
 </details>
 
 ## The MegaMod
 ### General Settings (Click The Gear Tab)
 <details>
-<summary>General Settings</summary>
+<summary>View General Settings</summary>
 
 > - **MegaMod UI Sound Effects** - Enables sound effects related to the MegaMod
 >   - **Specific Sounds**:

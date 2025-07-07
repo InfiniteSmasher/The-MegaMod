@@ -13,14 +13,16 @@
 	"p_settings_mods_info_desc3": "If you have any feedback, suggestions, or bug reports, join the <a target='_blank' href='https://discord.gg/Cxggadazy4'>Infinite's Shell Mods</a> Discord! <i onclick='vueApp.$refs.settings.openDiscord()' class='fab fa-discord discord-logo'></i>",
 	
 	"megaMod_disableModsPopup_title": "Disable Yo Mods!",
-	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod.<br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled MegaMod Mods:</h3>{0}",
-	"megaMod_modErrsPopup_title": "Uh Oh! Some Mods Broke...",
-	"megaMod_modErrsPopup_desc": "<b>There was an error while starting The MegaMod!</b><br><br>Certain mods may not show up or work correctly.<br><br>This may be due to other mods that you have enabled so please disable any other mod scripts you have running and try again.<h3>Affected Mods:</h3>{0}",
+	"megaMod_disableModsPopup_desc": "The MegaMod contains the latest versions of Better Inventory, Legacy Mode, Egg Color Slider, Hide HUD, and Speedrun Timer.<br><br>Having these mods running on a different script will cause errors for The MegaMod.<br><br>Please disable any of those mod scripts (if you have them enabled) so that you don't miss out on having the latest versions of them (with better features) through The MegaMod!<h3>Disabled Mods / Settings:</h3>{0}",
+	"megaMod_modErrsPopup_title": "Uh Oh! Something Broke...",
+	"megaMod_modErrsPopup_desc_1": "<b>There was an error while starting The MegaMod!</b><br><br>Certain mods or their settings may not show up or work correctly.<br><br>This may be due to other mods that you have enabled so please disable any other mod scripts you have running and try again.<h3>Affected Mods:</h3>{0}",
+	"megaMod_modErrsPopup_desc_2": "<b>There was an error while starting The MegaMod!</b><br><br>The MegaMod was unable to modify the Shell Shockers source code.<br><br>Certain mods or their settings may not work correctly.",
 
 	"megaMod_updatePopup_title": "Update Available!",
 	"megaMod_updatePopup_desc": "<br><b>A new version of The MegaMod is available!</b><br><br>Please click the \"Gimme Update!\" button to install version {0} so that you don't miss out on the latest features and bugfixes!<br><br>Continuing to use this (outdated) version may lead to Shell Shockers or The MegaMod not working properly!<br><br>This Shell Shockers tab will automatically reload after you install the update and return to this tab.",
 	"megaMod_updatePopup_cancelBtn": "Nah :(",
 	"megaMod_updatePopup_okBtn": "Gimme Update!",
+
 	"megaMod_updatedPopup_title": "Update Installed!",
 	"megaMod_updatedPopup_desc": "<br><b>The MegaMod has been updated to version {0}!</b><br><br>Thanks for installing the update and enjoy your enhanced Shell Shockers experience with the latest version of The MegaMod!",
 	"megaMod_updatedPopup_okBtn": "Poggers!",

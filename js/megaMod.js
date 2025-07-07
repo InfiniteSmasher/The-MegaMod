@@ -2,6 +2,7 @@ class MegaMod {
     static debug = false; // TODO: Add different debug levels
     static local = false;
     static fatalErr = false;
+    static sourceModified = false;
     static KEYS = {
         InitFinished: "megaMod_initFinished",
         Updated: "megaMod_updated",
@@ -19,6 +20,10 @@ class MegaMod {
 
     static setFatalErr(fatalErr) {
         this.fatalErr = fatalErr;
+    }
+
+    static setSourceModified(sourceModified) {
+        this.sourceModified = sourceModified;
     }
 
     static addHTMLEdits() {
@@ -811,7 +816,7 @@ class MegaMod {
                     if (vueApp.showScreen === vueApp.screens.home && this.itemVaultEnabled) {
                         items = items.filter(i => extern.isItemOwned(i) || (i.is_available && i.unlock === "default"));
                     } else {
-                        items = items.filter(i => i.is_available && !extern.isItemOwned(i) && !this.store.itemIdsToHide.includes(i.id) && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
+                        items = items.filter(i => i.is_available && !extern.isItemOwned(i) /*&& !this.store.itemIdsToHide.includes(i.id)*/ && (i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct)));
                     }
                 }
                 
@@ -871,7 +876,7 @@ class MegaMod {
                 const isShopItem = i => i.unlock === 'purchase' || (i.unlock === 'premium' && i.sku && i.activeProduct);
 
                 // Featured mode: # of currently purchasable limited items
-                this.equip.itemTotals[featured] = extern.getTaggedItems(extern.specialItemsTag).filter(i => isShopItem(i) && i.is_available && !this.store.itemIdsToHide.includes(i.id)).length;
+                this.equip.itemTotals[featured] = extern.getTaggedItems(extern.specialItemsTag).filter(i => isShopItem(i) && i.is_available /*&& !this.store.itemIdsToHide.includes(i.id)*/).length;
 
                 // Pre-filter items once per type to avoid repeating logic
                 const itemTypeMap = Object.fromEntries(Object.values(ItemType).map(type => [type, extern.getItemsOfType(type)]));
@@ -919,7 +924,7 @@ class MegaMod {
 
                 const data = themeData[theme];
                 const themeName = this.loc[data.themeLocKey];
-                const items = extern.getThemedItems(theme).filter(item => !this.store.itemIdsToHide.includes(item.id));
+                const items = extern.getThemedItems(theme)/*.filter(item => !this.store.itemIdsToHide.includes(item.id))*/;
                 const ownedCount = items.filter(item => item.unlock === "default" || extern.isItemOwned(item)).length;
                 this.equip.theme = {
                     ...data,
@@ -1371,6 +1376,7 @@ class MegaMod {
                 vueApp.showJoinPrivateGamePopup(code);
             },
             currencyCode: "USD",
+            itemThemeMap: {},
             getMapSizeIcon(size) {
                 if (size <= 13) {
                     return 'ico-map-size-small';
@@ -1923,7 +1929,7 @@ class MegaMod {
             spinEgg(gif) {
                 const time = this.egg.spinSpeeds[this.spinSpeed].time;
                 const fps = this.egg.fpsAmounts[this.fps].fps;
-                extern.spinEgg(time, Math.ceil(time * fps / 1000), gif && unsafeWindow.megaMod.photoboothEggSpin.captureFrame);
+                extern?.spinEgg?.(time, Math.ceil(time * fps / 1000), gif && unsafeWindow.megaMod.photoboothEggSpin.captureFrame);
             },
             onChangeFPS(fps) {
                 if (fps === this.fps) return;
@@ -3040,15 +3046,11 @@ class MegaMod {
     
         // Leave Game Chat Event
         const [leaveGameMatch, leavePlayerVar] = regex`\b(?!this\b)(${v})\.${v}\.remove\(\)`.safeExec(src, "betterChat_chatEvent_leaveGame");
-        if (chatEventFuncAdded && leaveGameMatch && leavePlayerVar) {
-            src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "betterChat_chatEvent_leaveGame");
-        }
+        if (chatEventFuncAdded && leaveGameMatch && leavePlayerVar) src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "betterChat_chatEvent_leaveGame");
     
         // Switch Team Chat Event
         const [switchTeamMatch, switchPlayerVar] = regex`(${v})\.stats\.kills\=0`.safeExec(src, "betterChat_chatEvent_switchTeam");
-        if (chatEventFuncAdded && switchTeamMatch && switchPlayerVar) {
-            src = src.safeReplace(switchTeamMatch, `addChatEvent(ChatEvent.switchTeam, ${switchPlayerVar}),${switchTeamMatch}`, "betterChat_chatEvent_switchTeam");
-        }
+        if (chatEventFuncAdded && switchTeamMatch && switchPlayerVar) src = src.safeReplace(switchTeamMatch, `addChatEvent(ChatEvent.switchTeam, ${switchPlayerVar}),${switchTeamMatch}`, "betterChat_chatEvent_switchTeam");
 
         // Spatula Chat Events
         const [captureMatch, capturePlayerVar, uniqueIDVar] = regex`(${v})\.ctsCapture\(${v}\.(${v})\)`.safeExec(src, ["betterChat_chatEvent_pickSpatula", "betterUI_spatula"]);
@@ -3225,7 +3227,7 @@ class MegaMod {
                 src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${checkAutoBanFunc}window.BAWK`, "betterEggforce_autoBan");
                 src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
                 const autoBanUpdateFunc = `
-                    autoBanUpdate: list => {
+                    checkAutoBans: list => {
                         ${playerArr}.forEach(player => {
                             if(!player) return;
                             checkAutoBan(player, list);
@@ -3360,6 +3362,7 @@ class MegaMod {
             if (spatInitMatch && spatInitPlayer) src = src.safeReplace(spatInitMatch, `${spatInitMatch}, ${spatInitPlayer}?.showSpatulaIcon(true)`, "");
         }
         // All done...yay! :)
+        this.setSourceModified(true);
         return src;
     }
 
@@ -3595,7 +3598,7 @@ class MegaMod {
 				}
 				break;
 			case 'matchGrenades':
-				if (extern.inGame) extern.tryUpdateGrenades();
+				if (extern.inGame) extern?.tryUpdateGrenades?.();
 				break;
 			case 'colorSlider':
 				if (!value) extern.setShellColor(0);
@@ -3641,7 +3644,7 @@ class MegaMod {
 				this.betterUI.switchSpatula(settingEnabled);
                 break;
 			case 'betterUI_hitMarkers':
-				if (extern.inGame) extern.switchHitMarkerColor(settingEnabled);
+				if (extern.inGame) extern?.switchHitMarkerColor?.(settingEnabled);
 				break;
 			case 'betterChat':
 				this.betterChat.switchBetterChat();
@@ -3666,7 +3669,7 @@ class MegaMod {
 				document.getElementById(`themeCSS-${this.getModSettingById("themeManager_themeSelect").value}`).disabled = !value;
 				break;
 			case 'customSkybox':
-				extern.updateSkybox(
+				extern?.updateSkybox?.(
                     value, 
                     this.getModSettingById('customSkybox_colorPicker').value
                 );
@@ -3681,7 +3684,7 @@ class MegaMod {
             case "betterEggforce":
                 this.betterEggforce.updatePlayPanel();
                 vueApp.$refs.gameScreen.updateSpectateControls();
-                if (extern.inGame && extern.modSettingEnabled("betterEggforce_autoBan")) extern.autoBanUpdate();
+                if (extern.inGame && extern.modSettingEnabled("betterEggforce_autoBan")) extern?.checkAutoBans?.();
                 break;
             case "betterEggforce_specESP":
                     vueApp.$refs.gameScreen.updateSpectateControls();
@@ -3690,7 +3693,7 @@ class MegaMod {
                 this.betterEggforce.updatePlayPanel();
                 break;
             case "betterEggforce_autoBan":
-                if (extern.inGame && settingEnabled) extern.autoBanUpdate();
+                if (extern.inGame && settingEnabled) extern?.checkAutoBans?.();
                 break;
 		}
 		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
@@ -3709,7 +3712,7 @@ class MegaMod {
 				this.changeFPS.setFPS(value);
 				break;
             case "customFog_densitySlider":
-                extern.updateFog(
+                extern?.updateFog?.(
                     this.modSettingEnabled("customFog"),
                     value / 100, 
                     this.getModSettingById('customFog_colorPicker').value, 
@@ -3743,7 +3746,7 @@ class MegaMod {
 				this.customSkybox.onSkyboxCategoryChanged(value);
 				break;
 			case 'customSkybox_skyboxSelect':
-				extern.updateSkybox(settingEnabled);
+				extern?.updateSkybox?.(settingEnabled);
                 this.customSkybox.updateSkyboxPreview();
 				break;
 		}
@@ -3754,10 +3757,10 @@ class MegaMod {
         const settingEnabled = this.modSettingEnabled(id);
 		switch (id) {
             case 'customSkybox_colorPicker':
-                extern.updateSkybox(settingEnabled, value);
+                extern?.updateSkybox?.(settingEnabled, value);
                 break;
 			case 'customFog_colorPicker':
-				extern.updateFog(
+				extern?.updateFog?.(
                     settingEnabled,
                     this.getModSettingById('customFog_densitySlider').value / 100, 
                     value, 
@@ -3773,7 +3776,7 @@ class MegaMod {
             case "betterEggforce_autoBan_list":
                 if (!(extern.inGame && extern.modSettingEnabled("betterEggforce_autoBan"))) break;
                 const newValues = value.filter(item => !oldValue.includes(item));
-                if (newValues?.length) extern.autoBanUpdate(newValues);
+                if (newValues?.length) extern?.checkAutoBans?.(newValues);
                 break;
         }
     }
@@ -3856,7 +3859,7 @@ class MegaMod {
                 
                 case espKey:
                     // TODO: toggle Spectate ESP
-                    if (!espErr && extern.modSettingEnabled("betterEggforce_specESP") && vueApp.ui.game.spectate) this.betterEggforce.toggleSpecESP();
+                    if (!espErr && extern.modSettingEnabled("betterEggforce_specESP") && vueApp.ui.game.spectate) this.betterEggforce?.toggleSpecESP?.();
                     break;
             }
         });
@@ -4083,10 +4086,10 @@ class MegaMod {
         vueApp.$refs.modAnnouncementPopup.show();
     }
 
-    showModErrorPopup() {
-        MegaMod.log("showModErrorPopup() -", "Checking whether to show Mod Error popups");
-        if (this.regexErrs.length) {
-            vueData.modErrsPopupContent = vueData.loc['megaMod_modErrsPopup_desc'].format(MegaMod.getModNames(this.regexErrs).join("<br>"));
+    tryShowModErrorPopups() {
+        MegaMod.log("tryShowModErrorPopups() -", "Checking whether to show Mod Error popups");
+        if (this.regexErrs.length || !MegaMod.sourceModified) {
+            vueData.modErrsPopupContent = this.regexErrs.length ? vueData.loc['megaMod_modErrsPopup_desc_1'].format(MegaMod.getModNames(this.regexErrs).join("<br>")) : vueData.loc['megaMod_modErrsPopup_desc_2'];
             vueApp.$refs.modErrsPopup.show();
         }
         if (this.modConflicts.length) {
@@ -4138,7 +4141,7 @@ class MegaMod {
             clearInterval(externInterval);
             this.addExternFuncs();
             this.addAllModFunctions();
-            this.showModErrorPopup();
+            this.tryShowModErrorPopups();
         }, 250);
         localStore.setItem(MegaMod.KEYS.InitFinished, true);
     }
@@ -4375,17 +4378,22 @@ class BetterUI {
             isNormalShop() { return this?.themeMap?.shop; },
             isLegacy() { return this?.themeMap?.legacy; },
             isPremiumEggPurchase() { return this?.themeMap?.eggpremium; },
+
+            isNewTheme() {
+                return this.isLimited || this.isBundle || this.isMerch || this.isDrops ||
+                    this.isNotif || this.isLeague || this.isNewYolker || this.isEgglite || 
+                    this.isPromo || this.isEvent || this.isSocial || this.isCreator || 
+                    this.isLegacy;
+            },
+
+            themeActive() {
+                return extern.modSettingEnabled("betterUI_inventory");
+            },
         
             // Banner check
             hasBanner() {
-                const themedItems = [
-                    this.isLimited, this.isBundle, this.isMerch, this.isDrops, 
-                    this.isNotif, this.isLeague, this.isNewYolker, this.isEgglite, 
-                    this.isPromo, this.isEvent, this.isSocial, this.isCreator, 
-                    this.isLegacy
-                ];
-                return this.isPremium || this.isVipItem || this.isPremiumEggPurchase ||
-                    (extern.modSettingEnabled("betterUI_inventory") && themedItems.some(Boolean));
+                
+                return this.isPremium || this.isVipItem || this.isPremiumEggPurchase || (this.themeActive && this.isNewTheme);
             },
         
             // Banner Text
@@ -4415,37 +4423,32 @@ class BetterUI {
         
             // CSS Classes
             itemClass() {
-                const invEditsEnabled = extern.modSettingEnabled("betterUI_inventory");
                 return {
                     'highlight': this.isSelected,
                     'is-bundle': this.isBundle,
                     'is-premium': this.isPremium || this.isPremiumEggPurchase,
                     'is-vip': this.isVipItem,
-                    'is-merch': invEditsEnabled && this.isMerch,
-                    'is-drops': invEditsEnabled && this.isDrops,
-                    'is-ny': invEditsEnabled && this.isNewYolker,
-                    'is-notif': invEditsEnabled && this.isNotif,
-                    'is-league': invEditsEnabled && this.isLeague,
-                    'is-egglite': invEditsEnabled && this.isEgglite,
-                    'is-promo': invEditsEnabled && this.isPromo,
-                    'is-event': invEditsEnabled && this.isEvent,
-                    'is-social': invEditsEnabled && this.isSocial,
-                    'is-creator-yt': invEditsEnabled && this.isYTCreator,
-                    'is-creator-ttv': invEditsEnabled && this.isTwitchCreator,
-                    'is-shop': invEditsEnabled && this.isNormalShop,
-                    'is-legacy': invEditsEnabled && this.isLegacy,
-                    'is-locked': invEditsEnabled && this.showLockIcon,
-                    'customtheme': invEditsEnabled && [
-                        this.isBundle, this.isMerch, this.isDrops, this.isNewYolker, this.isNotif,
-                        this.isLeague, this.isEgglite, this.isPromo, this.isEvent,
-                        this.isSocial, this.isCreator, this.isLegacy
-                    ].some(Boolean)
+                    'is-merch': this.themeActive && this.isMerch,
+                    'is-drops': this.themeActive && this.isDrops,
+                    'is-ny': this.themeActive && this.isNewYolker,
+                    'is-notif': this.themeActive && this.isNotif,
+                    'is-league': this.themeActive && this.isLeague,
+                    'is-egglite': this.themeActive && this.isEgglite,
+                    'is-promo': this.themeActive && this.isPromo,
+                    'is-event': this.themeActive && this.isEvent,
+                    'is-social': this.themeActive && this.isSocial,
+                    'is-creator-yt': this.themeActive && this.isYTCreator,
+                    'is-creator-ttv': this.themeActive && this.isTwitchCreator,
+                    'is-shop': this.themeActive && this.isNormalShop,
+                    'is-legacy': this.themeActive && this.isLegacy,
+                    'is-locked': this.themeActive && this.showLockIcon,
+                    'customtheme': this.themeActive && this.isNewTheme
                 };
             },
         
             // Tooltips
             tooltip() {
-                if (!(this.showTooltip && extern.modSettingEnabled("betterUI_inventory"))) return "tool-tip";
+                if (!(this.showTooltip && this.themeActive)) return "tool-tip";
                 const tooltipStyleMap = [
                     ['isDrops', 'drops'],
                     ['isBundle', 'bundle'],
@@ -4489,22 +4492,26 @@ class BetterUI {
             // Icon CSS Class
             iconClass() {
                 if (!this.hasIcon) return '';
-                return this.isBundle ? 'fas fa-box-open hover' :
-                    this.isPremium ? this.premiumIcon + ' hover' :
-                    this.isMerch ? 'fas fa-tshirt hover' :
-                    this.isDrops ? 'fab fa-twitch hover' :
-                    this.isNotif ? 'fas fa-bell hover' :
-                    this.isLeague ? 'fas fa-trophy hover' :
-                    this.isNewYolker ? 'fas fa-envelope-open-text hover' :
-                    this.isEgglite ? 'fas6 fa-sparkles hover' :
-                    this.isYTCreator ? 'fab fa-youtube hover' :
-                    this.isTwitchCreator ? 'fab fa-twitch hover' :
-                    this.isLimited ? 'far fa-gem hover' :
-                    this.isSocial ? 'fas fa-share hover' :
-                    this.isPromo ? 'fas fa-ad hover' :
-                    this.isEvent ? 'fas fa-calendar-alt hover' :
-                    (this.isNormalShop || this.isPremiumEggPurchase) ? 'fas fa-egg hover' :
-                    this.isLegacy ? 'fas6 fa-history hover' : '';
+                const iconClassMap = [
+                    ['isBundle', 'fas fa-box-open hover'],
+                    ['isPremium', this.premiumIcon + ' hover'],
+                    ['isMerch', 'fas fa-tshirt hover'],
+                    ['isDrops', 'fab fa-twitch hover'],
+                    ['isNotif', 'fas fa-bell hover'],
+                    ['isLeague', 'fas fa-trophy hover'],
+                    ['isNewYolker', 'fas fa-envelope-open-text hover'],
+                    ['isEgglite', 'fas6 fa-sparkles hover'],
+                    ['isYTCreator', 'fab fa-youtube hover'],
+                    ['isTwitchCreator', 'fab fa-twitch hover'],
+                    ['isLimited', 'far fa-gem hover'],
+                    ['isSocial', 'fas fa-share hover'],
+                    ['isPromo', 'fas fa-ad hover'],
+                    ['isEvent', 'fas fa-calendar-alt hover'],
+                    ['isNormalShop', 'fas fa-egg hover'],
+                    ['isPremiumEggPurchase', 'fas fa-egg hover'],
+                    ['isLegacy', 'fas6 fa-history hover']
+                ];
+                return iconClassMap.find(([themeProp]) => this[themeProp])?.[1] || '';
             },
         
             // Icon Hover
@@ -4540,28 +4547,33 @@ class BetterUI {
 
         const oldEmptyGridMsg = comp_item_grid.computed.emptyGridMsg;
         Object.assign(comp_item_grid.computed, {
+            invEditsEnabled() {
+                return extern.modSettingEnabled("betterUI_inventory");
+            },
+
             // Better Inventory - Modify Item Sorting (Order)
             // Premium --> VIP --> Bundle --> Merch --> Drops --> Yolker --> League --> Notif --> Egglite --> Promo --> Event --> Social --> Default/Legacy --> Limited --> Creator --> Shop
             itemsSorted() {
-                const itemThemeMap = {};
                 const isThemed = (item, theme) => {
-                    itemThemeMap[item.id] ??= {};
-                    itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
-                    return itemThemeMap[item.id][theme];
+                    this.itemThemeMap[item.id] ??= {};
+                    return this.itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
                 };
-                const compareThemedItem = (a, b, theme) => isThemed(a, theme) - isThemed(b, theme);
-                
-                const invEditsEnabled = extern.modSettingEnabled("betterUI_inventory");
+
+                // Precompute theme order and their active status
+                const themeOrder = unsafeWindow.megaMod.betterUI.themeOrder
+                    .filter(theme => !theme.custom || this.invEditsEnabled)
+                    .map(theme => theme.theme);
+
                 return this.items.sort((b, a) => {
-                    for (const theme of unsafeWindow.megaMod.betterUI.themeOrder) {
-                        const result = compareThemedItem(a, b, theme.theme) * (!theme.custom || invEditsEnabled);
+                    for (const theme of themeOrder) {
+                        const result = isThemed(a, theme) - isThemed(b, theme)
                         if (result !== 0) return result;
                     }
                     return 0;
                 });
             },
             emptyGridMsg() {
-                if (extern.modSettingEnabled("betterUI_inventory") && this.itemVaultEnabled) {
+                if (this.invEditsEnabled && this.itemVaultEnabled) {
                     return {
                         title: this.loc['megamod_betterUI_i_eq_emptyVault_head'],
 					    text: this.loc['megamod_betterUI_i_eq_emptyVault_text']
@@ -4590,24 +4602,21 @@ class BetterUI {
         const oldSelectItem = vueApp.$refs.equipScreen.selectItem;
         Object.assign(vueApp.$refs.equipScreen, {
             selectItem(item) {
-                const invEnabled = extern.modSettingEnabled("betterUI_inventory");
-                const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
-                const isWeapon = ![ItemType.Hat, ItemType.Stamp].includes(item?.item_type_id);
-                if (invEnabled && this.itemVaultEnabled && item.item_type_id === ItemType.Stamp && this.$refs.stampCanvas) extern.renderItemToCanvas(item, this.$refs.stampCanvas);
-                if (invEnabled && selectingSame && isWeapon) {
-                    this.selectItemClickSound(item);
-                    return;
+                if (extern.modSettingEnabled("betterUI_inventory")) {
+                    if (this.itemVaultEnabled && item.item_type_id === ItemType.Stamp && this.$refs.stampCanvas) extern.renderItemToCanvas(item, this.$refs.stampCanvas);
+                    const selectingSame = hasValue(this.equip.selectedItem) && this.equip.selectedItem.id === item.id;
+                    const isWeapon = ![ItemType.Hat, ItemType.Stamp].includes(item?.item_type_id);
+                    if (selectingSame && isWeapon) {
+                        this.selectItemClickSound(item);
+                        return;
+                    }
                 }
                 oldSelectItem.call(this, item);
             },
             renderStamp() {
                 if (this.$refs.stampCanvas === undefined) return;
     
-                let item = this.equip.selectedItem;
-                if (!this.isEquipModeInventory) {
-                    item = this.equipped[ItemType.Stamp]
-                }
-    
+                const item = this.isEquipModeInventory ? this.equip.selectedItem : this.equipped[ItemType.Stamp];
                 // Fixing BWD's buggy code errors...smh
                 if (!item) return;
                 extern.renderItemToCanvas(item, this.$refs.stampCanvas);
@@ -4635,10 +4644,10 @@ class BetterUI {
         MegaMod.fetchJSON('/mods/data/badges.json').then(data => this.initProfileBadges(data));
 
         // Fresh Player Badge Alert
-        const oldOnTutorialPopupClick = vueApp.onTutorialPopupClick;
-        vueApp.onTutorialPopupClick = function(...args) {
-            oldOnTutorialPopupClick.apply(this, args);
-            if (!extern.modSettingEnabled('betterUI_profile')) return;
+        const oldAssetSetup = vueApp.assetSetup;
+        vueApp.assetSetup = function(totalAssets) {
+            oldAssetSetup.call(this, totalAssets);
+            if (!(extern.modSettingEnabled('betterUI_profile') && totalAssets === this.ui.homeToGameProgressBar.nonAccountTotal)) return;
             ((badge) => {
                 if (!badge) return;
                 const removeHover = style => style.replace(/\bbadge-hover(-alt)?\b/g, '').trim();
@@ -5188,7 +5197,7 @@ class BetterUI {
     }
 
     switchBetterUI(init) {
-        if (extern.inGame) extern.switchHitMarkerColor(extern.modSettingEnabled("betterUI_hitMarkers"));
+        if (extern.inGame) extern?.switchHitMarkerColor?.(extern.modSettingEnabled("betterUI_hitMarkers"));
         this.switchUITweaks(extern.modSettingEnabled("betterUI_ui"));
         this.switchBetterInv(extern.modSettingEnabled("betterUI_inventory"), init);
         this.refreshProfileScreen();
@@ -5505,18 +5514,32 @@ class LegacyMode {
                 BAWK.sounds[`${s}_Default`] = BAWK.sounds[s];
                 return BAWK.loadSound(`${rawPath}/sfx/legacy/${s}.mp3`, `${s}_Legacy`);
             })).then(() => {
-                if (extern.modSettingEnabled("legacyMode")) this.switchLegacySounds(extern.modSettingEnabled("legacyMode_sfx"));
+                if (extern.modSettingEnabled("legacyMode_sfx")) this.switchLegacySounds(true);
             });
         }, 250);
         
-        // TODO: Fix This (bugs on startup when defaults are equipped)
-        // setTimetout is a temp fix, find better fix later
-        const skinsInterval = setInterval(() => {
-            if (extern.account && extern.account.colorIdx == null) return;
-            clearInterval(skinsInterval);
+        const trySwitchLegacySkins = () => {
+            if (!extern.modSettingEnabled("legacyMode_skins")) return;
             vueApp.$refs.equipScreen.equipped = extern.account.getEquippedItems();
-            if (extern.modSettingEnabled("legacyMode")) setTimeout(this.switchLegacySkins, 500, extern.modSettingEnabled("legacyMode_skins"));
-        }, 250);
+            this.switchLegacySkins(true);
+        };
+        const skinsInterval = setInterval(() => {
+            if (extern?.account?.colorIdx == null) return;
+            clearInterval(skinsInterval);
+            if (extern.account?.firebaseId) setTimeout(trySwitchLegacySkins, 500);
+        }, 500);
+
+        const oldAssetSetup = vueApp.assetSetup;
+        vueApp.assetSetup = function(totalAssets) {
+            console.log(totalAssets)
+            oldAssetSetup.call(this, totalAssets);
+            if (totalAssets !== this.ui.homeToGameProgressBar.nonAccountTotal) return;
+            const assetInterval = setInterval(() => {
+                if (this.ui.homeToGameProgressBar.loadedAssets < totalAssets) return;
+                clearInterval(assetInterval);
+                trySwitchLegacySkins();
+            });
+        };
     }
 
     getAllLegacySounds(obj = this.legacySounds) {
@@ -5577,14 +5600,14 @@ class LegacyMode {
         extern.catalog.findItemsByIds(LegacyMode.itemIds).forEach(item => {
             item.name = (enabled) ? item.name.replace(" ", " Legacy ") : item.name.replace(" Legacy ", " ");
             const meshName = item.item_data.meshName;
-            extern.updateLegacyIcons(enabled, meshName)
+            extern?.updateLegacyIcons?.(enabled, meshName)
             if (enabled) {
                 item.item_data.meshName += (!meshName.includes("_Legacy")) ? "_Legacy" : "";
             } else {
                 item.item_data.meshName = item.item_data.meshName.replace("_Legacy", "");
             }
         });
-        if (extern.inGame) extern.updateLegacySkinsInGame(enabled);
+        if (extern.inGame) extern?.updateLegacySkinsInGame?.(enabled);
         // POV: too lazy to think of something better :D
         if (vueApp.equip.showingItems && vueApp.currentEquipMode === vueApp.equipMode.inventory && !([ItemType.Grenade, ItemType.Melee].includes(vueApp.$refs.equipScreen.equip.showingWeaponType) || vueApp.classIdx === CharClass.TriHard)) {
             const origItems = vueApp.$refs.equipScreen.equip.showingItems;
@@ -5661,9 +5684,9 @@ class HideHUD {
         const messageLoc = hidden ? 'megaMod_hideHUD_hidden' : 'megaMod_hideHUD_showing';
         if (!vueApp.game.isPaused && hidden === this.hudHidden) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
         this.getHUDElems().forEach(e => e.style.opacity = hidden ? 0 : 1);
-        if (!hidden || extern.modSettingEnabled("hideHUD_nametags")) extern.hideNametags(hidden);
-        if (!hidden || extern.modSettingEnabled("hideHUD_outlines")) extern.hideOutlines(hidden);
-        if (extern.inGame && (!hidden || extern.modSettingEnabled("hideHUD_pickups"))) extern.hidePickups(hidden);
+        if (!hidden || extern.modSettingEnabled("hideHUD_nametags")) extern?.hideNametags?.(hidden);
+        if (!hidden || extern.modSettingEnabled("hideHUD_outlines")) extern?.hideOutlines?.(hidden);
+        if (extern.inGame && (!hidden || extern.modSettingEnabled("hideHUD_pickups"))) extern?.hidePickups?.(hidden);
 
         if (hidden) {
             if (this.hudInterval) clearInterval(this.hudInterval);
@@ -5711,7 +5734,7 @@ class MatchGrenades {
         const oldPause = vueApp.setPause;
         vueApp.setPause = function(...args) {
             oldPause.apply(this, args);
-            extern.tryUpdateGrenades();
+            extern?.tryUpdateGrenades?.();
             vueData.ui.game.spectatingPlayerName = null;
         };
     }
@@ -5792,7 +5815,7 @@ class SpectateTweaks {
             this.freezeInterval = setInterval(() => {
                 if (vueApp.ui.game.spectate) return;
                 clearInterval(this.freezeInterval);
-                extern.freezeFrame(this.freezeFrame = false);
+                extern?.freezeFrame?.(this.freezeFrame = false);
             }, 100);
         }
     }
@@ -5960,9 +5983,7 @@ class CustomSkybox {
             );
             this.updateSkyboxPreview();
         }
-        // Source Modification is goofy - reload if function doesn't exist
-        //if (!extern?.updateSkybox) window.location.reload();
-        extern.updateSkybox(extern.modSettingEnabled("customSkybox"), hex);
+        extern?.updateSkybox?.(extern.modSettingEnabled("customSkybox"), hex);
     }
 
     randomizeSkybox() {
@@ -5985,7 +6006,7 @@ class CustomFog {
             BAWK.play("ui_reset");
             unsafeWindow.megaMod.updateModSetting("customFog_densitySlider", this.fog.density * 100);
             unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", this.fog.color);
-            extern.updateFog(
+            extern?.updateFog?.(
                 extern.modSettingEnabled("customFog"),
                 this.fog.density,
                 this.fog.color
@@ -6000,7 +6021,7 @@ class CustomFog {
             unsafeWindow.megaMod.updateModSetting(densitySetting.id, Math.randomInt(densitySetting.min, densitySetting.max + 1));
             unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", MegaMod.getRandomHex());
         }
-        if (extern.modSettingEnabled("customFog")) extern.updateFog(
+        if (extern.modSettingEnabled("customFog")) extern?.updateFog?.(
             true,
             unsafeWindow.megaMod.getModSettingById('customFog_densitySlider').value / 100, 
             unsafeWindow.megaMod.getModSettingById('customFog_colorPicker').value,
@@ -6076,13 +6097,13 @@ class BetterEggforce {
 
     toggleSpecESP() {
         if (![2, 4, 8192].some(role => extern.adminRoles & role)) return;
-        extern.toggleSpecESP(this.specESP = !this.specESP);
+        extern?.toggleSpecESP?.(this.specESP = !this.specESP);
         if (this.specESP) {
             if (this.specESPInterval) clearInterval(this.specESPInterval);
             this.specESPInterval = setInterval(() => {
                 if (vueApp.ui.game.spectate) return;
                 clearInterval(this.specESPInterval);
-                extern.toggleSpecESP(this.specESP = false);
+                extern?.toggleSpecESP?.(this.specESP = false);
             }, 100);
         }
     }
@@ -6092,7 +6113,7 @@ class BetterEggforce {
     }
 }
 
-MegaMod.setDebug(true);
+MegaMod.setDebug(true); // Debug Logging
 MegaMod.setLocal(false); // Local Testing
 Object.assign(unsafeWindow, {
 	SettingType: {

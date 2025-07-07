@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         The MegaMod | Shell Shockers
-// @version      0.33
+// @version      1.00
 // @author       Infinite Smasher
 // @description  A collection of all my mods (and more!), now with exciting new features!
 // @icon         https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/logos/modServer.png
 // @updateURL    https://infinitesmasher.github.io/The-MegaMod/js/script.meta.js
 // @downloadURL  https://infinitesmasher.github.io/The-MegaMod/js/script.user.js
-// @require      https://infinitesmasher.github.io/The-MegaMod/js/megaMod.js?v=0.33
+// @require      https://infinitesmasher.github.io/The-MegaMod/js/megaMod.js?v=1.00
 // @match        *://*.shellshock.io/*
+// @match        *://freegames.io/game/shell-shockers*
 // @match        *://*.algebra.best/*
 // @match        *://*.algebra.vip/*
 // @match        *://*.biologyclass.club/*
@@ -22,10 +23,12 @@
 // @match        *://*.eggbattle.com/*
 // @match        *://*.eggcombat.com/*
 // @match        *://*.eggfacts.fun/*
+// @match        *://*.egggames.best/*
 // @match        *://*.egghead.institute/*
 // @match        *://*.eggisthenewblack.com/*
 // @match        *://*.eggsarecool.com/*
 // @match        *://*.eggshock.com/*
+// @match        *://*.eggshock.net/*
 // @match        *://*.eggshooter.best/*
 // @match        *://*.eggshooter.com/*
 // @match        *://*.eggwarfare.com/*
@@ -35,6 +38,7 @@
 // @match        *://*.geometry.report/*
 // @match        *://*.hardboiled.life/*
 // @match        *://*.hardshell.life/*
+// @match        *://*.historicreview.com/*
 // @match        *://*.humanorganising.org/*
 // @match        *://*.mathactivity.club/*
 // @match        *://*.mathactivity.xyz/*
@@ -51,7 +55,9 @@
 // @match        *://*.scrambled.today/*
 // @match        *://*.scrambled.us/*
 // @match        *://*.scrambled.world/*
+// @match        *://*.shellgame.me/*
 // @match        *://*.shellsocks.com/*
+// @match        *://*.shellshock.guru/*
 // @match        *://*.shellshockers.best/*
 // @match        *://*.shellshockers.club/*
 // @match        *://*.shellshockers.life/*

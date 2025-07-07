@@ -1,5 +1,24 @@
 [
 	{
+        "version": "0.33",
+        "date": "July 4 2025",
+        "content": [
+            "<b>[MegaMod]</b> Behind-the-scenes reworks of the Update Info and Changelog popups",
+            "<b>[Better UI: Player Weapon Icons]</b> Fixed bug with icons on player list not updating properly",
+            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now show when someone swaps to pistol or uses melee",
+            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now have a small fade animation when they change",
+            "<b>[Better UI: Player Weapon Icons]</b> Kill Feed now shows when someone gets a kill using melee or grenade",
+            "<b>[Better UI: Spatula Icons]</b> Player List Glows and shows a spatula icon next to the player holding the spatula.",
+            "<b>[Better UI: Spatula Icons]</b> Kill Feed shows a spatula icon next to the player holding the spatula.",
+            "<b>[Better UI: General UI Tweaks]</b> Color of everything inside player slot of currently spectating player changed to white.",
+            "<b>[Better UI: General UI Tweaks]</b> Fixed width of horizontal bar below announcement message.",
+            "<b>[Better UI: General UI Tweaks]</b> Fixed bug with game code input typing out modifier key names (SHIFT, CTRL, etc).",
+            "<b>[Better UI: Better Inventory]</b> Fixed minor bugs with Item Vault when switching in/out of inventory",
+            "<b>[Better Chat: Detect Game Codes]</b> Tweaks made to the leave game popup!",
+            "<b>[Better Chat: Detect Game Codes]</b> Alert message added to stop you from joining the game you're currently in."
+        ]
+    },
+	{
 		"version": "0.32",
 		"date": "June 25 2025",
 		"content": [
@@ -284,8 +303,6 @@
 		"version": "0.01 - 0.09",
 		"date": "March to October 2024",
 		"content": [
-			"<b>AFTER OVER A YEAR....THE MEGAMOD IS FINALLY RELEASED TO THE PUBLIC!!!</b>",
-			"Special thanks to my Playtesters and BWD Eggforcers for their help with playtesting!",
 			"Mods and their settings are on the <b class='changelog-link' onclick='vueApp.showMegaModTab(true)'>brand new tabs</b> in the settings menu.",
 			"<b>Improved UI & Fixed Bugs</b> in the inventory, profile screen, and elsewhere!",
 			"<b>Enhanced In-Game Chat</b> with various tweaks and upgrades!",

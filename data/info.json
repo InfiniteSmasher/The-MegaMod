@@ -1,26 +1,19 @@
 {
 	"announcement": "",
     "updateInfo": [
-       "This is the final update before The MegaMod officially releases to the public!",
-       "TYSM once again for all your help with playtesting! :)"
+      
     ],
     "currentChangelog": {
-        "version": "0.33",
-        "date": "July 4 2025",
+        "version": "1.00",
+        "date": "July 7 2025",
         "content": [
-            "<b>[MegaMod]</b> Behind-the-scenes reworks of the Update Info and Changelog popups",
-            "<b>[Better UI: Player Weapon Icons]</b> Fixed bug with icons on player list not updating properly",
-            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now show when someone swaps to pistol or uses melee",
-            "<b>[Better UI: Player Weapon Icons]</b> Player List icons now have a small fade animation when they change",
-            "<b>[Better UI: Player Weapon Icons]</b> Kill Feed now shows when someone gets a kill using melee or grenade",
-            "<b>[Better UI: Spatula Icons]</b> Player List Glows and shows a spatula icon next to the player holding the spatula.",
-            "<b>[Better UI: Spatula Icons]</b> Kill Feed shows a spatula icon next to the player holding the spatula.",
-            "<b>[Better UI: General UI Tweaks]</b> Color of everything inside player slot of currently spectating player changed to white.",
-            "<b>[Better UI: General UI Tweaks]</b> Fixed width of horizontal bar below announcement message.",
-            "<b>[Better UI: General UI Tweaks]</b> Fixed bug with game code input typing out modifier key names (SHIFT, CTRL, etc).",
-            "<b>[Better UI: Better Inventory]</b> Fixed minor bugs with Item Vault when switching in/out of inventory",
-            "<b>[Better Chat: Detect Game Codes]</b> Tweaks made to the leave game popup!",
-            "<b>[Better Chat: Detect Game Codes]</b> Alert message added to stop you from joining the game you're currently in."
+            "<b>AFTER OVER A YEAR....THE MEGAMOD IS FINALLY RELEASED TO THE PUBLIC!!!</b>",
+			"Special thanks to my Playtesters and BWD Eggforcers for all their help with playtesting!",
+            "<b>[MegaMod]</b> Added some more proxies to The MegaMod userscript",
+            "<b>[MegaMod]</b> Preventions added to stop mods from breaking in case of failed source code modification",
+            "<b>[MegaMod]</b> Added warning popup in case of failed source code modification",
+            "<b>[Better UI: Better Inventory]</b> Minor optimizations made",
+            "<b>[Legacy Mode: Legacy Default Skins]</b> Fixed crashing at startup for new anon players"
         ]
     }
 }
