@@ -782,6 +782,13 @@
 		"defaultVal": true,
 		"settings": [
 			{
+				"id": "killstreakInfo_timer",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_killstreakInfo_timer",
+				"defaultVal": false
+			},
+			{
 				"id": "killstreakInfo_keybind",
 				"type": 2,
 				"active": false,
@@ -812,7 +819,7 @@
 				"min": 1,
 				"max": 1000,
 				"step": 1,
-				"defaultVal": 90
+				"defaultVal": 300
 			}
 		]
 	},
@@ -1091,7 +1098,7 @@
 								"active": true,
 								"disableCondition": "!extern.modSettingEnabled('betterEggforce_autoBan', true)",
 								"locKey": "p_settings_mods_betterEggforce_autoBan_list",
-								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS"]
+								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS", "BOT_CyberClawZ"]
 							}
 						]
 					}

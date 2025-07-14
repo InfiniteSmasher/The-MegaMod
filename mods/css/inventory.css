@@ -1,7 +1,7 @@
 /* ---------------------------- [ Global ] */
 :root {
 	/* Change Border Width */
-	--ss-new-border-width: calc(var(--ss-space-sm) * 0.95);
+	--ss-new-border-width: calc(var(--ss-space-sm) * 0.85);
 
 	/* Change VIP Accent */
 	--ss-vip: #f4c843;

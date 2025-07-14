@@ -1198,13 +1198,13 @@ class MegaMod {
         // Public Map, Game History, and Ban History Buttons, Game Code Update
         const isEggforcer = `[2, 4, 8192].some(role => extern.adminRoles & role)`;
         const playPanel = document.getElementById("play-panel-template");
-        const banHistoryEnabled = `extern?.modSettingEnabled?.('betterEggforce_banHistory')`;
+        const banHistoryEnabled = `extern?.modSettingEnabled?.('betterEggforce_banHistory') && ${isEggforcer}`;
         playPanel.innerHTML = playPanel.innerHTML.replace(
             `ss-button-dropdown>`,
             `ss-button-dropdown><button v-show="${betterUIEnabled}" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
         ).replace(
             `<button @click="onJoinPrivateGameClick"`,
-            `<button v-show="${banHistoryEnabled} && ${isEggforcer} && ${betterUIEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
+            `<button v-show="${banHistoryEnabled} && ${betterUIEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
             <button v-show="${betterUIEnabled} || ${banHistoryEnabled}" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="(${banHistoryEnabled} && !${betterUIEnabled}) ? loc.megaMod_betterEggforce_banHistory_alt : loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
         ).replace(`sort="order"></ss-button-dropdown>`,
             `sort="order"></ss-button-dropdown>
@@ -1315,7 +1315,6 @@ class MegaMod {
                         });
                     };
 
-                    
                     if (oldCoreBadgeTitles) {
                         processBadges(newCoreBadges, BadgeMsgType.coreGained, badge => !oldCoreBadgeTitles.includes(badge.title));
                         processBadges(allBadges.main.filter(b => oldCoreBadgeTitles.includes(b.title)), BadgeMsgType.coreLost, badge => !newCoreBadgeTitles.includes(badge.title));
@@ -1432,7 +1431,7 @@ class MegaMod {
                         this.loc[ban.modeLoc],
                         ban.isPrivate ? this.loc.stat_private : this.loc.stat_public
                     ];
-                    return parts.join(' ').toLowerCase().includes(mainBanArr ? this.banHistorySearch : this.playerBanHistorySearch);
+                    return parts.join(' ').toLowerCase().includes(mainBanArr ? this.banHistorySearch.toLowerCase() : this.playerBanHistorySearch.toLowerCase());
                 };
 
                 const source = mainBanArr ? this.banHistory : this.playerBanHistory;
@@ -1641,7 +1640,7 @@ class MegaMod {
         
         // BUGGED!!!
         // Killstreak Info & First-Person Spec
-        const ksInfoEnabled = `extern?.modSettingEnabled?.('killstreakInfo')`;
+        const timerEnabled = `extern?.modSettingEnabled?.('killstreakInfo_timer')`;
         const inFirstPerson = `!ui.game.spectatingPlayerName || game.isPaused`;
         const crosshairDot = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_dot')`;
         const crosshairMain = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_main')`;
@@ -1652,8 +1651,8 @@ class MegaMod {
         gameScreen.innerHTML = gameScreen.innerHTML.replace(
             `uts">`,
             `uts">
-             <h5 v-show="${ksInfoEnabled} && !game.isPaused" class="nospace title">TIME</h5>
-             <p v-show="${ksInfoEnabled} && !game.isPaused" id="playTimer" class="name">0:00.000</p>`
+             <h5 v-show="${timerEnabled} && !game.isPaused" class="nospace title">TIME</h5>
+             <p v-show="${timerEnabled} && !game.isPaused" id="playTimer" class="name">0:00.000</p>`
         ).replace(
             `!ui.game.spectate`, `(!game.isPaused && !ui.game.spectate) || (!game.isPaused && ui.game.spectatingPlayerName && extern?.modSettingEnabled?.('specTweaks_health'))`
         ).replace(
@@ -3225,7 +3224,7 @@ class MegaMod {
                     };
                 `;
                 src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${checkAutoBanFunc}window.BAWK`, "betterEggforce_autoBan");
-                src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
+                src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && [2, 4, 8192].some(role => extern.adminRoles & role) && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
                 const autoBanUpdateFunc = `
                     checkAutoBans: list => {
                         ${playerArr}.forEach(player => {
@@ -4023,7 +4022,7 @@ class MegaMod {
     
         // Speedrun Timer
         const timerEnabled = checkDefined(["tickerStyle", "timerInitInterval"]);
-        if (timerEnabled) this.modConflicts.push("killstreakInfo");
+        if (timerEnabled) this.modConflicts.push("killstreakInfo_timer");
 
         this.modErrs = this.regexErrs.concat(this.modConflicts);
 
@@ -4131,11 +4130,15 @@ class MegaMod {
         this.checkInfo();
         this.addChangelog();
         this.importLibs();
-        this.addSettingsHooks();
         MegaMod.fetchJSON('/mods/data/themes.json').then(data => {
             if (!this.modErrs.includes("themeManager")) this.customTheme = new CustomTheme(data);
         });
-        vueApp.$refs.settings.initModSettings();
+        const settingsInterval = setInterval(() => {
+            if (!vueApp?.$refs?.settings) return;
+            clearInterval(settingsInterval);
+            this.addSettingsHooks();
+            vueApp.$refs.settings.initModSettings();
+        }, 250);
         const externInterval = setInterval(() => {
             if (!extern?.specialItemsTag) return;
             clearInterval(externInterval);
@@ -4660,6 +4663,12 @@ class BetterUI {
             })(vueApp.getBadges(true).main.find(badge => badge.classList.includes("badge-newbie")));
         };
 
+        const oldAfterLeftGame = vueApp.$refs.gameScreen.afterLeftGame;
+        vueApp.$refs.gameScreen.afterLeftGame = function(...args) {
+            unsafeWindow?.megaMod?.betterUI?.checkOpenGames();
+            oldAfterLeftGame.apply(this, args);
+        }
+
         // Init Game Histry 
         this.initGameHistory();
 
@@ -4794,7 +4803,6 @@ class BetterUI {
         vueApp.gameHistory.push(mapData);
 
         this.saveGameHistory();
-        setTimeout(this.checkOpenGames.bind(this), 1000);
     }
 
     saveGameHistory() {
@@ -4839,7 +4847,7 @@ class BetterUI {
     checkOpenGames() {
         MegaMod.log("checkOpenGames() -", "Checking Open Games...");
         this.checkGameHistory();
-        vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
+        if (!extern.inGame) vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
         
         if (this.gameHistoryTimeout) clearTimeout(this.gameHistoryTimeout);
         this.gameHistoryTimeout = setTimeout(this.checkOpenGames.bind(this), 5*60000);
@@ -5022,29 +5030,18 @@ class BetterUI {
         const playerAccount = extern.account.constructor;
         const { 
             signedIn: oldSignedIn, 
-            loggedOut: oldLoggedOut, 
-            scoreKill: oldScoreKill, 
-            die: oldDie,
+            loggedOut: oldLoggedOut,
             addToInventory: oldAddToInventory 
         } = playerAccount.prototype;
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                setTimeout(vueApp.updateBadges.bind(vueApp), 1000);
                 vueApp.photoUrl = extern.firebaseUrl;
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
                 this.challengesClaimed = [];
                 vueApp.updateBadges(true);
-            },
-            scoreKill(...args) {
-                oldScoreKill.apply(this, args);
-                vueApp.updateBadges();
-            },
-            die(...args) {
-                oldDie.apply(this, args);
-                vueApp.updateBadges();
             },
             addToInventory(...args) {
                 oldAddToInventory.apply(this, args);
@@ -5311,78 +5308,94 @@ class BetterChat {
     async translateText(originalText, targetLang, sourceLang = 'auto') {
         try {
             // translate
-            MegaMod.log("BetterChat - translateText()", `Translating ${originalText}`);
+            //MegaMod.log("BetterChat - translateText()", `Translating ${originalText}`);
             const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(originalText)}`);
             const data = await response.json();
 
-            const sameLanguage = data[2] === targetLang;
-            const translatedText = data[0][0][0];
+            const sameLanguage = data?.[2] === targetLang && data?.[0]?.[0]?.[7]?.[0]?.[1] !== "offline";
+            const translatedText = data?.[0]?.[0]?.[0];
             const sameText = translatedText.toLowerCase() === originalText.toLowerCase();
-            return {
-                translatedText: (sameLanguage || sameText) ? originalText : translatedText,
-                translated: !(sameLanguage || sameText)
-            };
+            if(!(sameLanguage || sameText)) return translatedText;
         } catch (error) {
             console.error('Error during translation:', error);
-            return { translatedText: null, translated: false };
         }
+        return null;
+    }
+
+    getTextSpan(elem) {
+        const spans = elem.querySelectorAll('span');
+        return spans[spans.length - 1];
     }
 
     async handleNewChatMessage(msgElem) {
         const autoTranslate = extern.modSettingEnabled("betterChat_autoTranslate");
         const detectCodes = extern.modSettingEnabled("betterChat_detectCodes");
         const langMap = { "zh": "zh-CN" };
-        const spans = msgElem.querySelectorAll('span');
-        const textSpan = spans[spans.length - 1];
-        let originalText = textSpan.innerText;
+        const textSpan = this.getTextSpan(msgElem);
 
-        // Extract game codes from the original text and temporarily remove them
-        const gameCodes = [];
-        const textWithoutCodes = originalText.replaceAll(/#?([A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4})\b/g, (match, code) => {
-            gameCodes.push({ full: match, code }); // Store full match and raw code
-            return `__${gameCodes.length - 1}__`; // Use placeholder
-        });
+        const translateChatMessage = async (elem) => {
+            const originalText = textSpan.innerText;
 
-        // Translate the message without game codes
-        const { translatedText, translated } = await this.translateText(textWithoutCodes, langMap[vueApp.currentLanguageCode] || vueApp.currentLanguageCode);
-        MegaMod.log("BetterChat - handleNewChatMessage()", (!translated ? "Not " : "") + `Translatated` + (translated ? ` : ${translatedText}` : ""));
-        if (!translated) {
-            if (detectCodes) this.detectAndLinkGameCodes(msgElem);
-            return;
-        }
-
-        // Reinstate the game codes in the translated text (case insensitive)
-        let finalTranslatedText = translatedText;
-        gameCodes.forEach(({ full }, index) => {
-            finalTranslatedText = finalTranslatedText.replace(`__${index}__`, full);
-        });
-
-        // Update the message in the DOM with translated or original text based on autoTranslate setting
-        Object.assign(msgElem.dataset, {
-            original: originalText,
-            translated: finalTranslatedText,
-            showingTranslated: autoTranslate
-        });
-        textSpan.innerHTML = autoTranslate ? finalTranslatedText : originalText;
-
-        // Run detectAndLinkGameCodes on both original and translated dataset properties if needed
-        if (detectCodes) this.detectAndLinkGameCodes(msgElem);
-
-        // Add translation toggle icon if it doesn't exist
-        if (!msgElem.querySelector('.translate-icon')) {
-            const icon = document.createElement('i');
-            icon.className = `fas6 fa-language translate-icon ${autoTranslate ? "translated" : "original"}`;
-
-            icon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const showingTranslated = msgElem.dataset.showingTranslated === "true";
-                textSpan.innerHTML = showingTranslated ? msgElem.dataset.original : msgElem.dataset.translated;
-                msgElem.dataset.showingTranslated = !showingTranslated;
-                icon.classList.remove(showingTranslated ? "translated" : "original");
-                icon.classList.add(showingTranslated ? "original" : "translated");
+            // Extract game codes from the original text and temporarily remove them
+            const gameCodes = [];
+            const textWithoutCodes = originalText.replaceAll(/#?([A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4})\b/g, (match, code) => {
+                gameCodes.push({ full: match, code }); // Store full match and raw code
+                return `__${gameCodes.length - 1}__`; // Use placeholder
             });
-            msgElem.appendChild(icon);
+
+            // Translate the message without game codes
+            const translatedText = await this.translateText(textWithoutCodes, langMap[vueApp.currentLanguageCode] || vueApp.currentLanguageCode);
+            //MegaMod.log("BetterChat - handleNewChatMessage()", (!translatedText ? "Not " : "") + `Translatated` + (translatedText ? ` : ${translatedText}` : ""));
+            if (!translatedText) {
+                if (detectCodes) this.detectAndLinkGameCodes(elem);
+                return;
+            }
+
+            // Reinstate the game codes in the translated text (case insensitive)
+            let finalTranslatedText = translatedText;
+            gameCodes.forEach(({ full }, index) => finalTranslatedText = finalTranslatedText.replace(`__${index}__`, full));
+
+            // Update the message in the DOM with translated text
+            Object.assign(elem.dataset, {
+                original: originalText,
+                translated: finalTranslatedText,
+                showingTranslated: autoTranslate
+            });
+            textSpan.innerHTML = finalTranslatedText;
+
+            // Run detectAndLinkGameCodes on both original and translated dataset properties if needed
+            if (detectCodes) this.detectAndLinkGameCodes(elem);
+
+            return translatedText;
         }
+
+        // Return if auto translation isn't valid
+        if (autoTranslate) {
+            if (!await translateChatMessage(msgElem)) return;
+        } else if (detectCodes) {
+            this.detectAndLinkGameCodes(msgElem);
+        }
+
+        const playSFX = (translated) => BAWK.play(translated ? "ui_reset" :  "ui_equip");
+
+        const icon = document.createElement('i');
+        icon.className = `fas6 fa-language translate-icon ${autoTranslate ? "translated" : "original"}`;
+        icon.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            // If not translated, remove icon
+            if (!(msgElem.dataset.original || await translateChatMessage(msgElem))) {
+                playSFX(true);
+                return this.remove();
+            }
+            const showingTranslated = msgElem.dataset.showingTranslated === "true";
+            playSFX(showingTranslated);
+            textSpan.innerHTML = showingTranslated ? msgElem.dataset.original : msgElem.dataset.translated;
+            msgElem.dataset.showingTranslated = !showingTranslated;
+
+            icon.classList.toggle("original", showingTranslated);
+            icon.classList.toggle("translated", !showingTranslated);
+        });
+        msgElem.appendChild(icon);
     }
 
     detectAndLinkGameCodes(msgElem) {
@@ -5393,8 +5406,7 @@ class BetterChat {
                 return `<span class="game-code-link" onclick="vueApp.handleGameCodeClick(event, '${upperCode}');">${display}</span>`;
             });
         };
-        const spans = msgElem.querySelectorAll('span');
-        const textSpan = spans[spans.length - 1];
+        const textSpan = this.getTextSpan(msgElem);
         if (textSpan?.innerHTML) textSpan.innerHTML = replaceGameCodes(textSpan.innerHTML);
         ['original', 'translated'].forEach(key => {
             const text = msgElem.dataset[key];
@@ -5520,7 +5532,7 @@ class LegacyMode {
         
         const trySwitchLegacySkins = () => {
             if (!extern.modSettingEnabled("legacyMode_skins")) return;
-            vueApp.$refs.equipScreen.equipped = extern.account.getEquippedItems();
+            vueApp.$refs.equipScreen.updateEquippedItems();
             this.switchLegacySkins(true);
         };
         const skinsInterval = setInterval(() => {
@@ -5531,7 +5543,6 @@ class LegacyMode {
 
         const oldAssetSetup = vueApp.assetSetup;
         vueApp.assetSetup = function(totalAssets) {
-            console.log(totalAssets)
             oldAssetSetup.call(this, totalAssets);
             if (totalAssets !== this.ui.homeToGameProgressBar.nonAccountTotal) return;
             const assetInterval = setInterval(() => {
@@ -5712,7 +5723,7 @@ class KillstreakStats {
 
     startTimer() {
         const timer = document.getElementById("playTimer");
-        if (!(extern.modSettingEnabled("killstreakInfo") && timer && document.getElementById("healthHp"))) return;
+        if (!(extern.modSettingEnabled("killstreakInfo_timer") && timer && document.getElementById("healthHp"))) return;
         const startTime = new Date().getTime();
         const timerInterval = setInterval(() => {
             if (vueApp.game.respawnTime) {

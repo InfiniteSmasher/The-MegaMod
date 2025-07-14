@@ -159,14 +159,19 @@
 .profile-page-content,
 .profile-stat-wrap,
 .popup_window:not(#joinPrivateGamePopup, #subStorePopup, #goldChickenPopup, #notificationPopup),
-#notificationPopup .notify-group,
+#notificationPopup .notify-group:not(.notify-group-subscription, .notify-group-bundle),
 .play-panel-panels {
 	background: linear-gradient(var(--ss-blue3), var(--ss-blue5)) !important;
 }
 
 .notify-group-challenges .text_white {
     color: var(--ss-blue5) !important;
-    text-shadow: none !important;
+}
+
+.notify-group-challenges .text_white,
+#notificationPopup .notify-group-subscription h1,
+#notificationPopup .notify-group-bundle h1 {
+	text-shadow: none !important;
 }
 
 .notify-group-challenges .text_blue5 {

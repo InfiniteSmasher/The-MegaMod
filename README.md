@@ -22,6 +22,7 @@ You'll need a userscript manager to run The MegaMod on your browser. I recommend
 
 > [!NOTE]  
 > Some userscript managers may require Developer Mode to be enabled to allow custom scripts. Follow these steps to enable Developer Mode:
+> ### Enabling Developer Mode
 > 1. Open your browser's Extensions page:
 > - **Google Chrome**:
 >   - Click the menu (three dots in the top-right corner), then select Extensions > Manage Extensions.
@@ -36,7 +37,7 @@ You'll need a userscript manager to run The MegaMod on your browser. I recommend
 >   - Click the Extensions button (cube icon on the left sidebar or top-right corner).
 >   - Or manually type **opera://extensions** into the address bar.
 > 2. Find and click the "Developer Mode" toggle (usually in the top right corner of the page).<br>
-> **Note**: On Opera GX, you may also have to close the window and open a new one for the changes to take effect
+> **Note**: On Opera GX, you may also have to close the window and open a new one for the changes to take effect.
 
 ### Step 2: Disable All Other Mod Scripts
 The MegaMod isn't optimized or recommended for use along with other mods. Having other mods enabled can break features of the MegaMod and cause unexpected bugs. If you notice any features of the MegaMod not working as expected, try disabling all other mods first before reporting issues.
@@ -296,7 +297,6 @@ There's a new link added to the footer on the home screen, which opens a changel
 >   >   
 >   >   ![Item Vault](img/docs/betterUI/inventory/Item%20Vault.png)
 >   >   </details>
->   > - Server Select dropdown is back on the home screen!
 >   > - Themed Bundle and VIP Notification Popups
 >   >   <details>
 >   >   <summary>Themed Notification Popups (Image)</summary>
@@ -572,14 +572,15 @@ There's a new link added to the footer on the home screen, which opens a changel
 <summary>Killstreak Stats</summary>
 
 > > Adds a stopwatch that starts when you spawn and a popup to display kill streak stats (COMING SOON). Also useful for timed challenges.  
-> <!--**Settings**:-->
-> <!--**Hide/Show Info Popup**: Toggle the display of kill streak stats.-->
+> **Settings**:
+> - **Stopwatch**: Shows a stopwatch above the ping and FPS readouts that starts when you spawn.
 >
 >   <details>
 >   <summary>Killstreak Stopwatch (Image)</summary>
 > 
 >   ![Killstreak Stopwatch](img/docs/killstreakInfo/Stopwatch.png)
 >   </details>
+> <!--**Hide/Show Info Popup**: Toggle the display of kill streak stats.-->
 
 </details>
 
@@ -722,7 +723,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 >   ![Improved Ban Popup](img/docs/betterEggforce/Ban%20Popup.png)
 >   </details>
 > 
-> - **Observer Toggle**: Adds a toggle on the join game popup to toggle on/off observer mode and enter a player UniqueID.
+> - **Observer Toggle**: Adds a toggle on the join game popup to toggle observer mode and enter a player UniqueID.
 >   <details>
 >   <summary>Observer Toggle (Image)</summary>
 >   
@@ -737,7 +738,7 @@ There's a new link added to the footer on the home screen, which opens a changel
 >   </details>
 > 
 > - **Spectate-Only ESP**: Enables ESP that only works in spectate mode.
-> - **Toggle ESP**: Sets the keybind to toggle on/offf Spectate-Only ESP.
+> - **Toggle ESP**: Sets the keybind to toggle the Spectate-Only ESP.
 > - **Auto Ban**: Auto-bans users with names/uniqueIDs that match the ones in the list.
 > - **Name / UniqueID List**: Allows you to enter names/uniqueIDs to auto-ban.
 > - **Disable Chat Filter**: Disables the Chat Filter and makes inappropriate chat messages red, highlighting the innapropriate parts.

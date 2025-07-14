@@ -363,6 +363,7 @@
 
 	"p_settings_mods_killstreakInfo_title": "Killstreak Stats",
 	"p_settings_mods_killstreakInfo_desc": "Adds a stopwatch that starts when you spawn, along with a popup (COMING SOON) that can be toggled on/off to display useful stats about your kill streaks. Also useful for timed challenges.",
+	"p_settings_mods_killstreakInfo_timer": "Stopwatch",
 	"p_settings_mods_killstreakInfo_keybind": "Hide/Show Info Popup",
 
 

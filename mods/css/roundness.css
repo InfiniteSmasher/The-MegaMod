@@ -3,7 +3,6 @@
 .btn_game_mode
 { border-radius: var(--ss-space-md) !important; }
 
-.ytube-item img,
 .ss_keybind,
 .ss_section,
 .ss_select,
@@ -18,6 +17,8 @@
 .playerSlot div,
 #goldChickenPopup img,
 .roundme_md { border-radius: var(--ss-space-lg) !important; }
+
+.ytube-item img { border-radius: calc(var(--ss-space-lg) * 0.7) !important; }
 
 .ss_button:not(.roundme_lg, .pause-screen-btn-spectate),
 .checkmark { border-radius: calc(var(--ss-space-lg) * 0.7); }

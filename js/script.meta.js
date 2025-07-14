@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         The MegaMod | Shell Shockers
-// @version      1.00
+// @version      1.01
 // @author       Infinite Smasher
 // @description  A collection of all my mods (and more!), now with exciting new features!
 // @icon         https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/logos/modServer.png
 // @updateURL    https://infinitesmasher.github.io/The-MegaMod/js/script.meta.js
 // @downloadURL  https://infinitesmasher.github.io/The-MegaMod/js/script.user.js
-// @require      https://infinitesmasher.github.io/The-MegaMod/js/megaMod.js?v=1.00
+// @require      https://infinitesmasher.github.io/The-MegaMod/js/megaMod.js?v=1.01
 // @match        *://*.shellshock.io/*
 // @match        *://freegames.io/game/shell-shockers*
 // @match        *://*.algebra.best/*

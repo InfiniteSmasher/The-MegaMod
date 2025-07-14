@@ -4,16 +4,22 @@
       
     ],
     "currentChangelog": {
-        "version": "1.00",
-        "date": "July 7 2025",
+        "version": "1.01",
+        "date": "July 14 2025",
         "content": [
-            "<b>AFTER OVER A YEAR....THE MEGAMOD IS FINALLY RELEASED TO THE PUBLIC!!!</b>",
-			"Special thanks to my Playtesters and BWD Eggforcers for all their help with playtesting!",
-            "<b>[MegaMod]</b> Added some more proxies to The MegaMod userscript",
-            "<b>[MegaMod]</b> Preventions added to stop mods from breaking in case of failed source code modification",
-            "<b>[MegaMod]</b> Added warning popup in case of failed source code modification",
-            "<b>[Better UI: Better Inventory]</b> Minor optimizations made",
-            "<b>[Legacy Mode: Legacy Default Skins]</b> Fixed crashing at startup for new anon players"
+            "<b>[MegaMod]</b> Fixed bug that broke The MegaMod during startup for some users",
+            "<b>[Better UI: General UI Tweaks]</b> Fixed bug with Game History button becoming Ban History for Non-Eggforcers",
+            "<b>[Better UI: General UI Tweaks]</b> Small optimizations made to Game History lobby checking interval",
+            "<b>[Better UI: Better Inventory]</b> Slightly reduced border thickness on items",
+            "<b>[Better UI: Eggstra Roundness]</b> Reduced roundness on YouTube Thumbnails",
+            "<b>[Legacy Mode: Legacy Default Skins]</b> Fixed bug with VIP Stamp Position being reset after startup",
+            "<b>[Killstreak Stats]</b> Turned the Stopwatch into its own dedicated setting: Stopwatch",
+            "<b>[Killstreak Stats: Stopwatch]</b> Stopwatch setting is now disabled by default",
+            "<b>[Change FPS: FPS Slider]</b> Default value changed from 90 to 300",
+            "<b>[Better Chat: Chat Translator]</b> Added SFX to translate button (icon) on chat messages",
+            "<b>[Better Chat: Chat Translator]</b> Minor tweaks made to increase translating reliability",
+            "<b>[Better Chat: Chat Translator]</b> Optimzation made to only pre-query the Translate API if auto translating",
+            "<b>[Theme Manager]</b> Tweaks made to Boolet, Graysocean, and Infinite themes to not affect the VIP and Bundle Item notification popups"
         ]
     }
 }

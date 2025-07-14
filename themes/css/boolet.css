@@ -164,7 +164,7 @@
 .is-paused .pause-ui-element,
 .profile-page-content,
 .popup_window:not(#joinPrivateGamePopup, #subStorePopup, #settingsPopup, #changelogPopup, #chicknWinner, #goldChickenPopup, #gameOptionsPopup, #tutorialPopup, #notificationPopup),
-#notificationPopup .notify-group,
+#notificationPopup .notify-group:not(.notify-group-subscription, .notify-group-bundle),
 .play-panel-panels,
 .weapon-grid .weapon_img.weapon_selected,
 #weapon_select .weapon_img.weapon_selected,
@@ -181,6 +181,12 @@
 
 .notify-group-challenges .text_white {
     color: var(--ss-blue2) !important;
+}
+
+.notify-group-challenges .text_white,
+#notificationPopup .notify-group-subscription h1,
+#notificationPopup .notify-group-bundle h1 {
+	text-shadow: none !important;
 }
 
 .ss_bigtab:not(.btn_toggleon, .selected),
