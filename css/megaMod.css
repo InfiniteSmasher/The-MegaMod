@@ -368,7 +368,6 @@
 /* Info Buttons */
 .info-btn {
 	color: var(--ss-blue5);
-	text-shadow: none;
 }
 
 .info-btn:hover {
@@ -402,7 +401,7 @@
 }
 
 .info-btn:hover {
-	transform: scale(1.3);
+	transform: scale(1.2);
 }
 
 /* Hides chw in phootbooth (blocks photobooth spin buttons) */
