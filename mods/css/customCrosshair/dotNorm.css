@@ -1,0 +1,13 @@
+:root {
+    --crosshair-dotNorm-bg: #00ff00;
+    --crosshair-dotNorm-border: solid 0.05em #00ffff;
+    --crosshair-dotNorm-opacity: 70%;
+    --crosshair-dotNorm-radius: 35%;
+}
+
+#app #reticleDot {
+    background: var(--crosshair-dotNorm-bg);
+	border: var(--crosshair-dotNorm-border);
+    opacity: var(--crosshair-dotNorm-opacity);
+    border-radius: var(--crosshair-dotNorm-radius);
+}

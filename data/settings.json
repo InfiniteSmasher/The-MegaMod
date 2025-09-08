@@ -321,7 +321,6 @@
 			{
 				"type": 4,
 				"active": true,
-				"locKey": "",
 				"showCondition": "extern.modSettingEnabled('legacyMode_sfx', true)",
 				"settings": [
 					{
@@ -870,10 +869,10 @@
 				"active": true,
 				"settings": [
 					{
-						"id": "specTweaks_speedSlider",
+						"id": "specTweaks_speed",
 						"type": 0,
 						"active": true,
-						"locKey": "p_settings_mods_specTweaks_speedSlider",
+						"locKey": "p_settings_mods_specTweaks_speed",
 						"min": 1,
 						"max": 200,
 						"step": 1,
@@ -940,7 +939,7 @@
 				"type": 5,
 				"active": true,
 				"locKey": "p_settings_mods_themeManager_themeDesc",
-				"html": "<p id='themeDesc'>Loading Theme Description...</p>"
+				"html": "<p id='themeDesc' class='setting-div roundme_md'>Loading Theme Description...</p>"
 			}
 		]
 	},
@@ -996,17 +995,17 @@
 				"active": true,
 				"settings": [
 					{
-						"id": "customSkybox_colorPicker",
+						"id": "customSkybox_color",
 						"type": 7,
 						"active": true,
-						"locKey": "p_settings_mods_customSkybox_colorPicker",
+						"locKey": "p_settings_mods_customSkybox_color",
 						"showCondition": "window.megaMod.customSkybox.usingSkyboxColor",
 						"defaultVal": "#832cab"
 					},
 					{
 						"type": 5,
 						"active": true,
-						"locKey": "p_settings_mods_customSkybox_skyboxPreview",
+						"locKey": "p_settings_mods_customSkybox_preview",
 						"showCondition": "!window.megaMod.customSkybox.usingSkyboxColor",
 						"html": "<div id='skyboxPreview'></div>"
 					}
@@ -1026,10 +1025,10 @@
 				"active": true,
 				"settings": [
 					{
-						"id": "customFog_densitySlider",
+						"id": "customFog_density",
 						"type": 0,
 						"active": true,
-						"locKey": "p_settings_mods_customFog_densitySlider",
+						"locKey": "p_settings_mods_customFog_density",
 						"min": 0,
 						"max": 100,
 						"step": 1,
@@ -1053,11 +1052,612 @@
 				]
 			},
 			{
-				"id": "customFog_colorPicker",
+				"id": "customFog_color",
 				"type": 7,
 				"active": true,
-				"locKey": "p_settings_mods_customFog_colorPicker",
+				"locKey": "p_settings_mods_customFog_color",
 				"defaultVal": "#197a93"
+			}
+		]
+	},
+	{
+		"id": "customCrosshair",
+		"type": 1,
+		"active": true,
+		"locKey": "p_settings_mods_customCrosshair",
+		"defaultVal": false,
+		"settings": [
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "customCrosshair_crosshairSelect",
+						"locKey": "p_settings_mods_customCrosshair_crosshairSelect",
+						"type": 3,
+						"active": true,
+						"options": [
+							{ "id": "regNorm", "locKey": "p_settings_mods_customCrosshair_regularCrosshair_norm"    },
+							{ "id": "regPowr", "locKey": "p_settings_mods_customCrosshair_regularCrosshair_powr"    },
+							{ "id": "sgNorm",  "locKey": "p_settings_mods_customCrosshair_shottyCrosshair_norm"     },
+							{ "id": "sgPowr",  "locKey": "p_settings_mods_customCrosshair_shottyCrosshair_powr"     },
+							{ "id": "rpgNotReady", "locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_notReady"  },
+							{ "id": "rpgReady", "locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_ready"     },
+							{ "id": "dotNorm", "locKey": "p_settings_mods_customCrosshair_dotCrosshair_norm" 	    },
+							{ "id": "augNorm", "locKey": "p_settings_mods_customCrosshair_augCrosshair_norm"        },
+							{ "id": "scope",   "locKey": "p_settings_mods_customCrosshair_scope"                    }
+						],
+						"defaultVal": "regNorm"
+					},
+					{
+						"id": "customCrosshair_regNorm_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regNorm_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regNorm_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regNorm_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_regNorm_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 40
+					},
+					{
+						"id": "customCrosshair_regPowr_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regPowr_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regPowr_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_regPowr_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_regPowr_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 40
+					},
+					{
+						"id": "customCrosshair_sgNorm_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgNorm_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgNorm_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgNorm_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_sgNorm_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 60
+					},
+					{
+						"id": "customCrosshair_sgPowr_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgPowr_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgPowr_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_sgPowr_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_sgPowr_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 60
+					},
+
+					{
+						"id": "customCrosshair_rpgNotReady_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgNotReady')",
+						"locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_rpgNotReady_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgNotReady')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 50
+					},
+					{
+						"id": "customCrosshair_rpgNotReady_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgNotReady')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 10
+					},
+					{
+						"id": "customCrosshair_rpgReady_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgReady')",
+						"locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_rpgReady_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgReady')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 50
+					},
+					{
+						"id": "customCrosshair_rpgReady_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgReady')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 10
+					},
+					{
+						"id": "customCrosshair_dotNorm_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_dotNorm_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_dotNorm_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_dotNorm_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_dotNorm_radius",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_radius",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 70
+					},
+					{
+						"id": "customCrosshair_augNorm_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_augNorm_bg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm')",
+						"locKey": "p_settings_mods_customCrosshair_bg_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_augNorm_border_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm')",
+						"locKey": "p_settings_mods_customCrosshair_border_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_augNorm_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 100
+					},
+					{
+						"id": "customCrosshair_rpegg_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpegg')",
+						"locKey": "p_settings_mods_customCrosshair_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_rpegg_opacity",
+						"type": 0,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpegg')",
+						"locKey": "p_settings_mods_customCrosshair_opacity",
+						"min": 0,
+						"max": 100,
+						"step": 1,
+						"defaultVal": 50
+					},
+					
+					{
+						"id": "customCrosshair_scope_enabled",
+						"type": 1,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('scope')",
+						"locKey": "p_settings_mods_customCrosshair_scope_enabled",
+						"defaultVal": true
+					},
+					{
+						"id": "customCrosshair_scope",
+						"locKey": "p_settings_mods_customCrosshair_scopeSelect",
+						"type": 3,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('scope')",
+						"options": [
+							{ "id": "aries",       "locKey": "p_settings_mods_customCrosshair_scope_aries"          },
+							{ "id": "bg",          "locKey": "p_settings_mods_customCrosshair_scope_bg"             },
+							{ "id": "boolet",      "locKey": "p_settings_mods_themeManager_theme_boolet"            },
+							{ "id": "default",     "locKey": "p_settings_mods_customSkybox_skybox_default"          },
+							{ "id": "graysocean1", "locKey": "p_settings_mods_themeManager_theme_graysocean1"       },
+							{ "id": "gus",         "locKey": "p_settings_mods_themeManager_theme_gus"               },
+							{ "id": "hayden",      "locKey": "p_settings_mods_themeManager_theme_hayden"            },
+							{ "id": "infinite",     "locKey": "p_settings_mods_themeManager_theme_infinite"           },
+							{ "id": "meno",        "locKey": "p_settings_mods_themeManager_theme_meno"              },
+							{ "id": "novo",        "locKey": "p_settings_mods_themeManager_theme_novo"              },
+							{ "id": "nukezone",    "locKey": "p_settings_mods_customCrosshair_scope_nukezone"       },
+							{ "id": "rbgray",      "locKey": "p_settings_mods_customCrosshair_scope_rbgray"         },
+							{ "id": "roy",         "locKey": "p_settings_mods_customCrosshair_scope_roy"            },
+							{ "id": "whiteblue",   "locKey": "p_settings_mods_customCrosshair_scope_whiteblue"      },
+							{ "id": "yahboyyah",   "locKey": "p_settings_mods_customCrosshair_scope_yahboyyah"      },
+							{ "id": "zaxonius",    "locKey": "p_settings_mods_themeManager_theme_zaxonius"          }
+						],
+						"defaultVal": "aries"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('scope')",
+						"locKey": "p_settings_mods_customCrosshair_scopeDesc",
+						"html": "<p id='scopeDesc' class='setting-div roundme_md'>Loading Scope Description...</p>"
+					}
+				]
+			},
+			{
+				"type": 4,
+				"active": true,
+				"settings": [
+					{
+						"id": "customCrosshair_regNorm_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm') && extern.modSettingEnabled('customCrosshair_regNorm_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#00ff00"
+					},
+					{
+						"id": "customCrosshair_regNorm_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm') && extern.modSettingEnabled('customCrosshair_regNorm_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#00ffff"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regNorm')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div class='crosshair normal'></div><div class='crosshair normal'></div><div class='crosshair normal'></div><div class='crosshair normal'></div></div>"
+					},
+					{
+						"id": "customCrosshair_regPowr_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr') && extern.modSettingEnabled('customCrosshair_regPowr_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#ffff00"
+					},
+					{
+						"id": "customCrosshair_regPowr_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr') && extern.modSettingEnabled('customCrosshair_regPowr_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#ff0000"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('regPowr')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div class='crosshair powerful'></div><div class='crosshair powerful'></div><div class='crosshair powerful'></div><div class='crosshair powerful'></div></div>"
+					},
+					{
+						"id": "customCrosshair_sgNorm_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm') && extern.modSettingEnabled('customCrosshair_sgNorm_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#00ff00"
+					},
+					{
+						"id": "customCrosshair_sgNorm_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm') && extern.modSettingEnabled('customCrosshair_sgNorm_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#00ffff"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgNorm')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div class='reticleContainer'><div class='shotReticle border normal'></div> <div class='shotReticle border normal'></div> <div class='shotReticle fill normal'></div> <div class='shotReticle fill normal'></div></div></div>"
+					},
+					{
+						"id": "customCrosshair_sgPowr_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr') && extern.modSettingEnabled('customCrosshair_sgPowr_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#ffff00"
+					},
+					{
+						"id": "customCrosshair_sgPowr_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr') && extern.modSettingEnabled('customCrosshair_sgPowr_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#ff0000"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('sgPowr')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div class='reticleContainer'><div class='shotReticle border powerful'></div> <div class='shotReticle border powerful'></div> <div class='shotReticle fill powerful'></div> <div class='shotReticle fill powerful'></div> </div></div>"
+					},
+					{
+						"id": "customCrosshair_rpgNotReady_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgNotReady')",
+						"locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_bg",
+						"defaultVal": "#000000"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgNotReady')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div id='readyBrackets' class='notReady'><div class='readyBracket'></div><div class='readyBracket'></div><div class='readyBracket'></div><div class='readyBracket'></div></div></div>"
+					},
+					{
+						"id": "customCrosshair_rpgReady_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgReady')",
+						"locKey": "p_settings_mods_customCrosshair_rpeggCrosshair_bg",
+						"defaultVal": "#ffffff"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('rpgReady')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div id='readyBrackets' class='ready'><div class='readyBracket'></div><div class='readyBracket'></div><div class='readyBracket'></div><div class='readyBracket'></div></div></div>"
+					},
+					{
+						"id": "customCrosshair_dotNorm_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm') && extern.modSettingEnabled('customCrosshair_dotNorm_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#00ff00"
+					},
+					{
+						"id": "customCrosshair_dotNorm_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm') && extern.modSettingEnabled('customCrosshair_dotNorm_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#00ffff"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('dotNorm')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='roundme_md'><div id='reticleDot'></div></div>"
+					},
+					{
+						"id": "customCrosshair_augNorm_bg",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm') && extern.modSettingEnabled('customCrosshair_augNorm_bg_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_bg",
+						"defaultVal": "#00ff00"
+					},
+					{
+						"id": "customCrosshair_augNorm_border",
+						"type": 7,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm') && extern.modSettingEnabled('customCrosshair_augNorm_border_enabled', true)",
+						"locKey": "p_settings_mods_customCrosshair_border",
+						"defaultVal": "#00ffff"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('augNorm')",
+						"locKey": "p_settings_mods_customCrosshair_preview",
+						"html": "<div id='crosshairPreview' class='aug roundme_md'><div id='redDotReticle'></div></div>"
+					},
+					{
+						"type": 5,
+						"active": true,
+						"showCondition": "window.megaMod.customCrosshair.selectedCrosshair('scope')",
+						"locKey": "p_settings_mods_customCrosshair_scopePreview",
+						"html": "<div id='scopePreview' class='roundme_md'><div class='overlay'></div></div>"
+					}
+				]
 			}
 		]
 	},
@@ -1098,7 +1698,7 @@
 								"active": true,
 								"disableCondition": "!extern.modSettingEnabled('betterEggforce_autoBan', true)",
 								"locKey": "p_settings_mods_betterEggforce_autoBan_list",
-								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS", "BOT_CyberClawZ"]
+								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS", "BOT_CyberClawZ", "yolkbot"]
 							}
 						]
 					}

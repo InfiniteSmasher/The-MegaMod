@@ -1,0 +1,13 @@
+:root {
+    --crosshair-regPowr-bg: #ffff00;
+    --crosshair-regPowr-border: solid 0.05em #ff0000;
+    --crosshair-regPowr-opacity: 70%;
+    --crosshair-regPowr-radius: 20%;
+}
+
+#app .crosshair.powerful {
+    background: var(--crosshair-regPowr-bg);
+	border: var(--crosshair-regPowr-border);
+    opacity: var(--crosshair-regPowr-opacity);
+    border-radius: var(--crosshair-regPowr-radius);
+}

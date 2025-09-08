@@ -1,0 +1,7 @@
+:root {
+    --scope-url: url('https://shellshock.io/img/scope.webp');
+}
+
+#app #maskmiddle {
+	background-image: var(--scope-url);
+}

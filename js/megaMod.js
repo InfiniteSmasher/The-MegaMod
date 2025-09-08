@@ -58,7 +58,7 @@ class MegaMod {
         const settingConditional = `
         <div v-if="s.type === SettingType.Slider">
             <div class="nowrap" v-show="eval(s.showCondition)">
-                <settings-adjuster :loc="loc" :loc-key="s?.locKey" :control-id="s.id" :control-value="s.value" :min="s.min" :max="s.max" :step="s.step" :multiplier="s.multiplier" :precision="s.precision" @setting-adjusted="onSettingAdjusted"></settings-adjuster>
+                <settings-adjuster :loc="loc" :loc-key="s?.locKey" :control-id="s.id" :control-value="s.value" :min="s.min" :max="s.max" :step="s.step" :multiplier="s.multiplier" :precision="s.precision" @setting-adjusted="onSettingAdjusted" @setting-input="onSliderInput"></settings-adjuster>
             </div>
         </div>
     
@@ -312,6 +312,10 @@ class MegaMod {
                 return this.filteredSettings.slice(start, start + this.pageSize);
             }
         });
+
+        const adjusterTemplate = document.getElementById("settings-adjuster-template");
+        adjusterTemplate.innerHTML = adjusterTemplate.innerHTML.replace(`@change="onChange"`, `@change="onChange" @input="onInput"`)
+        comp_settings_adjuster.methods.onInput = function (event) { this.$emit('setting-input', this.controlId, this.currentValue); };
         
         const oldSettingsData = comp_settings.data;
         comp_settings.data = function() {
@@ -366,6 +370,9 @@ class MegaMod {
                             case "customSkybox":
                                 if (!unsafeWindow.megaMod.customSkybox.usingSkyboxColor) unsafeWindow.megaMod.customSkybox.updateSkyboxPreview();
                                 break;
+                            case "customCrosshair":
+                                unsafeWindow.megaMod.customCrosshair.setScopeDesc(); 
+                                unsafeWindow.megaMod.customCrosshair.updateScopePreview();
                         }
                         this.showSettingsTab = true;
                         if (extern?.modSettingEnabled?.("megaMod_sfx_tabs")) BAWK.play("settingsTab");
@@ -2668,7 +2675,6 @@ class MegaMod {
         localStore.setItem(MegaMod.KEYS.InitFinished, false);
         if (MegaMod.fatalErr) return src;
         this.checkError();
-
         const regex = (strings, ...values) => new RegExp(strings.raw.reduce((acc, str, i) => acc + str + (values[i] ?? ""), ""), "g");
         const escSymbols = x => x.replaceAll(/[\$_]/g, '\\$&');
 
@@ -2789,11 +2795,11 @@ class MegaMod {
                             }
     
                             // Initial Custom Grenade
-                            src = src.safeReplace(`switchToGameUi(),`, `switchToGameUi(), extern.tryUpdateGrenades(),`, "matchGrenades");
+                            src = src.safeReplace(`switchToGameUi(),`, `switchToGameUi(), extern?.tryUpdateGrenades?.(),`, "matchGrenades");
                             src = src.safeReplace(`getMeshByName("grenadeItem"`, `getMeshByName(${itemManagerClass}.getCurrentGrenadeMesh()`, "matchGrenades");
     
                             // Calling checkCurrentGrenadeMesh() when updating loadout
-                            src = src.safeReplace("generateLoadoutObject();", `generateLoadoutObject();if(extern.inGame){extern.tryUpdateGrenades();}`, "matchGrenades");
+                            src = src.safeReplace("generateLoadoutObject();", `generateLoadoutObject();if(extern.inGame){extern?.tryUpdateGrenades?.()}`, "matchGrenades");
     
                             // Calling checkCurrentGrenadeMesh() during first-person spectate
                             const specMatches = Array.from(src.safeMatchAll(regex`this\.spectatePlayer\(${v}\)`, "matchGrenades"));
@@ -2810,7 +2816,7 @@ class MegaMod {
                 }
             }
         }
-    
+
         // Photobooth Spin
         const [paperDollMatch, paperDollClass] = regex`(${v})\.prototype.poseWithItems`.safeExec(src, "pbSpin");
         if (paperDollMatch && paperDollClass) {
@@ -2896,8 +2902,8 @@ class MegaMod {
         }
     
         // Spectate Speed
-        src = src.safeReplace(".016*", `.016*extern.getSpecSpeed()*`, "specTweaks_speedSlider", true);
-        src = src.safeReplace(".008*", `.008*extern.getSpecSpeed()*`, "specTweaks_speedSlider", true);
+        src = src.safeReplace(".016*", `.016*extern.getSpecSpeed()*`, "specTweaks_speed", true);
+        src = src.safeReplace(".008*", `.008*extern.getSpecSpeed()*`, "specTweaks_speed", true);
     
         // Color Slider Non-VIP Fix
         const [vipCheckMatch] = regex`\!${v}\.playerAccount\.isSubscriber`.safeExec(src, "colorSlider");
@@ -3038,11 +3044,12 @@ class MegaMod {
         const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterChat_chatEvent_joinGame", "betterEggforce_autoBan"]);
         const chatEventFuncAdded = src.includes("clientReady = false;");
         if (chatEventFuncAdded) {
-            src = src.safeReplace(`vueApp.gameJoined`, `clientReady = false;vueApp.gameJoined`, "betterChat_chatEvent_joinGame");
+            const [gameJoinedMatch] = regex`vueApp\.gameJoined\(${v}`.safeExec(src, "betterChat_chatEvent_joinGame");
+            if (gameJoinedMatch) src = src.safeReplace(gameJoinedMatch, `clientReady = false;${gameJoinedMatch}`, "betterChat_chatEvent_joinGame");
             src = src.safeReplace(`vueApp.delayInGamePlayButtons`, `clientReady = true;vueApp.delayInGamePlayButtons`, "betterChat_chatEvent_joinGame");
             if (joinGameMatch && joinPlayerVar) src = src.safeReplace(joinGameMatch, `if (clientReady) addChatEvent(ChatEvent.joinGame, ${joinPlayerVar});${joinGameMatch}`, "betterChat_chatEvent_joinGame");
         }
-    
+
         // Leave Game Chat Event
         const [leaveGameMatch, leavePlayerVar] = regex`\b(?!this\b)(${v})\.${v}\.remove\(\)`.safeExec(src, "betterChat_chatEvent_leaveGame");
         if (chatEventFuncAdded && leaveGameMatch && leavePlayerVar) src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "betterChat_chatEvent_leaveGame");
@@ -3087,7 +3094,7 @@ class MegaMod {
         // Reconfigure playerAccount social (for badges)
         const [,socialVar] = regex`set\((${v})\)\s*\{[^{}]*this\._contentCreator\s*=\s*!0`.safeExec(src, "");
         if (socialVar) src = src.safeReplace(`this._contentCreator=!0`, `this._contentCreator=${socialVar}`, "");
-
+        
         // Legacy Mode Inventory Icons
         const [,itemRendererVar] = regex`(${v})\.clearCanvas\(${v}\)`.safeExec(src, "legacyMode_skins");
         if (itemRendererVar) {
@@ -3248,7 +3255,7 @@ class MegaMod {
             if (dmgTypeMatches.length == 2) {
                 const [[,killedPlayer], [dmgTypeMatch, byPlayer]] = dmgTypeMatches;
                 if (killedPlayer && dmgTypeMatch && byPlayer) {
-                    const [killTxtFunc] = regex`(?<!\.)\b${v}\(${killedPlayer}\s*\,\s*${byPlayer}\)`.safeExec(src, "betterUI_weapons");
+                    const [killTxtFunc] = regex`(?<!\.)\b${v}\(${escSymbols(killedPlayer)}\s*\,\s*${escSymbols(byPlayer)}\)`.safeExec(src, "betterUI_weapons");
                     if (killTxtFunc) {
                         src = src.safeReplace(killTxtFunc, `(()=>{})()`, "betterUI_weapons");
                         src = src.safeReplace(dmgTypeMatch, `${dmgTypeMatch}${killTxtFunc},`, "betterUI_weapons");
@@ -3275,7 +3282,7 @@ class MegaMod {
         const [slotMatch, slotVar] = regex`(${v}).classList\.add\(\"playerSlot--name\"\)`.safeExec(src, "betterUI_weapons");
         const weaponTemplateB = `vueApp.game.isPaused && PLAYER.ws ? WeaponIcons[extern.account.classIdx] : ${weaponTemplateA}`;
         if (slotMatch && slotVar) {
-            const [nameMatch, playerVar] = regex`${slotVar}\.innerText\s*\=\s*(${v}).name`.safeExec(src, ["betterUI_weapons", "betterUI_spatula"]);
+            const [nameMatch, playerVar] = regex`${escSymbols(slotVar)}\.innerText\s*\=\s*(${v}).name`.safeExec(src, ["betterUI_weapons", "betterUI_spatula"]);
             if (nameMatch && playerVar) {
                 slotPlayerVar = playerVar;
                 src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replace("GUNICON", weaponTemplateB.replaceAll("PLAYER", playerVar))} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
@@ -3334,8 +3341,8 @@ class MegaMod {
                 
                 // Melee (Them)
                 if (playerArr) {
-                    const [meleeMatch, meleePlayer] = regex`(${playerArr}\[${v}\])\.${v}\.melee\(\)`.safeExec(src, "");
-                    if (meleeMatch) src = src.safeReplace(meleeMatch, `${meleeMatch},${meleePlayer}.showMeleeIcon()`);
+                    const [meleeMatch, meleePlayer] = regex`(${escSymbols(playerArr)}\[${v}\])\.${v}\.melee\(\)`.safeExec(src, "");
+                    if (meleeMatch && meleePlayer) src = src.safeReplace(meleeMatch, `${meleeMatch},${meleePlayer}.showMeleeIcon()`);
                 }
             }
         }
@@ -3344,7 +3351,7 @@ class MegaMod {
         if (slotPlayerVar) {
             const [,iconDiv] = regex`(${v})\.classList\.add\(\"playerSlot--icons\"\)`.safeExec(src, "betterUI_spatula");
             if (iconDiv) {
-                const [iconMatch] = regex`${iconDiv}\.innerText\s*\=\s*\"\"`.safeExec(src, "betterUI_spatula");
+                const [iconMatch] = regex`${escSymbols(iconDiv)}\.innerText\s*\=\s*\"\"`.safeExec(src, "betterUI_spatula");
                 if (iconMatch) src = src.safeReplace(iconMatch, `${iconMatch},${iconDiv}.insertAdjacentHTML('beforeend', \`${spatulaIcon.replace("PLAYER", slotPlayerVar)}\`)`, "betterUI_spatula");
             }
         }
@@ -3357,10 +3364,11 @@ class MegaMod {
 
         // Spatula Init
         if (playerArr) {
-            const [spatInitMatch, spatInitPlayer] = regex`${v}\.${v}\.capture\((${playerArr}\[${v}\])\)`.safeExec(src, "");
+            const [spatInitMatch, spatInitPlayer] = regex`${v}\.${v}\.capture\((${escSymbols(playerArr)}\[${v}\])\)`.safeExec(src, "");
             if (spatInitMatch && spatInitPlayer) src = src.safeReplace(spatInitMatch, `${spatInitMatch}, ${spatInitPlayer}?.showSpatulaIcon(true)`, "");
         }
-        // All done...yay! :)
+        
+        // All done - yay! :)
         this.setSourceModified(true);
         return src;
     }
@@ -3490,10 +3498,13 @@ class MegaMod {
             const outerTitle = vueData.loc[`${outerLocKey}_title`] || outerLocKey;
             const specific = vueData.loc[exactLocKey] || exactLocKey;
 
-            return outerLocKey === exactLocKey ? outerTitle : `${outerTitle} (${specific})`;
+            return outerLocKey === exactLocKey ? outerTitle : `[${outerTitle}] ${specific}`;
         };
 
-        return [...new Set(arr.map(id => getModName(id)))];
+        return [...new Set(arr.map(id => getModName(id)))].sort((a, b) => {
+            const getFirstLetter = s => (s.match(/[a-zA-Z0-9]|\S/) || [''])[0].toLowerCase();
+            return getFirstLetter(a).localeCompare(getFirstLetter(b));
+        });
     };
 
     constructor() {
@@ -3670,14 +3681,14 @@ class MegaMod {
 			case 'customSkybox':
 				extern?.updateSkybox?.(
                     value, 
-                    this.getModSettingById('customSkybox_colorPicker').value
+                    this.getModSettingById('customSkybox_color').value
                 );
 				break;
             case 'customFog':
                 extern.updateFog(
                     value, 
-                    this.getModSettingById('customFog_densitySlider').value / 100, 
-                    this.getModSettingById('customFog_colorPicker').value
+                    this.getModSettingById('customFog_density').value / 100, 
+                    this.getModSettingById('customFog_color').value
                 );
                 break;
             case "betterEggforce":
@@ -3694,13 +3705,22 @@ class MegaMod {
             case "betterEggforce_autoBan":
                 if (extern.inGame && settingEnabled) extern?.checkAutoBans?.();
                 break;
+            case "customCrosshair":
+                this.customCrosshair.getCrosshairTypes().forEach(type => this.customCrosshair.enableCrosshairStyle(type, extern.modSettingEnabled(`${this.customCrosshair.getBaseSetting(type)}_enabled`)));
+                break;
 		}
-		if (id.includes("hideHUD_")) this.hideHUD.disableHideHUD();
-		if (id.includes("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode"));
-		if (id.includes("betterChat_chatEvent_")) {
+		if (id.startsWith("hideHUD_")) this.hideHUD.disableHideHUD();
+		if (id.startsWith("legacyMode_sfx_")) this.legacyMode.switchLegacySounds(this.modSettingEnabled("legacyMode"));
+		if (id.startsWith("betterChat_chatEvent_")) {
 			const types = Object.keys(ChatEventData).filter(k => ChatEventData[k].setting === id);
 			types.forEach(type => this.betterChat.switchChatEvent(type, settingEnabled));
 		}
+        if (id.startsWith("customCrosshair_")) {
+            const [, enableType] = /customCrosshair\_([a-zA-Z]+)\_enabled/.exec(id) || [];
+            if (enableType) this.customCrosshair.enableCrosshairStyle(enableType, settingEnabled);
+            const [, type, attr] = /customCrosshair\_([a-zA-Z]+)\_([a-zA-Z]+)\_enabled/.exec(id) || [];
+            if (type && attr) this.customCrosshair.setAttr(type, attr);
+        }
 		vueApp.$refs.settings.checkReloadNeeded();
 	}
 
@@ -3710,15 +3730,23 @@ class MegaMod {
 			case "changeFPS_slider":
 				this.changeFPS.setFPS(value);
 				break;
-            case "customFog_densitySlider":
+		}
+	}
+
+    onSliderInput(id, value) {
+        if (this.isModSetting(id)) this.updateModSetting(id, parseInt(value));
+        switch (id) {
+            case "customFog_density":
                 extern?.updateFog?.(
                     this.modSettingEnabled("customFog"),
                     value / 100, 
-                    this.getModSettingById('customFog_colorPicker').value, 
+                    this.getModSettingById('customFog_color').value, 
                 );
                 break;
 		}
-	}
+        const [, type, attr] = /customCrosshair\_([a-zA-Z]+)\_([a-zA-Z]+)/.exec(id) || [];
+        if (type && attr) this.customCrosshair.setAttr(type, attr, value);
+    }
 
 	newKeybindFunc(id, value) {
 		if (this.isModSetting(id)) this.updateModSetting(id, value.toUpperCase());
@@ -3748,6 +3776,15 @@ class MegaMod {
 				extern?.updateSkybox?.(settingEnabled);
                 this.customSkybox.updateSkyboxPreview();
 				break;
+            case 'customCrosshair_crosshairSelect':
+                if (value == "scope") {
+                    this.customCrosshair.setScopeDesc();
+                    this.customCrosshair.updateScopePreview();
+                }
+                break;
+            case 'customCrosshair_scope':
+                this.customCrosshair.onScopeChanged(value);
+                break;
 		}
 	}
 
@@ -3755,16 +3792,20 @@ class MegaMod {
         if (this.isModSetting(id)) this.updateModSetting(id, value);
         const settingEnabled = this.modSettingEnabled(id);
 		switch (id) {
-            case 'customSkybox_colorPicker':
+            case 'customSkybox_color':
                 extern?.updateSkybox?.(settingEnabled, value);
                 break;
-			case 'customFog_colorPicker':
+			case 'customFog_color':
 				extern?.updateFog?.(
                     settingEnabled,
-                    this.getModSettingById('customFog_densitySlider').value / 100, 
+                    this.getModSettingById('customFog_density').value / 100, 
                     value, 
                 );
 				break;
+        }
+        if (id.startsWith("customCrosshair_")) {
+            const [, type, attr] = /customCrosshair\_([a-zA-Z]+)\_([a-zA-Z]+)/.exec(id) || [];
+            if (type && attr) this.customCrosshair.setAttr(type, attr, value);
         }
     }
 
@@ -3801,6 +3842,9 @@ class MegaMod {
             onSettingAdjusted(id, value) {
                 oldAdjusterFunc.call(this, id, value);
                 unsafeWindow.megaMod.newAdjusterFunc(id, value);
+            },
+            onSliderInput(id, value) {
+                unsafeWindow.megaMod.onSliderInput(id, value);
             },
             onControlCaptured(controls, id, value) {
                 oldKeybindFunc.call(this, controls, id, value);
@@ -3983,6 +4027,11 @@ class MegaMod {
                 path: '/mods/data/eggforce', 
                 mod: 'betterEggforce', 
                 callback: data => this.betterEggforce = new BetterEggforce(data)
+            },
+            { 
+                path: '/mods/data/scopes', 
+                mod: 'customCrosshair', 
+                callback: data => this.customCrosshair = new CustomCrosshair(data)
             }
         ];
         
@@ -4117,7 +4166,7 @@ class MegaMod {
     checkInfo() {
         MegaMod.fetchJSON('/data/info.json').then(data => {
             const { updateInfo, currentChangelog } = data;
-            vueApp.changelog.megaMod.current = [currentChangelog];
+            (vueData.changelog.megaMod ??= {}).current = [currentChangelog];
             this.checkForUpdate({ updateInfo, currentChangelog });
             if (!MegaMod.fatalErr) this.checkForAnnouncement(data.announcement);
         });
@@ -4628,14 +4677,14 @@ class BetterUI {
 
         // Add CSS
         Promise.all([
-            MegaMod.addModCSS('ui'),
-            MegaMod.addModCSS('inventory'),
-            MegaMod.addModCSS('roundness'),
-            MegaMod.addModCSS('colors'),
-            MegaMod.addModCSS('chlg'),
-            MegaMod.addModCSS('weapons'),
-            MegaMod.addModCSS('distance'),
-            MegaMod.addModCSS('spatula')
+            MegaMod.addModCSS('betterUI/ui'),
+            MegaMod.addModCSS('betterUI/inventory'),
+            MegaMod.addModCSS('betterUI/roundness'),
+            MegaMod.addModCSS('betterUI/colors'),
+            MegaMod.addModCSS('betterUI/chlg'),
+            MegaMod.addModCSS('betterUI/weapons'),
+            MegaMod.addModCSS('betterUI/distance'),
+            MegaMod.addModCSS('betterUI/spatula')
         ]).then(styles => {
             const [UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle, spatulaStyle] = styles;
             Object.assign(this, { UITweaksStyle, betterInvStyle, roundnessStyle, coloredStyle, chlgStyle, weaponStyle, distanceStyle, spatulaStyle });
@@ -5211,9 +5260,9 @@ class BetterUI {
 class BetterChat {
     constructor() {
         Promise.all([
-            MegaMod.addModCSS('chatIcons'),
-            MegaMod.addModCSS('longerChat'),
-            MegaMod.addModCSS('infChat')
+            MegaMod.addModCSS('betterChat/chatIcons'),
+            MegaMod.addModCSS('betterChat/longerChat'),
+            MegaMod.addModCSS('betterChat/infChat')
         ]).then(styles => {
             const [chatIconStyle, longChatStyle, infChatStyle] = styles;
             Object.assign(this, { chatIconStyle, longChatStyle, infChatStyle });
@@ -5816,7 +5865,7 @@ class SpectateTweaks {
         MegaMod.log("Initializing Mod:", "Spectate Tweaks");
 
         this.freezeFrame = false;
-        extern.getSpecSpeed = () => extern.modSettingEnabled("specTweaks") ? (unsafeWindow.megaMod.getModSettingById("specTweaks_speedSlider").value / 100) : 1;
+        extern.getSpecSpeed = () => extern.modSettingEnabled("specTweaks") ? (unsafeWindow.megaMod.getModSettingById("specTweaks_speed").value / 100) : 1;
     }
 
     toggleFreezeFrame() {
@@ -5895,7 +5944,7 @@ class CustomTheme {
     constructor(themes) {
         MegaMod.log("Initializing Mod:", "Custom Theme");
 
-        this.themes = themes;
+        Object.assign(this, { themes });
         this.themes.forEach(theme => {
             theme.url = theme.url || `/themes/css/${theme.id}.css`;
             const preload = unsafeWindow.megaMod.modSettingEnabled("themeManager_preload", true);
@@ -5984,7 +6033,7 @@ class CustomSkybox {
         this.usingSkyboxColor = value === "colors";
         let hex;
         if (this.usingSkyboxColor) {
-            hex = unsafeWindow.megaMod.getModSettingById('customSkybox_colorPicker').value;
+            hex = unsafeWindow.megaMod.getModSettingById('customSkybox_color').value;
         } else {
             const select = unsafeWindow.megaMod.getModSettingById('customSkybox_skyboxSelect');
             select.options = this.skyboxes[value];
@@ -6000,7 +6049,7 @@ class CustomSkybox {
     randomizeSkybox() {
         const categorySetting = unsafeWindow.megaMod.getModSettingById("customSkybox_skyboxCategorySelect");
         unsafeWindow.megaMod.updateModSetting("customSkybox_skyboxCategorySelect", categorySetting.options.getRandom().id);
-        if (categorySetting.value === "colors") unsafeWindow.megaMod.updateModSetting("customSkybox_colorPicker", MegaMod.getRandomHex());
+        if (categorySetting.value === "colors") unsafeWindow.megaMod.updateModSetting("customSkybox_color", MegaMod.getRandomHex());
         this.onSkyboxCategoryChanged(categorySetting.value);
     }
 }
@@ -6015,8 +6064,8 @@ class CustomFog {
         extern.resetFog = () => {
             if (!extern.inGame) return;
             BAWK.play("ui_reset");
-            unsafeWindow.megaMod.updateModSetting("customFog_densitySlider", this.fog.density * 100);
-            unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", this.fog.color);
+            unsafeWindow.megaMod.updateModSetting("customFog_density", this.fog.density * 100);
+            unsafeWindow.megaMod.updateModSetting("customFog_color", this.fog.color);
             extern?.updateFog?.(
                 extern.modSettingEnabled("customFog"),
                 this.fog.density,
@@ -6028,14 +6077,14 @@ class CustomFog {
     initFog(fog) {
         this.fog = fog;
         if (extern.modSettingEnabled("customFog_randomizeFog")) {
-            const densitySetting = unsafeWindow.megaMod.getModSettingById('customFog_densitySlider');
+            const densitySetting = unsafeWindow.megaMod.getModSettingById('customFog_density');
             unsafeWindow.megaMod.updateModSetting(densitySetting.id, Math.randomInt(densitySetting.min, densitySetting.max + 1));
-            unsafeWindow.megaMod.updateModSetting("customFog_colorPicker", MegaMod.getRandomHex());
+            unsafeWindow.megaMod.updateModSetting("customFog_color", MegaMod.getRandomHex());
         }
         if (extern.modSettingEnabled("customFog")) extern?.updateFog?.(
             true,
-            unsafeWindow.megaMod.getModSettingById('customFog_densitySlider').value / 100, 
-            unsafeWindow.megaMod.getModSettingById('customFog_colorPicker').value,
+            unsafeWindow.megaMod.getModSettingById('customFog_density').value / 100, 
+            unsafeWindow.megaMod.getModSettingById('customFog_color').value,
         );
     }
 }
@@ -6124,8 +6173,122 @@ class BetterEggforce {
     }
 }
 
+class CustomCrosshair {
+    constructor(scopes) {
+        Object.assign(this, { scopes, crosshairStyles: {} });
+
+        this.getCrosshairTypes().forEach(type => {
+            this.crosshairStyles[type] = MegaMod.addModCSS(`customCrosshair/${type}`);
+            setTimeout(() => this.initCrosshair(type), 250);
+        });
+    }
+
+    getCrosshairTypes() {
+        return unsafeWindow.megaMod.getModSettingById("customCrosshair_crosshairSelect").options.map(option => option.id);
+    }
+
+    setAttr(type, attr, val) {
+        const settingId = `${this.getBaseSetting(type)}_${attr}`;
+        const attrEnabled = extern.modSettingEnabled(`${settingId}_enabled`, true);
+        //console.log("attrEnabled", settingId, attrEnabled);
+
+        if (val == null) val = unsafeWindow.megaMod.getModSettingById(settingId).value;
+        if (!["rpgReady", "rpgNotReady"].includes(type) && !["opacity", "radius"].includes(attr) && !attrEnabled) val = ["sgNorm", "sgPowr"].includes(type) ? "transparent" : "none";
+        else if (!["sgNorm", "sgPowr"].includes(type) && attr === "border") val = `solid 0.05em ${val}`;
+        if (attr === "radius") val *= 0.5;
+        if (["opacity", "radius"].includes(attr)) val += "%";
+        if (attr === "url") val = `url(${val})`; // Not used by anything atm
+
+        this.setCSSVar(`${this.getBaseCSSVar(type)}-${attr}`, val);
+    }
+
+    setAttrs(type, attrs) {
+        attrs.forEach(attr => this.setAttr(type, attr));
+    }
+
+    getBaseSetting(type) {
+        return `customCrosshair_${type}`;
+    }
+
+    getBaseCSSVar(type) {
+        return type === "scope" ? "--scope-url" : `--crosshair-${type}`;
+    }
+
+    getCurrentScopeCSS() {
+        return `url(${this.getScopeUrl(unsafeWindow.megaMod.getModSettingById("customCrosshair_scope").value)})`;
+    }
+
+    initCrosshair(type) {
+        const baseSetting = this.getBaseSetting(type);
+
+        if (type === "scope") {
+            this.setCSSVar(this.getBaseCSSVar(type), this.getCurrentScopeCSS());
+        } else {
+            this.setAttrs(type, ["bg", "opacity"]);
+            if (!["rpgReady", "rpgNotReady"].includes(type)) this.setAttr(type, "border");
+            if (type !== "augNorm") this.setAttr(type, "radius");
+        }
+        this.enableCrosshairStyle(type, extern.modSettingEnabled(`${baseSetting}_enabled`));
+    }
+
+    enableCrosshairStyle(type, enabled) {
+        this.crosshairStyles[type].disabled = !enabled;
+        console.log(type, "disabled", this.crosshairStyles[type].disabled);
+    }
+
+    setCSSVar(variable, value) {
+        console.log(variable, value);
+        document.documentElement.style.setProperty(variable, value);
+    }
+
+    getScope(id) {
+        return this.scopes.find(scope => scope.id === id);
+    }
+
+    getScopeUrl(id) {
+        const scope = this.getScope(id);
+        if (!scope) return "https://shellshock.io/img/scope.webp";
+        if (scope.url) return scope.url;
+        if (scope.theme) return `${rawPath}/themes/img/${scope?.scopePath || id}/scope.png`;
+        return `${rawPath}/img/scopes/${id}.png`;
+    }
+
+    selectedCrosshair(type) {
+        return type === unsafeWindow.megaMod.getModSettingById('customCrosshair_crosshairSelect').value;
+    }
+
+    onScopeChanged(scopeId) {
+        this.setCSSVar(this.getBaseCSSVar("scope"), `url(${this.getScopeUrl(scopeId)})`);
+        this.setScopeDesc();
+        this.updateScopePreview();
+    }
+    
+    setScopeDesc() {
+        const scopeDescInterval = setInterval(() => {
+            const descElem = document.getElementById('scopeDesc');
+            if (!descElem) return;
+            clearInterval(scopeDescInterval);
+            const scope = this.getScope(unsafeWindow.megaMod.getModSettingById('customCrosshair_scope').value)
+            descElem.innerHTML = vueApp.loc[scope.theme ? 'p_settings_mods_customCrosshair_scope_theme_desc' : scope.locKey];
+            if (scope.theme) descElem.innerHTML = descElem.innerHTML.format(vueApp.loc[unsafeWindow.megaMod.getModSettingById("themeManager_themeSelect").options.find(theme => theme.id === scope.id).locKey]);
+        }, 50);
+    }
+
+    updateScopePreview() {
+        const scopePreviewInterval = setInterval(() => {
+            const previewElem = document.querySelector('#scopePreview .overlay');
+            if (!previewElem) return;
+            clearInterval(scopePreviewInterval);
+            previewElem.style.backgroundImage = this.getCurrentScopeCSS();
+        }, 50);
+    }
+}
+
+// No MegaMod during Map Test...womp womp
+if (unsafeWindow.location.search.includes('testMap')) return;
+
 MegaMod.setDebug(true); // Debug Logging
-MegaMod.setLocal(false); // Local Testing
+MegaMod.setLocal(true); // Local Testing
 Object.assign(unsafeWindow, {
 	SettingType: {
 		Slider: 0,
@@ -6192,8 +6355,8 @@ Object.assign(unsafeWindow, {
         tierDowngrade: 3,
         tierLost: 4
     },
-	rawPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main",
-	cdnPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://infinitesmasher.github.io/The-MegaMod",
+	rawPath: MegaMod.local ? "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main" : "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main",
+	cdnPath: MegaMod.local ? "https://infinitesmasher.github.io/The-MegaMod" : "https://infinitesmasher.github.io/The-MegaMod",
 });
 Object.assign(unsafeWindow, {
     ChatEventData: {

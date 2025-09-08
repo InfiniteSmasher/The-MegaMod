@@ -248,7 +248,7 @@
 	margin-right: auto;
 }
 
-#themeDesc {
+.setting-div {
 	color: var(--ss-blue5);
 	background: var(--ss-blue00);
 	border: .2em solid var(--ss-blue5);
@@ -870,4 +870,202 @@
 .kill-dist,
 .spatula-icon {
 	display: none;
+}
+
+#scopeDesc {
+    width: 85%;
+}
+
+#scopePreview {
+	width: 100%;
+  	background-image: url('https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/other/backgrounds/scopeBg.gif');
+	overflow: hidden;
+}
+
+#scopePreview,
+#crosshairPreview {
+	aspect-ratio: 1 / 1;
+	border: .2em solid var(--ss-blue5);
+	position: relative;
+	background-size: cover;
+    background-position: center;
+}
+
+#scopePreview .overlay {
+  position: absolute;
+  background-size: cover;
+}
+
+#crosshairPreview {
+	width: 40%;
+	background-image: url('https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/other/backgrounds/crosshairBg.png');
+}
+#crosshairPreview.aug {
+	background-image: url('https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/other/backgrounds/augDotBg.png');
+}
+
+@keyframes pulseTranslate {
+  0% {
+    transform: rotate(var(--angle)) translateY(0.12em);
+  }
+  50% {
+    transform: rotate(var(--angle)) translateY(0.50em);
+  }
+  100% {
+    transform: rotate(var(--angle)) translateY(0.12em);
+  }
+}
+#crosshairPreview .crosshair {
+  --angle: 0deg;
+    animation: pulseTranslate .75s infinite ease-in-out;
+    scale: 1.3;
+}
+
+#crosshairPreview .crosshair:nth-child(1) {
+  --angle: 0deg;
+}
+
+#crosshairPreview .crosshair:nth-child(2) {
+  --angle: 90deg;
+}
+
+#crosshairPreview .crosshair:nth-child(3) {
+  --angle: 180deg;
+}
+
+#crosshairPreview .crosshair:nth-child(4) {
+  --angle: 270deg;
+}
+
+#crosshairPreview .crosshair.normal {
+    background: var(--crosshair-regNorm-bg);
+	border: var(--crosshair-regNorm-border);
+    opacity: var(--crosshair-regNorm-opacity);
+	border-radius: var(--crosshair-regNorm-radius);
+}
+#crosshairPreview .crosshair.powerful {
+    background: var(--crosshair-regPowr-bg);
+	border: var(--crosshair-regPowr-border);
+    opacity: var(--crosshair-regPowr-opacity);
+	border-radius: var(--crosshair-regPowr-radius);
+}
+
+#crosshairPreview .shotReticle.fill.normal,
+#crosshairPreview .shotReticle.fill.powerful,
+#crosshairPreview .shotReticle.border.normal,
+#crosshairPreview .shotReticle.border.powerful {
+    border-left: solid transparent !important;
+    border-right: solid transparent !important;
+}
+
+#crosshairPreview .shotReticle.fill.normal,
+#crosshairPreview .shotReticle.border.normal {
+    opacity: var(--crosshair-sgNorm-opacity);
+    border-radius: var(--crosshair-sgNorm-radius) !important;
+}
+
+#crosshairPreview .shotReticle.fill.powerful,
+#crosshairPreview .shotReticle.border.powerful {
+    opacity: var(--crosshair-sgPowr-opacity);
+    border-radius: var(--crosshair-sgPowr-radius) !important;
+}
+
+#crosshairPreview .shotReticle.fill.normal {
+    border-width: 0.18em !important;
+    padding: 0.18em !important;
+    border-color: var(--crosshair-sgNorm-bg);
+}
+
+#crosshairPreview .shotReticle.border.normal {
+    border-width: 0.2em !important;
+    border-color: var(--crosshair-sgNorm-border);
+}
+
+#crosshairPreview .shotReticle.fill.powerful {
+    border-width: 0.18em !important;
+    padding: 0.18em !important;
+    border-color: var(--crosshair-sgPowr-bg);
+}
+
+#crosshairPreview .shotReticle.border.powerful {
+    border-width: 0.2em !important;
+    border-color: var(--crosshair-sgPowr-border);
+}
+
+@keyframes reticleOddPulse {
+  0% {
+    transform: translate(-50%, 58%);
+    width: 3em;
+    height: 45%;
+  }
+  50% {
+    transform: translate(-50%, 30%);
+    width: 3em;
+    height: 60%;
+  }
+  100% {
+    transform: translate(-50%, 58%);
+    width: 3em;
+    height: 45%;
+  }
+}
+@keyframes reticleEvenPulse {
+  0% {
+    transform: translate(-50%, 15%) rotate(90deg);
+    width: 1.875em;
+    height: 75%;
+  }
+  50% {
+    transform: translate(-50%, 0%) rotate(90deg);
+    width: 1.875em;
+    height: 100%;
+  }
+  100% {
+    transform: translate(-50%, 15%) rotate(90deg);
+    width: 1.875em;
+    height: 75%;
+  }
+}
+#crosshairPreview .shotReticle:nth-child(odd) {
+  animation: reticleOddPulse 0.75s infinite linear;
+}
+#crosshairPreview .shotReticle:nth-child(2n) {
+  animation: reticleEvenPulse 0.75s infinite linear;
+}
+
+
+#crosshairPreview #reticleDot {
+	scale: 1.3;
+    background: var(--crosshair-dotNorm-bg);
+	border: var(--crosshair-dotNorm-border);
+    opacity: var(--crosshair-dotNorm-opacity);
+	border-radius: var(--crosshair-dotNorm-radius);
+}
+
+#crosshairPreview #redDotReticle {
+    background: var(--crosshair-augNorm-bg);
+	border: var(--crosshair-augNorm-border);
+    opacity: var(--crosshair-augNorm-opacity);
+}
+
+#crosshairPreview #readyBrackets {
+    width: 50%;
+    height: 50%;
+}
+#crosshairPreview #readyBrackets.notReady {
+    border-color: var(--crosshair-rpgNotReady-bg);
+    opacity: var(--crosshair-rpgNotReady-opacity);
+	animation: unarmed .5s linear infinite;
+}
+#crosshairPreview #readyBrackets.notReady .readyBracket {
+    border-radius: var(--crosshair-rpgNotReady-radius);
+}
+
+#crosshairPreview #readyBrackets.ready {
+    border-color: var(--crosshair-rpgReady-bg);
+    opacity: var(--crosshair-rpgReady-opacity);
+	animation: armed .5s linear infinite;
+}
+#crosshairPreview #readyBrackets.ready .readyBracket {
+    border-radius: var(--crosshair-rpgReady-radius);
 }

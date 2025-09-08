@@ -1,0 +1,25 @@
+:root {
+    --crosshair-sgNorm-bg: #00ff00;
+    --crosshair-sgNorm-border: #00ffff;
+    --crosshair-sgNorm-opacity: 70%;
+    --crosshair-sgNorm-radius: 30%;
+}
+
+#app .shotReticle.fill.normal {
+    border-color: var(--crosshair-sgNorm-bg);
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: .18em;
+    padding: .18em;
+}
+#app .shotReticle.border.normal {
+    border-color: var(--crosshair-sgNorm-border);
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: .2em;
+}
+#app .shotReticle.fill.normal,
+#app .shotReticle.border.normal {
+    opacity: var(--crosshair-sgNorm-opacity);
+    border-radius: var(--crosshair-sgNorm-radius);
+}

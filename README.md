@@ -1,7 +1,10 @@
 ![The MegaMod](img/docs/megaMod/The%20MegaMod%20Logo.png)
 # The MegaMod
 <blockquote>
-  <p><b>Current Version: </b><span id="version"></span></p>
+  <p><b>Documentation Last Updated: </b><span>Version 1.01</span></p>
+</blockquote>
+<blockquote>
+  <p><b>Latest MegaMod Version: </b><span id="version"></span></p>
 </blockquote>
 
 [![Shell Mods Discord](https://img.shields.io/discord/1273986972389474374?label=Infinite%27s%20Shell%20Mods%20Server&logo=discord&color=5865F2)](https://discord.gg/Cxggadazy4)
@@ -18,26 +21,37 @@
 You'll need a userscript manager to run The MegaMod on your browser. I recommend using one of the following:
 - **[Tampermonkey](https://www.tampermonkey.net/)** (Recommended)
 - **[Greasemonkey](https://www.greasespot.net/)**
-- **[Violentmonkey](https://violentmonkey.github.io/)**
+- **[Violentmonkey](https://violentmonkey.github.io/)** (No Longer Available on Google Chrome)
 
 > [!NOTE]  
-> Some userscript managers may require Developer Mode to be enabled to allow custom scripts. Follow these steps to enable Developer Mode:
-> ### Enabling Developer Mode
-> 1. Open your browser's Extensions page:
-> - **Google Chrome**:
->   - Click the menu (three dots in the top-right corner), then select Extensions > Manage Extensions.
->   - Or manually type **chrome://extensions** into the address bar.
-> - **Microsoft Edge**:
->   - Click the menu (three dots in the top-right corner), then select Extensions.
->   - Or manually type **edge://extensions** into the address bar.
-> - **Brave**:
->   - Click the menu (three horizontal lines in the top-right corner), then select Extensions.
->   - Or manually type **brave://extensions** into the address bar.
-> - **Opera GX**:
->   - Click the Extensions button (cube icon on the left sidebar or top-right corner).
->   - Or manually type **opera://extensions** into the address bar.
-> 2. Find and click the "Developer Mode" toggle (usually in the top right corner of the page).<br>
-> **Note**: On Opera GX, you may also have to close the window and open a new one for the changes to take effect.
+> Some userscript managers may require Developer Mode to be enabled to allow custom scripts. Additionally, some extensions may have a setting that enables or allows custom userscripts to run. Follow these steps to enable both Developer Mode and the option to allow userscripts:
+> 
+> ### Enabling Developer Mode & Allowing Userscripts
+> 1. **Open your browser's Extensions page**:
+>    - **Google Chrome**:
+>      - Click the menu (three dots in the top-right corner), then select **Extensions** > **Manage Extensions**.
+>      - Or manually type **chrome://extensions** into the address bar.
+>    - **Microsoft Edge**:
+>      - Click the menu (three dots in the top-right corner), then select **Extensions**.
+>      - Or manually type **edge://extensions** into the address bar.
+>    - **Brave**:
+>      - Click the menu (three horizontal lines) in the top-right corner, then select **Extensions**.
+>      - Or manually type **brave://extensions** into the address bar.
+>    - **Opera GX**:
+>      - Click the **Extensions** button (cube icon) on the left sidebar or top-right corner.
+>      - Or manually type **opera://extensions** into the address bar.
+> 
+> 2. **Enable Developer Mode**:
+>    - Find and click the **"Developer Mode"** toggle, usually located in the top-right corner of the Extensions page.
+>    - This may allow you to install unreviewed or custom scripts (if your script manager requires Developer Mode).
+>    
+>    > **Note:** On Opera GX, you may have to close the window and open a new one for changes to take effect.
+> 
+> 3. **Allow Userscripts to Run**:
+>    - Locate your **Userscript Manager Extension** (e.g., **Tampermonkey**, **Violentmonkey**).
+>    - Click the **Details** button next to your Userscript Manager extension.
+>    - In the **Details** page, find the option like **Allow User Scripts** or **Allow Unreviewed Scripts**.
+>    - Toggle this option to **On** to enable userscripts.
 
 ### Step 2: Disable All Other Mod Scripts
 The MegaMod isn't optimized or recommended for use along with other mods. Having other mods enabled can break features of the MegaMod and cause unexpected bugs. If you notice any features of the MegaMod not working as expected, try disabling all other mods first before reporting issues.

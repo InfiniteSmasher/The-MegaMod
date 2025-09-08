@@ -1,0 +1,18 @@
+[
+	{ "id": "aries",       "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_aries_desc"    },
+	{ "id": "bg",          "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_bg_desc"       },
+	{ "id": "boolet",      "theme": true },
+	{ "id": "default",     "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_default_desc", "url": "https://shellshock.io/img/scope.webp" },
+	{ "id": "graysocean1", "theme": true,  "scopePath": "graysocean" },
+	{ "id": "gus",         "theme": true,  "url": "https://raw.githubusercontent.com/GusShell4skyboxUwU/thing/main/scope%204try.png" },
+	{ "id": "hayden",      "theme": true },
+	{ "id": "infinite",     "theme": true },
+	{ "id": "meno",        "theme": true },
+	{ "id": "novo",        "theme": true },
+	{ "id": "nukezone",    "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_nukezone_desc"  },
+	{ "id": "rbgray",      "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_rbgray_desc"    },
+	{ "id": "roy",         "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_roy_desc"       },
+	{ "id": "whiteblue",   "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_whiteblue_desc" },
+	{ "id": "yahboyyah",   "theme": false, "locKey": "p_settings_mods_customCrosshair_scope_yahboyyah_desc" },
+	{ "id": "zaxonius",    "theme": true,  "url": "https://github.com/Zaxonius/Zax-Theme-Assets/blob/main/ZaxThemeCope.png?raw=true" }
+]

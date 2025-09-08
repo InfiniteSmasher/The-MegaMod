@@ -1,0 +1,1682 @@
+/* ---------------------------- [ Global ] */
+:root {
+	/* Change Border Width */
+	--ss-new-border-width: calc(var(--ss-space-sm) * 0.85);
+
+	/* Change VIP Accent */
+	--ss-vip: #f4c843;
+	--ss-vip-shadow: rgba(103, 96, 0, 0.4);
+
+	/* Premium Shadow */
+	--ss-premium-shadow: rgba(32, 73, 8, 0.4); 
+
+	/* Limited Border */
+	--ss-limited-border: #89097D;
+	--ss-limited-shadow: rgba(137, 9, 125, 0.4);
+
+	/* Merch Colors */
+	--ss-merch-dk: #924e0c; /* --ss-brown */
+	--ss-merch-lt: #F1C59A; /* --ss-yolk0 */
+	--ss-merch-shadow: rgba(146, 78, 12, 0.4);
+
+	/* Drops Shadow */
+	--ss-drops-shadow: rgba(64, 0, 143, 0.4);
+
+	/* Yolker Colors */
+	--ss-ny-dk: #D97611; /* --ss-yolk2 */
+	--ss-ny-lt: #F1C59A; /* --ss-yolk0 */
+	--ss-ny-shadow: rgba(217, 118, 17, 0.4);
+
+	/* Notif Colors */
+	--ss-notif-dk: #021340;
+	--ss-notif-lt: #1A64FF;
+	--ss-notif-shadow: rgba(2, 19, 64, 0.4);
+
+	/* League Colors */
+	--ss-league-dk: #400202;
+	--ss-league-lt: #FF1A1A;
+	--ss-league-shadow: rgba(64, 2, 2, 0.4);
+
+	/* Manual Colors */
+	--ss-manual-dk1: black;
+	--ss-manual-dk2: #434343;
+	--ss-manual-lt1: #A2A2A2;
+	--ss-manual-lt2: #B1B1B1;
+	--ss-manual-shadow: rgba(0, 0, 0, 0.4);
+
+	/* Creator Colors */
+	--ss-ytcc-shadow: rgb(255, 0, 0, 0.4);
+	--ss-ttvcc-shadow: rgba(100, 65, 165, 0.4);
+
+	/* Legacy Colors */
+	--ss-legacy-gray: #3C3C3D;
+	--ss-legacy-dkgreen: #46442D;
+	--ss-legacy-ltgreen: #7D7A51;
+	--ss-legacy-orange: #D8712B;
+	--ss-legacy-shadow: rgba(70, 68, 45, 0.4);
+
+	/* Bundle Colors */
+	--bundle-color-dk: #6a14d1;
+	--bundle-shadow: rgb(106, 20, 209, 0.4);
+}
+
+/* --------------------------- [ Overrides ] */
+/* Forces White Border on Custom Item Grid Elements */
+#equip_grid .grid-item:hover,
+#equip_grid .highlight {
+	border-color: var(--ss-white) !important;
+}
+
+/* White Lock Icon on Item Hover */
+/*
+#equip_grid .grid-item:hover .lock-icon {
+	color: var(--ss-white);
+}
+*/
+
+/* Makes Item Icon White */
+#equip_grid .highlight i {
+	color: var(--ss-white) !important;
+}
+
+/* Forces White Golden Egg Stroke on Custom Item Grid Elements */
+#equip_grid .highlight .egg-stroke {
+	fill: var(--ss-white) !important;
+}
+
+/* Brings Back Thick Corners! (Item Grid Elements) */
+#equip_grid .grid-item {
+	border-width: var(--ss-new-border-width) !important;
+	border-radius: var(--ss-space-lg) !important;
+}
+.grid-item canvas {
+    border-radius: calc(var(--ss-space-lg) - var(--ss-new-border-width));
+}
+
+/* Brings Back Rounded Corners! (Weapon Class Buttons) */
+.weapon_img {
+	border-width: var(--ss-new-border-width) !important;
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* Brings Back Rounded Corners! (Egg Color Selector) */
+.egg-color-select {
+	border-width: calc(var(--ss-new-border-width) * 0.75);
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* Brings Back Rounded Corners! (Item Type Buttons) */
+.ico_itemtype {
+	border-width: var(--ss-new-border-width) !important;
+	/* border-radius: var(--ss-space-lg) !important; */
+}
+
+/* White Banner on Highlighted Items */
+.highlight .equip-item-banner {
+	background: var(--ss-white) !important;
+}
+
+/* Fade In Item Icon + Banner */
+/* TODO: Fix for .eggpremium because they have .is-shop */
+.highlight .equip-vip-icon,
+.highlight:not(.is-shop) .equip_smallprice i,
+.highlight:not(.is-shop) .equip_smallprice div,
+.highlight:not(.is-shop) .egg-stroke,
+.highlight .equip-item-banner,
+.highlight:not(.is-shop) .item-icon,
+.highlight:not(.is-shop) .lock-icon {
+	transition: all .3s linear;
+	z-index: 1 !important;
+}
+
+/* White Border Hover Animations - removed cuz it looks better without */
+/*
+#equip_grid .grid-item:hover:not(.is-shop, .item-tag-default, .morestuff) {
+	transition: all .3s linear;
+}
+#equip_grid .grid-item.is-legacy:hover {
+	transition: all .3s linear !important;
+}
+*/
+
+/* Lock Icon */
+#equip_grid .grid-item .lock-icon {
+	scale: 3.5;
+	opacity: .75;
+}
+/* Locked Item Grayscale Filter */
+.tool-tip.locked span, .tool-tip.locked .grid-item {
+    filter: grayscale(0.5);
+}
+/* Vault Button */
+.vaultbtn {
+    border-width: var(--ss-common-border-width);
+    border-style: solid;
+    right: -18em;
+    position: relative;
+    align-items: center;
+    width: 5em;
+    height: 5em;
+}
+#app:not(.photo-booth) .vaultbtn {
+    top: 7.4em;
+}
+#app.photo-booth .vaultbtn {
+    top: 4.3em;
+}
+.vaultbtn.disabled {
+    filter: grayscale(80%);
+	pointer-events: none;
+}
+.vault-lock {
+    scale: 1.5;
+    padding-bottom: .75em;
+}
+.equip_panel.vaultopen.right_panel {
+    margin-top: calc(var(--ss-account-panel-height)) !important;
+}
+
+/* --------------------------- [ Premium ] */
+/* --------- Grid Slot */
+/* Border */
+#app .popup_window.premium,
+#app .popup_window.eggpremium,
+#equip_grid .grid-item.is-premium {
+	border-color: var(--ss-premium-txt);
+}
+/* $ Pricetag + Egg Spinner + Special Icon */
+#app .popup_window.premium h1,
+#app .popup_window.eggpremium h1,
+#app .popup_window.premium p,
+#app .popup_window.eggpremium p,
+#app .popup_window.premium h3,
+#app .popup_window.eggpremium h3,
+#app .popup_window.premium h4,
+#app .popup_window.eggpremium h4,
+.grid-item.is-premium:not(.item-tag-limited, .is-bundle) div i,
+.is-premium:not(.item-tag-limited, .is-bundle) .item-icon,
+.is-premium:not(.item-tag-limited, .is-bundle, .highlight) .equip_cost {
+	color: var(--ss-premium-txt) !important;
+}
+#equip_grid .is-premium:not(.item-tag-limited, .is-bundle) .egg-stroke {
+	fill: var(--ss-premium-txt);
+}
+/* Highlight */
+#app .popup_window.premium,
+#app .popup_window.eggpremium,
+#equip_grid .is-premium:not(.item-tag-limited, .is-bundle).highlight {
+	background: radial-gradient(#f2f047, #d5ed40, #b7e93d, #97e53f, #71e044, #5ad744, #40cd44, #19c444, #14b43c, #0fa535, #0a962d, #048726) !important;
+}
+/* Item Shadow */
+#app .popup_window.premium:not(.limited, .bundle) .grid-item:not(#equip_grid .grid-item) .equip_icon,
+#app .popup_window.eggpremium .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-premium:not(.item-tag-limited, .is-bundle).secondary .equip_icon, 
+.is-premium:not(.item-tag-limited, .is-bundle).primary .equip_icon, 
+.is-premium:not(.item-tag-limited, .is-bundle).giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-premium-shadow));
+}
+
+/* --------- Tooltip */
+/* Triangles */
+.tool-tip.premium:not(.limited, .bundle) > span:after,
+.tool-tip.premium:not(.limited, .bundle) div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-premium);
+	filter: drop-shadow(4px 4px 0 var(--ss-premium-txt)) !important; 
+}
+/* Text */
+#app .popup_window.premium:not(.limited, .bundle) .popup_close i,
+#app .popup_window.eggpremium .popup_close i,
+.tool-tip.premium:not(.limited, .bundle) h4 {
+	color: var(--ss-premium-txt) !important;
+}
+
+/* Background */
+.tool-tip.premium:not(.limited, .bundle) span:not(.egg-price-egg) {
+	background: var(--ss-premium);
+}
+
+/* Background Shadow */
+.tool-tip.premium:not(.limited, .bundle) > span,
+.tool-tip.premium:not(.limited, .bundle) div.tool-tip--bubble,
+.tool-tip.premium:not(.limited, .bundle) > span:after,
+.tool-tip.premium:not(.limited, .bundle) div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-premium-txt);
+}
+
+/* --------------------------- [ Bundle ] */
+/* --------- Grid Slot */
+.notify-group-bundle,
+#app .popup_window.bundle,
+#equip_grid .grid-item.is-bundle {
+	border-color: var(--bundle-color-dk);
+}
+#equip_grid .grid-item.is-bundle {
+	background: linear-gradient(to bottom right, var(--bundle-color), #6a14d1 80%);
+}
+.is-bundle .equip-item-banner {
+	color: var(--bundle-color-dk);
+	background: var(--bundle-color);
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.bundle,
+#app .notify-group-bundle,
+#equip_grid .is-bundle.highlight {
+	background: radial-gradient(var(--bundle-color), #6a14d1) !important;
+}
+#app .popup_window.bundle .grid-item:not(#equip_grid .grid-item) .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--bundle-shadow)) !important;
+}
+#app .popup_window.bundle h3,
+#app .popup_window.bundle h4,
+#app .notify-group-bundle .item-name,
+.grid-item.is-bundle div i,
+.is-bundle .item-icon,
+.is-bundle .equip_cost {
+	color: var(--bundle-color-dk) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.bundle > span:after,
+.tool-tip.bundle div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--bundle-color);
+	filter: drop-shadow(4px 4px 0 var(--bundle-text-color)) !important; 
+}
+.tool-tip.bundle h4 {
+	color: var(--bundle-text-color) !important;
+}
+.tool-tip.bundle span {
+	background: var(--bundle-color);
+}
+.tool-tip.bundle > span,
+.tool-tip.bundle div.tool-tip--bubble,
+.tool-tip.bundle > span:after,
+.tool-tip.bundle div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--bundle-text-color);
+}
+
+
+/* --------------------------- [ VIP ] */
+/* --------- Grid Slot */
+#app .popup_window.vip,
+#equip_grid .grid-item.is-vip {
+	border-color: var(--ss-vip-txt);
+}
+#app .popup_window.vip,
+#equip_grid .is-vip.highlight {
+	background: radial-gradient(#ffe180, #ffd759, #f4c843, #eab82a, #dfa900, #c79200, #ae7d00) !important;
+}
+/* --------- Tooltip */
+.tool-tip.vip > span:after,
+.tool-tip.vip div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-vip);
+	filter: drop-shadow(4px 4px 0 var(--ss-vip-txt)) !important; 
+}
+#app .popup_window.vip h1,
+#app .notify-group.notify-group-subscription h1,
+#app .notify-group.notify-group-subscription p,
+#app .popup_window.vip p,
+#app .popup_window.vip .popup_close i,
+.grid-item.is-vip div .item-icon,
+.grid-item.is-vip div i,
+.tool-tip.vip h4 {
+	color: var(--ss-vip-txt) !important;
+}
+.tool-tip.vip span.display-grid {
+	background: var(--ss-vip);
+}
+.tool-tip.vip > span,
+.tool-tip.vip div.tool-tip--bubble,
+.tool-tip.vip > span:after,
+.tool-tip.vip div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-vip-txt);
+}
+
+/* VIP ICON */
+#equip_grid .equip-vip-icon {
+	 width: 1.5em;
+	 height: 1.5em;
+	 margin-left: .15em;
+}
+
+#equip_grid .highlight .equip-vip-icon {
+	fill: var(--ss-white);
+}
+
+
+/* --------------------------- [ Merch ] */
+/* --------- Grid Slot */
+#app .popup_window.physical,
+#equip_grid .grid-item.is-merch {
+	border-color: var(--ss-merch-dk);
+}
+#equip_grid .grid-item.is-merch {
+	background: linear-gradient(var(--ss-merch-lt), var(--ss-merch-dk));
+}
+.is-merch .equip-item-banner {
+	color: var(--ss-merch-dk);
+	background: var(--ss-merch-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.physical,
+#equip_grid .is-merch.highlight {
+	background: radial-gradient(var(--ss-merch-lt), var(--ss-merch-dk)) !important;
+}
+#app .popup_window.physical .grid-item:not(#equip_grid .grid-item) .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-merch-shadow)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.merch > span:after,
+.tool-tip.merch div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-merch-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-merch-dk)) !important; 
+}
+#app .popup_window.physical a:not(:hover),
+#app .popup_window.physical h3,
+#app .popup_window.physical h4,
+.grid-item.is-merch div i,
+.is-merch .item-icon,
+.tool-tip.merch h4 {
+	color: var(--ss-merch-dk) !important;
+}
+.tool-tip.merch span {
+	background: var(--ss-merch-lt);
+}
+.tool-tip.merch > span,
+.tool-tip.merch div.tool-tip--bubble,
+.tool-tip.merch > span:after,
+.tool-tip.merch div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-merch-dk);
+}
+
+
+
+/* --------------------------- [ Limited ] */
+/* --------- Grid Slot */
+.item-tag-limited .equip-item-banner {
+    color: var(--ss-limited-txt);
+    background: var(--ss-limited)
+}
+#app .popup_window.limited,
+#equip_grid .grid-item.item-tag-limited:not(.is-bundle) {
+	border-color: var(--ss-limited-border);
+}
+#app .popup_window.limited,
+#equip_grid .item-tag-limited:not(.is-bundle).highlight {
+	background: radial-gradient(#ffbfed, #ffa8e6, #ff90df, #ff76d6, #ff57cd, #f945c4, #e000a9, #d2009f, #c50095) !important;
+}
+#app .popup_window.limited h1,
+#app .popup_window.limited p,
+#app .popup_window.limited h3,
+#app .popup_window.limited h4,
+.grid-item.item-tag-limited div i:not(.fa-dollar-sign),
+.item-tag-limited:not(.is-bundle) .item-icon,
+.item-tag-limited:not(.highlight) .equip_cost {
+	color: var(--ss-limited-border) !important;
+}
+#equip_grid .item-tag-limited .egg-stroke {
+	fill: var(--ss-limited-border);
+}
+.item-tag-limited:not(.is-premium, .is-bundle) .equip-item-banner {
+	padding: 0.3em 2.4em;
+}
+#app .popup_window.limited .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.item-tag-limited.secondary .equip_icon, 
+.item-tag-limited.primary .equip_icon, 
+.item-tag-limited.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-limited-shadow));
+}
+
+
+/* --------- Tooltip */
+.tool-tip.limited > span:after,
+.tool-tip.limited div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-limited);
+	filter: drop-shadow(4px 4px 0 var(--ss-limited-txt)) !important; 
+}
+.tool-tip.limited h4 {
+	color: var(--ss-limited-txt) !important;
+}
+.tool-tip.limited span:not(.egg-price-egg) {
+	background: var(--ss-limited);
+}
+.tool-tip.limited > span,
+.tool-tip.limited div.tool-tip--bubble,
+.tool-tip.limited > span:after,
+.tool-tip.limited div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-limited-txt);
+}
+
+/* --------------------------- [ Twitch Drops ] */
+/* --------- Grid Slot */
+#app .popup_window.drops,
+#equip_grid .grid-item.is-drops {
+	border-color: var(--twitch-dk-purple);
+}
+#equip_grid .grid-item.is-drops {
+	background: linear-gradient(to bottom right, var(--twitch-lt-purple), var(--twitch-dk-purple));
+}
+.is-drops .equip-item-banner {
+	color: var(--twitch-dk-purple);
+	background: var(--twitch-lt-purple);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.drops,
+#equip_grid .is-drops.highlight {
+	background: radial-gradient(var(--twitch-lt-purple), var(--twitch-dk-purple)) !important;
+}
+#app .popup_window.drops .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-drops.secondary .equip_icon, 
+.is-drops.primary .equip_icon, 
+.is-drops.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-drops-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.drops > span:after,
+.tool-tip.drops div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--twitch-lt-purple);
+	filter: drop-shadow(4px 4px 0 var(--twitch-dk-purple)) !important; 
+}
+#app .popup_window.drops h3,
+#app .popup_window.drops h4,
+.grid-item.is-drops div i,
+.is-drops .item-icon,
+.tool-tip.drops h4,
+.is-drops .equip_cost {
+	color: var(--twitch-dk-purple) !important;
+}
+.tool-tip.drops span {
+	background: var(--twitch-lt-purple);
+}
+.tool-tip.drops > span,
+.tool-tip.drops div.tool-tip--bubble,
+.tool-tip.drops > span:after,
+.tool-tip.drops div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--twitch-dk-purple);
+}
+
+
+
+/* --------------------------- [ New Yolker ] */
+/* --------- Grid Slot */
+#app .popup_window.yolker,
+#equip_grid .grid-item.is-ny {
+	border-color: var(--ss-ny-dk);
+}
+
+#equip_grid .grid-item.is-ny {
+	background: linear-gradient(to bottom right, var(--ss-ny-lt), var(--ss-ny-dk));
+}
+.is-ny .equip-item-banner {
+	color: var(--ss-ny-dk);
+	background: var(--ss-ny-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.yolker,
+#equip_grid .is-ny.highlight {
+	background: radial-gradient(var(--ss-ny-lt), var(--ss-ny-dk)) !important;
+}
+#app .popup_window.yolker .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-ny.secondary .equip_icon, 
+.is-ny.primary .equip_icon, 
+.is-ny.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-ny-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.ny > span:after,
+.tool-tip.ny div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-ny-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-ny-dk)) !important; 
+}
+#app .popup_window.yolker h3,
+#app .popup_window.yolker h4,
+.grid-item.is-ny div i,
+.is-ny .item-icon,
+.tool-tip.ny h4 ,
+.is-ny .equip_cost {
+	color: var(--ss-ny-dk) !important;
+}
+.tool-tip.ny span {
+	background: var(--ss-ny-lt);
+}
+.tool-tip.ny > span,
+.tool-tip.ny div.tool-tip--bubble,
+.tool-tip.ny > span:after,
+.tool-tip.ny div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-ny-dk);
+}
+
+
+
+/* --------------------------- [ Notification ] */
+/* --------- Grid Slot */
+#app .popup_window.notif,
+#equip_grid .grid-item.is-notif {
+	border-color: var(--ss-notif-dk);
+}
+#equip_grid .grid-item.is-notif {
+	background: linear-gradient(to bottom right, var(--ss-notif-lt), var(--ss-notif-dk));
+}
+.is-notif .equip-item-banner {
+	color: var(--ss-notif-dk);
+	background: var(--ss-notif-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.notif,
+#equip_grid .is-notif.highlight {
+	background: radial-gradient(var(--ss-notif-lt), var(--ss-notif-dk)) !important;
+}
+#app .popup_window.notif .grid-item:not(#equip_grid .grid-item) .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-notif-shadow)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.notif > span:after,
+.tool-tip.notif div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-notif-lt);
+	filter: drop-shadow(4px 4px 0 var(--ss-notif-dk)) !important; 
+}
+.grid-item.is-notif div i,
+.is-notif .item-icon,
+.tool-tip.notif h4,
+.is-notif .equip_cost,
+#app .popup_window.notif h3,
+#app .popup_window.notif h4 {
+	color: var(--ss-notif-dk) !important;
+}
+.tool-tip.notif span {
+	background: var(--ss-notif-lt);
+}
+.tool-tip.notif > span,
+.tool-tip.notif div.tool-tip--bubble,
+.tool-tip.notif > span:after,
+.tool-tip.notif div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-notif-dk);
+}
+
+
+
+/* --------------------------- [ League ] */
+/* --------- Grid Slot */
+#app .popup_window.league,
+#equip_grid .grid-item.is-league {
+	border-color: var(--ss-league-dk);
+}
+#equip_grid .grid-item.is-league {
+	background: linear-gradient(to bottom right, var(--ss-league-lt), var(--ss-league-dk));
+	border-color: var(--ss-league-dk);
+}
+.is-league .equip-item-banner {
+	color: var(--ss-league-dk);
+	background: var(--ss-league-lt);
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-top: .4em 2.8em;
+}
+#app .popup_window.league,
+#equip_grid .is-league.highlight {
+	background: radial-gradient(var(--ss-league-lt), var(--ss-league-dk)) !important;
+}
+#app .popup_window.league .grid-item:not(#equip_grid .grid-item) .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-league-shadow)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.league > span:after,
+.tool-tip.league div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-league-lt);
+	filter: drop-shadow(4px 4px 0 var(--league0)) !important; 
+}
+#app .popup_window.league h3,
+#app .popup_window.league h4,
+.grid-item.is-league div i,
+.league .item-icon,
+.tool-tip.league h4 {
+	color: var(--ss-league-dk) !important;
+}
+.tool-tip.league span {
+	background: var(--ss-league-lt);
+}
+.tool-tip.league > span,
+.tool-tip.league div.tool-tip--bubble,
+.tool-tip.league > span:after,
+.tool-tip.league div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-league-dk);
+}
+
+
+
+/* --------------------------- [ Egglite, Promo, Event, Social ] */
+/* --------- Grid Slot */
+#app .popup_window.egglite,
+#app .popup_window.promo,
+#app .popup_window.event,
+#app .popup_window.social,
+#equip_grid .grid-item.is-egglite,
+#equip_grid .grid-item.is-promo,
+#equip_grid .grid-item.is-event,
+#equip_grid .grid-item.is-social {
+	border-color: var(--ss-manual-dk1);
+}
+
+#equip_grid .grid-item.is-egglite,
+#equip_grid .grid-item.is-promo,
+#equip_grid .grid-item.is-event,
+#equip_grid .grid-item.is-social {
+	background: linear-gradient(to bottom right, var(--ss-manual-lt2), var(--ss-manual-lt1), var(--ss-manual-dk2), var(--ss-manual-dk1));
+}
+.is-egglite .equip-item-banner,
+.is-promo .equip-item-banner,
+.is-event .equip-item-banner,
+.is-social .equip-item-banner {
+	color: var(--ss-manual-dk1);
+	background: var(--ss-manual-lt2);
+	padding-top: .4em 2.8em;
+}
+/* --- Specific Themes --- */
+.is-egglite .equip-item-banner {
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+}
+.is-event .equip-item-banner {
+	padding-left: 3em;
+	padding-right: 3em;
+}
+.is-promo .equip-item-banner {
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+}
+.is-social .equip-item-banner {
+	padding-left: 2.9em;
+	padding-right: 2.9em;
+}
+
+#app .popup_window.egglite,
+#app .popup_window.promo,
+#app .popup_window.event,
+#app .popup_window.social,
+#equip_grid .is-egglite.highlight,
+#equip_grid .is-promo.highlight,
+#equip_grid .is-event.highlight,
+#equip_grid .is-social.highlight {
+	background: radial-gradient(var(--ss-manual-lt2), var(--ss-manual-lt1), var(--ss-manual-dk2), var(--ss-manual-dk1)) !important;
+}
+/* Changes manual Item Shadow Color to Black */
+#app .popup_window.egglite .grid-item:not(#equip_grid .grid-item) .equip_icon,
+#app .popup_window.promo .grid-item:not(#equip_grid .grid-item) .equip_icon,
+#app .popup_window.event .grid-item:not(#equip_grid .grid-item) .equip_icon,
+#app .popup_window.social .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-egglite.secondary .equip_icon, 
+.is-egglite.primary .equip_icon, 
+.is-egglite.giveStuffPopup-content .equip_icon,
+.is-promo.secondary .equip_icon, 
+.is-promo.primary .equip_icon, 
+.is-promo.giveStuffPopup-content .equip_icon,
+.is-event.secondary .equip_icon, 
+.is-event.primary .equip_icon, 
+.is-event.giveStuffPopup-content .equip_icon,
+.is-social.secondary .equip_icon, 
+.is-social.primary .equip_icon, 
+.is-social.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-manual-shadow)) !important;
+}
+
+/* --------- Tooltip */
+.tool-tip.egglite > span:after,
+.tool-tip.egglite div.tool-tip--bubble:after,
+.tool-tip.promo > span:after,
+.tool-tip.promo div.tool-tip--bubble:after,
+.tool-tip.event > span:after,
+.tool-tip.event div.tool-tip--bubble:after,
+.tool-tip.social > span:after,
+.tool-tip.social div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-manual-lt1);
+	filter: drop-shadow(4px 4px 0 var(--ss-manual-dk1)) !important; 
+}
+#app .popup_window.egglite p,
+#app .popup_window.promo p,
+#app .popup_window.event p,
+#app .popup_window.social p,
+#app .popup_window.egglite h3,
+#app .popup_window.promo h3,
+#app .popup_window.event h3,
+#app .popup_window.social h3,
+#app .popup_window.egglite h4,
+#app .popup_window.promo h4,
+#app .popup_window.event h4,
+#app .popup_window.social h4,
+.grid-item.is-egglite div i,
+.is-egglite .item-icon,
+.tool-tip.egglite h4,
+.is-egglite .equip_cost,
+.grid-item.is-promo div i,
+.is-promo .item-icon,
+.tool-tip.promo h4,
+.is-promo .equip_cost,
+.grid-item.is-event div i,
+.is-event .item-icon,
+.tool-tip.event h4,
+.is-event .equip_cost,
+.grid-item.is-social div i,
+.is-social .item-icon,
+.tool-tip.social h4 {
+	color: var(--ss-manual-dk1) !important;
+}
+.tool-tip.egglite span,
+.tool-tip.promo span,
+.tool-tip.event span,
+.tool-tip.social span {
+	background: var(--ss-manual-lt1);
+}
+.tool-tip.egglite > span,
+.tool-tip.egglite div.tool-tip--bubble,
+.tool-tip.egglite > span:after,
+.tool-tip.egglite div.tool-tip--bubble:after,
+.tool-tip.promo > span,
+.tool-tip.promo div.tool-tip--bubble,
+.tool-tip.promo > span:after,
+.tool-tip.promo div.tool-tip--bubble:after,
+.tool-tip.event > span,
+.tool-tip.event div.tool-tip--bubble,
+.tool-tip.event > span:after,
+.tool-tip.event div.tool-tip--bubble:after,
+.tool-tip.social > span,
+.tool-tip.social div.tool-tip--bubble,
+.tool-tip.social > span:after,
+.tool-tip.social div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-manual-dk1);
+}
+
+
+
+/* --------------------------- [ Content Creator ] */
+/* ---------------- [ Youtube ] */
+/* --------- Grid Slot */
+#app .popup_window.creatoryt,
+#equip_grid .grid-item.is-creator-yt {
+	border-color: red;
+}
+#equip_grid .grid-item.is-creator-yt {
+	background: linear-gradient(to bottom right, white, red);
+}
+.is-creator-yt .equip-item-banner {
+	color: red;
+	background: white;
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+#app .popup_window.creatoryt,
+#equip_grid .is-creator-yt.highlight {
+	background: radial-gradient(white, red) !important;
+}
+#app .popup_window.creatoryt h3,
+#app .popup_window.creatoryt h4 {
+	color: red !important;
+}
+.is-creator-yt .item-icon,
+.is-creator-yt .equip_cost {
+	color: red;
+}
+#equip_grid .is-creator-yt .egg-stroke {
+	fill: red;
+}
+#app .popup_window.creatoryt .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-creator-yt.secondary .equip_icon, 
+.is-creator-yt.primary .equip_icon, 
+.is-creator-yt.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-ytcc-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.ytcc > span:after,
+.tool-tip.ytcc div.tool-tip--bubble:after {
+	border-top: 1rem solid white;
+	filter: drop-shadow(4px 4px 0 red) !important; 
+}
+.grid-item.is-creator-yt div i,
+.tool-tip.ytcc h4 {
+	color: red !important;
+}
+.tool-tip.ytcc span:not(.egg-price-egg) {
+	background: white;
+}
+.tool-tip.ytcc > span,
+.tool-tip.ytcc div.tool-tip--bubble,
+.tool-tip.ytcc > span:after,
+.tool-tip.ytcc div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em red;
+}
+
+
+/* ---------------- [ Twitch ] */
+/* --------- Grid Slot */
+#app .popup_window.creatorttv, 
+#equip_grid .grid-item.is-creator-ttv {
+	border-color: var(--ss-twitch);
+}
+
+#equip_grid .grid-item.is-creator-ttv {
+	background: linear-gradient(to bottom right, white, var(--ss-twitch));
+}
+.is-creator-ttv .equip-item-banner {
+	color: var(--ss-twitch);
+	background: white;
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+#app .popup_window.creatorttv,
+#equip_grid .is-creator-ttv.highlight {
+	background: radial-gradient(white, var(--ss-twitch)) !important;
+}
+.is-creator-ttv .item-icon,
+.is-creator-ttv .equip_cost {
+	color: var(--ss-twitch);
+}
+#equip_grid .is-creator-ttv .egg-stroke {
+	fill: var(--ss-twitch);
+}
+#app .popup_window.creatorttv .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-creator-ttv.secondary .equip_icon, 
+.is-creator-ttv.primary .equip_icon, 
+.is-creator-ttv.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-ttvcc-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.ttvcc > span:after,
+.tool-tip.ttvcc div.tool-tip--bubble:after {
+	border-top: 1rem solid white;
+	filter: drop-shadow(4px 4px 0 var(--ss-twitch)) !important; 
+}
+#app .popup_window.creatorttv h3,
+#app .popup_window.creatorttv h4,
+.grid-item.is-creator-ttv div i,
+.tool-tip.ttvcc h4 {
+	color: var(--ss-twitch) !important;
+}
+.tool-tip.ttvcc span:not(.egg-price-egg) {
+	background: white;
+}
+.tool-tip.ttvcc > span,
+.tool-tip.ttvcc div.tool-tip--bubble,
+.tool-tip.ttvcc > span:after,
+.tool-tip.ttvcc div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-twitch);
+}
+
+/* ---------------- [ Legacy ] */
+/* --------- Grid Slot */
+#app .popup_window.legacy, 
+#equip_grid .grid-item.is-legacy {
+	border-color: var(--ss-legacy-gray);
+}
+#equip_grid .grid-item.is-legacy {
+	background: linear-gradient(to bottom right, var(--ss-legacy-ltgreen), var(--ss-legacy-dkgreen));
+}
+.is-legacy .equip-item-banner {
+	color: var(--ss-legacy-gray);
+	background: var(--ss-legacy-orange);
+	padding-left: 2.4em;
+	padding-right: 2.4em;
+}
+.is-legacy.highlight .equip-item-banner {
+	color: var(--ss-legacy-dkgreen);
+}
+#app .popup_window.legacy,
+#equip_grid .is-legacy.highlight {
+	background: radial-gradient(var(--ss-legacy-ltgreen), var(--ss-legacy-dkgreen)) !important;
+}
+.is-legacy .item-icon {
+	color: var(--ss-legacy-orange);
+}
+#app .popup_window.legacy .grid-item:not(#equip_grid .grid-item) .equip_icon,
+.is-legacy.secondary .equip_icon, 
+.is-legacy.primary .equip_icon, 
+.is-legacy.giveStuffPopup-content .equip_icon {
+	filter: drop-shadow(0 2mm 0 var(--ss-legacy-shadow));
+}
+
+/* --------- Tooltip */
+.tool-tip.legacy > span:after,
+.tool-tip.legacy div.tool-tip--bubble:after {
+	border-top: 1rem solid var(--ss-legacy-ltgreen);
+	filter: drop-shadow(4px 4px 0 var(--ss-legacy-dkgreen)) !important; 
+}
+.grid-item.is-legacy div i,
+.tool-tip.legacy h4 {
+	color: var(--ss-legacy-dkgreen) !important;
+}
+.tool-tip.legacy span:not(.egg-price-egg) {
+	background: var(--ss-legacy-ltgreen);
+}
+.tool-tip.legacy > span,
+.tool-tip.legacy div.tool-tip--bubble,
+.tool-tip.legacy > span:after,
+.tool-tip.legacy div.tool-tip--bubble:after {
+	box-shadow: 0.25em 0.25em 0em 0.1em var(--ss-legacy-dkgreen);
+}
+
+/* Fix Bundle Item Banners */
+#bundlePopup .grid-item .equip-item-banner {
+	padding-top: .1em !important;
+	padding-bottom: .1em !important;
+	clip-path: polygon(1% 0%, 101% 0%, 77% 100%, 25% 100%);
+}
+
+#bundlePopup .is-premium .equip-item-banner {
+	padding: 0.3em 2.4em;
+}
+
+#bundlePopup .is-bundle .equip-item-banner,
+#bundlePopup .is-ny .equip-item-banner {
+	padding: 0.3em 2.9em;
+}
+
+#bundlePopup .is-drops .equip-item-banner,
+#bundlePopup .is-notif .equip-item-banner,
+#bundlePopup .is-promo .equip-item-banner,
+#bundlePopup .is-event .equip-item-banner {
+	padding: 0.3em 3.0em;
+}
+
+#bundlePopup .equip-item-banner.shadow {
+	bottom: 0.5em !important;
+	right: -2.2em !important;
+}
+
+#bundlePopup .is-creator-yt .equip-item-banner,
+#bundlePopup .is-creator-ttv .equip-item-banner,
+#bundlePopup .is-egglite .equip-item-banner,
+#bundlePopup .item-tag-limited:not(.is-premium) .equip-item-banner {
+	padding: 0.3em 2.8em;
+}
+
+/* Code Cracked Item Banner */
+#giveStuffPopup .equip-item-banner {
+	display: block !important;
+}
+
+
+/* ---------------- [ Normal Shop Item ] */
+/* --------- Grid Slot */
+.is-shop:not(.is-premium) .item-icon {
+	color: var(--ss-blue5);
+}
+
+/* ---------------------- [ Skin Search ] */
+.inventory-skin-search input {
+	width: 15.3em !important;
+}
+
+.shop-skin-search input {
+	width: 19em !important;
+}
+
+.shop-skin-search label i {
+	top: -0.8em;
+	right: 0.1em !important;
+}
+
+.inventory-skin-search label {
+	right: 4.2em !important;
+}
+
+.limited-msg-wrapper {
+	margin-bottom: .6em !important;
+}
+
+.inventory-skin-search button {
+		text-align: center !important;
+		margin-left: 0.5em;
+		width: 2.5em;
+		height: 2.5em;
+}
+
+.shop-skin-search input,
+.inventory-skin-search input {
+		margin-bottom: 1em;
+		border-width: calc(var(--ss-new-border-width) * 0.75) !important;
+		border-radius: var(--ss-space-lg) !important;
+}
+
+.random-button {
+	position: relative;
+	top: 0.122em;
+	right: 0.2em;
+}
+
+.equip_smallprice {
+	z-index: 1 !important;
+}
+
+.equip-vip-icon {
+	position: relative !important;
+}
+
+.item-icon {
+	margin-top: 0.3em;
+	margin-left: 0.2em;
+	position: relative !important;
+}
+
+.equip-vip-icon:hover,
+#equip_grid .item-icon.hover:hover {
+	transition: all .2s ease-out;
+	transform: translateY(.2em) translateX(.2em)  scale(1.2);
+}
+
+/* Hoverable Item Icon Jitter Effect */
+/*
+.grid-item:not(.highlight) .equip-vip-icon,
+.grid-item:not(.highlight) .item-icon.hover {
+	animation: attention 1000ms infinite;
+}
+
+@keyframes attention {
+	0% {
+		transform: scale(1);
+	}
+	10% {
+		transform: scale(1.2) rotate(10deg);
+	}
+	20% {
+		transform: scale(1);
+	}
+	40% {
+		transform: scale(1.2) rotate(-10deg);
+	}
+	60% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1);
+	}
+} */
+
+@keyframes icon-idle-animation {
+  0% {
+	 transform: scale(1);
+  }
+  83% {
+	 transform: scale(1);
+  }
+  84% {
+	 transform: scale(1.3) translateX(.1em) translateY(.1em);
+  }
+  86% {
+	 transform: rotate(7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  87% {
+	 transform: rotate(-7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  89% {
+	 transform: rotate(7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  92% {
+	 transform: rotate(-7deg) scale(1.2) translateX(.1em) translateY(.1em);
+  }
+  97% {
+	 transform: scale(0.5) rotate(-360deg);
+  }
+  100% {
+	 transform: scale(1);
+  }
+}
+
+.grid-item.is-creator-yt:not(:hover) .item-icon.hover,
+.grid-item.is-creator-ttv:not(:hover) .item-icon.hover,
+.grid-item.highlight:not(:hover) .equip-vip-icon,
+.grid-item.highlight:not(:hover) .item-icon.hover {
+	animation: icon-idle-animation 8s ease-in-out infinite;
+}
+
+#bundlePopup .item-icon {
+	margin-left: -3em;
+}
+
+/* Compensate for Small Item Vault Button */
+/*
+#item_grid {
+    height: calc(33em - var(--ss-item-mask-height) - 2.45em)
+}
+*/
+
+
+/* Item Theme Popup */
+#itemThemePopup {
+	width: 36em;
+}
+#itemThemePopup #item_grid {
+	height: fit-content;
+}
+#itemThemePopup #equip_grid {
+    max-height: 20em;
+    overflow-y: scroll;
+	overflow-x: hidden;
+    grid-template-columns: repeat(5,1fr);
+	padding-bottom: 0;
+}
+#itemThemePopup h1 {
+	text-align: center;
+}
+#itemThemePopup p,
+#itemThemePopup button {
+	margin-bottom: 0;
+}
+
+
+#itemThemePopup #equip_grid .tool-tip>span {
+    top: -2.3em;
+    width: 6.5em;
+    min-width: 6.5em;
+    min-width: 6.5em;
+    z-index: 2;
+    text-wrap: wrap
+}
+
+#itemThemePopup #equip_grid .tool-tip.tooltip-bottom>span {
+    bottom: -2.5em;
+    top: auto
+}
+
+#itemThemePopup #equip_grid div .tool-tip>span,.equip-main-item-grid #equip_grid div .tool-tip>span:after,.equip-main-item-grid #equip_grid div:nth-child(3n+3) .tool-tip>span,.equip-main-item-grid #equip_grid div:nth-child(3n+3) .tool-tip>span:after {
+    top: 50%;
+    left: auto
+}
+
+#itemThemePopup #equip_grid div .tool-tip>span {
+    transform: translate(75%,-50%) !important;
+}
+
+#itemThemePopup #equip_grid div .tool-tip>span:after {
+    transform: rotate(90deg) !important;
+    left: -9.5% !important;
+    bottom: 20% !important;
+}
+
+#itemThemePopup #equip_grid div:nth-child(5n+5) .tool-tip>span {
+    transform: translate(-100%,-50%) !important;
+}
+
+#itemThemePopup #equip_grid div:nth-child(5n+5) .tool-tip>span:after {
+    transform: rotate(270deg) !important;
+    left: 100% !important;
+    bottom: 25% !important;
+}
+
+#itemThemePopup #equip_grid .tool-tip>span h4 {
+    font-size: .7em !important;
+}
+
+#itemThemePopup #equip_grid .tool-tip>span:after {
+    transform: translate(-50%,33%) rotate(90deg) !important;
+}
+
+#itemThemePopup #equip_grid .tool-tip.tooltip-bottom>span:after {
+    transform: translate(-50%,-319%) rotate(180deg) !important;
+}
+
+/* Item Theme Popup Styling */
+#app .popup_window.premium .popup_close:hover,
+#app .popup_window.eggpremium .popup_close:hover,
+#app .popup_window.vip .popup_close:hover,
+#app .popup_window.bundle .popup_close:hover,
+#app .popup_window.physical .popup_close:hover,
+#app .popup_window.drops .popup_close:hover,
+#app .popup_window.limited .popup_close:hover,
+#app .popup_window.yolker .popup_close:hover,
+#app .popup_window.league .popup_close:hover,
+#app .popup_window.notif .popup_close:hover,
+#app .popup_window.egglite .popup_close:hover,
+#app .popup_window.promo .popup_close:hover,
+#app .popup_window.event .popup_close:hover,
+#app .popup_window.social .popup_close:hover,
+#app .popup_window.creatoryt .popup_close:hover,
+#app .popup_window.creatorttv .popup_close:hover,
+#app .popup_window.legacy .popup_close:hover,
+#itemThemePopup .popup_close:hover {
+    text-shadow: var(--ss-btn-common-txt-shadow) !important;
+}
+#app .popup_window.premium h4,
+#app .popup_window.eggpremium h4,
+#app .popup_window.vip h4,
+#app .popup_window.bundle h4,
+#app .popup_window.physical h4,
+#app .popup_window.drops h4,
+#app .popup_window.limited h4,
+#app .popup_window.yolker h4,
+#app .popup_window.league h4,
+#app .popup_window.notif h4,
+#app .popup_window.egglite h4,
+#app .popup_window.promo h4,
+#app .popup_window.event h4,
+#app .popup_window.social h4,
+#app .popup_window.creatoryt h4,
+#app .popup_window.creatorttv h4,
+#app .popup_window.legacy h4 {
+	text-shadow: none !important;
+}
+/* Premium / Egg Premium */
+#app .popup_window.premium h1,
+#app .popup_window.eggpremium h1 {
+	text-shadow: .1em .1em 0 var(--ss-premium-shadow);
+}
+#app .popup_window.premium h2,
+#app .popup_window.eggpremium h2 {
+	color: var(--ss-premium);
+}
+#app .popup_window.premium #equip_grid .grid-item,
+#app .popup_window.eggpremium #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-premium-shadow);
+}
+#app .popup_window.premium .popup_close,
+#app .popup_window.eggpremium .popup_close {
+    text-shadow: .15em .15em 0 var(--ss-premium-shadow);
+}
+#app .popup_window.premium .ss_button,
+#app .popup_window.eggpremium .ss_button {
+    background-color: var(--ss-premium);
+    border-color: var(--ss-premium-txt);
+    color: var(--ss-premium-txt);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-premium-shadow);
+}
+
+/* VIP */
+#app .popup_window.vip h1,
+#app .popup_window.vip h2 {
+	text-shadow: .1em .1em 0 var(--ss-vip-shadow);
+}
+#app .popup_window.vip .popup_close {
+    text-shadow: .15em .15em 0 var(--ss-vip-shadow);
+}
+#app .popup_window.vip #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-vip-shadow);
+}
+#app .popup_window.vip h2 {
+	color: var(--ss-vip);
+}
+#app .popup_window.vip h3,
+#app .popup_window.vip h4 {
+    color: var(--ss-vip-txt) !important;
+}
+#app .notify-group-subscription .ss_button,
+#app .popup_window.vip .ss_button {
+    background-color: var(--ss-vip);
+    border-color: var(--ss-vip-txt);
+    color: var(--ss-vip-txt);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-vip-shadow);
+}
+#app .notify-group-subscription {
+    border-color: var(--ss-vip-txt);
+}
+
+/* Bundle */
+#app .popup_window.bundle h1,
+#app .popup_window.bundle h2,
+#app .popup_window.bundle p,
+#app .notify-group-bundle h1,
+#app .notify-group-bundle p {
+    text-shadow: .1em .1em 0 var(--bundle-shadow);
+}
+#app .popup_window.bundle .popup_close {
+	text-shadow: .15em .15em 0 var(--bundle-shadow);
+}
+#app .popup_window.bundle #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-bundle-shadow);
+}
+#app .popup_window.bundle .popup_close i,
+#app .popup_window.bundle h1,
+#app .popup_window.bundle h2,
+#app .popup_window.bundle p,
+#app .notify-group-bundle h1 {
+    color: var(--bundle-color) !important;
+}
+#app .popup_window.bundle .ss_button,
+#app .notify-group-bundle .ss_button {
+    background-color: var(--bundle-color);
+    border-color: var(--bundle-color-dk);
+    color: var(--bundle-color-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-bundle-shadow);
+}
+
+/* Merch */
+#app .popup_window.physical h1,
+#app .popup_window.physical h2,
+#app .popup_window.physical p {
+    text-shadow: .1em .1em 0 var(--ss-merch-shadow);
+}
+#app .popup_window.physical .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-merch-shadow);
+}
+#app .popup_window.physical #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-merch-shadow);
+}
+#app .popup_window.physical .popup_close i,
+#app .popup_window.physical h1,
+#app .popup_window.physical h2,
+#app .popup_window.physical p {
+    color: var(--ss-merch-lt) !important;
+}
+#app .popup_window.physical .ss_button {
+    background-color: var(--ss-merch-lt);
+    border-color: var(--ss-merch-dk);
+    color: var(--ss-merch-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-merch-shadow);
+}
+#app .popup_window.physical .ss_button {
+    background-color: var(--ss-merch-lt);
+    border-color: var(--ss-merch-dk);
+    color: var(--ss-merch-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-merch-shadow);
+}
+
+/* Drops */
+#app .popup_window.drops h1,
+#app .popup_window.drops h2,
+#app .popup_window.drops p {
+    text-shadow: .1em .1em 0 var(--ss-drops-shadow);
+}
+#app .popup_window.drops .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-drops-shadow);
+}
+#app .popup_window.drops #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-drops-shadow);
+}
+#app .popup_window.drops h1,
+#app .popup_window.drops h2,
+#app .popup_window.drops p,
+#app .popup_window.drops .popup_close i {
+    color: var(--twitch-lt-purple) !important;
+}
+#app .popup_window.drops .ss_button {
+    background-color: var(--twitch-lt-purple);
+    border-color: var(--twitch-dk-purple);
+    color: var(--twitch-dk-purple);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-drops-shadow);
+}
+#app .popup_window.drops .ss_button {
+    background-color: var(--twitch-lt-purple);
+    border-color: var(--twitch-dk-purple);
+    color: var(--twitch-dk-purple);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-drops-shadow);
+}
+
+/* Limited */
+#app .popup_window.limited h1,
+#app .popup_window.limited h2 {
+    text-shadow: .1em .1em 0 var(--ss-limited-shadow);
+}
+#app .popup_window.limited h2 {
+	color: var(--ss-limited);
+}
+#app .popup_window.limited .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-limited-shadow);
+}
+#app .popup_window.limited #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-limited-shadow);
+}
+#app .popup_window.limited .popup_close i {
+    color: var(--ss-limited-border) !important;
+}
+#app .popup_window.limited .ss_button {
+    background-color: var(--ss-limited);
+    border-color: var(--ss-limited-border);
+    color: var(--ss-limited-border);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-limited-shadow);
+}
+
+/* New Yolker */
+#app .popup_window.yolker h1,
+#app .popup_window.yolker h2,
+#app .popup_window.yolker p {
+    text-shadow: .1em .1em 0 var(--ss-ny-shadow);
+}
+#app .popup_window.yolker .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-ny-shadow);
+}
+#app .popup_window.yolker #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-ny-shadow);
+}
+#app .popup_window.yolker h1,
+#app .popup_window.yolker h2,
+#app .popup_window.yolker p,
+#app .popup_window.yolker .popup_close i {
+    color: var(--ss-ny-lt) !important;
+}
+#app .popup_window.yolker .ss_button {
+    background-color: var(--ss-ny-lt);
+    border-color: var(--ss-ny-dk);
+    color: var(--ss-ny-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-ny-shadow);
+}
+
+/* League */
+#app .popup_window.league h1,
+#app .popup_window.league h2,
+#app .popup_window.league p {
+    text-shadow: .1em .1em 0 var(--ss-league-shadow);
+}
+#app .popup_window.league .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-league-shadow);
+}
+#app .popup_window.league #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-league-shadow);
+}
+#app .popup_window.league h1,
+#app .popup_window.league h2,
+#app .popup_window.league p,
+#app .popup_window.league .popup_close i {
+    color: var(--ss-league-lt) !important;
+}
+#app .popup_window.league .ss_button {
+    background-color: var(--ss-league-lt);
+    border-color: var(--ss-league-dk);
+    color: var(--ss-league-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-league-shadow);
+}
+
+/* Notif */
+#app .popup_window.notif h1,
+#app .popup_window.notif h2,
+#app .popup_window.notif p {
+    text-shadow: .1em .1em 0 var(--ss-notif-shadow);
+}
+#app .popup_window.notif .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-notif-shadow);
+}
+#app .popup_window.notif #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-notif-shadow);
+}
+#app .popup_window.notif h1,
+#app .popup_window.notif h2,
+#app .popup_window.notif p,
+#app .popup_window.notif .popup_close i {
+    color: var(--ss-notif-lt) !important;
+}
+#app .popup_window.notif .ss_button {
+    background-color: var(--ss-notif-lt);
+    border-color: var(--ss-notif-dk);
+    color: var(--ss-notif-dk);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-notif-shadow);
+}
+
+/* Egglite, Promo, Event, Social */
+#app .popup_window.egglite h1,
+#app .popup_window.promo h1,
+#app .popup_window.event h1,
+#app .popup_window.social h1,
+#app .popup_window.egglite h2,
+#app .popup_window.promo h2,
+#app .popup_window.event h2,
+#app .popup_window.social h2 {
+    text-shadow: .1em .1em 0 var(--ss-manual-shadow);
+}
+#app .popup_window.egglite .popup_close,
+#app .popup_window.promo .popup_close,
+#app .popup_window.event .popup_close,
+#app .popup_window.social .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-manual-shadow);
+}
+#app .popup_window.egglite #equip_grid .grid-item,
+#app .popup_window.promo #equip_grid .grid-item,
+#app .popup_window.event #equip_grid .grid-item,
+#app .popup_window.social #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-manual-shadow);
+}
+#app .popup_window.egglite h1,
+#app .popup_window.promo h1,
+#app .popup_window.event h1,
+#app .popup_window.social h1,
+#app .popup_window.egglite h2,
+#app .popup_window.promo h2,
+#app .popup_window.event h2,
+#app .popup_window.social h2,
+#app .popup_window.egglite .popup_close i,
+#app .popup_window.promo .popup_close i,
+#app .popup_window.event .popup_close i,
+#app .popup_window.social .popup_close i {
+    color: var(--ss-manual-lt1) !important;
+}
+#app .popup_window.egglite .ss_button,
+#app .popup_window.promo .ss_button,
+#app .popup_window.event .ss_button,
+#app .popup_window.social .ss_button {
+    background-color: var(--ss-manual-lt1);
+    border-color: var(--ss-manual-dk1);
+    color: var(--ss-manual-dk1);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-manual-shadow);
+}
+
+/* Creator YT */
+#app .popup_window.creatoryt h1,
+#app .popup_window.creatoryt h2,
+#app .popup_window.creatoryt p {
+    text-shadow: .1em .1em 0 var(--ss-ytcc-shadow);
+}
+#app .popup_window.creatoryt .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-ytcc-shadow);
+}
+#app .popup_window.creatoryt #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-ytcc-shadow);
+}
+#app .popup_window.creatoryt h1,
+#app .popup_window.creatoryt h2,
+#app .popup_window.creatoryt p,
+#app .popup_window.creatoryt .popup_close i {
+    color: var(--ss-white) !important;
+}
+#app .popup_window.creatoryt .ss_button {
+    background-color: var(--ss-white);
+    border-color: red;
+    color: red;
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-ytcc-shadow);
+}
+
+/* Creator Twitch */
+#app .popup_window.creatorttv h1,
+#app .popup_window.creatorttv h2,
+#app .popup_window.creatorttv p {
+    text-shadow: .1em .1em 0 var(--ss-ttvcc-shadow);
+}
+#app .popup_window.creatorttv .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-ttvcc-shadow);
+}
+#app .popup_window.creatorttv #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-ttvcc-shadow);
+}
+#app .popup_window.creatorttv h1,
+#app .popup_window.creatorttv h2,
+#app .popup_window.creatorttv p,
+#app .popup_window.creatorttv .popup_close i {
+    color: var(--ss-white) !important;
+}
+#app .popup_window.creatorttv .ss_button {
+    background-color: var(--ss-white);
+    border-color: var(--ss-twitch);
+    color: var(--ss-twitch);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-ttvcc-shadow);
+}
+
+/* Legacy */
+#app .popup_window.legacy h1,
+#app .popup_window.legacy h2,
+#app .popup_window.legacy p {
+    text-shadow: .1em .1em 0 var(--ss-legacy-shadow);
+}
+#app .popup_window.legacy .popup_close {
+	text-shadow: .15em .15em 0 var(--ss-legacy-shadow);
+}
+#app .popup_window.legacy #equip_grid .grid-item {
+	box-shadow: .16em .16em 0 var(--ss-legacy-shadow);
+}
+#app .popup_window.legacy h1,
+#app .popup_window.legacy h2,
+#app .popup_window.legacy p,
+#app .popup_window.legacy .popup_close i {
+    color: var(--ss-legacy-orange) !important;
+}
+#app .popup_window.legacy h3,
+#app .popup_window.legacy h4 {
+	color: var(--ss-legacy-gray) !important;
+}
+#app .popup_window.legacy .ss_button {
+    background-color: var(--ss-legacy-orange);
+    border-color: var(--ss-legacy-dkgreen);
+    color: var(--ss-legacy-dkgreen);
+    text-shadow: none;
+    box-shadow: .1em .1em 3px var(--ss-legacy-shadow);
+}
+
+#app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .item-icon,
+#app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .equip-vip-icon {
+	left: 45%;
+	top: -2em;
+}
+#app .notify-group .item-icon {
+	top: 0em !important;
+}
+#app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .item-icon {
+	scale: 5;
+	margin-bottom: 3em;
+}
+#app .popup_window .grid-item:not(#equip_grid .grid-item, #chicknWinner .grid-item) .equip-vip-icon {
+	scale: 3;
+}
+#chicknWinner .grid-item .item-icon {
+	scale: 3;
+	top: 1em;
+}
+#chicknWinner .grid-item .equip-vip-icon {
+	scale: 1.5;
+	top: 1em;
+}
+#app .notify-group-subscription .item-icon,
+#app .notify-group-subscription .lock-icon {
+    display: none;
+}

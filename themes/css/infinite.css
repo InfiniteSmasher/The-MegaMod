@@ -239,7 +239,7 @@
 	scale: .65;
 }
 
-#themeDesc,
+.setting-div,
 .mod-msg {
 	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3) 60%);
 }

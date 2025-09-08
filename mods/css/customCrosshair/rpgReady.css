@@ -1,0 +1,13 @@
+:root {
+    --crosshair-rpgReady-bg: #ffffff;
+    --crosshair-rpgReady-opacity: 50%;
+    --crosshair-rpgReady-radius: 5%;
+}
+
+#app #readyBrackets.ready {
+    border-color: var(--crosshair-rpgReady-bg);
+    opacity: var(--crosshair-rpgReady-opacity);
+}
+#app #readyBrackets.ready .readyBracket {
+    border-radius: var(--crosshair-rpgReady-radius);
+}

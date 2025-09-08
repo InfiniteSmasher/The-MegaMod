@@ -1,0 +1,13 @@
+:root {
+    --crosshair-regNorm-bg: #00ff00;
+    --crosshair-regNorm-border: solid 0.05em #00ffff;
+    --crosshair-regNorm-opacity: 70%;
+    --crosshair-regNorm-radius: 20%;
+}
+
+#app .crosshair.normal {
+    background: var(--crosshair-regNorm-bg);
+	border: var(--crosshair-regNorm-border);
+    opacity: var(--crosshair-regNorm-opacity);
+    border-radius: var(--crosshair-regNorm-radius);
+}

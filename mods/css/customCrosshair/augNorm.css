@@ -1,0 +1,11 @@
+:root {
+    --crosshair-augNorm-bg: #00ff00;
+    --crosshair-augNorm-border: solid 0.05em #00ffff;
+    --crosshair-augNorm-opacity: 100%;
+}
+
+#app #redDotReticle {
+    background: var(--crosshair-augNorm-bg);
+	border: var(--crosshair-augNorm-border);
+    opacity: var(--crosshair-augNorm-opacity);
+}

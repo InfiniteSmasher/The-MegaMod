@@ -256,7 +256,7 @@
 	color: var(--ss-blue2) !important;
 }
 
-#themeDesc,
+.setting-div,
 .mod-msg.info p {
 	color: var(--ss-blue5) !important;
 }
@@ -321,7 +321,7 @@
 }
 */
 
-#themeDesc,
+.setting-div,
 .mod-msg {
 	background: linear-gradient(to right bottom, var(--ss-blue2), var(--ss-blue3) 60%);
 }

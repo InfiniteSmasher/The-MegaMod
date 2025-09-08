@@ -1,0 +1,25 @@
+:root {
+    --crosshair-sgPowr-bg: #ffff00;
+    --crosshair-sgPowr-border: #ff0000;
+    --crosshair-sgPowr-opacity: 70%;
+    --crosshair-sgPowr-radius: 30%;
+}
+
+#app .shotReticle.fill.powerful {
+    border-color: var(--crosshair-sgPowr-bg);
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: .18em;
+    padding: .18em;
+}
+#app .shotReticle.border.powerful {
+    border-color: var(--crosshair-sgPowr-border);
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-width: .2em;
+}
+#app .shotReticle.fill.powerful,
+#app .shotReticle.border.powerful {
+    opacity: var(--crosshair-sgPowr-opacity);
+    border-radius: var(--crosshair-sgNorm-radius);
+}
