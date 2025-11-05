@@ -709,7 +709,6 @@ There's a new link added to the footer on the home screen, which opens a changel
 <details>
 <summary>Custom Fog</summary>
 
-> > CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!
 > > Enhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to complete blindness across all maps.
 > ### **Settings**:
 > - **Fog Density (%)**: Set the density of the fog.

@@ -530,7 +530,7 @@
 
 
 	"p_settings_mods_customFog_title": "Custom Fog",
-	"p_settings_mods_customFog_desc": "CURRENTLY BROKEN as fog doesn't work in regular (unmodded) Shell either!\n\nEnhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to complete blindness across all maps.",
+	"p_settings_mods_customFog_desc": "Enhance your game's atmosphere with customizable fog! Adjust the density and color to create anything from an eerie mist to complete blindness across all maps.",
 	"p_settings_mods_customFog_density": "Fog Density (%)",
 	"p_settings_mods_customFog_color": "Fog Color",
 	"p_settings_mods_customFog_resetBtn": "Reset to Default Fog for Map",

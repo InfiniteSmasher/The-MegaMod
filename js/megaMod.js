@@ -6288,7 +6288,7 @@ class CustomCrosshair {
 if (unsafeWindow.location.search.includes('testMap')) return;
 
 MegaMod.setDebug(true); // Debug Logging
-MegaMod.setLocal(true); // Local Testing
+MegaMod.setLocal(false); // Local Testing
 Object.assign(unsafeWindow, {
 	SettingType: {
 		Slider: 0,
@@ -6355,8 +6355,8 @@ Object.assign(unsafeWindow, {
         tierDowngrade: 3,
         tierLost: 4
     },
-	rawPath: MegaMod.local ? "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main" : "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main",
-	cdnPath: MegaMod.local ? "https://infinitesmasher.github.io/The-MegaMod" : "https://infinitesmasher.github.io/The-MegaMod",
+	rawPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main",
+	cdnPath: MegaMod.local ? "http://127.0.0.1:5500" : "https://infinitesmasher.github.io/The-MegaMod",
 });
 Object.assign(unsafeWindow, {
     ChatEventData: {
