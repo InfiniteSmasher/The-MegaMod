@@ -568,7 +568,7 @@
 
 #banHistoryPopup #private_maps #mapText {
     font-size: 1em;
-    line-height: .4em;
+    line-height: 1em;
     color: var(--ss-white);
     width: 100%;
     text-wrap-mode: wrap;

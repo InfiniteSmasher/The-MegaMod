@@ -2381,7 +2381,7 @@ class MegaMod {
                                                 <h5 id="mapText" class="text-shadow-black-40">
                                                     {{ lobby.map.name }}
                                                     <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
-                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === lobby.map.filename).numPlayers)"></icon>
+                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === lobby.map.filename)?.numPlayers || 0)"></icon>
                                                     </span>
                                                 </h5>
                                             </div>
@@ -2438,7 +2438,7 @@ class MegaMod {
                                                         <h5 id="mapText" class="text-shadow-black-40">
                                                             {{ ban.map.name }}
                                                             <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
-                                                                <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename).numPlayers)"></icon>
+                                                                <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename)?.numPlayers || 0)"></icon>
                                                             </span>
                                                         </h5>
                                                     </div>
@@ -2487,7 +2487,7 @@ class MegaMod {
                                                                 <h5 id="mapText" class="text-shadow-black-40">
                                                                     {{ ban.map.name }}
                                                                     <span class="map_playercount text-shadow-black-40 font-nunito box_absolute">
-                                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename).numPlayers)"></icon>
+                                                                        <icon class="map-avg-size-icon fill-white shadow-filter" :name="getMapSizeIcon(maps.find(m => m.filename === ban.map.filename)?.numPlayers || 0)"></icon>
                                                                     </span>
                                                                 </h5>
                                                             </div>
@@ -3138,7 +3138,7 @@ class MegaMod {
                             ${fogScene}.fogDensity = 0.01;
                         }
                     }
-                    window.megaMod.constructor.log("extern.updateFog() -", \`Enabled: \${enabled}\ | Density: \${${fogScene}.fogDensity} | Color: \${${fogScene}.fogColor}\`);
+                    //window.megaMod.constructor.log("extern.updateFog() -", \`Enabled: \${enabled}\ | Density: \${${fogScene}.fogDensity} | Color: \${${fogScene}.fogColor}\`);
                 }
                 `;
                 src = src.safeReplace("catalog:", `${fogColorFunc},catalog:`, "customFog");
@@ -6233,11 +6233,11 @@ class CustomCrosshair {
 
     enableCrosshairStyle(type, enabled) {
         this.crosshairStyles[type].disabled = !enabled;
-        console.log(type, "disabled", this.crosshairStyles[type].disabled);
+        //console.log(type, "disabled", this.crosshairStyles[type].disabled);
     }
 
     setCSSVar(variable, value) {
-        console.log(variable, value);
+        //console.log(variable, value);
         document.documentElement.style.setProperty(variable, value);
     }
 
