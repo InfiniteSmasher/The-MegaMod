@@ -6,7 +6,8 @@
 		"clan"
 	],
 	"tagEdits": [
-		{ "add": false, "id": 4265,  "tags": ["Nov25"] },
+		{ "add": false, "id": 3672,  "tags": ["Feb26"] },
+		{ "add": false, "id": 2264,  "tags": ["Feb26"] },
 		{ "add": true,  "id": 2650,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2274,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2646,  "tags": ["Newsletter"] },
@@ -15,6 +16,7 @@
 		{ "add": false, "id": 1552,  "tags": ["Newsletter"] },
 		{ "add": false, "id": 1474,  "tags": ["promo"] },
 		{ "add": true,  "id": 16013, "tags": ["Premium"] },
+		{ "add": false, "id": 1077,  "tags": ["Bundle"] },
 		{ "add": true,  "id": 15095, "tags": ["Bundle"] },
 		{ "add": true,  "id": 1605,  "tags": ["Bundle"] },
 		{ "add": true,  "id": 15093, "tags": ["Bundle"] },
@@ -24,8 +26,6 @@
 		{ "add": true,  "id": 2500,  "tags": ["Bundle"] },
 		{ "add": true,  "id": 1600,  "tags": ["Bundle"] },
 		{ "add": false, "id": 3625,  "tags": ["Bundle"] },
-		{ "add": false, "id": 2117,  "tags": ["Bundle"] },
-		{ "add": false, "id": 2117,  "tags": ["Bundle"] },
 		{ "add": true,  "id": 15090, "tags": ["Bundle"] },
 		{ "add": true,  "id": 2635,  "tags": ["Bundle"] },
 		{ "add": true,  "id": 15089, "tags": ["Bundle"] },
@@ -300,9 +300,9 @@
 		"CRC":  "fas6 fa-colon-sign"
 	},
 	"themes": [
-		"bundle", "premium", "eggpremium", "vip", "physical", "drops", "yolker", 
-		"league", "notif", "egglite", "promo", "event", "social", "manual", "legacy", 
-		"limited", "creatorttv", "creatoryt", "creator", "shop", "purchase"
+		"premium", "eggpremium", "vip", "bundle", "physical", "drops", "yolker",
+		"league", "notif", "egglite", "promo", "event", "social", "manual",
+		"legacy", "default", "limited", "creator", "shop", "purchase"
 	],
 	"themeOrder": [
 		{ "theme": "bundle",     "custom": true },
