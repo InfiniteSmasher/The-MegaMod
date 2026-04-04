@@ -6,7 +6,7 @@
 	"ammo": ["#weaponBox"],
 	"eggcount": ["#account_panel"],
 	"chat": ["#chatIn", "#chatOut", "#announcement_message"],
-	"playerlist": ["#playerList"],
+	"playerlist": [".player__container"],
 	"gametext": ["#bigMessageContainer", "#gameMessage", "#playerChallengeComplete", "#badgeLevelUp"],
 	"killtext": ["#kill-death-box"],
 	"readouts": ["#inGameUI"],
