@@ -2,10 +2,15 @@
     --crosshair-augNorm-bg: #00ff00;
     --crosshair-augNorm-border: solid 0.05em #00ffff;
     --crosshair-augNorm-opacity: 100%;
+    --crosshair-augNorm-radius: 100%;
+    --crosshair-augNorm-scale: 100%;
 }
 
 #app #redDotReticle {
     background: var(--crosshair-augNorm-bg);
 	border: var(--crosshair-augNorm-border);
     opacity: var(--crosshair-augNorm-opacity);
+    border-radius: var(--crosshair-augNorm-radius);
+    scale: var(--crosshair-augNorm-scale);
+    transform-origin: top left;
 }

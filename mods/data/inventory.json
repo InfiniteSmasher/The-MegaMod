@@ -6,8 +6,9 @@
 		"clan"
 	],
 	"tagEdits": [
-		{ "add": false, "id": 3672,  "tags": ["Feb26"] },
-		{ "add": false, "id": 2264,  "tags": ["Feb26"] },
+		{ "add": false, "id": 2676,  "tags": ["League"] },
+		{ "add": false, "id": 2675,  "tags": ["League"] },
+		{ "add": false, "id": 2674,  "tags": ["League"] },
 		{ "add": true,  "id": 2668,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2650,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2274,  "tags": ["Newsletter"] },
@@ -303,28 +304,7 @@
 	"themes": [
 		"premium", "eggpremium", "vip", "bundle", "physical", "drops", "yolker",
 		"league", "notif", "egglite", "promo", "event", "social", "manual",
-		"legacy", "default", "limited", "creator", "shop", "purchase"
-	],
-	"themeOrder": [
-		{ "theme": "bundle",     "custom": true },
-		{ "theme": "premium",    "custom": false },
-		{ "theme": "eggpremium", "custom": true },
-		{ "theme": "vip",        "custom": false },
-		{ "theme": "physical",   "custom": false },
-		{ "theme": "manual",     "custom": false },
-		{ "theme": "drops",      "custom": true },
-		{ "theme": "yolker",     "custom": true },
-		{ "theme": "league",     "custom": true },
-		{ "theme": "notif",      "custom": true },
-		{ "theme": "egglite",    "custom": true },
-		{ "theme": "promo",      "custom": true },
-		{ "theme": "event",      "custom": true },
-		{ "theme": "social",     "custom": true },
-		{ "theme": "default",    "custom": false },
-		{ "theme": "purchase",   "custom": false },
-		{ "theme": "limited",    "custom": true },
-		{ "theme": "creator",    "custom": true },
-		{ "theme": "shop",       "custom": true }
+		"legacy", "default", "limited", "creator", "creatorttv", "creatoryt", "shop", "purchase"
 	],
 	"themeData": {
 		"premium": {

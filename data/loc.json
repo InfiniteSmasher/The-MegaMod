@@ -372,7 +372,7 @@
 
 
 	"p_settings_mods_changeFPS_title": "Change FPS",
-	"p_settings_mods_changeFPS_desc": "Allows you to change your FPS! :O<br>NOTE: This is a bit buggy and you may reach a point where your device can't support any higher of a framerate so your FPS will max out.",
+	"p_settings_mods_changeFPS_desc": "Allows you to change your FPS counter (not actual FPS)! :O<br>NOTE: This is a bit buggy and you may reach a point where your device can't support any higher of a framerate so your FPS will max out.",
 	"p_settings_mods_changeFPS_slider": "FPS Slider",
 
 
@@ -423,6 +423,8 @@
 	"p_settings_mods_themeManager_theme_graysocean2_desc": "Same as the Main graysocean theme but with a modified in-game UI. Content creator badges are hidden on the leaderboard and the \"killed by\" and \"you killed\" text is themed for fashion shows.",
 	"p_settings_mods_themeManager_theme_boolet": "Boolet x DeltaStorm",
 	"p_settings_mods_themeManager_theme_boolet_desc": "Play like a pro with the <a target='_blank' href='https://youtube.com/c/Boolet'>Boolet</a> x DeltaStorm theme! Created by <a target='_blank' href='https://youtube.com/c/Boolet'>boolet</a> and updated by Infinite Smasher. This theme used to be available on the Chrome WebStore as an extension but it isn't anymore. This is an updated and improved version of it!",
+	"p_settings_mods_themeManager_theme_darkmode": "Dark Mode (WIP)",
+	"p_settings_mods_themeManager_theme_darkmode_desc": "WIP darkmode, desc TODO",
 	"p_settings_mods_themeManager_theme_hayden": "King Hayden (WIP)",
 	"p_settings_mods_themeManager_theme_hayden_desc": "<a target='_blank' href='https://twitch.tv/king_hayden_'>King Hayden</a>'s Theme. Created by Jayvan and updated by Infinite Smasher.",
 	"p_settings_mods_themeManager_theme_novo": "Novosuper (WIP)",
@@ -620,6 +622,7 @@
 	"p_settings_mods_customCrosshair_rpeggCrosshair_ready": "RPEGG Brackets (Ready)",
 	"p_settings_mods_customCrosshair_rpeggCrosshair_bg": "Bracket Color",
 	"p_settings_mods_customCrosshair_enabled": "Use Custom Crosshair",
+	"p_settings_mods_customCrosshair_colors": "Fill/Border Colors",
 	"p_settings_mods_customCrosshair_bg": "Background Color",
 	"p_settings_mods_customCrosshair_bg_enabled": "Background Enabled",
 	"p_settings_mods_customCrosshair_border": "Border Color",
@@ -627,6 +630,7 @@
 	"p_settings_mods_customCrosshair_opacity": "Opacity (%)",
 	"p_settings_mods_customCrosshair_radius": "Radius (%)",
 	"p_settings_mods_customCrosshair_rotation": "Rotation (°)",
+	"p_settings_mods_customCrosshair_scale": "Scale (%)",
 	"p_settings_mods_customCrosshair_preview": "Crosshair Preview",
 	"p_settings_mods_customCrosshair_scope": "Scope",
 	"p_settings_mods_customCrosshair_scopeSelect": "Select Scope",

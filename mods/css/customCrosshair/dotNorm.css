@@ -3,6 +3,7 @@
     --crosshair-dotNorm-border: solid 0.05em #00ffff;
     --crosshair-dotNorm-opacity: 70%;
     --crosshair-dotNorm-radius: 35%;
+    --crosshair-dotNorm-scale: 100%;
 }
 
 #app #reticleDot {
@@ -10,4 +11,6 @@
 	border: var(--crosshair-dotNorm-border);
     opacity: var(--crosshair-dotNorm-opacity);
     border-radius: var(--crosshair-dotNorm-radius);
+    scale: var(--crosshair-dotNorm-scale);
+    transform-origin: top left;
 }

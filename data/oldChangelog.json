@@ -1,5 +1,14 @@
 [
 	{
+        "version": "1.02",
+        "date": "September 7 2025",
+        "content": [
+            "<b>[MegaMod]</b> Fixed bugs caused by most recent Shell Shockers update (1.0.14)",
+            "<b>[MegaMod]</b> The latest proxy (eggtown.org) is now supported",
+            "<b>[Custom Crosshair]</b> Introducing the Custom Crosshair Mod! Customize various aspects of the in-game crosshairs and scope!"
+        ]
+    },
+	{
         "version": "1.01",
         "date": "July 14 2025",
         "content": [

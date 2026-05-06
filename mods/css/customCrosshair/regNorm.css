@@ -3,6 +3,8 @@
     --crosshair-regNorm-border: solid 0.05em #00ffff;
     --crosshair-regNorm-opacity: 70%;
     --crosshair-regNorm-radius: 20%;
+    --crosshair-regNorm-rotation: 0deg;
+    --crosshair-regNorm-scale: 100%;
 }
 
 #app .crosshair.normal {
@@ -10,4 +12,9 @@
 	border: var(--crosshair-regNorm-border);
     opacity: var(--crosshair-regNorm-opacity);
     border-radius: var(--crosshair-regNorm-radius);
+}
+
+#app #crosshairContainer:has(.crosshair.normal){
+    transform: rotate(var(--crosshair-regNorm-rotation));
+    scale: var(--crosshair-regNorm-scale);
 }

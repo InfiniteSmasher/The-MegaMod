@@ -180,6 +180,8 @@
 }
 
 
+
+
 .dismiss_btn {
 	color: red;
 	position: absolute;
@@ -624,6 +626,7 @@
   	gap: 4px;
   	cursor: text;
   	margin-right: .7em;
+	overscroll-behavior: none;
 }
 
 /* Individual tag */
@@ -877,7 +880,7 @@
 }
 
 #scopePreview {
-	width: 100%;
+	width: 110%;
   	background-image: url('https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/other/backgrounds/scopeBg.gif');
 	overflow: hidden;
 }
@@ -897,7 +900,7 @@
 }
 
 #crosshairPreview {
-	width: 40%;
+	width: 50%;
 	background-image: url('https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/other/backgrounds/crosshairBg.png');
 }
 #crosshairPreview.aug {
@@ -943,11 +946,19 @@
     opacity: var(--crosshair-regNorm-opacity);
 	border-radius: var(--crosshair-regNorm-radius);
 }
+#crosshairPreview #crosshairContainer:has(.crosshair.normal) {
+    transform: rotate(var(--crosshair-regNorm-rotation));
+	scale: var(--crosshair-regNorm-scale);
+}
 #crosshairPreview .crosshair.powerful {
     background: var(--crosshair-regPowr-bg);
 	border: var(--crosshair-regPowr-border);
     opacity: var(--crosshair-regPowr-opacity);
 	border-radius: var(--crosshair-regPowr-radius);
+}
+#crosshairPreview #crosshairContainer:has(.crosshair.powerful) {
+    transform: rotate(var(--crosshair-regPowr-rotation));
+	scale: var(--crosshair-regPowr-scale);
 }
 
 #crosshairPreview .shotReticle.fill.normal,
@@ -1040,12 +1051,17 @@
 	border: var(--crosshair-dotNorm-border);
     opacity: var(--crosshair-dotNorm-opacity);
 	border-radius: var(--crosshair-dotNorm-radius);
+	scale: var(--crosshair-dotNorm-scale);
+	transform-origin: top left;
 }
 
 #crosshairPreview #redDotReticle {
     background: var(--crosshair-augNorm-bg);
 	border: var(--crosshair-augNorm-border);
     opacity: var(--crosshair-augNorm-opacity);
+	border-radius: var(--crosshair-augNorm-radius);
+	scale: var(--crosshair-augNorm-scale);
+	transform-origin: top left;
 }
 
 #crosshairPreview #readyBrackets {

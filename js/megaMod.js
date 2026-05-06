@@ -108,6 +108,23 @@ class MegaMod {
                 </span>
             </div>
         </div>
+        <div v-if="s.type === SettingType.ColorRow">
+            <div v-show="eval(s.showCondition)">
+                <h3 class="margin-bottom-none h-short" v-show="eval(s.a.showCondition) || eval(s.b.showCondition)">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                <span class="color-picker-wrapper" v-show="eval(s.a.showCondition)">
+                    <div class="icon-bg">
+                        <i class="fas fa-eye-dropper"></i>
+                    </div>
+                    <input type="color" :value="s.a.value" @input="onColorPickerInput(s.a.id, $event.target.value)" @change="BAWK.play('ui_onchange');" class="ss_color_picker"></select>
+                </span>
+                <span class="color-picker-wrapper" :class="{ 'ss_marginleft': eval(s.a.showCondition) }" v-show="eval(s.b.showCondition)">
+                    <div class="icon-bg">
+                        <i class="fas fa-eye-dropper"></i>
+                    </div>
+                    <input type="color" :value="s.b.value" @input="onColorPickerInput(s.b.id, $event.target.value)" @change="BAWK.play('ui_onchange');" class="ss_color_picker"></select>
+                </span>
+            </div>
+        </div>
         <div v-if="s.type === SettingType.TagInput">
             <div v-show="eval(s.showCondition)">
                 <h3 class="margin-bottom-none h-short">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
@@ -450,6 +467,10 @@ class MegaMod {
                     disableCondition: setting.disableCondition || 'false',
                     parentId: parentId || null
                 });
+                if (setting.type === SettingType.ColorRow) {
+                    if (setting.a) this.initModSetting(setting.a, parentId);
+                    if (setting.b) this.initModSetting(setting.b, parentId);
+                }
                 return setting;
             },
             initModSettings() {
@@ -527,6 +548,8 @@ class MegaMod {
                 const resetSetting = (setting) => {
                     this.resetModSetting(setting);
                     if (setting.settings) setting.settings.forEach(resetSetting);
+                    if (setting.a) resetSetting(setting.a);
+                    if (setting.b) resetSetting(setting.b);
                 };
                 this.settingsUi.modSettings.forEach(resetSetting);
                 this.updateSettingTab();
@@ -541,6 +564,8 @@ class MegaMod {
                         }
                     }
                     if (setting.settings) setting.settings.forEach(saveSetting);
+                    if (setting.a) saveSetting(setting.a);
+                    if (setting.b) saveSetting(setting.b);
                 };
                 this.settingsUi.modSettings.forEach(saveSetting);
             },
@@ -552,7 +577,7 @@ class MegaMod {
             applyOriginalSettings() {
                 vueData.settingsUi = this.originalSettings;
                 this.showDetailSettings = !vueData.settingsUi.togglers.misc.find( a => { return a.id === 'autoDetail'; }).value;
-                //console.log('applying original settings: ' + JSON.stringify(vueData.settingsUi));
+                //MegaMod.log('applying original settings: ' + JSON.stringify(vueData.settingsUi));
             },
             dismissRefresh() {
                 BAWK.play("ui_popupclose");
@@ -962,7 +987,7 @@ class MegaMod {
             `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`
         ).replace(
             `<p v-if="showItemOnly"`,
-            `<div v-show="extern?.modSettingEnabled?.('betterUI_inventory') && (typeof showLockIcon !== 'undefined' && showLockIcon)" class="centered">
+            `<div v-show="${invEditsEnabled} && (typeof showLockIcon !== 'undefined' && showLockIcon)" class="centered">
                 <i :class="typeof lockIconClass !== 'undefined' ? lockIconClass :  ''" class="lock-icon"></i>
             </div> <p v-if="showItemOnly"`
         );
@@ -1764,7 +1789,7 @@ class MegaMod {
             sendChatMsg: false,
             selectedChatMsg: 1,
             customChatMsg: "",
-            censorName: false,
+            censorName: true,
             sendThanksMsg: true
         });
 
@@ -2088,7 +2113,6 @@ class MegaMod {
         };
 
         [
-            { id: "account-panel-template", vals: ['eggBalance'] },
             { id: "the-stat-template", vals: ['statLifetime', 'statMonthly'] },
             { id: "stats-stats-template", vals: ['challengesClaimed.total', 'challengesClaimed.unique'] },
             { id: "player_challenge", vals: ['trueProgress', ' reward '] }, 
@@ -2636,7 +2660,7 @@ class MegaMod {
                     z-index: 2000;
                     position: absolute;
                     left: 50%;
-                    bottom: 14em;
+                    bottom: 15em;
                     transform: translateX(-50%);
                     opacity: 0;
                     transition: opacity 1s ease-in-out;
@@ -3399,11 +3423,40 @@ class MegaMod {
         );
     }
 
+    static gmFetch(url, options = {}) {
+        return new Promise((resolve, reject) => {
+            GM_xmlhttpRequest({
+                method: options.method || "GET",
+                url,
+                headers: options.headers || {},
+                data: options.body,
+                responseType: "text",
+
+                onload: (res) => {
+                    resolve({
+                        ok: res.status >= 200 && res.status < 300,
+                        status: res.status,
+                        statusText: res.statusText,
+                        url: url,
+
+                        // Match fetch() API
+                        text: () => Promise.resolve(res.responseText),
+                        json: () => Promise.resolve(JSON.parse(res.responseText)),
+                    });
+                },
+
+                onerror: (err) => {
+                    reject(new Error("GM_xmlhttpRequest failed: " + err.error));
+                }
+            });
+        });
+    }
+
     static async fetchJSON(subPath) {
         this.log("Fetching JSON:", subPath);
 
         if (!subPath.startsWith('http')) subPath = `${rawPath}${subPath}`;
-        const res = await fetch(subPath);
+        const res = MegaMod.local ? await MegaMod.gmFetch(subPath) : await fetch(subPath);
         if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
         return await res.json();
     }
@@ -3412,7 +3465,7 @@ class MegaMod {
         this.log("Fetching CSS:", subPath);
 
         if (!subPath.startsWith('http')) subPath = `${rawPath}${subPath}`;
-        const res = await fetch(subPath);
+        const res = MegaMod.local ? await MegaMod.gmFetch(subPath) : await fetch(subPath);
         if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
         return await res.text();
     }
@@ -3556,12 +3609,14 @@ class MegaMod {
 	}
     
 	extractSettings(mods) {
-		return mods.flatMap(mod => {
-			const settings = (mod.type !== SettingType.Group) ? [mod] : [];
-			if (mod.settings) settings.push(...this.extractSettings(mod.settings));
-			return settings;
-		});
-	}
+        return mods.flatMap(mod => {
+            const settings = (mod.type !== SettingType.Group) ? [mod] : [];
+            if (mod.settings) settings.push(...this.extractSettings(mod.settings));
+            if (mod.a) settings.push(mod.a);
+            if (mod.b) settings.push(mod.b);
+            return settings;
+        });
+    }
 
 	getModSettingById(id) {
 		return this.extractSettings(vueApp?.settingsUi?.modSettings || []).find(setting => setting.id === id);
@@ -3630,7 +3685,8 @@ class MegaMod {
 				this.betterUI.switchUITweaks(settingEnabled);
 				break;
 			case 'betterUI_inventory':
-				this.betterUI.switchBetterInv(settingEnabled);
+                if (this.betterUI?._sharedSettings) this.betterUI._sharedSettings.betterInventory = settingEnabled;
+                this.betterUI.switchBetterInv(settingEnabled);
 				break;
 			case 'betterUI_profile':
 				this.betterUI.refreshProfileScreen();
@@ -4260,10 +4316,30 @@ class BetterUI {
         Object.assign(this, data);
         this.squareIconIndexes = SOCIALMEDIA.map((icon, index) => icon.includes("-square") ? index : null).filter(index => index !== null);
 
+        const TAG_THEMES = { 'limited': 'limited' };
+        const UNLOCK_THEMES = { 'vip': 'vip', 'premium': 'premium' };
+
+        this.themePriority = Object.fromEntries(this.themes.map((t, i) => [t, i]));
+        this.itemThemeMap = {};
+
+        this.getItemPriority = (item, theme) => {
+            if (!item?.item_data) return false;
+            this.itemThemeMap[item.id] ??= {};
+            return this.itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
+        };
+
+        this.computeItemPriority = (item) => {
+            for (let i = 0; i < this.themes.length; i++) {
+                if (this.getItemPriority(item, this.themes[i])) return i;
+            }
+            return Infinity;
+        };
+
+
         const oldTryEquipItem = extern.tryEquipItem;
         Object.assign(extern, {
             isThemedItem(item, theme) {
-                //MegaMod.log("extern.isThemedItem() - ", `Checking if ${item.name} is ${theme}`);
+                //MegaMod.log("extern.isThemedItem() - ", `Checking if ${item.name} (${item.id}) is ${theme}`);
                 theme = theme.toLowerCase();
                 switch (theme) {
                     case "vip":
@@ -4363,7 +4439,7 @@ class BetterUI {
                 tags = Array.isArray(tags) ? tags : [tags];
                 tags.forEach(tag => {
                     if (add === item.item_data.tags.includes(tag)) {
-                        MegaMod.error("Better UI", `"${tag}" Item Tag is Already ${add ? "Present" : "Missing"} for ${item.name}`);
+                        MegaMod.error("Better UI", `"${tag}" Item Tag is Already ${add ? "Present" : "Missing"} for ${item.name} (${item.id})`);
                         return;
                     }
                     if (!item.item_data.tags) item.item_data.tags = [];
@@ -4400,6 +4476,10 @@ class BetterUI {
             });
 
             vueApp.$refs.equipScreen.setupItemTotals()
+
+            // Setup Item Order
+            this.themePriority = Object.fromEntries(this.themes.map((t, i) => [t, i]));
+            extern.getAllItems().forEach(item => item._themePriority = this.computeItemPriority(item));
         }, 250);
 
         fetch('https://ipapi.co/currency/').then(res => res.text()).then(res => {
@@ -4407,197 +4487,313 @@ class BetterUI {
         });
 
         // Better Inventory - Item Properties
-        comp_item.created = function() {
-            this.themeMap = extern?.getThemeMap?.(this.item);
-        };
-        Object.assign(comp_item.props, { isReward: { type: Boolean, default: false } });
-        const oldPremium = comp_item.computed.isPremium;
-        Object.assign(comp_item.computed, {
-            isPremium() { return this?.themeMap?.premium || oldPremium.call(this); },
-            isBundle() { return this?.themeMap?.bundle; },
-            isMerch() { return this?.themeMap?.physical; },
-            isDrops() { return this?.themeMap?.drops; },
-            isNotif() { return this?.themeMap?.notif; },
-            isLeague() { return this?.themeMap?.league; },
-            isNewYolker() { return this?.themeMap?.yolker; },
-            isEgglite() { return this?.themeMap?.egglite; },
-            isCreator() { return this?.themeMap?.creator; },
-            isTwitchCreator() { return this?.themeMap?.creatorttv; },
-            isYTCreator() { return this?.themeMap?.creatoryt; },
-            isPromo() { return this?.themeMap?.promo; },
-            isEvent() { return this?.themeMap?.event; },
-            isSocial() { return this?.themeMap?.social; },
-            isNormalShop() { return this?.themeMap?.shop; },
-            isLegacy() { return this?.themeMap?.legacy; },
-            isPremiumEggPurchase() { return this?.themeMap?.eggpremium; },
+        // ─── External cache (defined once, outside component) ───────────────────────
 
+        // ─── Render queue counter (module-level, shared across all item instances) ────
+        let _renderQueue = 0;
+
+        // ─── External cache (defined once, outside component) ────────────────────────
+        const _themeMapCache = new Map();
+        extern.getCachedThemeMap = (item) => {
+            if (_themeMapCache.has(item.id)) return _themeMapCache.get(item.id);
+            const result = extern?.getThemeMap?.(item) ?? null;
+            _themeMapCache.set(item.id, result);
+            return result;
+        };
+        extern.invalidateThemeCache = (id) => _themeMapCache.delete(id);
+        extern.clearThemeCache = () => _themeMapCache.clear();
+
+        // ─── Shared reactive setting (one read for all items) ────────────────────────
+        const _sharedSettings = Vue.observable({ betterInventory: extern.modSettingEnabled("betterUI_inventory") });
+        this._sharedSettings = _sharedSettings;
+
+        // ─── Static lookup tables (allocated once, never recreated) ──────────────────
+        const BANNER_LOC_MAP = [
+            ['isBundle',             'p_bundle_item_banner_txt'],
+            ['isPremium',            'p_premium_item_banner_txt'],
+            ['isPremiumEggPurchase', 'p_premium_item_banner_txt'],
+            ['isVipItem',            'p_vip_item_banner_txt'],
+            ['isMerch',              'p_merch_item_banner_txt'],
+            ['isDrops',              'p_drops_item_banner_txt'],
+            ['isNotif',              'p_notif_item_banner_txt'],
+            ['isLeague',             'p_league_item_banner_txt'],
+            ['isNewYolker',          'p_yolker_item_banner_txt'],
+            ['isEgglite',            'p_egglite_item_banner_txt'],
+            ['isCreator',            'p_creator_item_banner_txt'],
+            ['isLimited',            'p_limited_item_banner_txt'],
+            ['isSocial',             'p_social_item_banner_txt'],
+            ['isPromo',              'p_promo_item_banner_txt'],
+            ['isEvent',              'p_event_item_banner_txt'],
+            ['isLegacy',             'p_legacy_item_banner_txt'],
+        ];
+
+        const TOOLTIP_STYLE_MAP = [
+            ['isDrops',              'drops'],
+            ['isBundle',             'bundle'],
+            ['isLimited',            'limited'],
+            ['isPremium',            'premium'],
+            ['isPremiumEggPurchase', 'premium'],
+            ['isVipItem',            'vip'],
+            ['isMerch',              'merch'],
+            ['isNewYolker',          'ny'],
+            ['isNotif',              'notif'],
+            ['isLeague',             'league'],
+            ['isEgglite',            'egglite'],
+            ['isPromo',              'promo'],
+            ['isEvent',              'event'],
+            ['isSocial',             'social'],
+            ['isYTCreator',          'ytcc'],
+            ['isTwitchCreator',      'ttvcc'],
+            ['isLegacy',             'legacy'],
+        ];
+
+        const ICON_CLASS_MAP = [
+            ['isBundle',             'fas fa-box-open hover'],
+            ['isPremium',            null], // resolved dynamically via premiumIcon
+            ['isMerch',              'fas fa-tshirt hover'],
+            ['isDrops',              'fab fa-twitch hover'],
+            ['isNotif',              'fas fa-bell hover'],
+            ['isLeague',             'fas fa-trophy hover'],
+            ['isNewYolker',          'fas fa-envelope-open-text hover'],
+            ['isEgglite',            'fas6 fa-sparkles hover'],
+            ['isYTCreator',          'fab fa-youtube hover'],
+            ['isTwitchCreator',      'fab fa-twitch hover'],
+            ['isLimited',            'far fa-gem hover'],
+            ['isSocial',             'fas fa-share hover'],
+            ['isPromo',              'fas fa-ad hover'],
+            ['isEvent',              'fas fa-calendar-alt hover'],
+            ['isNormalShop',         'fas fa-egg hover'],
+            ['isPremiumEggPurchase', 'fas fa-egg hover'],
+            ['isLegacy',             'fas6 fa-history hover'],
+        ];
+
+        // ─── Patch data to add _themeReady ────────────────────────────────────────────
+        const _origData = comp_item.data;
+        comp_item.data = function () {
+            return {
+                ..._origData.call(this),
+                itemThemeReady: false,  // no underscore prefix
+            };
+        };
+
+        // ─── Patch onIntersection ─────────────────────────────────────────────────────
+        comp_item.methods.onIntersection = function (entries) {
+            const entry = entries[0];
+            if (entry.isIntersecting && !this.renderDone) {
+                const delay = (_renderQueue++ % 10) * 16;
+                setTimeout(() => {
+                    this.itemThemeReady = true;  // now reactive
+                    this.renderItem();
+                    this.observer.disconnect();
+                }, delay);
+            }
+        };
+
+        // ─── Component hooks ──────────────────────────────────────────────────────────
+        comp_item.created = function () {
+            this.themeMap = extern.getCachedThemeMap(this.item);
+        };
+
+        Object.assign(comp_item.props, {
+            isReward: { type: Boolean, default: false }
+        });
+
+        // ─── Save originals before overwriting ───────────────────────────────────────
+        const _origPremium            = comp_item.computed.isPremium;
+        const _origHasBanner          = comp_item.computed.hasBanner;
+        const _origBannerTxt          = comp_item.computed.bannerTxt;
+        const _origItemClass          = comp_item.computed.itemClass;
+        const _origTooltip            = comp_item.computed.tooltip;
+        const _origPremiumEggPurchase = comp_item.computed.isPremiumEggPurchase;
+
+        Object.assign(comp_item.computed, {
+
+            // ── Combined gate: both setting enabled AND item is on screen ─────────────
+            themeReady() {
+                return _sharedSettings.betterInventory && this.itemThemeReady;
+            },
+
+            // ── Theme flags (single reactive dep, one allocation per change) ──────────
+            themeFlags() {
+                if (!this.themeReady) {
+                    // Return flags based on original component logic so all downstream computeds
+                    // behave exactly as the original without any hardcoded checks
+                    return {
+                        premium:    _origPremium.call(this),
+                        eggpremium: _origPremiumEggPurchase.call(this),
+                    };
+                }
+                const m = this.themeMap;
+                if (!m) return {};
+                return {
+                    premium:    !!m.premium,
+                    bundle:     !!m.bundle,
+                    physical:   !!m.physical,
+                    drops:      !!m.drops,
+                    notif:      !!m.notif,
+                    league:     !!m.league,
+                    yolker:     !!m.yolker,
+                    egglite:    !!m.egglite,
+                    creator:    !!m.creator,
+                    creatorttv: !!m.creatorttv,
+                    creatoryt:  !!m.creatoryt,
+                    promo:      !!m.promo,
+                    event:      !!m.event,
+                    social:     !!m.social,
+                    shop:       !!m.shop,
+                    legacy:     !!m.legacy,
+                    eggpremium: !!m.eggpremium,
+                    limited:    !!m.limited,
+                };
+            },
+
+            // ── Individual theme checks ───────────────────────────────────────────────
+            isBundle()          { return this.themeFlags.bundle;     },
+            isMerch()           { return this.themeFlags.physical;   },
+            isDrops()           { return this.themeFlags.drops;      },
+            isNotif()           { return this.themeFlags.notif;      },
+            isLeague()          { return this.themeFlags.league;     },
+            isNewYolker()       { return this.themeFlags.yolker;     },
+            isEgglite()         { return this.themeFlags.egglite;    },
+            isCreator()         { return this.themeFlags.creator;    },
+            isTwitchCreator()   { return this.themeFlags.creatorttv; },
+            isYTCreator()       { return this.themeFlags.creatoryt;  },
+            isPromo()           { return this.themeFlags.promo;      },
+            isEvent()           { return this.themeFlags.event;      },
+            isSocial()          { return this.themeFlags.social;     },
+            isNormalShop()      { return this.themeFlags.shop;       },
+            isLegacy()          { return this.themeFlags.legacy;     },
+            isPremiumEggPurchase() { return this.themeFlags.eggpremium; },
+
+            // Extends original — themeMap can also mark an item premium
+            isPremium() {
+                return this.themeFlags.premium || _origPremium.call(this);
+            },
+
+            // ── Grouping helper ───────────────────────────────────────────────────────
             isNewTheme() {
-                return this.isLimited || this.isBundle || this.isMerch || this.isDrops ||
-                    this.isNotif || this.isLeague || this.isNewYolker || this.isEgglite || 
-                    this.isPromo || this.isEvent || this.isSocial || this.isCreator || 
+                return this.isLimited   || this.isBundle    || this.isMerch     ||
+                    this.isDrops     || this.isNotif     || this.isLeague    ||
+                    this.isNewYolker || this.isEgglite   || this.isPromo     ||
+                    this.isEvent     || this.isSocial    || this.isCreator   ||
                     this.isLegacy;
             },
 
-            themeActive() {
-                return extern.modSettingEnabled("betterUI_inventory");
-            },
-        
-            // Banner check
+            // ── Banner ────────────────────────────────────────────────────────────────
             hasBanner() {
-                
-                return this.isPremium || this.isVipItem || this.isPremiumEggPurchase || (this.themeActive && this.isNewTheme);
+                if (!this.themeReady) return _origHasBanner.call(this);
+                return this.isPremium || this.isVipItem || this.isPremiumEggPurchase || this.isNewTheme;
             },
-        
-            // Banner Text
-            bannerTxt() {
-                if (!this.hasBanner) return '';
 
-                const bannerLocMap = [
-                    ['isBundle', 'p_bundle_item_banner_txt'],
-                    ['isPremium', 'p_premium_item_banner_txt'],
-                    ['isPremiumEggPurchase', 'p_premium_item_banner_txt'],
-                    ['isVipItem', 'p_vip_item_banner_txt'],
-                    ['isMerch', 'p_merch_item_banner_txt'],
-                    ['isDrops', 'p_drops_item_banner_txt'],
-                    ['isNotif', 'p_notif_item_banner_txt'],
-                    ['isLeague', 'p_league_item_banner_txt'],
-                    ['isNewYolker', 'p_yolker_item_banner_txt'],
-                    ['isEgglite', 'p_egglite_item_banner_txt'],
-                    ['isCreator', 'p_creator_item_banner_txt'],
-                    ['isLimited', 'p_limited_item_banner_txt'],
-                    ['isSocial', 'p_social_item_banner_txt'],
-                    ['isPromo', 'p_promo_item_banner_txt'],
-                    ['isEvent', 'p_event_item_banner_txt'],
-                    ['isLegacy', 'p_legacy_item_banner_txt']
-                ];
-                return this.loc[bannerLocMap.find(([themeProp]) => this[themeProp])?.[1]] || '';
+            bannerTxt() {
+                if (!this.themeReady) return _origBannerTxt.call(this);
+                if (!this.hasBanner) return '';
+                return this.loc[BANNER_LOC_MAP.find(([p]) => this[p])?.[1]] || '';
             },
-        
-            // CSS Classes
+
             itemClass() {
+                if (!this.themeReady) return _origItemClass.call(this);
                 return {
-                    'highlight': this.isSelected,
-                    'is-bundle': this.isBundle,
-                    'is-premium': this.isPremium || this.isPremiumEggPurchase,
-                    'is-vip': this.isVipItem,
-                    'is-merch': this.themeActive && this.isMerch,
-                    'is-drops': this.themeActive && this.isDrops,
-                    'is-ny': this.themeActive && this.isNewYolker,
-                    'is-notif': this.themeActive && this.isNotif,
-                    'is-league': this.themeActive && this.isLeague,
-                    'is-egglite': this.themeActive && this.isEgglite,
-                    'is-promo': this.themeActive && this.isPromo,
-                    'is-event': this.themeActive && this.isEvent,
-                    'is-social': this.themeActive && this.isSocial,
-                    'is-creator-yt': this.themeActive && this.isYTCreator,
-                    'is-creator-ttv': this.themeActive && this.isTwitchCreator,
-                    'is-shop': this.themeActive && this.isNormalShop,
-                    'is-legacy': this.themeActive && this.isLegacy,
-                    'is-locked': this.themeActive && this.showLockIcon,
-                    'customtheme': this.themeActive && this.isNewTheme
+                    'highlight':      this.isSelected,
+                    'is-bundle':      this.isBundle,
+                    'is-premium':     this.isPremium || this.isPremiumEggPurchase,
+                    'is-vip':         this.isVipItem,
+                    'is-merch':       this.isMerch,
+                    'is-drops':       this.isDrops,
+                    'is-ny':          this.isNewYolker,
+                    'is-notif':       this.isNotif,
+                    'is-league':      this.isLeague,
+                    'is-egglite':     this.isEgglite,
+                    'is-promo':       this.isPromo,
+                    'is-event':       this.isEvent,
+                    'is-social':      this.isSocial,
+                    'is-creator-yt':  this.isYTCreator,
+                    'is-creator-ttv': this.isTwitchCreator,
+                    'is-shop':        this.isNormalShop,
+                    'is-legacy':      this.isLegacy,
+                    'is-locked':      this.showLockIcon,
+                    'customtheme':    this.isNewTheme,
                 };
             },
-        
-            // Tooltips
+
+            // ── Tooltip ───────────────────────────────────────────────────────────────
             tooltip() {
-                if (!(this.showTooltip && this.themeActive)) return "tool-tip";
-                const tooltipStyleMap = [
-                    ['isDrops', 'drops'],
-                    ['isBundle', 'bundle'],
-                    ['isLimited', 'limited'],
-                    ['isPremium', 'premium'],
-                    ['isPremiumEggPurchase', 'premium'],
-                    ['isVipItem', 'vip'],
-                    ['isMerch', 'merch'],
-                    ['isNewYolker', 'ny'],
-                    ['isNotif', 'notif'],
-                    ['isLeague', 'league'],
-                    ['isEgglite', 'egglite'],
-                    ['isPromo', 'promo'],
-                    ['isEvent', 'event'],
-                    ['isSocial', 'social'],
-                    ['isYTCreator', 'ytcc'],
-                    ['isTwitchCreator', 'ttvcc'],
-                    ['isLegacy', 'legacy']
-                ];
-                const tooltipStyle = tooltipStyleMap.find(([themeProp]) => this[themeProp])?.[1];
-                return "tool-tip" + (tooltipStyle ? " " + tooltipStyle : "") + (this.showLockIcon ? " locked" : "");
+                if (!this.themeReady) return _origTooltip.call(this);
+                if (!this.showTooltip) return 'tool-tip';
+                const style = TOOLTIP_STYLE_MAP.find(([p]) => this[p])?.[1];
+                return 'tool-tip' + (style ? ' ' + style : '') + (this.showLockIcon ? ' locked' : '');
             },
-        
-            // Icon Check
+
+            // ── Icon ──────────────────────────────────────────────────────────────────
             hasIcon() {
-                return this.isBundle || this.isPremium || this.isPremiumEggPurchase || this.isLeague || this.isEgglite ||
-                    this.isLimited || this.isDrops || this.isNotif || this.isMerch || 
-                    this.isCreator || this.isNewYolker || this.isPromo || 
-                    this.isEvent || this.isSocial || this.isLegacy /*|| this.isNormalShop*/;
+                return this.themeReady && (
+                    this.isBundle  || this.isPremium    || this.isPremiumEggPurchase ||
+                    this.isLeague  || this.isEgglite    || this.isLimited  ||
+                    this.isDrops   || this.isNotif      || this.isMerch    ||
+                    this.isCreator || this.isNewYolker  || this.isPromo    ||
+                    this.isEvent   || this.isSocial     || this.isLegacy
+                );
             },
 
             showIcon() {
-                return this.hasIcon && ((this.isBundle && !this.isItemOwned) || this.itemOnly || this.isReward || vueApp.currentEquipMode === vueApp.equipMode.inventory);
+                return this.hasIcon && (
+                    (this.isBundle && !this.isItemOwned) ||
+                    this.itemOnly ||
+                    this.isReward ||
+                    vueApp.currentEquipMode === vueApp.equipMode.inventory
+                );
             },
 
-            // Premium Icon
             premiumIcon() {
                 return unsafeWindow.megaMod.betterUI.currencyIcons[vueApp.currencyCode] || '';
             },
-        
-            // Icon CSS Class
+
             iconClass() {
                 if (!this.hasIcon) return '';
-                const iconClassMap = [
-                    ['isBundle', 'fas fa-box-open hover'],
-                    ['isPremium', this.premiumIcon + ' hover'],
-                    ['isMerch', 'fas fa-tshirt hover'],
-                    ['isDrops', 'fab fa-twitch hover'],
-                    ['isNotif', 'fas fa-bell hover'],
-                    ['isLeague', 'fas fa-trophy hover'],
-                    ['isNewYolker', 'fas fa-envelope-open-text hover'],
-                    ['isEgglite', 'fas6 fa-sparkles hover'],
-                    ['isYTCreator', 'fab fa-youtube hover'],
-                    ['isTwitchCreator', 'fab fa-twitch hover'],
-                    ['isLimited', 'far fa-gem hover'],
-                    ['isSocial', 'fas fa-share hover'],
-                    ['isPromo', 'fas fa-ad hover'],
-                    ['isEvent', 'fas fa-calendar-alt hover'],
-                    ['isNormalShop', 'fas fa-egg hover'],
-                    ['isPremiumEggPurchase', 'fas fa-egg hover'],
-                    ['isLegacy', 'fas6 fa-history hover']
-                ];
-                return iconClassMap.find(([themeProp]) => this[themeProp])?.[1] || '';
+                const entry = ICON_CLASS_MAP.find(([p]) => this[p]);
+                if (!entry) return '';
+                return entry[1] ?? (this.premiumIcon + ' hover');
             },
-        
-            // Icon Hover
-            iconHover() {
-                return (this.isVipItem || this.iconClass.includes("hover")) ? () => { /*BAWK.play("ui_chicken");*/ } : () => {};
-            },
-        
-            // Icon Click
-            iconClick() {
-                let fn = () => {};
 
-                const addClickSFX = (func) => () => { BAWK.play("ui_equip"); func(); };
+            iconHover() {
+                if (!this.themeReady) return () => {};
+                return (this.isVipItem || this.iconClass.includes('hover')) ? () => {} : () => {};
+            },
+
+            iconClick() {
+                if (!this.themeReady) return () => {};
+                let fn = () => {};
+                const addClickSFX = (func) => () => { BAWK.play('ui_equip'); func(); };
                 if (this.item.creatorUrl && this.isCreator) fn = addClickSFX(() => open(`https://${this.item.creatorUrl}`));
-                if (this.item.promoUrl && this.isPromo) fn = addClickSFX(() => open(`https://${this.item.promoUrl}`));
-                if (this.isSocial) fn = addClickSFX(() => open(vueApp.ui.socialMedia.footer.find(social => social.id === this.item.id).url));
-                
+                if (this.item.promoUrl   && this.isPromo)   fn = addClickSFX(() => open(`https://${this.item.promoUrl}`));
+                if (this.isSocial) fn = addClickSFX(() => open(vueApp.ui.socialMedia.footer.find(s => s.id === this.item.id).url));
                 const theme = extern.getThemeForItem(this.item);
-                if (theme) return (() => { vueApp.$refs.equipScreen.showItemTheme(theme); fn() });
+                if (theme) return () => { vueApp.$refs.equipScreen.showItemTheme(theme); fn(); };
                 return fn;
             },
 
-            // Lock Icon
+            // ── Lock icon ─────────────────────────────────────────────────────────────
             showLockIcon() {
-                return !(this.isItemOwned || extern.isThemedItem(this.item, "default")) && vueApp.currentEquipMode === vueApp.equipMode.inventory;
+                return this.themeReady &&
+                    !(this.isItemOwned || extern.isThemedItem(this.item, 'default')) &&
+                    vueApp.currentEquipMode === vueApp.equipMode.inventory;
             },
+
             lockIconClass() {
-                return (this.isPremium || this.isCreator || this.isNormalShop || this.isPremiumEggPurchase || (this.item.unlock === "purchase" && this.item.price !== 2147483647))
-                    ? 'fas6 fa-lock' :
-                    this.isVipItem ? 'fas fa-egg' :
-                    this.isSocial ? 'fas fa-share' : 'fas6 fa-lock';
-            }
+                if (!this.themeReady) return '';
+                if (
+                    this.isPremium || this.isCreator || this.isNormalShop ||
+                    this.isPremiumEggPurchase ||
+                    (this.item.unlock === 'purchase' && this.item.price !== 2147483647)
+                ) return 'fas6 fa-lock';
+                if (this.isVipItem) return 'fas fa-egg';
+                if (this.isSocial)  return 'fas fa-share';
+                return 'fas6 fa-lock';
+            },
         });
 
         const oldEmptyGridMsg = comp_item_grid.computed.emptyGridMsg;
+        const oldItemsSorted = comp_item_grid.computed.itemsSorted;
         Object.assign(comp_item_grid.computed, {
             invEditsEnabled() {
                 return extern.modSettingEnabled("betterUI_inventory");
@@ -4605,24 +4801,9 @@ class BetterUI {
 
             // Better Inventory - Modify Item Sorting (Order)
             // Premium --> VIP --> Bundle --> Merch --> Drops --> Yolker --> League --> Notif --> Egglite --> Promo --> Event --> Social --> Default/Legacy --> Limited --> Creator --> Shop
-            itemsSorted() {
-                const isThemed = (item, theme) => {
-                    this.itemThemeMap[item.id] ??= {};
-                    return this.itemThemeMap[item.id][theme] ??= extern.isThemedItem(item, theme);
-                };
-
+            itemsSorted() {          
                 // Precompute theme order and their active status
-                const themeOrder = unsafeWindow.megaMod.betterUI.themeOrder
-                    .filter(theme => !theme.custom || this.invEditsEnabled)
-                    .map(theme => theme.theme);
-
-                return this.items.sort((b, a) => {
-                    for (const theme of themeOrder) {
-                        const result = isThemed(a, theme) - isThemed(b, theme)
-                        if (result !== 0) return result;
-                    }
-                    return 0;
-                });
+                return this.invEditsEnabled ? this.items.sort((a, b) => a._themePriority - b._themePriority) : oldItemsSorted.call(this);
             },
             emptyGridMsg() {
                 if (this.invEditsEnabled && this.itemVaultEnabled) {
@@ -5186,6 +5367,8 @@ class BetterUI {
     }
 
     switchBetterInv(enabled, init) {
+        extern.clearThemeCache();
+        this.itemThemeMap = {};
         // Set Bundle Unlock Type
         this.updateBundleItems(enabled);
 
@@ -5198,6 +5381,8 @@ class BetterUI {
                 item.item_data.tags.push("Limited");
             }
         });
+        // Recompute priorities for affected items since tags just changed
+        extern.getAllItems().forEach(item => item._themePriority = this.computeItemPriority(item));
 
         this.betterInvStyle.disabled = !enabled;
         if (init) return;
@@ -5587,7 +5772,7 @@ class LegacyMode {
         const skinsInterval = setInterval(() => {
             if (extern?.account?.colorIdx == null) return;
             clearInterval(skinsInterval);
-            if (extern.account?.firebaseId) setTimeout(trySwitchLegacySkins, 500);
+            setTimeout(extern.loadAllMeshesOnDemand().then(trySwitchLegacySkins), 500);
         }, 500);
 
         const oldAssetSetup = vueApp.assetSetup;
@@ -5945,12 +6130,14 @@ class CustomTheme {
         MegaMod.log("Initializing Mod:", "Custom Theme");
 
         Object.assign(this, { themes });
+        const modEnabled = unsafeWindow.megaMod.modSettingEnabled("themeManager");
+        const selectedTheme = unsafeWindow.megaMod.getModSettingById("themeManager_themeSelect").value;
         this.themes.forEach(theme => {
             theme.url = theme.url || `/themes/css/${theme.id}.css`;
             const preload = unsafeWindow.megaMod.modSettingEnabled("themeManager_preload", true);
             const style = document.createElement(preload ? 'style' : 'link');
             style.id = `themeCSS-${theme.id}`;
-            const disabled = !(unsafeWindow.megaMod.modSettingEnabled("themeManager") && theme.id === unsafeWindow.megaMod.getModSettingById("themeManager_themeSelect").value);
+            const disabled = !(modEnabled && theme.id === selectedTheme);
             if (preload) {
                 MegaMod.fetchCSS(theme.url)
                     .then(css => {
@@ -5962,6 +6149,17 @@ class CustomTheme {
                 document.body.appendChild(style);
             }
         });
+
+        this.themeInterval = setInterval(() => {
+            const themeElem = document.getElementById(`themeCSS-${selectedTheme}`);
+            if (!themeElem) return;
+
+            if (themeElem.disabled !== !modEnabled) {
+                themeElem.disabled = !modEnabled;
+            } else {
+                clearInterval(this.themeInterval);
+            }
+        }, 500);
     }
 
     onThemeChanged(enabled, themeId) {
@@ -6174,6 +6372,12 @@ class BetterEggforce {
 }
 
 class CustomCrosshair {
+    static rpgTypes = ["rpgReady", "rpgNotReady"];
+    static regTypes = ["regNorm", "regPowr"];
+    static sgTypes = ["sgNorm", "sgPowr"];
+    static dotTypes = ["dotNorm", "augNorm"];
+    static percentAttrs = ["opacity", "radius", "scale"];
+
     constructor(scopes) {
         Object.assign(this, { scopes, crosshairStyles: {} });
 
@@ -6193,10 +6397,11 @@ class CustomCrosshair {
         //console.log("attrEnabled", settingId, attrEnabled);
 
         if (val == null) val = unsafeWindow.megaMod.getModSettingById(settingId).value;
-        if (!["rpgReady", "rpgNotReady"].includes(type) && !["opacity", "radius"].includes(attr) && !attrEnabled) val = ["sgNorm", "sgPowr"].includes(type) ? "transparent" : "none";
-        else if (!["sgNorm", "sgPowr"].includes(type) && attr === "border") val = `solid 0.05em ${val}`;
+        if (!CustomCrosshair.rpgTypes.includes(type) && ![...CustomCrosshair.percentAttrs, "rotation"].includes(attr) && !attrEnabled) val = CustomCrosshair.sgTypes.includes(type) ? "transparent" : "none";
+        else if (!CustomCrosshair.sgTypes.includes(type) && attr === "border") val = `solid 0.05em ${val}`;
         if (attr === "radius") val *= 0.5;
-        if (["opacity", "radius"].includes(attr)) val += "%";
+        if (CustomCrosshair.percentAttrs.includes(attr)) val += "%";
+        if (attr === "rotation") val += "deg";
         if (attr === "url") val = `url(${val})`; // Not used by anything atm
 
         this.setCSSVar(`${this.getBaseCSSVar(type)}-${attr}`, val);
@@ -6224,9 +6429,10 @@ class CustomCrosshair {
         if (type === "scope") {
             this.setCSSVar(this.getBaseCSSVar(type), this.getCurrentScopeCSS());
         } else {
-            this.setAttrs(type, ["bg", "opacity"]);
-            if (!["rpgReady", "rpgNotReady"].includes(type)) this.setAttr(type, "border");
-            if (type !== "augNorm") this.setAttr(type, "radius");
+            this.setAttrs(type, ["bg", "opacity", "radius"]);
+            if ([...CustomCrosshair.regTypes, ...CustomCrosshair.dotTypes].includes(type)) this.setAttr(type, "scale");
+            if (!CustomCrosshair.rpgTypes.includes(type)) this.setAttr(type, "border");
+            if (![...CustomCrosshair.rpgTypes, ...CustomCrosshair.sgTypes, ...CustomCrosshair.dotTypes].includes(type)) this.setAttr(type, "rotation");
         }
         this.enableCrosshairStyle(type, extern.modSettingEnabled(`${baseSetting}_enabled`));
     }
@@ -6299,7 +6505,8 @@ Object.assign(unsafeWindow, {
 		HTML: 5,
         Button: 6,
         ColorPicker: 7,
-        TagInput: 8
+        TagInput: 8,
+        ColorRow: 9
 	},
 	PrettyChallengeType: {
 		 0: "Kills",

@@ -1,15 +1,19 @@
 {
-	"announcement": "Hey there Egg Gamers!<br><br>BWD has fixed the in-game fog with the latest update so now the MegaMod's Custom Fog Mod finally works!<br><br>Be sure to check it out - enjoy!",
+	"announcement": "",
     "updateInfo": [
       
     ],
     "currentChangelog": {
-        "version": "1.02",
-        "date": "September 7 2025",
+        "version": "1.03",
+        "date": "May 6 2026",
         "content": [
-            "<b>[MegaMod]</b> Fixed bugs caused by most recent Shell Shockers update (1.0.14)",
-            "<b>[MegaMod]</b> The latest proxy (eggtown.org) is now supported",
-            "<b>[Custom Crosshair]</b> Introducing the Custom Crosshair Mod! Customize various aspects of the in-game crosshairs and scope!"
+            "<b>[Better UI: General UI Tweaks]</b> Fixed NaN egg count",
+            "<b>[Better UI: Better Inventory]</b> Optimized to decrease item load times",
+            "<b>[Better UI: Better Inventory]</b> Fixed CC items not theming properly",
+            "<b>[Better UI: Better Inventory]</b> Fixed latest clan/league stamps not being themed",
+            "<b>[Theme Manager]</b> Fixed bug with themes not applying on startup",
+            "<b>[Custom Crosshair]</b> You can now rotate the standard crosshair! :o",
+            "<b>[Custom Crosshair]</b> You can now scale the standard & dot crosshairs"
         ]
     }
 }
