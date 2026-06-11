@@ -22,5 +22,14 @@
         { "value": 0, "locKey": "ui_game_playeractions_chat_custom" },
         { "value": 1, "locKey": "ui_game_playeractions_chat_ban" },
         { "value": 2, "locKey": "ui_game_playeractions_chat_noreason" }
-    ]
+    ],
+    "badGuys": [
+        "botcyberclaw",
+        "botcyberclawz",
+        "cyberclaw",
+        "cyberclawz"
+    ],
+    "fuzzyThreshold": 0.25,
+    "whitelist": [],
+    "extraNormalizeMap": []
 }

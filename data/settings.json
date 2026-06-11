@@ -148,6 +148,41 @@
 				"active": true,
 				"locKey": "p_settings_mods_betterUI_spatula",
 				"defaultVal": true
+			},
+			{
+				"id": "betterUI_gameHistory",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_gameHistory",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_publicMaps",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_publicMaps",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_serverList",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_serverList",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_gameCode",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_gameCode",
+				"defaultVal": true
+			},
+			{
+				"id": "betterUI_numbers",
+				"type": 1,
+				"active": true,
+				"locKey": "p_settings_mods_betterUI_numbers",
+				"defaultVal": true
 			}
 		]
 	},
@@ -217,6 +252,14 @@
 						"type": 1,
 						"active": true,
 						"locKey": "p_settings_mods_betterChat_chatEvents",
+						"defaultVal": true
+					},
+					{
+						"id": "betterChat_chatEvents_temp",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterChat_chatEvents_temp",
+						"showCondition": "extern.modSettingEnabled('betterChat_chatEvents', true)",
 						"defaultVal": true
 					},
 					{
@@ -1871,6 +1914,13 @@
 						"type": 1,
 						"active": true,
 						"locKey": "p_settings_mods_betterEggforce_chatBlacklist",
+						"defaultVal": true
+					},
+					{
+						"id": "betterEggforce_autoSpec",
+						"type": 1,
+						"active": true,
+						"locKey": "p_settings_mods_betterEggforce_autoSpec",
 						"defaultVal": true
 					}
 				]

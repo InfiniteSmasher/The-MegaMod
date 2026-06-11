@@ -49,6 +49,11 @@
 	border-top-right-radius: calc(var(--ss-space-lg) * 0.7);
 }
 
+.single-egg-store-header {
+	border-top-right-radius: var(--ss-space-md);
+	border-bottom-left-radius: var(--ss-space-lg);
+}
+
 .btn_vip {
 	padding-left: .2em;
 	padding-right: .2em;

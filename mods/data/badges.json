@@ -53,6 +53,14 @@
 		},
 		{
 			"type": 1,
+			"value": 2649,
+			"locKey": "megaMod_betterUI_badge_ml",
+			"icon": "fas6 fa-mask-face",
+			"class": "badge-ml badge-hover-alt",
+			"clickFunc": "() => { window.open('https://shellshockers.fandom.com/wiki/Mask_League') }"
+		},
+		{
+			"type": 1,
 			"value": 1486,
 			"locKey": "megaMod_betterUI_badge_wiki",
 			"icon": "fas6 fa-pencil",

@@ -1,5 +1,18 @@
 [
 	{
+        "version": "1.03",
+        "date": "May 6 2026",
+        "content": [
+            "<b>[Better UI: General UI Tweaks]</b> Fixed NaN egg count",
+            "<b>[Better UI: Better Inventory]</b> Optimized to decrease item load times",
+            "<b>[Better UI: Better Inventory]</b> Fixed CC items not theming properly",
+            "<b>[Better UI: Better Inventory]</b> Fixed latest clan/league stamps not being themed",
+            "<b>[Theme Manager]</b> Fixed bug with themes not applying on startup",
+            "<b>[Custom Crosshair]</b> You can now rotate the standard crosshair! :o",
+            "<b>[Custom Crosshair]</b> You can now scale the standard & dot crosshairs"
+        ]
+    },
+	{
         "version": "1.02",
         "date": "September 7 2025",
         "content": [

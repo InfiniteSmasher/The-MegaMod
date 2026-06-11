@@ -10,6 +10,42 @@
 	border: 2px solid var(--ss-blue5) !important;
 }
 
+.pfp-wrapper {
+    display: inline-block; /* shrink to image size */
+    position: relative;
+}
+
+.pfp-overlay {
+    aspect-ratio: 1;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    color: white;
+}
+
+.pfp-wrapper:hover .pfp-overlay {
+    opacity: 1;
+}
+
+.pfp-preview-wrap {
+    max-width: 18em;
+    max-height: 18em;
+    margin: 0 auto;
+}
+
+.pfp-preview {
+    width: 100%;
+    height: 100%;
+    max-width: 18em;
+    max-height: 18em;
+    object-fit: cover;
+}
+
 .profile-page-content aside {
 	text-align: right;
 }
@@ -111,6 +147,10 @@
 
 .badge-sl {
     background: linear-gradient(125deg, black 44%, white 44% 50%, orange 50%);
+}
+
+.badge-ml {
+    background: linear-gradient(125deg, #ff0000 25%, #ad00ff 35%, #0033ff 45%, #00d7ff 55%, #2fff00 65%, #ffd800 75%);
 }
 
 .badge-og {

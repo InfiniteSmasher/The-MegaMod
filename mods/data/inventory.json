@@ -6,12 +6,11 @@
 		"clan"
 	],
 	"tagEdits": [
-		{ "add": false, "id": 2676,  "tags": ["League"] },
-		{ "add": false, "id": 2675,  "tags": ["League"] },
-		{ "add": false, "id": 2674,  "tags": ["League"] },
+		{ "add": true,  "id": 2676,  "tags": ["League"] },
+		{ "add": true,  "id": 2675,  "tags": ["League"] },
+		{ "add": true,  "id": 2674,  "tags": ["League"] },
 		{ "add": true,  "id": 2668,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2650,  "tags": ["Newsletter"] },
-		{ "add": true,  "id": 2274,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2646,  "tags": ["Newsletter"] },
 		{ "add": true,  "id": 2641,  "tags": ["Newsletter"] },
 		{ "add": false, "id": 2640,  "tags": ["Newsletter"] },

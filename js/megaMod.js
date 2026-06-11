@@ -196,25 +196,38 @@ class MegaMod {
                 <p v-html="loc[currentMod?.locKey ? currentMod?.locKey + '_desc' : ''] || ''" class="mod-desc"></p>
                 <p v-show="currentMod && currentMod.noSettings" class="no-additional-settings"><br>No Additional Settings :)</br></p>
                 <div class="display-grid grid-column-2-eq">
-                    <div v-if="currentMod && !currentMod.noSettings" v-for="s in currentMod?.settings.filter(s => !s.disabled) || []" class="f_col">
-                        ${settingConditional}
-                        <div v-if="s.type === SettingType.Group">
-                            <div v-show="eval(s.showCondition)">
-                                <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
-                                <div v-if="s.settings && s.settings.length" v-for="x in s?.settings.filter(s => !s.disabled) || []" class="f_col">
-                                    ${settingConditional.replaceAll("s.", "x.").replaceAll("s?.", "x?.")}
-                                    <div v-if="x.type === SettingType.Group">
-                                        <div v-show="eval(x.showCondition)">
-                                            <h3 class="margin-bottom-none h-short" v-if="x.locKey">{{ loc[x?.locKey ?? ''] || x?.locKey }}</h3>
-                                            <div v-if="x.settings && x.settings.length" v-for="y in x?.settings.filter(s => !s.disabled) || []" class="f_col">
-                                                ${settingConditional.replaceAll("s.", "y.").replaceAll("s?.", "y?.")}
+                    <transition :name="modPageDirectionForward ? 'slide-left' : 'slide-right'" mode="out-in"
+                        <div v-if="currentMod && !currentMod.noSettings" v-for="s in paginatedModSettings" class="f_col">
+                            ${settingConditional}
+                            <div v-if="s.type === SettingType.Group">
+                                <div v-show="eval(s.showCondition)">
+                                    <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                                    <div v-if="s.settings && s.settings.length" v-for="x in s?.settings.filter(s => !s.disabled) || []" class="f_col">
+                                        ${settingConditional.replaceAll("s.", "x.").replaceAll("s?.", "x?.")}
+                                        <div v-if="x.type === SettingType.Group">
+                                            <div v-show="eval(x.showCondition)">
+                                                <h3 class="margin-bottom-none h-short" v-if="x.locKey">{{ loc[x?.locKey ?? ''] || x?.locKey }}</h3>
+                                                <div v-if="x.settings && x.settings.length" v-for="y in x?.settings.filter(s => !s.disabled) || []" class="f_col">
+                                                    ${settingConditional.replaceAll("s.", "y.").replaceAll("s?.", "y?.")}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </transition>
+                </div>
+                <div v-if="totalModPages > 1" class="pagination-controls">
+                    <button @click="prevModPage" :disabled="currentModPage === 1" class="pagination-button">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span v-for="page in totalModPages" :key="page" class="dot-icon" @click="goToModPage(page)">
+                        <i :class="page === currentModPage ? 'fas fa-circle selected' : 'far fa-circle'"></i>
+                    </span>
+                    <button @click="nextModPage" :disabled="currentModPage === totalModPages" class="pagination-button">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
                 ${messages}
             </div>
@@ -317,9 +330,6 @@ class MegaMod {
         Object.assign(comp_settings.components, {
             'tag-input': unsafeWindow.comp_tag_input
         });
-        Object.assign(comp_settings.watch, {
-            
-        });
         Object.assign(comp_settings.computed, {
             totalPages() {
                 return Math.ceil(this.filteredSettings.length / this.pageSize);
@@ -327,6 +337,15 @@ class MegaMod {
             paginatedSettings() {
                 const start = (this.currentPage - 1) * this.pageSize;
                 return this.filteredSettings.slice(start, start + this.pageSize);
+            },
+            totalModPages() {
+                const settings = this.currentMod?.settings?.filter(s => !s.disabled) || [];
+                return Math.ceil(settings.length / this.modPageSize);
+            },
+            paginatedModSettings() {
+                const settings = this.currentMod?.settings?.filter(s => !s.disabled) || [];
+                const start = (this.currentModPage - 1) * this.modPageSize;
+                return settings.slice(start, start + this.modPageSize);
             }
         });
 
@@ -347,7 +366,10 @@ class MegaMod {
                 filteredSettings: [],
                 currentPage: 1,
                 pageSize: 10,
-                pageDirectionForward: true
+                pageDirectionForward: true,
+                currentModPage: 1,
+                modPageSize: 12,
+                modPageDirectionForward: true,
             };
         };
     
@@ -631,7 +653,32 @@ class MegaMod {
                 this.pageDirectionForward = page > this.currentPage;
                 this.currentPage = page;
                 BAWK.play("ui_click");
-            }
+            },
+            nextModPage() {
+                if (this.currentModPage < this.totalModPages) {
+                    this.modPageDirectionForward = true;
+                    this.currentModPage++;
+                    BAWK.play("ui_onchange");
+                }
+            },
+            prevModPage() {
+                if (this.currentModPage > 1) {
+                    this.modPageDirectionForward = false;
+                    this.currentModPage--;
+                    BAWK.play("ui_onchange");
+                }
+            },
+            goToModPage(page) {
+                if (page === this.currentModPage) return;
+                this.modPageDirectionForward = page > this.currentModPage;
+                this.currentModPage = page;
+                BAWK.play("ui_click");
+            },
+            showModSettings(modId) {
+                this.currentModPage = 1; // reset on open
+                this.switchTab("settings_button", modId);
+                this.updateSettingTab();
+            },
         });
 
         // Chick'n Winner Popup Overlay Dismiss Disabled
@@ -998,12 +1045,16 @@ class MegaMod {
         const profileScreen = document.getElementById("profile-screen-template");
         const badgesEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
         const pfpEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
+        const defaultPFP = `${rawPath}/img/assets/other/pfpDefault.png`;
         profileScreen.innerHTML = profileScreen.innerHTML.replace(
             `center">\n\t\t\t\t\t<section>`,
             `center">
-              <div id="player_photo" v-show="${pfpEnabled}">
-                <img :src="photoUrl || '${rawPath}/img/assets/other/pfpDefault.png'" class="roundme_md"/>
-              </div><section>`
+              <div id="player_photo" v-show="${pfpEnabled}" @click="vueApp.showPfpPopup()" class="clickme pfp-wrapper">
+                <img :src="photoUrl || '${defaultPFP}'" class="roundme_md"/>
+                <div class="pfp-overlay roundme_md">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div><section>`
         ).replace(`s"></p>`, `s"></p>
             <span v-show="${badgesEnabled}" v-for="(row, i) in (badges?.rows.length ? badges.rows : [{ main: [], tier: [] }])">
                 <div class="roundme_md profile-badge-container">
@@ -1064,7 +1115,8 @@ class MegaMod {
                 vueApp.$refs.mapPopup.show();
             },
             showGameHistoryPopup() {
-                if (extern?.modSettingEnabled?.('betterUI_ui')) {
+                if (extern?.modSettingEnabled?.('betterUI_gameHistory')) {
+                    unsafeWindow?.megaMod?.betterUI?.checkOpenGames();
                     BAWK.play("ui_popupopen");
                     vueApp.$refs.gameHistoryPopup.show();
                 }
@@ -1189,6 +1241,12 @@ class MegaMod {
                 const watchPlayer = parsedUrl?.query?.watchPlayer;
                 const modEnabled = extern?.isEggforcer?.() && extern?.modSettingEnabled?.('betterEggforce_observeToggle');
 
+                if (!this.home.joinPrivateGamePopup.code.length) {
+                    BAWK.play('ui_reset');
+                    vueApp.showGenericPopup('generic_error_title', 'p_game_code_blank', 'ok');
+                    return;
+                }
+
                 if (modEnabled) {
                     const currentWatchPlayer = this.watchPlayerID || watchPlayer;
                     const observeChanged = !extern?.setObserving && this.isObserve !== hasObserve;
@@ -1231,16 +1289,18 @@ class MegaMod {
         const isEggforcer = `[2, 4, 8192].some(role => extern.adminRoles & role)`;
         const playPanel = document.getElementById("play-panel-template");
         const banHistoryEnabled = `extern?.modSettingEnabled?.('betterEggforce_banHistory') && ${isEggforcer}`;
+        const gameHistoryEnabled = `extern?.modSettingEnabled?.('betterUI_gameHistory')`;
+        const gameCodeEnabled = `extern?.modSettingEnabled?.('betterUI_gameCode')`;
         playPanel.innerHTML = playPanel.innerHTML.replace(
             `ss-button-dropdown>`,
-            `ss-button-dropdown><button v-show="${betterUIEnabled}" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
+            `ss-button-dropdown><button v-show="extern?.modSettingEnabled?.('betterUI_publicMaps')" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
         ).replace(
             `<button @click="onJoinPrivateGameClick"`,
-            `<button v-show="${banHistoryEnabled} && ${betterUIEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
-            <button v-show="${betterUIEnabled} || ${banHistoryEnabled}" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="(${banHistoryEnabled} && !${betterUIEnabled}) ? loc.megaMod_betterEggforce_banHistory_alt : loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
+            `<button v-show="${banHistoryEnabled} && ${gameHistoryEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
+            <button v-show="${gameHistoryEnabled} || ${banHistoryEnabled}" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="(${banHistoryEnabled} && !${gameHistoryEnabled}) ? loc.megaMod_betterEggforce_banHistory_alt : loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
         ).replace(`sort="order"></ss-button-dropdown>`,
             `sort="order"></ss-button-dropdown>
-            <ss-button-dropdown v-show="${betterUIEnabled}" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
+            <ss-button-dropdown v-show="extern?.modSettingEnabled?.('betterUI_serverList')" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
                 <template slot="dropdown">
                     <li v-if="regionList" v-for="(region, idx) in regionList" :class="{ 'selected' : currentRegionId === region.id }" class="display-grid gap-1 align-items-center text_blue5 font-nunito regions-select" @click="onRegionPicked(region.id)">
                         <div class="f_row align-items-center">
@@ -1257,7 +1317,7 @@ class MegaMod {
             </ss-button-dropdown>`
         ).replace(
             `<input type="text"`,
-            `<div v-show="${betterUIEnabled}" class="game_code_inputs">
+            `<div v-show="${gameCodeEnabled}" class="game_code_inputs">
                 <template v-for="(input, index) in gameCodeValues.length">
                     <input
                         type="text"
@@ -1275,7 +1335,7 @@ class MegaMod {
                     />
                     <h2 v-if="(index - 3) % 4 === 0 && index < gameCodeValues.length - 1" class="nospace display-inline text_blue4 separator">—</h2>
                 </template>
-            </div><input type="text" v-show="!${betterUIEnabled}"
+            </div><input type="text" v-show="!${gameCodeEnabled}"
             `
         ).replace(
             `<div class="display-grid grid-column-2-1 gap-sm"`,
@@ -1289,10 +1349,10 @@ class MegaMod {
                     <input :placeholder="loc.p_game_code_watchplayer" :disabled="!isObserve" v-model="watchPlayerID" class="ss_field font-nunito box_relative fullwidth">
                 </div>
             </div>
-            <div class="display-grid gap-sm" :class="{'grid-column-1': ${betterUIEnabled}, 'grid-column-2-1': !${betterUIEnabled}}"`
+            <div class="display-grid gap-sm" :class="{'grid-column-1': ${gameCodeEnabled}, 'grid-column-2-1': !${gameCodeEnabled}}"`
         ).replace(
             `ss_button_join"`,
-            `ss_button_join" :class="{'btn_red bevel_red': (${betterUIEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) !== 3), 'btn_green bevel_green': (${betterUIEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) === 3)}"`
+            `ss_button_join" :class="{'btn_red bevel_red': (${gameCodeEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) !== 3), 'btn_green bevel_green': (${gameCodeEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) === 3)}"`
         );
         
         Object.assign(vueData, {
@@ -1304,6 +1364,7 @@ class MegaMod {
                 tier: []
             },
             updateBadges(ignoreNotif = false) {
+                if (!extern.modSettingEnabled('betterUI_profile')) return;
                 MegaMod.log("updateBadges() -", "Updating Badges");
                 const CORE_KEY = `${extern.account.id}-coreBadges`;
                 const oldCoreBadgeTitles = JSON.parse(localStore.getItem(CORE_KEY));
@@ -1493,6 +1554,70 @@ class MegaMod {
                 vueApp.leaveToJoinGameCode = code;
                 BAWK.play("ui_popupopen");
                 vueApp.$refs.leaveGameWarningPopup.show();
+            },
+            pfpUrlInput: "",
+            showPfpPopup() {
+                if (!extern.modSettingEnabled('betterUI_profile')) return;
+                BAWK.play("ui_popupopen");
+                const photo = vueApp.photoUrl || "";
+                vueApp.pfpUrlInput = (photo.startsWith('data:') || photo == defaultPFP) ? '' : photo;
+                vueApp.$refs.pfpPopup.show();
+            },
+            openPfpFileDialog() {
+                vueApp.$refs.pfpFileInput.click();
+            },
+            onPfpFileSelected(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    vueApp.applyPfp(ev.target.result, false); // base64, skip firebase
+                    vueApp.pfpUrlInput = '';
+                };
+                reader.readAsDataURL(file);
+            },
+            applyPfpUrl() {
+                const url = vueApp.pfpUrlInput.trim();
+                if (!url) return;
+
+                if (!/^https?:\/\/.+\..+/.test(url)) {
+                    BAWK.play('ui_reset');
+                    vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_url_error', 'ok');
+                    return;
+                }
+
+                fetch(url, { method: 'HEAD' })
+                    .then(res => {
+                        const type = res.headers.get('Content-Type') || '';
+                        if (!type.startsWith('image/')) {
+                            BAWK.play('ui_reset');
+                            vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_url_error', 'ok');
+                            return;
+                        }
+                        vueApp.applyPfp(url, true);
+                    })
+                    .catch(err => {
+                        // CORS block means the server responded but denied access - reject it
+                        // A real network failure (bad URL, server down) also rejects here
+                        // Either way it's not a reliably accessible image
+                        BAWK.play('ui_reset');
+                        vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_url_error', 'ok');
+                    });
+            },
+            applyPfp(url, updateFirebase) {
+                vueApp.photoUrl = url;
+                localStore.setItem("megaMod_pfp", vueApp.photoUrl);
+                if (updateFirebase) vueApp.updateFirebasePFP();
+                BAWK.play("ui_onchange");
+            },
+            resetPfp() {
+                vueApp.photoUrl = defaultPFP;
+                localStore.removeItem("megaMod_pfp");
+                vueApp.updateFirebasePFP();
+                BAWK.play("ui_reset");
+            },
+            updateFirebasePFP() {
+                if (firebase.auth().currentUser) firebase.auth().currentUser.updateProfile({ photoURL: vueApp.photoUrl }).catch(() => {});
             }
         });
     
@@ -1923,44 +2048,59 @@ class MegaMod {
             `loc.screen_photo_booth_screenshot }}</button>`,
             `loc.screen_photo_booth_screenshot }}</button>
         <div v-show="extern?.modSettingEnabled?.('pbSpin')">
-            <section id="photoBooth-fps" class="ss_marginbottom ss_margintop">
-                <ss-button-dropdown class="btn-1 fullwidth" :loc="loc" :loc-txt="fpsTxt" :list-items="egg.fpsAmounts" :selected-item="fps" menuPos="right" @onListItemClick="onChangeFPS" :loc-list="true"></ss-button-dropdown>
-            </section>
             <section id="photoBooth-spin-speed" class="ss_marginbottom ss_margintop">
                 <ss-button-dropdown class="btn-1 fullwidth" :loc="loc" :loc-txt="spinSpeedTxt" :list-items="egg.spinSpeeds" :selected-item="spinSpeed" menuPos="right" @onListItemClick="onChangeSpinSpeed" :loc-list="true"></ss-button-dropdown>
             </section>
+            <section id="photoBooth-fps" class="ss_marginbottom ss_margintop">
+                <ss-button-dropdown class="btn-1 fullwidth" :loc="loc" :loc-txt="fpsTxt" :list-items="egg.fpsAmounts" :selected-item="fps" menuPos="right" @onListItemClick="onChangeFPS" :loc-list="true"></ss-button-dropdown>
+            </section>
+            <section id="photoBooth-quality" class="ss_marginbottom ss_margintop">
+                <ss-button-dropdown class="btn-1 fullwidth" :loc="loc" :loc-txt="qualityTxt" :list-items="egg.qualityAmounts" :selected-item="quality" menuPos="right" @onListItemClick="onChangeQuality" :loc-list="true"></ss-button-dropdown>
+            </section>
             <button class="ss_button btn_yolk bevel_yolk box_relative fullwidth text-uppercase" @click="spinEgg(false)"><i class="fas fa-sync-alt"></i> {{ loc.screen_photo_booth_spin }}</button>
-            <button disabled class="ss_button btn_yolk bevel_yolk box_relative fullwidth text-uppercase" @click="spinEgg(true)"><i class="fas fa-file-video"></i> {{ loc.screen_photo_booth_gif }}</button>
+            <button class="ss_button btn_yolk bevel_yolk box_relative fullwidth text-uppercase" @click="spinEgg(true)"><i class="fas fa-file-video"></i> {{ loc.screen_photo_booth_gif }}</button>
         </div>
-        `);
-    
+        `).replace(
+            `loc.screen_photo_booth_screenshot2`,
+            `isGifCapture ? loc.screen_photo_booth_spinning_gif : loc.screen_photo_booth_screenshot2`
+        );
         const oldPhotoBoothData = CompPhotoboothUi.data;
         CompPhotoboothUi.data = function() {
             const data = oldPhotoBoothData.call(this);
             Object.assign(data.egg, {
+                qualityAmounts: [
+                    { id: 'egg-quality-low',  name: 'screen_photo_booth_quality_low',  value: 0 , data: { quality: 20, workers: 4, dither: false,            scaleFactor: 0.45 } },
+                    { id: 'egg-quality-med',  name: 'screen_photo_booth_quality_med',  value: 1 , data: { quality: 15, workers: 6, dither: false,            scaleFactor: 0.75 } },
+                    { id: 'egg-quality-high', name: 'screen_photo_booth_quality_high', value: 2 , data: { quality: 1,  workers: 8, dither: 'FloydSteinberg', scaleFactor: 1.0  } }
+                ],
                 fpsAmounts: [
-                    { id: 'egg-fps-low', name: 'screen_photo_booth_fps_low', value: 0, fps: 15 },
-                    { id: 'egg-fps-med', name: 'screen_photo_booth_fps_med', value: 1, fps: 30 },
+                    { id: 'egg-fps-low',  name: 'screen_photo_booth_fps_low',  value: 0, fps: 15 },
+                    { id: 'egg-fps-med',  name: 'screen_photo_booth_fps_med',  value: 1, fps: 30 },
                     { id: 'egg-fps-high', name: 'screen_photo_booth_fps_high', value: 2, fps: 60 }
                 ],
                 spinSpeeds: [
-                    { id: 'egg-speed-slow', name: 'screen_photo_booth_speed_slow', value: 0, time: 2000 },
+                    { id: 'egg-speed-slow',   name: 'screen_photo_booth_speed_slow',   value: 0, time: 2000 },
                     { id: 'egg-speed-normal', name: 'screen_photo_booth_speed_normal', value: 1, time: 1000 },
-                    { id: 'egg-speed-fast', name: 'screen_photo_booth_speed_fast', value: 2, time: 500 }
+                    { id: 'egg-speed-fast',   name: 'screen_photo_booth_speed_fast',   value: 2, time: 500 }
                 ],
             });
             return {
                 ...data,
                 fps: 1,
-                spinSpeed: 1
+                spinSpeed: 1,
+                quality: 1,
+                isGifCapture: false,
             };
         };
     
+        const oldScreenGrabDone = CompPhotoboothUi.methods.screenGrabDone;
         Object.assign(CompPhotoboothUi.methods, {
             spinEgg(gif) {
                 const time = this.egg.spinSpeeds[this.spinSpeed].time;
+                const quality = this.egg.qualityAmounts[this.quality].data;
                 const fps = this.egg.fpsAmounts[this.fps].fps;
-                extern?.spinEgg?.(time, Math.ceil(time * fps / 1000), gif && unsafeWindow.megaMod.photoboothEggSpin.captureFrame);
+                const frameFunc = unsafeWindow.megaMod.photoboothEggSpin.captureFrame.bind(unsafeWindow.megaMod.photoboothEggSpin);
+                extern?.spinEgg?.(time, Math.ceil(time * fps / 1000), gif && frameFunc, quality);
             },
             onChangeFPS(fps) {
                 if (fps === this.fps) return;
@@ -1971,6 +2111,32 @@ class MegaMod {
                 if (speed === this.spinSpeed) return;
                 this.spinSpeed = speed;
                 BAWK.play('ui_click');
+            },
+            onChangeQuality(quality) {
+                if (quality === this.quality) return;
+                this.quality = quality;
+                BAWK.play('ui_click');
+            },
+            screenGabDownload() {
+                if (this.screenshotImg) {
+                    this.screenshotImg.crossOrigin = 'anonymous';
+                    const link = document.createElement('a');
+
+                    if (this.isGifCapture) {
+                        link.download = `Shellshock-io-${this.playerName}-spin.gif`;
+                    } else {
+                        link.download = `Shellshock-io-${this.playerName}.png`;
+                    }
+
+                    link.href = this.screenshotImg.src;
+                    link.click();
+                    ga('send', 'event', 'photo-booth', 'click', 'download');
+                    this.isGifCapture = false; 
+                }
+            },
+            screenGrabDone(...args) {
+                this.isGifCapture = false;
+                oldScreenGrabDone.apply(this, args);
             }
         });
         Object.assign(CompPhotoboothUi.computed, {
@@ -1978,6 +2144,12 @@ class MegaMod {
                 return {
                     title: this.loc.screen_photo_booth_fps_title || "Spinning GIF FPS",
                     subTitle: this.loc[this.egg.fpsAmounts[this.fps].name] || "Medium (30 FPS)"
+                };
+            },
+            qualityTxt() {
+                return {
+                    title: this.loc.screen_photo_booth_quality_title || "Spinning GIF Quality",
+                    subTitle: this.loc[this.egg.qualityAmounts[this.quality].name] || "Medium"
                 };
             },
             spinSpeedTxt() {
@@ -2624,13 +2796,36 @@ class MegaMod {
             </small-popup>
         `;
 
+        const pfpPopup = `
+        <small-popup id="pfpPopup" ref="pfpPopup" hide-confirm="true" hide-cancel="true" :overlay-close="true" class="megamod-popup">
+            <template slot="header">{{ loc.megaMod_betterUI_pfp_title }}</template>
+            <template slot="content">
+                <div class="pfp-preview-wrap text-center ss_marginbottom">
+                    <img :src="photoUrl || '${rawPath}/img/assets/other/pfpDefault.png'" class="roundme_md pfp-preview"/>
+                </div>
+                <button class="ss_button btn_blue bevel_blue fullwidth ss_marginbottom" @click="openPfpFileDialog">
+                    <i class="fas fa-upload"></i> {{ loc.megaMod_betterUI_pfp_upload }}
+                </button>
+                <input ref="pfpFileInput" type="file" accept="image/*" style="display:none" @change="onPfpFileSelected">
+                <h4 class="text_blue5 ss_marginbottom_sm">{{ loc.megaMod_betterUI_pfp_url }}</h4>
+                <div class="display-grid grid-column-auto-1 gap-sm">
+                    <input ref="pfpUrlInput" type="text" class="ss_field font-nunito fullwidth" :placeholder="loc.megaMod_betterUI_pfp_url_placeholder" v-model="pfpUrlInput">
+                    <button class="ss_button btn_blue bevel_blue" @click="applyPfpUrl"><i class="fas fa-check"></i></button>
+                </div>
+                <button v-show="photoUrl" class="ss_button btn_red bevel_red fullwidth ss_margintop" @click="resetPfp">
+                    <i class="fas fa-trash"></i> {{ loc.megaMod_betterUI_pfp_reset }}
+                </button>
+            </template>
+        </small-popup>
+    `;
+
         // Add Popups
         const popupInterval = setInterval(() => {
             const gameDesc = document.getElementById('gameDescription');
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${gameLeavePopup} ${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
+                `${pfpPopup} ${gameLeavePopup} ${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
             );
         });
         // CW Popup Theme
@@ -2850,7 +3045,7 @@ class MegaMod {
                 if (pdMeshVar) {
                     const spinEggFuncs = `
                             ${paperDollClass}.prototype.spinning = false,
-                            ${paperDollClass}.prototype.spinEgg = function(time, steps, frameFunc) {
+                            ${paperDollClass}.prototype.spinEgg = function(time, steps, frameFunc, quality) {
                                 const meshY = this.avatar.${pdActorVar}.${pdMeshVar}.rotation.y;
                                 const headY = this.avatar.${pdActorVar}.head.rotation.y;
                                 const oldUpdate = this.update;
@@ -2861,14 +3056,20 @@ class MegaMod {
                                 if (this.spinning) return;
                                 this.spinning = true;
                                 
-                                if (frameFunc) window.megaMod.photoboothEggSpin.setupGIF();
-                                const spinInterval = setInterval(() => {
+                                if (frameFunc) window.megaMod.photoboothEggSpin.setupGIF(steps, quality);
+
+                                const tick = () => {
                                     this.avatars(a => {
-                                        // Calculate rotation angle and wrap back to 0 after 2π
                                         a.${pdActorVar}.${pdMeshVar}.rotation.y = (a.${pdActorVar}.${pdMeshVar}.rotation.y + Math.PI2 / steps) % Math.PI2;
                                     });
                                     const lastFrame = ++currentStep >= steps;
-                                    if (frameFunc) frameFunc(frameDelay, lastFrame);
+                                    if (frameFunc) {
+                                        frameFunc(frameDelay, lastFrame, () => {
+                                            if (!lastFrame) setTimeout(tick, frameDelay);
+                                        });
+                                    } else {
+                                        if (!lastFrame) setTimeout(tick, frameDelay);
+                                    }
                                     if (lastFrame) {
                                         this.spinning = false;
                                         this.avatars((a) => {
@@ -2876,11 +3077,10 @@ class MegaMod {
                                             a.${pdActorVar}.head.rotation.y = headY;
                                         });
                                         this.update = oldUpdate;
-                                        clearInterval(spinInterval);
                                     }
-                                }, frameDelay);
-                            }
-                        `;
+                                };
+                                setTimeout(tick, frameDelay);
+                            }`;
                         src = src.safeReplace(paperDollMatch, `${spinEggFuncs},${paperDollMatch}`, "pbSpin");
                         src = src.safeReplace("this.scene.registerBeforeRender", `extern.spinEgg=this.spinEgg.bind(this);this.scene.registerBeforeRender`, "pbSpin");
                 }
@@ -3055,6 +3255,20 @@ class MegaMod {
                     chatItem.append(nameDiv, msgContent);
                     chatOut.appendChild(chatItem);
 
+                    // Temp event removal
+                    if (extern.modSettingEnabled("betterChat_chatEvents_temp")) {
+                        const duration = 30*1000; // 30s
+                        const fadeDuration = 500;
+                        setTimeout(() => {
+                            chatItem.style.animation = "none";
+                            chatItem.style.transition = \`opacity \${fadeDuration}ms ease\`;
+                            // Force a reflow so the transition registers after animation removal
+                            chatItem.getBoundingClientRect();
+                            chatItem.style.opacity = "0";
+                            setTimeout(() => chatItem.remove(), fadeDuration);
+                        }, duration);
+                    }
+
                     if (extern.modSettingEnabled("betterChat_infChat")) return;
                     const chatItems = Array.from(chatOut.querySelectorAll(".chat-item"));
                     chatItems.slice(0, Math.max(0, chatItems.length - 7)).forEach(item => item.remove());
@@ -3200,7 +3414,6 @@ class MegaMod {
             if (playerArr && actorVar && materialVar) {
                 const espFunc = `
                     toggleSpecESP: enabled => {
-                        //window.players = ${playerArr};
                         const messageLoc = enabled ? 'megaMod_specESP_enabled' : 'megaMod_specESP_disabled';
                         if (!vueApp.game.isPaused) vueApp.$refs.gameScreen.showInGameNotif(messageLoc);
                         
@@ -3239,22 +3452,74 @@ class MegaMod {
                         ${banPlayerFunc.replace(`(${uniqueId})`, "(uniqueId)").replace(`(${reason})`, "(reason)").replace(`(${duration})`, "(duration)")}
                     };
                 `;
-                const checkAutoBanFunc = `
+                const autoBanFuncs = `
+                    const normalizeName = (name) => {
+                        name = name
+                            .toLowerCase()
+                            .replace(/[8]/g, 'b')
+                            .replace(/[6]/g, 'b')
+                            .replace(/[0]/g, 'o')
+                            .replace(/[7+]/g, 't')
+                            .replace(/[3]/g, 'e')
+                            .replace(/[4@]/g, 'a')
+                            .replace(/[2]/g, 'z')
+                            .replace(/[<\(]/g, 'c')
+                            .replace(/[1!|]/g, 'l')
+                            .replace(/5/g, 's')
+                            .replace(/\$/g, 's')
+                            .replace(/[^a-z]/g, '');
+                        (window?.megaMod?.betterEggforce?.extraNormalizeMap || []).forEach(([from, to]) => name = name.replaceAll(from, to));
+                        return name;
+                    };
+                    const damerauLevenshtein = (a, b) => {
+                        const m = a.length;
+                        const n = b.length;
+
+                        const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+                        for (let i = 0; i <= m; i++) dp[i][0] = i;
+                        for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+                        for (let i = 1; i <= m; i++) {
+                            for (let j = 1; j <= n; j++) {
+                                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+
+                                dp[i][j] = Math.min(
+                                    dp[i - 1][j] + 1,        // deletion
+                                    dp[i][j - 1] + 1,        // insertion
+                                    dp[i - 1][j - 1] + cost  // substitution
+                                );
+
+                                // transposition
+                                if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) dp[i][j] = Math.min(dp[i][j], dp[i - 2][j - 2] + 1);
+                            }
+                        }
+
+                        return dp[m][n];
+                    };
+                    const isBadGuy = (name) => (window?.megaMod?.betterEggforce?.badGuys || []).some(t => damerauLevenshtein(normalizeName(name), t) <= Math.ceil(t.length * (window?.megaMod?.betterEggforce?.fuzzyThreshold ?? 0.25)));
                     const checkAutoBan = (player, autoBanList = window?.megaMod?.betterEggforce?.getAutoBanList?.()) => {
-                        if (!(player && autoBanList)) return;
+                        if (!player || !autoBanList) return;
+
+                        const isWhitelisted = (window?.megaMod?.betterEggforce?.whitelist || []).some(w => w === player.name || w === player.uniqueId);
+                        if (isWhitelisted) return;
 
                         const nameMatch = autoBanList.includes(player.name);
                         const uniqueIdMatch = autoBanList.includes(player.${uniqueIDVar});
-                        if (!(nameMatch || uniqueIdMatch)) return;
+                        const badGuyMatch = isBadGuy(player.name);
+                        if (!(nameMatch || uniqueIdMatch || badGuyMatch)) return;
 
-                        const banReason = "MegaMod Auto Ban" + (nameMatch ? \` (Name: \${player.name})\` : " (UniqueID)");
+                        let banReason = "MegaMod Auto Ban";
+                        if (nameMatch) banReason += " (Name)";
+                        else if (uniqueIdMatch) banReason += " (Unique ID)";
+                        else if (badGuyMatch) banReason += " (Bot)";
                         vueApp.$refs.gameScreen.showInGameNotif(vueApp.loc['megaMod_betterEggforce_autoBanned'].format(player.name));
                         newBanPlayer(player.${uniqueIDVar}, banReason, 2);
                         vueApp.$refs.gameScreen.addBan(player.name, player.${uniqueIDVar}, 2, banReason);
                         window.megaMod.constructor.log("checkAutoBan() -", \`Autobanned \${player.name} (\${player.${uniqueIDVar}})\`);
                     };
                 `;
-                src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${checkAutoBanFunc}window.BAWK`, "betterEggforce_autoBan");
+                src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${autoBanFuncs}window.BAWK`, "betterEggforce_autoBan");
                 src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && [2, 4, 8192].some(role => extern.adminRoles & role) && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
                 const autoBanUpdateFunc = `
                     checkAutoBans: list => {
@@ -3392,6 +3657,28 @@ class MegaMod {
             if (spatInitMatch && spatInitPlayer) src = src.safeReplace(spatInitMatch, `${spatInitMatch}, ${spatInitPlayer}?.showSpatulaIcon(true)`, "");
         }
         
+        // Auto Spectate
+        const [,specVar] = regex`(${v})\.spectateNextPlayer\(1\)`.safeExec(src, "betterEggforce_autoSpec");
+        const [setFP] = regex`${v}\=${v}\.firstPerson`.safeExec(src, "betterEggforce_autoSpec");
+        if (playerArr && watchplayerVar && uniqueIdVar && specVar && setFP) {
+            const autoSpecFunc = `
+                tryAutoSpec() {
+                    if (!(parsedUrl.query.observe && ${watchplayerVar})) return;
+                    const targetPlayerIdx = ${playerArr}?.findIndex(p => p?.${uniqueIdVar} === ${watchplayerVar});
+                    if (targetPlayerIdx == null || targetPlayerIdx === -1) return;
+                    vueApp.hideGameMenu();
+                    vueData.ui.showCornerButtons = false;
+                    extern.enterSpectatorMode();
+                    vueApp.ui.game.spectate = true;
+                    ${specVar}.playerIdx = targetPlayerIdx;
+                    ${setFP};
+                    ${specVar}.firstPerson();
+                }
+            `;
+            src = src.safeReplace("catalog:", `${autoSpecFunc},catalog:`, "betterEggforce_autoBan");
+        }
+
+
         // All done - yay! :)
         this.setSourceModified(true);
         return src;
@@ -3581,7 +3868,7 @@ class MegaMod {
 
         // Add separators to number
         Number.prototype.addSeparators = function() {
-            return extern?.modSettingEnabled?.('betterUI_ui') ? this.toLocaleString() : this;
+            return extern?.modSettingEnabled?.('betterUI_numbers') ? this.toLocaleString() : this;
         };
 
         MegaMod.log("Debug:", MegaMod.debug);
@@ -3656,11 +3943,8 @@ class MegaMod {
 				}
 				break;
 			case 'changeFPS':
-				if (value) {
-					this.changeFPS.enableFPS();
-				} else {
-					this.changeFPS.disableFPS();
-				}
+				if (value) this.changeFPS.enableFPS();
+				else this.changeFPS.disableFPS();
 				break;
 			case 'matchGrenades':
 				if (extern.inGame) extern?.tryUpdateGrenades?.();
@@ -4407,7 +4691,7 @@ class BetterUI {
             },
             getThemeForItem(item) {
                 const themeMap = this.getThemeMap(item);
-                return Object.keys(themeMap).find(theme => themeMap[theme]);
+                return Object.keys(themeMap).filter(theme => theme !== "creator").find(theme => themeMap[theme]);
             },
             getThemeForItems(items) {
                 const themes = items.map(item => this.getThemeForItem(item));
@@ -5077,10 +5361,7 @@ class BetterUI {
     checkOpenGames() {
         MegaMod.log("checkOpenGames() -", "Checking Open Games...");
         this.checkGameHistory();
-        if (!extern.inGame) vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
-        
-        if (this.gameHistoryTimeout) clearTimeout(this.gameHistoryTimeout);
-        this.gameHistoryTimeout = setTimeout(this.checkOpenGames.bind(this), 5*60000);
+        vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
     }
 
     initProfileBadges(badgeData) {
@@ -5266,7 +5547,7 @@ class BetterUI {
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                vueApp.photoUrl = extern.firebaseUrl;
+                vueApp.photoUrl = localStore.getItem("megaMod_pfp") || extern.firebaseUrl;
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
@@ -6066,61 +6347,135 @@ class SpectateTweaks {
     }
 }
 
-class PhotoboothEggSpin {   
+class PhotoboothEggSpin {
     constructor() {
         MegaMod.log("Initializing Mod:", "Photobooth Egg Spin");
     }
 
-    setupGIF() {
-        const workerScript = `
-            self.onmessage = function (event) {
-                importScripts('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js');
-                self.onmessage = null;
-                self.postMessage(event.data);
-            };
-        `;
-        const workerURL = URL.createObjectURL(new Blob([workerScript], { type: 'application/javascript' }));
-        
-        this.pbSpinGif = new GIF({
-            workers: 8,
-            quality: 10,
-            debug: true,
-            workerScript: workerURL
-        });
-        this.pbSpinGif.on('finished', function(blob) {
-            // Create an image element to display the GIF
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(blob);
-            document.body.appendChild(img);
-            
-            // Optionally, you can create a download link
-            const link = document.createElement('a');
-            link.href = img.src;
-            link.download = 'spin.gif';
-            document.body.appendChild(link);
-            link.click();
-            MegaMod.log("pbSpin:", "DONE WITH IMAGE!");
-            open(URL.createObjectURL(blob));
+    setupGIF(totalFrames, quality) {
+        this.gifReady = false;
+
+        fetch('https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js')
+            .then(r => r.text())
+            .then(workerSrc => {
+            const workerURL = URL.createObjectURL(
+                new Blob([workerSrc], { type: 'application/javascript' })
+            );
+
+            const bgElem = document.getElementById('ss_background');
+            if (bgElem) {
+                const bgUrl = bgElem.style.backgroundImage.slice(5, -2);
+                this.bgImg = new Image();
+                this.bgImg.src = bgUrl;
+            }
+
+            const gameCanvas = document.getElementById('canvas');
+            const noBg = !vueApp.$refs.photoBooth._data.bgIdx;
+            const canvasWidth  = gameCanvas.width;
+            const canvasHeight = gameCanvas.height;
+            const s = Math.floor(canvasWidth * 0.70);
+
+            // Apply scaleFactor to output dimensions
+            const baseWidth  = Math.floor(noBg ? s : canvasWidth);
+            const baseHeight = Math.floor(canvasHeight);
+            this.scaleFactor = quality.scaleFactor;  // store for captureFrame
+
+            this.outCanvas        = document.createElement("canvas");
+            this.outCanvas.width  = Math.floor(baseWidth  * quality.scaleFactor);
+            this.outCanvas.height = Math.floor(baseHeight * quality.scaleFactor);
+            this.outCtx = this.outCanvas.getContext("2d", { willReadFrequently: true });
+
+            this.pbSpinGif = new GIF({
+                workers:      quality.workers,
+                quality:      quality.quality,
+                dither:       quality.dither,
+                debug:        true,
+                workerScript: workerURL,
+                width:        this.outCanvas.width,
+                height:       this.outCanvas.height,
+            });
+
+            this.framesAdded = 0;
+            this.totalFrames = totalFrames;
+
+            this.pbSpinGif.on('finished', (blob) => {
+                URL.revokeObjectURL(workerURL);
+                const url = URL.createObjectURL(blob);
+
+                vueApp.$refs.photoBooth.isGifCapture = true; 
+
+                // Mirror the screenshot popup pattern
+                if (vueApp.$refs.photoBooth.screenshotImg) {
+                    if (vueApp.$refs.photoBooth.$refs.grabImage.hasChildNodes()) {
+                        vueApp.$refs.photoBooth.$refs.grabImage.removeChild(vueApp.$refs.photoBooth.$refs.grabImage.children[0]);
+                        vueApp.$refs.photoBooth.screenshotImg = null;
+                    }
+                }
+
+                vueApp.$refs.photoBooth.screenshotImg = new Image();
+                vueApp.$refs.photoBooth.screenshotImg.src = url;
+                vueApp.$refs.photoBooth.$refs.grabImage.appendChild(vueApp.$refs.photoBooth.screenshotImg);
+                vueApp.$refs.photoBooth.showOuterUi(true);
+                vueApp.$refs.photoBooth.$refs.screenshotPopup.show();
+
+                MegaMod.log("pbSpin:", "DONE WITH IMAGE!");
+            });
+            this.gifReady = true;
         });
     }
 
-    captureFrame(delay, lastFrame) {
-        const canvasCtx = document.createElement("canvas").getContext("2d");
-        const settings = { allowTaint: false, logging: false, backgroundColor: null };
-        const innerWidth = unsafeWindow.innerWidth;
-        const halfWidth = innerWidth / 2;
-        const innerHeight = unsafeWindow.innerHeight;
-        
-        html2canvas(document.body, settings).then(res => {
-            const noBg = !vueApp.$refs.photoBooth._data.bgIdx;
-            if (noBg) {
-                if (!this.pbSpinGif.options.transparent) this.pbSpinGif.options.transparent = true;
-                canvasCtx.canvas.width = halfWidth;
-                canvasCtx.canvas.height = innerHeight;
-                canvasCtx.drawImage(res, -Math.max(0, (innerWidth - halfWidth) / 2 || 0), -(+canvasCtx.y || 0));
+    captureFrame(delay, lastFrame, done) {
+        // Wait for GIF to be ready if setupGIF fetch is still in flight
+        if (!this.gifReady) {
+            setTimeout(() => this.captureFrame(delay, lastFrame, done), 16);
+            return;
+        }
+
+        const realRAF = ChangeFPS.oldRAF || requestAnimationFrame;
+        realRAF(() => {
+            try {
+                const noBg = !vueApp.$refs.photoBooth._data.bgIdx;
+                const gameCanvas = document.getElementById('canvas');
+                if (!gameCanvas) throw new Error("No game canvas found");
+
+                this.outCtx.clearRect(0, 0, this.outCanvas.width, this.outCanvas.height);
+
+                if (noBg) {
+                    if (this.pbSpinGif.options.transparent == null) this.pbSpinGif.options.transparent = 0x00000000;
+                    const canvasWidth = gameCanvas.width;
+                    const canvasHeight = gameCanvas.height;
+                    const s = Math.floor(canvasWidth * 0.70);
+                    const cropX = Math.max(0, (canvasWidth - s) / 2);
+
+                    // Draw from source with crop, scale into outCanvas dimensions
+                    this.outCtx.drawImage(gameCanvas,
+                        cropX, 0,                           // source x, y
+                        s, canvasHeight,                    // source width, height (crop)
+                        0, 0,                               // dest x, y
+                        this.outCanvas.width, this.outCanvas.height  // dest size (already scaled)
+                    );
+                } else {
+                    if (this.bgImg?.complete) {
+                        this.outCtx.drawImage(this.bgImg, 0, 0, this.outCanvas.width, this.outCanvas.height);
+                    }
+                    this.outCtx.drawImage(gameCanvas, 0, 0, this.outCanvas.width, this.outCanvas.height);
+                }
+
+                const imageData = this.outCtx.getImageData(0, 0, this.outCanvas.width, this.outCanvas.height);
+                this.pbSpinGif.addFrame(imageData, { delay });
+                this.framesAdded++;
+                MegaMod.log("pbSpin:", `Frame added ${this.framesAdded}/${this.totalFrames}`);
+                if (this.framesAdded >= this.totalFrames) {
+                    MegaMod.log("pbSpin:", "All frames added, rendering...");
+                    this.pbSpinGif.render();
+                }
+                done?.();
+            } catch(err) {
+                MegaMod.log("captureFrame error:", err);
+                this.framesAdded++;
+                if (this.framesAdded >= this.totalFrames) this.pbSpinGif.render();
+                done?.();
             }
-            this.pbSpinGif.addFrame(noBg ? canvasCtx.canvas : res, { delay });
-            if (lastFrame) this.pbSpinGif.render();
         });
     }
 }
@@ -6311,6 +6666,12 @@ class BetterEggforce {
                 vueApp.banHistory = [];
             },
         });
+
+        const oldRespawn = extern.prepRespawnButton;
+        extern.prepRespawnButton = function(...args) {
+            if (extern.modSettingEnabled("betterEggforce_autoSpec")) extern.tryAutoSpec();
+            oldRespawn.apply(this, args);
+        }
 
         this.initBanHistory();
         vueApp.$refs.gameScreen.updateSpectateControls();
