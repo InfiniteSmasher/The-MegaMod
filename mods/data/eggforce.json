@@ -27,7 +27,8 @@
         "botcyberclaw",
         "botcyberclawz",
         "cyberclaw",
-        "cyberclawz"
+        "cyberclawz",
+        "yolkbot"
     ],
     "fuzzyThreshold": 0.25,
     "whitelist": [],
