@@ -2316,6 +2316,7 @@ class MegaMod {
             <button class="ss_button_as_text" target="_blank" @click="onChangelogClicked(true)">The MegaMod <i class='fas fa-tools fa-sm'></i></button> | 
             <button class="ss_button_as_text modServer" target="_blank" @click="onServerClicked"><img src="${unsafeWindow.rawPath}/img/assets/logos/modServer.png" class='serverIcon'></img></button> | `);
             <button class="ss_button_as_text" target="_blank" @click="onChangelogClicked(true)">The MegaMod <i class='fas fa-tools fa-sm'></i></button>
+            <button class="ss_button_as_text modServer" target="_blank" @click="onServerClicked"><img src="${unsafeWindow.rawPath}/img/assets/logos/modServer.png" class='serverIcon'></img></button>`);
     
         Object.assign(vueData.changelog, { isMegaMod: false, showMegaModHistoryBtn: true, megaMod: {} });
         vueData.openMegaModInfo = () => {
