@@ -353,15 +353,17 @@
 	color: var(--ss-blue2);
 }
 
-.social_icons:after { /* Added Code  */ 
-	content: 'Theme By Boolet & Infinite Smasher' !important;
+.homescreen-main-wrapper .secondary-aside-wrap::after {
+    content: 'Theme By Boolet & Infinite Smasher' !important;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+
 	text-wrap: wrap;
 	font-size: .8em;
-	font-family: 'Sigmar One';
-	color: var(--ss-blue2);
-	margin-left: -22.6em;
-	margin-top: -3.8em;
-	letter-spacing: 0.01em;
+    font-family: 'Sigmar One';
+    color: var(--ss-blue2);
+    letter-spacing: 0.01em;
 }
 
 .changelog_content {

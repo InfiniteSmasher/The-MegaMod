@@ -31,6 +31,10 @@
 	"megaMod_announcementPopup_title": "MegaMod Announcement <i class='fas6 fa-bullhorn fa-sm'></i>",
 	"megaMod_announcementPopup_okBtn": "Got it!",
 
+	"megaMod_loginError_desc": "You must be logged in to use the MegaMod server.\n\nThe MegaMod will still work but specific features that rely on the servers may be disabled or not work 100%.",
+	"megaMod_serverError_desc": "There was an error connecting to the MegaMod server.\n\nThe MegaMod will still work but specific features that rely on the servers may be disabled or not work 100%.",
+	"megaMod_verifyError_desc": "Your email must be verified to use the MegaMod server!\n\nThe MegaMod will still work but specific features that rely on the servers may be disabled or not work 100%.",
+
 	"p_settings_mods_megaMod_title": "MegaMod Settings",
 	"p_settings_mods_megaMod_desc": "Here's where you can change settings for The MegaMod itself.",
 	"p_settings_mods_megaMod_sfx": "MegaMod UI Sound Effects",
@@ -41,6 +45,20 @@
 	"p_settings_mods_megaMod_inGameAlerts": "In-Game Mod Toggle Alerts",
 
 	
+	"p_settings_mods_modServerClient_title": "Server Features",
+	"p_settings_mods_modServerClient_desc": "Powers MegaMod features that interact with other players. Certain MegaMod mods have enhanced mod features which use the server to share data and sync in real time with other MegaMod users in your lobby.",
+	"p_settings_mods_modServerClient_status": "Server Status",
+	"p_settings_mods_modServerClient_status_connected": "Connected",
+	"p_settings_mods_modServerClient_status_connecting": "Connecting...",
+	"p_settings_mods_modServerClient_status_reconnecting": "Reconnecting...",
+	"p_settings_mods_modServerClient_status_disconnected": "Disconnected",
+	"p_settings_mods_modServerClient_status_signed_out": "Not Signed In",
+	"p_settings_mods_modServerClient_status_disabled": "Disabled",
+	"p_settings_mods_modServerClient_status_error": "Server Error",
+
+	"megaMod_serverClientPopup_title": "MegaMod Server - Data & Privacy",
+	"megaMod_serverClientPopup_desc": "MegaMod's server stores a small amount of your Shell Shockers account data to power its features. This includes:<br><br><ul><li><b>Your account ID and basic profile info</b>: to identify you across sessions</li><li><b>Your stats and egg balance</b>: to display on player profiles</li><li><b>Your in-game color settings</b>: to sync with other MegaMod users in your lobby</li></ul><br>Your password and login credentials are never seen or stored by The MegaMod. It only receives a temporary token to verify your identity, which is never saved.<br><br>This data is stored securely and is only used to provide MegaMod features. It is never sold or shared with third parties. You can disable the server connection at any time in the settings, though your stored data will remain on file.<br><br>By continuing, you agree to The MegaMod storing this data on your behalf.",
+
 	"p_settings_mods_betterUI_title": "Better UI",
 	"p_settings_mods_betterUI_desc": "Inventory & Profile Upgrades - new item themes, skin randomizer, profile badges, UI improvements, and MOAR!",
 	"p_settings_mods_betterUI_ui": "General UI Tweaks",
@@ -110,7 +128,7 @@
 	"p_legacy_item_desc": "A blast from the past! Legacy Items are the original default gun skins from before version 0.25.5 (2019), featuring simpler, less colorful designs and different sound effects. With the \"Legacy Mode\" mod included in The MegaMod, players can experience these classic skins and sounds, bringing the game's earlier look and feel back to life.",
 
 	"p_item_theme_title": "{0} Item Info",
-	"p_item_theme_items": "Items ({1}/{2} Owned)",
+	"p_item_theme_items": "Items ({0}/{1} Owned)",
 
 	"challenges_repeat": "Repeated Challenge",
 	"challenges_new": "First-Time Challenge",
@@ -121,6 +139,11 @@
 	"megaMod_betterUI_pfp_url_placeholder": "URL (.jpg, .png, .gif, etc)",
 	"megaMod_betterUI_pfp_reset": "Reset to Default",
 	"megaMod_betterUI_pfp_url_error": "Invalid image URL. Please enter a direct link to an image file (e.g. ending in .jpg, .png, .gif).",
+	"megaMod_betterUI_pfp_tooBig": "Your image must be under 2MB.\n\nPlease choose a smaller image and try again.",
+	"megaMod_betterUI_pfp_type_error": "Please select an image file.\n\nSupported formats: JPEG, PNG, WebP, and GIF.",
+	"megaMod_betterUI_pfp_notFound": "Your image couldn't be found after uploading.\n\nPlease try again.",
+	"megaMod_betterUI_pfp_serverError": "Something went wrong on our end.\n\nPlease try again later.",
+	"megaMod_avatarUpload_error": "Something went wrong uploading your image.\n\nPlease try again.",
 
 	"megaMod_betterUI_noBadges": "No Profile Badges :(",
 	"megaMod_betterUI_badgePopup_title": "Profile Badge Information",
@@ -326,7 +349,7 @@
 
 
 	"p_settings_mods_colorSlider_title": "VIP Color Slider",
-	"p_settings_mods_colorSlider_desc": "Adds working sliders (hue, saturation, and brightness) for selecting your egg color in the inventory. Also adds a color randomizer button because why not :) <br>NOTE: This is a client-sided mod so other players will see your egg color as white when you use custom colors.",
+	"p_settings_mods_colorSlider_desc": "Adds working sliders (hue, saturation, and brightness) for selecting your egg color in the inventory. Also adds a color randomizer button because why not :) <br><b>NOTE</b>: Your custom egg color will only be visible to other MegaMod users (if you enable \"Server Features\").",
 	"p_settings_mods_colorSlider_unlock": "Unlock (for non-VIPs)",
 	"p_settings_mods_colorSlider_autoSave": "Auto-Apply Custom Color",
 	"p_settings_mods_colorSlider_randomizer": "Color Randomizer Button",
@@ -388,7 +411,7 @@
 
 
 	"p_settings_mods_changeFPS_title": "Change FPS",
-	"p_settings_mods_changeFPS_desc": "Allows you to change your FPS counter (not actual FPS)! :O<br>NOTE: This is a bit buggy and you may reach a point where your device can't support any higher of a framerate so your FPS will max out.",
+	"p_settings_mods_changeFPS_desc": "Allows you to change your FPS counter (not actual FPS)! :O<br><b>NOTE</b>: This is a bit buggy and you may reach a point where your device can't support any higher of a framerate so your FPS will max out.",
 	"p_settings_mods_changeFPS_slider": "FPS Slider",
 
 

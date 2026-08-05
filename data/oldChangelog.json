@@ -1,5 +1,20 @@
 [
 	{
+        "version": "1.04",
+        "date": "June 11 2026",
+        "content": [
+            "<b>[Photobooth Egg Spin]</b> You can now download a 360° spinning GIF of your egg!",
+            "<b>[Better UI]</b> MORE SETTINGS!!! Added more separate settings that were previously all under General UI Tweaks",
+            "<b>[Better UI: Profile]</b> Added the \"Mask League Staff\" badge for Mask League staff members",
+            "<b>[Better UI: Better Inventory]</b> Fixed CC theme bug on Chick'n Winner popup",
+            "<b>[Better UI: Better Game Code Input]</b> Fixed bug with empty game codes being accepted",
+            "<b>[Better UI: Better Profile]</b> You can now click on your profile picture to change it!",
+            "<b>[Better Chat]</b> Chat Events now dissapear after 30 seconds via the new Temporary Chat Events setting!",
+            "<b>[MegaMod]</b> Minor optimizations made all around to hopefully help with performance",
+            "<b>[MegaMod]</b> Mods with lots of settings now have pages!"
+        ]
+    },
+	{
         "version": "1.03",
         "date": "May 6 2026",
         "content": [

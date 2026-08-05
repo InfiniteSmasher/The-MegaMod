@@ -66,6 +66,21 @@
 		]
 	},
 	{
+		"id": "modServerClient",
+		"type": 1,
+		"active": false,
+		"locKey": "p_settings_mods_modServerClient",
+		"defaultVal": false,
+		"settings": [
+			{
+				"type": 5,
+				"active": true,
+				"locKey": "p_settings_mods_modServerClient_status",
+				"html": "<p id='serverStatus' class='setting-div roundme_md'>Loading Server Status...</p>"
+			}
+		]
+	},
+	{
 		"id": "betterUI",
 		"type": 1,
 		"active": true,
@@ -350,7 +365,7 @@
 			{
 				"id": "legacyMode_skins",
 				"type": 1,
-				"active": true,
+				"active": false,
 				"locKey": "p_settings_mods_legacyMode_skins",
 				"defaultVal": true
 			},
@@ -360,6 +375,11 @@
 				"active": true,
 				"locKey": "p_settings_mods_legacyMode_sfx",
 				"defaultVal": true
+			},
+			{
+				"type": 5,
+				"active": true,
+				"html": ""
 			},
 			{
 				"type": 4,
@@ -1863,7 +1883,7 @@
 								"active": true,
 								"disableCondition": "!extern.modSettingEnabled('betterEggforce_autoBan', true)",
 								"locKey": "p_settings_mods_betterEggforce_autoBan_list",
-								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS", "BOT_CyberClawZ", "yolkbot"]
+								"defaultVal": ["StateFarmer", "1ust", "Seq", "hydroflame", "꩜PublicCreamer", "꩜StreamCreamer", "GGHarri$on", "doescolder", "doeshotter", "susdung", "KILL NIGHAS", "BURN NIGHAS", "BOT_CyberClawZ", "yolkbot", "404: Not Found"]
 							}
 						]
 					}

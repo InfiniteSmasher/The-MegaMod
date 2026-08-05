@@ -69,10 +69,6 @@
 	border: 1px solid var(--ss-blue5) !important;
 }
 
-.social_icons {
-	margin-top: -2.6em !important;
-}
-
 .social_icons .icon-wrap:hover {
 	transition: all .2s ease-out;
 	transform: translateY(-.1em) scale(1.1);
@@ -130,17 +126,6 @@
 .social_icons .icon-wrap:hover .fa-steam,
 .social_icons .icon-wrap:hover .fa-instagram {
 	background: white;
-}
-
-/* Social Media Tooltip */
-.social-icons .tool-tip div.tool-tip--bubble {
-	bottom: 3.9em !important;
-}
-
-.social-icons .tool-tip div.tool-tip--bubble:after{
-	 top: auto !important;
-	 bottom: 0em !important;
-	 transform: rotate(0deg) translate(-11px,17px) !important;
 }
 
 /* Egg Shaped Sliders */

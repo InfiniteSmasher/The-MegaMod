@@ -28,6 +28,18 @@ class MegaMod {
 
     static addHTMLEdits() {
         this.log("addHTMLEdits() -", "Adding HTML Edits");
+
+        String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
+            ids = Array.isArray(ids) ? ids : [ids];
+            //MegaMod.log("Replacing:", `${searchStr} --> ${replacement}`);
+            const str = this.toString();
+            if (str.indexOf(searchStr) === -1) {
+                ids.forEach(id => unsafeWindow.megaMod.addRegexErrId(id));
+                MegaMod.error("Match not found for:", searchStr);
+                return str;
+            }
+            return all ? str.replaceAll(searchStr, replacement) : str.replace(searchStr, replacement);
+        };
         
         // MegaMod UI
         const messages = `
@@ -141,9 +153,9 @@ class MegaMod {
         `;
     
         const settings = document.getElementById("settings-template");
-        settings.innerHTML = settings.innerHTML.replace(
+        settings.innerHTML = settings.innerHTML.safeReplace(
             'column-3-eq', 'column-5-custom'
-        ).replace(`</div>\n\n    <div`, `
+        ).safeReplace(`</div>\n\n    <div`, `
             <button id="mod_button" @click="switchTab('mod_button')" class="ss_bigtab bevel_blue ss_bigtab bevel_blue roundme_md font-sigmar f_row align-items-center justify-content-center gap-sm" :class="(showModsTab ? 'selected' : '')">
                 <i class="fas fa-tools fa-lg"></i>
             </button>
@@ -152,7 +164,7 @@ class MegaMod {
                 <img v-if="!showSettingsTab || currentMod?.id === 'megaMod'" src="${rawPath}/img/assets/icons/megaMod-gear.svg">
             </button>
             </div>\n\n    <div`
-        ).replace(`toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>`, `toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>
+        ).safeReplace(`toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>`, `toggler>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>
             <div id="settings_mods" v-show="showModsTab" class="settings-section">
                 <h3 class="margin-bottom-none h-short" v-html="loc.p_settings_mods_title"></h3>
                 <div class="mod-container">
@@ -195,20 +207,22 @@ class MegaMod {
                 <h3 class="margin-bottom-none h-short"><i class='fas fa-info-circle'></i> {{ loc[currentMod?.locKey ? currentMod?.locKey + '_title': ''] || '' }} | Info{{ (currentMod && !currentMod.noSettings) ? ' + Settings' : '' }}</h3>
                 <p v-html="loc[currentMod?.locKey ? currentMod?.locKey + '_desc' : ''] || ''" class="mod-desc"></p>
                 <p v-show="currentMod && currentMod.noSettings" class="no-additional-settings"><br>No Additional Settings :)</br></p>
-                <div class="display-grid grid-column-2-eq">
-                    <transition :name="modPageDirectionForward ? 'slide-left' : 'slide-right'" mode="out-in"
-                        <div v-if="currentMod && !currentMod.noSettings" v-for="s in paginatedModSettings" class="f_col">
-                            ${settingConditional}
-                            <div v-if="s.type === SettingType.Group">
-                                <div v-show="eval(s.showCondition)">
-                                    <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
-                                    <div v-if="s.settings && s.settings.length" v-for="x in s?.settings.filter(s => !s.disabled) || []" class="f_col">
-                                        ${settingConditional.replaceAll("s.", "x.").replaceAll("s?.", "x?.")}
-                                        <div v-if="x.type === SettingType.Group">
-                                            <div v-show="eval(x.showCondition)">
-                                                <h3 class="margin-bottom-none h-short" v-if="x.locKey">{{ loc[x?.locKey ?? ''] || x?.locKey }}</h3>
-                                                <div v-if="x.settings && x.settings.length" v-for="y in x?.settings.filter(s => !s.disabled) || []" class="f_col">
-                                                    ${settingConditional.replaceAll("s.", "y.").replaceAll("s?.", "y?.")}
+                <div class="mod-settings-container">
+                    <transition :name="modPageDirectionForward ? 'slide-left' : 'slide-right'" mode="out-in">
+                        <div :key="currentModPage" class="display-grid grid-column-2-eq">
+                            <div v-if="currentMod && !currentMod.noSettings" v-for="s in paginatedModSettings" class="f_col">
+                                ${settingConditional}
+                                <div v-if="s.type === SettingType.Group">
+                                    <div v-show="eval(s.showCondition)">
+                                        <h3 class="margin-bottom-none h-short" v-if="s?.locKey">{{ loc[s?.locKey ?? ''] || s?.locKey }}</h3>
+                                        <div v-if="s.settings && s.settings.length" v-for="x in s?.settings.filter(s => !s.disabled) || []" class="f_col">
+                                            ${settingConditional.replaceAll("s.", "x.").replaceAll("s?.", "x?.")}
+                                            <div v-if="x.type === SettingType.Group">
+                                                <div v-show="eval(x.showCondition)">
+                                                    <h3 class="margin-bottom-none h-short" v-if="x.locKey">{{ loc[x?.locKey ?? ''] || x?.locKey }}</h3>
+                                                    <div v-if="x.settings && x.settings.length" v-for="y in x?.settings.filter(s => !s.disabled) || []" class="f_col">
+                                                        ${settingConditional.replaceAll("s.", "y.").replaceAll("s?.", "y?.")}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -350,7 +364,7 @@ class MegaMod {
         });
 
         const adjusterTemplate = document.getElementById("settings-adjuster-template");
-        adjusterTemplate.innerHTML = adjusterTemplate.innerHTML.replace(`@change="onChange"`, `@change="onChange" @input="onInput"`)
+        adjusterTemplate.innerHTML = adjusterTemplate.innerHTML.safeReplace(`@change="onChange"`, `@change="onChange" @input="onInput"`)
         comp_settings_adjuster.methods.onInput = function (event) { this.$emit('setting-input', this.controlId, this.currentValue); };
         
         const oldSettingsData = comp_settings.data;
@@ -412,6 +426,10 @@ class MegaMod {
                             case "customCrosshair":
                                 unsafeWindow.megaMod.customCrosshair.setScopeDesc(); 
                                 unsafeWindow.megaMod.customCrosshair.updateScopePreview();
+                                break;
+                            case "modServerClient":
+                                unsafeWindow.megaMod?.serverClient.setServerStatus();
+                                break;
                         }
                         this.showSettingsTab = true;
                         if (extern?.modSettingEnabled?.("megaMod_sfx_tabs")) BAWK.play("settingsTab");
@@ -691,10 +709,10 @@ class MegaMod {
             const chicknWinner = document.getElementById("chicknWinner");
             if (!chicknWinner) return;
             clearInterval(cwInterval);
-            chicknWinner.outerHTML = chicknWinner.outerHTML.replace(
+            chicknWinner.outerHTML = chicknWinner.outerHTML.safeReplace(
                 `:overlay-close="chwMiniGameComplete"`, 
                 `:overlay-close="${chicknWinnerUpgrades} && ${chwComplete}"`
-            ).replace(
+            ).safeReplace(
                 `:hide-close="!chwMiniGameComplete"`, 
                 `:hide-close="${chicknWinnerUpgrades} && !${chwComplete}"`
             );
@@ -704,43 +722,43 @@ class MegaMod {
         const invEditsEnabled = `extern?.modSettingEnabled?.('betterUI_inventory')`;
         // Add Random Skin Button, Searchbar Class Edits, Item Amount, and Item Vault UI
         const equipScreen = document.getElementById("equip-screen-template");
-        equipScreen.innerHTML = equipScreen.innerHTML.replace(
+        equipScreen.innerHTML = equipScreen.innerHTML.safeReplace(
             `" v-on:keyup="onItemSearchChange" class="ss_field font-nunito box_relative fullwidth">`,
             `" v-on:keyup="onItemSearchChange" class="ss_field font-nunito roundme_lg box_relative" :class="{'limited-input' : (${invEditsEnabled} && isOnEquipModeFeatured), 'fullwidth': !${invEditsEnabled} || (${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled)}">
             <button id="randomize-button" onclick="window.megaMod.betterUI.randomizeSkin()" v-show="${invEditsEnabled} && isEquipModeInventory && !itemVaultEnabled" class="ss_button roundme_lg btn_blue bevel_blue btn-account-w-icon random-button">
                 <i class="fas fa-random"></i>
             </button>`
-        ).replace(
+        ).safeReplace(
             `class="item-search-wrap box_relative"`,
             `class="item-search-wrap box_relative" :class="{ 'inventory-skin-search' : (${invEditsEnabled} && isEquipModeInventory && !itemVaultEnabled), 'shop-skin-search' : (${invEditsEnabled} && (isOnEquipModeSkins || isOnEquipModeFeatured || (isEquipModeInventory && itemVaultEnabled))) }"`
-        ).replace(
+        ).safeReplace(
             `{{ loc[equip.categoryLocKey] }}`,
             `{{ loc[equip.categoryLocKey] }} {{ (${invEditsEnabled}) ? ('(' + equip.showingItems.length + '/' + (equip.showingItemTotal || 0) + ')') : '' }}`
-        ).replace(
+        ).safeReplace(
             `onRedeemClick">{{`,
             `onRedeemClick"><i v-show="${invEditsEnabled}" class="fas fa-unlock"></i> {{`
-        ).replace(
+        ).safeReplace(
             `inGame">{{`,
             `inGame"><i v-show="${invEditsEnabled}" class="fas fa-camera"></i> {{`
-        ).replace(
+        ).safeReplace(
             `loc.eq_search_items`,
             `${invEditsEnabled} ? loc.eq_search_items_new : loc.eq_search_items`
-        ).replace(
+        ).safeReplace(
             `<div v-show="isEquipModeInventory`,
             `<div v-show="isEquipModeInventory && ${invEditsEnabled}" class="roundme_lg clickme vaultbtn box_relative f_row align-items-center justify-content-center" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled, 'disabled': !ui.showHomeEquipUi }" @click="onSwitchToVaultClicked()">
                 <i v-if="!itemVaultEnabled" class="fas fa-3x fa-lock text_white"></i>
                 <i v-else class="fas fa-3x fa-arrow-left text_white"></i>
             </div> <div v-show="isEquipModeInventory`
-        ).replace(
+        ).safeReplace(
             `:disabled="extern.inGame"`,
             `:disabled="extern.inGame || (${invEditsEnabled} && itemVaultEnabled)"`
-        ).replace(
+        ).safeReplace(
             `<h3 v-if="!showPurchasesUi"`,
             `<h1 v-show="${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled" class="equip-title text-center margins_sm box_relative text_blue5 nospace vault-txt" v-html="loc.megamod_betterUI_itemVault_title"></h1> <h3 v-if="!showPurchasesUi"`
-        ).replace(
+        ).safeReplace(
             `id="equip_panel_right"`,
             `id="equip_panel_right" :class="{ 'vaultopen' : (${invEditsEnabled} && isEquipModeInventory && itemVaultEnabled) }"`
-        ).replace(
+        ).safeReplace(
             `<small-popup id="redeemCodePopup"`,
             `<large-popup id="itemThemePopup" ref="itemThemePopup" hide-confirm="true" :overlay-close="true" class="megamod-popup" :class="equip.theme.class">
                 <template slot="content">
@@ -757,7 +775,7 @@ class MegaMod {
         
         /*
         // Item Vault Small Button
-        .replace(
+        .safeReplace(
             `loc.eq_redeem }}</button>`,
             `loc.eq_redeem }}</button>
             <button v-show="isEquipModeInventory && ${invEditsEnabled}" class="ss_button box_relative fullwidth text-uppercase" :class="{ 'btn_red bevel_red': itemVaultEnabled, 'btn_blue bevel_blue': !itemVaultEnabled }" :disabled="!ui.showHomeEquipUi" @click="onSwitchToVaultClicked()" v-html="itemVaultEnabled ? loc.megamod_betterUI_itemVault_exit : loc.megamod_betterUI_itemVault_enter"></button>
@@ -767,7 +785,7 @@ class MegaMod {
             
         // Item Vault: Hide Shop Button in Item Grid
         const itemGrid = document.getElementById("item-grid-template");
-        itemGrid.innerHTML = itemGrid.innerHTML.replace("&& !isSearching", `&& !isSearching && (!${invEditsEnabled} || !itemVaultEnabled) && !themePopup`);
+        itemGrid.innerHTML = itemGrid.innerHTML.safeReplace("&& !isSearching", `&& !isSearching && (!${invEditsEnabled} || !itemVaultEnabled) && !themePopup`);
         comp_item_grid.props.push("themePopup");
 
         Object.assign(vueData.equip, {
@@ -1008,7 +1026,7 @@ class MegaMod {
                 this.equip.theme = {
                     ...data,
                     titleTxt: this.loc.p_item_theme_title.format(themeName),
-                    itemTxt: this.loc.p_item_theme_items.format(themeName, ownedCount, items.length),
+                    itemTxt: this.loc.p_item_theme_items.format(ownedCount, items.length),
                     class: theme,
                     items
                 };
@@ -1027,18 +1045,18 @@ class MegaMod {
     
         // Add Item Icons & Price Commas
         const item = document.getElementById("item-template");
-        item.innerHTML = item.innerHTML.replace(`<span v-if="isVipItem`,
+        item.innerHTML = item.innerHTML.safeReplace(`<span v-if="isVipItem`,
             `<i v-if="${invEditsEnabled} && typeof showIcon !== 'undefined' && showIcon" :class="typeof iconClass !== 'undefined' ? iconClass :  ''" class="item-icon" @click.stop="iconClick" @mouseenter="iconHover"></i> 
             <span @click.stop="iconClick" @mouseenter="iconHover" v-if="isVipItem`
-        ).replace(`itemPrice`, 
+        ).safeReplace(`itemPrice`, 
             `typeof itemPrice === 'number' ? itemPrice.addSeparators() : itemPrice`
-        ).replace(
+        ).safeReplace(
             `<p v-if="showItemOnly"`,
             `<div v-show="${invEditsEnabled} && (typeof showLockIcon !== 'undefined' && showLockIcon)" class="centered">
                 <i :class="typeof lockIconClass !== 'undefined' ? lockIconClass :  ''" class="lock-icon"></i>
             </div> <p v-if="showItemOnly"`
         );
-        SvgIcon.template = SvgIcon.template.replace(`<svg`, `<svg id="test" @click="$emit('click', $event)" @mouseenter="$emit('mouseenter', $event)`);
+        SvgIcon.template = SvgIcon.template.safeReplace(`<svg`, `<svg id="test" @click="$emit('click', $event)" @mouseenter="$emit('mouseenter', $event)`);
         Vue.component('icon', SvgIcon);
     
         // Add Profile Image and Badges
@@ -1046,7 +1064,7 @@ class MegaMod {
         const badgesEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
         const pfpEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
         const defaultPFP = `${rawPath}/img/assets/other/pfpDefault.png`;
-        profileScreen.innerHTML = profileScreen.innerHTML.replace(
+        profileScreen.innerHTML = profileScreen.innerHTML.safeReplace(
             `center">\n\t\t\t\t\t<section>`,
             `center">
               <div id="player_photo" v-show="${pfpEnabled}" @click="vueApp.showPfpPopup()" class="clickme pfp-wrapper">
@@ -1055,7 +1073,7 @@ class MegaMod {
                     <i class="fas fa-camera"></i>
                 </div>
             </div><section>`
-        ).replace(`s"></p>`, `s"></p>
+        ).safeReplace(`s"></p>`, `s"></p>
             <span v-show="${badgesEnabled}" v-for="(row, i) in (badges?.rows.length ? badges.rows : [{ main: [], tier: [] }])">
                 <div class="roundme_md profile-badge-container">
                     <span :class="{'info-btn-span': !(row.main.length || row.tier.length) }" v-if="i === 0">
@@ -1084,10 +1102,14 @@ class MegaMod {
                 </div>
                 <br>
             </span>`
-        ).replace(
-            `mainLayout"`,
-            `mainLayout" :class="{ 'has-badges' : (${badgesEnabled}) }"`
-        ).replace("<stats-content", `<stats-content ref="statsContainer"`);
+        ).safeReplace(
+            `mainLayout"`, `mainLayout" :class="{ 'has-badges' : (${badgesEnabled}) }"`
+        ).safeReplace(
+            "<stats-content", `<stats-content ref="statsContainer"`
+        ).safeReplace(
+            `</header>`,
+            `<button id="btn_friends" class="ss_button btn_md font-800 btn_blue bevel_blue" v-show="window?.megaMod?.serverClient?.connected"> {{ loc.account_title_friends }}</button></header>`
+        );
     
     
         CompPlayerChallengeList.methods.showChallengeInfo = MEDIATABS.methods.showChallengeInfo = function() {
@@ -1291,14 +1313,14 @@ class MegaMod {
         const banHistoryEnabled = `extern?.modSettingEnabled?.('betterEggforce_banHistory') && ${isEggforcer}`;
         const gameHistoryEnabled = `extern?.modSettingEnabled?.('betterUI_gameHistory')`;
         const gameCodeEnabled = `extern?.modSettingEnabled?.('betterUI_gameCode')`;
-        playPanel.innerHTML = playPanel.innerHTML.replace(
+        playPanel.innerHTML = playPanel.innerHTML.safeReplace(
             `ss-button-dropdown>`,
             `ss-button-dropdown><button v-show="extern?.modSettingEnabled?.('betterUI_publicMaps')" @click="showMapPopup" class="map_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterUI_maps"></span></button>`
-        ).replace(
+        ).safeReplace(
             `<button @click="onJoinPrivateGameClick"`,
             `<button v-show="${banHistoryEnabled} && ${gameHistoryEnabled}" @click="showBanHistoryPopup" class="banHistory_btn ss_button btn_big btn_blue_light bevel_blue_light btn_play_w_friends display-grid align-items-center box_relative"><span v-html="loc.megaMod_betterEggforce_banHistory"></span></button>
             <button v-show="${gameHistoryEnabled} || ${banHistoryEnabled}" @click="showGameHistoryPopup" class="gameHistory_btn ss_button btn_big btn_blue bevel_blue btn_play_w_friends display-grid align-items-center box_relative"><span v-html="(${banHistoryEnabled} && !${gameHistoryEnabled}) ? loc.megaMod_betterEggforce_banHistory_alt : loc.megaMod_betterUI_gameHistory"></span></button><button @click="onJoinPrivateGameClick"`
-        ).replace(`sort="order"></ss-button-dropdown>`,
+        ).safeReplace(`sort="order"></ss-button-dropdown>`,
             `sort="order"></ss-button-dropdown>
             <ss-button-dropdown v-show="extern?.modSettingEnabled?.('betterUI_serverList')" class="play-panel-region-select btn-2 btn_serverselect" :loc="loc" :loc-txt="serverText" :selected-item="currentRegionId" @onListItemClick="onRegionPicked">
                 <template slot="dropdown">
@@ -1315,7 +1337,7 @@ class MegaMod {
                     </li>
                 </template>
             </ss-button-dropdown>`
-        ).replace(
+        ).safeReplace(
             `<input type="text"`,
             `<div v-show="${gameCodeEnabled}" class="game_code_inputs">
                 <template v-for="(input, index) in gameCodeValues.length">
@@ -1337,7 +1359,7 @@ class MegaMod {
                 </template>
             </div><input type="text" v-show="!${gameCodeEnabled}"
             `
-        ).replace(
+        ).safeReplace(
             `<div class="display-grid grid-column-2-1 gap-sm"`,
             `<div class="display-grid grid-column-2-eq" v-show="extern?.isEggforcer?.() && extern?.modSettingEnabled?.('betterEggforce_observeToggle')">
                 <label class="ss_checkbox label">{{ loc.p_game_code_observe }}
@@ -1350,7 +1372,7 @@ class MegaMod {
                 </div>
             </div>
             <div class="display-grid gap-sm" :class="{'grid-column-1': ${gameCodeEnabled}, 'grid-column-2-1': !${gameCodeEnabled}}"`
-        ).replace(
+        ).safeReplace(
             `ss_button_join"`,
             `ss_button_join" :class="{'btn_red bevel_red': (${gameCodeEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) !== 3), 'btn_green bevel_green': (${gameCodeEnabled} && (home.joinPrivateGamePopup.code.match(/[A-Za-z]{4}/g)?.length ?? 0) === 3)}"`
         );
@@ -1556,25 +1578,61 @@ class MegaMod {
                 vueApp.$refs.leaveGameWarningPopup.show();
             },
             pfpUrlInput: "",
+            pfpUploading: false,
             showPfpPopup() {
                 if (!extern.modSettingEnabled('betterUI_profile')) return;
                 BAWK.play("ui_popupopen");
                 const photo = vueApp.photoUrl || "";
-                vueApp.pfpUrlInput = (photo.startsWith('data:') || photo == defaultPFP) ? '' : photo;
+                vueApp.pfpUrlInput = (photo.includes('supabase.co') || photo == defaultPFP) ? '' : photo;
                 vueApp.$refs.pfpPopup.show();
             },
             openPfpFileDialog() {
                 vueApp.$refs.pfpFileInput.click();
             },
-            onPfpFileSelected(e) {
+            async onPfpFileSelected(e) {
                 const file = e.target.files[0];
                 if (!file) return;
+
+                if (!file.type.startsWith('image/')) {
+                    BAWK.play('ui_reset');
+                    vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_type_error', 'ok');
+                    return;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    BAWK.play('ui_reset');
+                    vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_tooBig', 'ok');
+                    return;
+                }
+
+                const previousUrl = vueApp.photoUrl;
                 const reader = new FileReader();
-                reader.onload = (ev) => {
-                    vueApp.applyPfp(ev.target.result, false); // base64, skip firebase
-                    vueApp.pfpUrlInput = '';
-                };
+                reader.onload = (ev) => vueApp.applyPfp(ev.target.result, false, false);
                 reader.readAsDataURL(file);
+
+                // Server upload is only attempted if the feature is actually enabled
+                if (!extern.modSettingEnabled('modServerClient')) {
+                    e.target.value = '';
+                    return; // local base64 pfp from the reader above is already applied
+                }
+
+                vueApp.pfpUploading = true;
+                try {
+                    const avatarUrl = await unsafeWindow.megaMod.serverClient.uploadAvatar(file);
+                    vueApp.applyPfp(avatarUrl, false, false);
+                } catch (err) {
+                    const ERROR_LOCS = {
+                        NOT_FOUND:      'megaMod_betterUI_pfp_notFound',
+                        FILE_TOO_LARGE: 'megaMod_betterUI_pfp_tooBig',
+                        INVALID_TYPE:   'megaMod_betterUI_pfp_type_error',
+                        SERVER_ERROR:   'megaMod_betterUI_pfp_serverError',
+                    };
+                    const locKey = ERROR_LOCS[err.code] ?? 'megaMod_avatarUpload_error';
+                    vueApp.showGenericPopup('generic_error_title', locKey, 'ok');
+                    vueApp.applyPfp(previousUrl, false, false);
+                } finally {
+                    vueApp.pfpUploading = false;
+                    e.target.value = '';
+                }
             },
             applyPfpUrl() {
                 const url = vueApp.pfpUrlInput.trim();
@@ -1591,39 +1649,46 @@ class MegaMod {
                         const type = res.headers.get('Content-Type') || '';
                         if (!type.startsWith('image/')) {
                             BAWK.play('ui_reset');
-                            vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_url_error', 'ok');
+                            vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_type_error', 'ok');
                             return;
                         }
-                        vueApp.applyPfp(url, true);
+                        vueApp.applyPfp(url, true); // still updates Firebase photoURL
+                        if (extern.modSettingEnabled('modServerClient')) {
+                            unsafeWindow.megaMod.serverClient.setAvatarUrl(url);
+                        }
                     })
-                    .catch(err => {
-                        // CORS block means the server responded but denied access - reject it
-                        // A real network failure (bad URL, server down) also rejects here
-                        // Either way it's not a reliably accessible image
+                    .catch(() => {
                         BAWK.play('ui_reset');
                         vueApp.showGenericPopup('generic_error_title', 'megaMod_betterUI_pfp_url_error', 'ok');
                     });
             },
-            applyPfp(url, updateFirebase) {
+            applyPfp(url, updateFirebase, playSfx = true) {
                 vueApp.photoUrl = url;
-                localStore.setItem("megaMod_pfp", vueApp.photoUrl);
+                localStore.setItem(unsafeWindow?.megaMod?.betterUI?.getProfilePicKey(), vueApp.photoUrl);
                 if (updateFirebase) vueApp.updateFirebasePFP();
-                BAWK.play("ui_onchange");
+                if (playSfx) BAWK.play("ui_onchange");
             },
             resetPfp() {
                 vueApp.photoUrl = defaultPFP;
-                localStore.removeItem("megaMod_pfp");
+                localStore.removeItem(unsafeWindow?.megaMod?.betterUI?.getProfilePicKey());
                 vueApp.updateFirebasePFP();
                 BAWK.play("ui_reset");
             },
             updateFirebasePFP() {
                 if (firebase.auth().currentUser) firebase.auth().currentUser.updateProfile({ photoURL: vueApp.photoUrl }).catch(() => {});
+            },
+            confirmServerClient() {
+                unsafeWindow?.megaMod.updateModSetting("modServerClient", true);
+                unsafeWindow?.megaMod?.serverClient.init();
+            },
+            cancelServerClient() {
+                vueApp.$refs.settings.onSettingToggled("modServerClient", false);
             }
         });
     
         // Adjust size of stats container for badges
         const stats = document.getElementById("stats-stats-template");
-        stats.innerHTML = stats.innerHTML.replace(
+        stats.innerHTML = stats.innerHTML.safeReplace(
             `class="stats-container`,
             `:class="{ [statsClassName] : ${badgesEnabled}, 'stats-container-pfp' : ${pfpEnabled} }" class="stats-container`
         );
@@ -1635,7 +1700,7 @@ class MegaMod {
         // VIP Color Slider
         const sliderUnlocked = `extern?.modSettingEnabled?.('colorSlider_unlock')`;
         const colorSelect = document.getElementById("color-select-template");
-        colorSelect.innerHTML = colorSelect.innerHTML.replace(`</div>\n\t</div>\n`,
+        colorSelect.innerHTML = colorSelect.innerHTML.safeReplace(`</div>\n\t</div>\n`,
             `</div>
           <div id="color-picker" v-show="extern?.modSettingEnabled?.('colorSlider')" class="color-slider">
             <div class="slider-locks" v-show="!(${sliderUnlocked} || isUpgrade)">
@@ -1647,7 +1712,7 @@ class MegaMod {
             <input id="colorSlider_hue" type="range" :disabled="!${sliderUnlocked} && !vueApp.isUpgraded" @input="updateHue" click="sliderClick" @change="sliderChange" v-model="hueSliderVal" :value="hueSliderVal" min="0" max="100" step="0.00001">
              <input id="colorSlider_brightness" type="range" :disabled="!${sliderUnlocked} && !vueApp.isUpgraded" @input="updateBrightness" click="sliderClick" @change="sliderChange" v-model="brightnessSliderVal" :value="brightnessSliderVal" min="0" max="100" step="0.00001">
           </div>
-        </div>`).replace(
+        </div>`).safeReplace(
                 `<span v-for="(c, index) in paidColors`,
                 `<button class="ss_button roundme_lg btn_blue bevel_blue btn-account-w-icon" @click="randomizeColor" v-show="extern?.modSettingEnabled?.('colorSlider_randomizer', true)"><i class="fas fa-random"></i></button> <span v-for="(c, index) in paidColors`);
     
@@ -1803,43 +1868,43 @@ class MegaMod {
         const crosshairMain = `${inFirstPerson} && !extern?.modSettingEnabled?.('specTweaks_crosshair_main')`;
         const updownKeybinds = `extern?.modSettingEnabled?.('specTweaks_updown')`;
         const eggforceBan = `extern?.modSettingEnabled?.('betterEggforce_banPopup')`;
-        const uniqueIdElem = `<p v-show="${eggforceBan} && ${isEggforcer}" @click="copyPlayerDetails" class="text_blue5 playeraction_details">{{ loc.ui_game_playeractions_uniqueid }} {{ playerActionsPopup?.uniqueId ?? '?' }} <i class="fas6 fa-copy"></i></p>`;
+        const uniqueIdElem = `<p v-show="${eggforceBan} && ${isEggforcer}" @click="copyPlayerDetails" class="text_blue5 playeraction_details">{{ loc.ui_game_playeractions_uniqueid }} {{ String(playerActionsPopup?.uniqueId ?? '?') }} <i class="fas6 fa-copy"></i></p>`;
         const gameScreen = document.getElementById("game-screen-template");
-        gameScreen.innerHTML = gameScreen.innerHTML.replace(
+        gameScreen.innerHTML = gameScreen.innerHTML.safeReplace(
             `uts">`,
             `uts">
              <h5 v-show="${timerEnabled} && !game.isPaused" class="nospace title">TIME</h5>
              <p v-show="${timerEnabled} && !game.isPaused" id="playTimer" class="name">0:00.000</p>`
-        ).replace(
+        ).safeReplace(
             `!ui.game.spectate`, `(!game.isPaused && !ui.game.spectate) || (!game.isPaused && ui.game.spectatingPlayerName && extern?.modSettingEnabled?.('specTweaks_health'))`
-        ).replace(
+        ).safeReplace(
             `reticleDot"`, `reticleDot" v-show="${crosshairDot}"`
-        ).replace(
+        ).safeReplace(
             `redDotReticle"`, `redDotReticle" v-show="${crosshairDot}"`
-        ).replace(
+        ).safeReplace(
             `crosshairContainer"`, `crosshairContainer" v-show="${crosshairMain}"`
-        ).replace(
+        ).safeReplace(
             `shotReticleContainer"`, `shotReticleContainer" v-show="${crosshairMain}"`
-        ).replace(
+        ).safeReplace(
             `readyBrackets"`, `readyBrackets" v-show="${crosshairMain}"`
-        ).replace(
+        ).safeReplace(
             `<span class="fas fa-arrow-up"></span>`,
             `<span v-show="!(${updownKeybinds})" class="fas fa-arrow-up"></span>{{ upSpectateTxt }}`
-        ).replace(
+        ).safeReplace(
             `<span class="fas fa-arrow-down"></span>`,
             `<span v-show="!(${updownKeybinds})" class="fas fa-arrow-down"></span>{{ downSpectateTxt }}`
-        ).replace(
+        ).safeReplace(
             `&nbsp;{{ loc.ui_game_spectate_select`,
             `{{ loc.ui_game_spectate_select`
-        ).replace(
+        ).safeReplace(
             `div>{{ spectateControls }}`, `div v-html="spectateControlTxt">`
-        ).replace(
+        ).safeReplace(
             `<span class="text_yellow"`,
             `<i v-show="extern?.modSettingEnabled?.('betterChat_chatIcons')" class="fas6 fa-bullhorn hidden text_yellow ss_marginright_xs"></i><span class="text_yellow"`
-        ).replace(
+        ).safeReplace(
             `<small-popup id="playerActionsPopup"`,
             `<small-popup id="playerActionsPopup"`
-        ).replace(
+        ).safeReplace(
             `<div id="respawn-menu">`,
             `<div id="respawn-menu" class="display-grid align-items-center gap-sm">
             <div v-show="!isPoki && firebaseId && ${chicknWinnerUpgrades} && chwBarVisible" id="chw-progress-wrapper" class="box_relative">
@@ -1857,13 +1922,13 @@ class MegaMod {
                 </div>
                 <!-- <img class="box_aboslute chw-eggs chw-progress-img" src="img/egg_pack_small.webp" alt=""> -->
             </div>`
-        ).replace(
+        ).safeReplace(
             `<div id="cts-message" `,
             `<div id="ingame-notif" class="in-game-notification centered_x" v-show="inGameNotifShowing"><h2 class="nospace text_white">{{ inGameNotifMsg }}</h2></div><div id="cts-message" `
-        ).replace(
+        ).safeReplace(
             `ref="banPlayerPopup"`,
             `ref="banPlayerPopup" :class="{ 'wider' : ${eggforceBan} }"`
-        ).replace(
+        ).safeReplace(
             `</select>`,
             `</select>
             <div v-show="${eggforceBan}"> 
@@ -1890,24 +1955,68 @@ class MegaMod {
                 </div>
             </div>
             `
-        ).replace(
+        ).safeReplace(
             `<input ref="banReason"`,
             `<h4 class="text_blue5 ss_marginbottom_sm" v-show="${eggforceBan}">{{ loc.ui_game_playeractions_ban_reason }}</h4>
             <select ref="banReasonSelect" v-model="banPlayerPopup.selectedBanReason" v-show="${eggforceBan}" @change="updateChatMessage" class="ss_field fullwidth">
                 <option v-for="reason in banReasons" v-bind:value="reason.value" v-html="loc[reason.locKey]"></option>
             </select>
             <input v-show="banPlayerPopup.selectedBanReason === 0" :class="{ 'fullwidth' : ${eggforceBan} }" ref="banReason" @keyup="updateChatMessage"`
-        ).replace(
+        ).safeReplace(
             `<select ref="banDuration"`,
             `<h4 class="text_blue5 ss_marginbottom_sm" v-show="${eggforceBan}">{{ loc.ui_game_playeractions_ban_duration }}</h4><select :class="{ 'fullwidth' : ${eggforceBan} }" ref="banDuration"`
-        ).replaceAll(
+        ).safeReplace(
             `>{{ playerActionsPopup.playerName }}</h5>`,
             `:class="{ 'ss_marginbottom_sm' : (${eggforceBan} && ${isEggforcer}) }">{{ playerActionsPopup.playerName }}</h5>
-            ${uniqueIdElem}`
-        ).replaceAll(
+            ${uniqueIdElem}`,
+            true
+        ).safeReplace(
             `<div v-if="playerActionsPopup.vipMember"`,
-            `${uniqueIdElem}<div v-if="playerActionsPopup.vipMember"`
+            `${uniqueIdElem}<div v-if="playerActionsPopup.vipMember"`,
+            true
+        ).safeReplace(
+            `<h4 class="ss_button btn_medium btn_yolk bevel_yolk"`,
+            `<h4 class="ss_button btn_medium btn_green bevel_green" v-if="playerActionsPopup?.megaMod" v-on:click="onProfileClicked">{{ loc.account_title_profile }}</h4><h4 class="ss_button btn_medium btn_yolk bevel_yolk"`
+        ).safeReplace(
+            `<small-popup id="banPlayerPopup"`,
+            `<small-popup id="profilePopup" ref="profilePopup" :hide-confirm="true" :hide-cancel="true" @popup-opened="sharedPopupOpened" @popup-closed="sharedPopupClosed">
+                <template slot="header">{{ playerActionsPopup.playerName }}'s Profile</template>
+                <template slot="content">
+                    <header class="f_row align-items-center ss_marginbottom">
+                        <div v-if="profilePopup.avatarUrl" class="pfp-wrapper pfp-wrapper-sm ss_marginright">
+                            <img :src="profilePopup.avatarUrl" class="roundme_md"/>
+                        </div>
+                        <section>
+                            <h3 class="nospace text_white">{{ playerActionsPopup.playerName }}</h3>
+                            <p v-if="profilePopup.dateCreated" class="account-create-date nospace text_white opacity-7">
+                                Account Created: <strong>{{ new Date(profilePopup.dateCreated).toLocaleDateString() }}</strong>
+                            </p>
+                            <p v-if="profilePopup.currentBalance != null" class="nospace text_white opacity-7 f_row align-items-center">
+                                <img src="img/svg/ico_goldenEgg.svg" alt="Golden Egg Icon" class="egg_icon ss_marginright_sm">
+                                <strong>{{ profilePopup.currentBalance.toLocaleString() }}</strong>
+                            </p>
+                        </section>
+                    </header>
+                    <stats-content
+                        :loc="loc"
+                        :stats-lifetime="profilePopup.statsLifetime ?? {}"
+                        :stats-monthly="profilePopup.statsCurrent ?? {}"
+                        :kdr-lifetime="null"
+                        :show-lifetime="true"
+                        :eggs-spent="profilePopup.eggsSpent ?? 0"
+                        :eggs-spent-monthly="profilePopup.eggsSpentMonthly ?? 0"
+                        :challenges-claimed="{ total: profilePopup.challengesClaimed, unique: profilePopup.challengesClaimedUnique }"
+                    />
+                </template>
+            </small-popup>
+            <small-popup id="banPlayerPopup"`
         );
+
+        // PlayerActions Profile Button & Functionality
+        Object.assign(vueData.playerActionsPopup, { megaMod: false });
+        Object.assign(vueData, { profilePopup: { avatarUrl: "", currentBalance: 0, dateCreated: "", eggsSpent: 0, eggsSpentMonthly: 0, statsLifetime: {}, statsCurrent: {} }});
+        Object.assign(comp_game_screen.components, { 'stats-content': STATSPOPUP })
+        
         // Better Ban Popup
         Object.assign(vueData.banPlayerPopup, {
             selectedBanReason: 3,
@@ -2018,7 +2127,7 @@ class MegaMod {
             addBan(name, uniqueId, duration, reason) {
                 const gameCode = this.game.shareLinkPopup.code.toUpperCase();
                 if (!gameCode) return;
-
+                
                 const { mapName, gameType } = this.game;
                 const banData = {
                     date: new Date().toJSON(),
@@ -2039,12 +2148,19 @@ class MegaMod {
                 const { playerName, uniqueId } = this.playerActionsPopup;
                 const banReason = extern?.modSettingEnabled?.('betterEggforce_banPopup') ? this.getBanReason() : this.$refs.banReason.value;
                 this.addBan(playerName, uniqueId, this.$refs.banDuration.value, banReason);
+            },
+            async onProfileClicked() {
+                const profileData = await unsafeWindow.megaMod?.serverClient?.getProfile(this.playerActionsPopup.uniqueId);
+                if (!profileData) return;
+                Object.assign(this.profilePopup, profileData);
+                this.$refs.playerActionsPopup.hide();
+                this.$refs.profilePopup.show();
             }
         });
 
         // Photobooth Egg Spin
         const photoBooth = document.getElementById("photoBooth-screen-template");
-        photoBooth.innerHTML = photoBooth.innerHTML.replace(
+        photoBooth.innerHTML = photoBooth.innerHTML.safeReplace(
             `loc.screen_photo_booth_screenshot }}</button>`,
             `loc.screen_photo_booth_screenshot }}</button>
         <div v-show="extern?.modSettingEnabled?.('pbSpin')">
@@ -2060,7 +2176,7 @@ class MegaMod {
             <button class="ss_button btn_yolk bevel_yolk box_relative fullwidth text-uppercase" @click="spinEgg(false)"><i class="fas fa-sync-alt"></i> {{ loc.screen_photo_booth_spin }}</button>
             <button class="ss_button btn_yolk bevel_yolk box_relative fullwidth text-uppercase" @click="spinEgg(true)"><i class="fas fa-file-video"></i> {{ loc.screen_photo_booth_gif }}</button>
         </div>
-        `).replace(
+        `).safeReplace(
             `loc.screen_photo_booth_screenshot2`,
             `isGifCapture ? loc.screen_photo_booth_spinning_gif : loc.screen_photo_booth_screenshot2`
         );
@@ -2173,30 +2289,30 @@ class MegaMod {
     
         const changelog = document.getElementById("changelogPopup");
         const megaModChangelog = "changelog.isMegaMod || false";
-        changelog.innerHTML = changelog.innerHTML.replace(
+        changelog.innerHTML = changelog.innerHTML.safeReplace(
             `{{ loc.changelog_title }}`,
             ``
-        ).replace(
+        ).safeReplace(
             `id="popup_title nospace"`,
             `id="popup_title nospace" v-html="(${megaModChangelog}) ? loc.megaMod_changelog_title : loc.changelog_title"`
-        ).replace(
+        ).safeReplace(
             `changelog.current`,
             `(${megaModChangelog}) ? changelog.megaMod.current : changelog.current`
-        ).replace(
+        ).safeReplace(
             `changelog.showHistoryBtn`,
             `(${megaModChangelog}) ? changelog.showMegaModHistoryBtn : changelog.showHistoryBtn`
-        ).replace(
+        ).safeReplace(
             "showHistoryChangelogPopup", `showHistoryChangelogPopup(${megaModChangelog})`
-        ).replace(
+        ).safeReplace(
             `<div id="btn`,
             `<button v-if="${megaModChangelog}" @click="openMegaModInfo" class="ss_button btn_yolk bevel_yolk ss_margintop_lg">{{ loc.megaMod_changelog_wtc }}</button> <div id="btn`
         );
     
         // Add Footer Changelog
         const footer = document.getElementById("footer-links-panel-template");
-        footer.innerHTML = footer.innerHTML.replace("onChangelogClicked", "onChangelogClicked(false)").replace(
-            `version }}</button> | `,
-            `version }}</button> | 
+        footer.innerHTML = footer.innerHTML.safeReplace("onChangelogClicked", "onChangelogClicked(false)").safeReplace(
+            `version }}</button>`,
+            `version }}</button>
             <button class="ss_button_as_text" target="_blank" @click="onChangelogClicked(true)">The MegaMod <i class='fas fa-tools fa-sm'></i></button> | 
             <button class="ss_button_as_text modServer" target="_blank" @click="onServerClicked"><img src="${unsafeWindow.rawPath}/img/assets/logos/modServer.png" class='serverIcon'></img></button> | `);
     
@@ -2209,7 +2325,7 @@ class MegaMod {
     
         // Challenge Status (Icon + Tooltip)
         const challenge = document.getElementById("player_challenge");
-        challenge.innerHTML = challenge.innerHTML.replace(
+        challenge.innerHTML = challenge.innerHTML.safeReplace(
             `<div ref="title"`,
             `<div class="player-challenge-tool-tip status">
                 <div class="tool-tip">
@@ -2218,7 +2334,7 @@ class MegaMod {
                 </div>
             </div>
             <div ref="title"`
-        ).replace(
+        ).safeReplace(
             `class="player-challenge-single`,
             `:class="{ 'claimed' : data.claimed }" class="player-challenge-single`
         );
@@ -2253,24 +2369,24 @@ class MegaMod {
         // (Home Screen) Clock Icon Next To Challenge Timer, Challenge Info Button
         const chlgInfoIcon = `<i v-show="${chlgUpgrades}" class="fas fa-info-circle info-btn" @click="showChallengeInfo()"></i>`;
         const mediaTabs = document.getElementById("media-tabs-template");
-        mediaTabs.innerHTML = mediaTabs.innerHTML.replace(
+        mediaTabs.innerHTML = mediaTabs.innerHTML.safeReplace(
             `<span v-show="challengeDailyData.days"`,
             `<i v-show="${chlgUpgrades}" class="far fa-clock"></i><span <span v-show="challengeDailyData.days"`
-        ).replace(
+        ).safeReplace(
             `</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`,
             `${chlgInfoIcon}</span>\n\t\t\t\t</h4>\n\t\t\t\t<div class="display-grid`
         );
     
         // (Respawn Menu) Challenge Info Button
         const challengeList = document.getElementById("player_challenge_list");
-        challengeList.innerHTML = challengeList.innerHTML.replace(
+        challengeList.innerHTML = challengeList.innerHTML.safeReplace(
             `loc.challenges }}</h4>`,
             `loc.challenges }} ${chlgInfoIcon}</h4>`
         );
     
         // FontAwesome Regular Icon on Homepage (to have the icon font loaded for everything else) 
         const gameInfo = document.getElementById("gameDescription");
-        gameInfo.innerHTML = gameInfo.innerHTML.replace(
+        gameInfo.innerHTML = gameInfo.innerHTML.safeReplace(
             `>{{ loc.home_desc_about }}`,
             `><i v-show="${betterUIEnabled}" class="far6 fa-egg-fried"></i> 
             {{ loc.home_desc_about }}
@@ -2280,7 +2396,7 @@ class MegaMod {
         const localizeNumber = (id, vals) => {
             const template = document.getElementById(id);
             vals.forEach(val => {
-                template.innerHTML = template.innerHTML.replace(val, `(typeof ${val} === 'number' ? ${val.trim()}.addSeparators() : ${val})`);
+                template.innerHTML = template.innerHTML.safeReplace(val, `(typeof ${val} === 'number' ? ${val.trim()}.addSeparators() : ${val})`);
             });
         };
 
@@ -2293,7 +2409,7 @@ class MegaMod {
         ].forEach(x => localizeNumber(x.id, x.vals))
 
         const giveStuff = document.getElementById('give-stuff-popup');
-        giveStuff.innerHTML = giveStuff.innerHTML.replace(`{{giveStuffPopup.eggs}}`, `{{ giveStuffPopup.eggs && giveStuffPopup.eggs.addSeparators() }}`);
+        giveStuff.innerHTML = giveStuff.innerHTML.safeReplace(`{{giveStuffPopup.eggs}}`, `{{ giveStuffPopup.eggs && giveStuffPopup.eggs.addSeparators() }}`);
 
         const oldGetGoal = CompPlayerChallengeSingle.computed.getGoal;
         CompPlayerChallengeSingle.computed.getGoal = function() {
@@ -2398,16 +2514,16 @@ class MegaMod {
 
         const hasOwnedItem = `${chicknWinnerUpgrades} && rewardHasOwnedItem`;
         const chicknWinner = document.getElementById("chickn-winner-template");
-        chicknWinner.innerHTML = chicknWinner.innerHTML.replace(
+        chicknWinner.innerHTML = chicknWinner.innerHTML.safeReplace(
             `rewardHasItem`,
             `(rewardHasItem || (${hasOwnedItem}))`
-        ).replace(
+        ).safeReplace(
             `<div v-if="showAmountRewarded`,
             `<div :class="{ ownedItem: ${hasOwnedItem} }" v-if="showAmountRewarded`
-        ).replace(
+        ).safeReplace(
             `rewardItem.name }}</h4>`,
             `rewardItem.name }}</h4><h4 v-if="${hasOwnedItem}" class="text_white text-center nospace text-shadow-black-40">{{ loc.megaMod_betterUI_chwOwnedItem }}</h4>`
-        ).replace(
+        ).safeReplace(
             `<item`,
             `<item is-reward="true"`
         );
@@ -2797,27 +2913,44 @@ class MegaMod {
         `;
 
         const pfpPopup = `
-        <small-popup id="pfpPopup" ref="pfpPopup" hide-confirm="true" hide-cancel="true" :overlay-close="true" class="megamod-popup">
+        <small-popup id="pfpPopup" ref="pfpPopup" hide-confirm="true" hide-cancel="true" :overlay-close="!pfpUploading" class="megamod-popup">
             <template slot="header">{{ loc.megaMod_betterUI_pfp_title }}</template>
             <template slot="content">
-                <div class="pfp-preview-wrap text-center ss_marginbottom">
-                    <img :src="photoUrl || '${rawPath}/img/assets/other/pfpDefault.png'" class="roundme_md pfp-preview"/>
+                <div class="pfp-preview-wrap text-center ss_marginbottom box_relative">
+                    <img :src="photoUrl || '${rawPath}/img/assets/other/pfpDefault.png'" class="roundme_md pfp-preview" :style="{ opacity: pfpUploading ? 0.4 : 1 }"/>
+                    <div v-show="pfpUploading" class="centered">
+                        <i class="fas fa-spinner fa-spin fa-2x text_white"></i>
+                    </div>
                 </div>
-                <button class="ss_button btn_blue bevel_blue fullwidth ss_marginbottom" @click="openPfpFileDialog">
-                    <i class="fas fa-upload"></i> {{ loc.megaMod_betterUI_pfp_upload }}
+                <button class="ss_button btn_blue bevel_blue fullwidth ss_marginbottom" @click="openPfpFileDialog" :disabled="pfpUploading">
+                    <i :class="pfpUploading ? 'fas fa-spinner fa-spin' : 'fas fa-upload'"></i>
+                    {{ loc.megaMod_betterUI_pfp_upload }}
                 </button>
-                <input ref="pfpFileInput" type="file" accept="image/*" style="display:none" @change="onPfpFileSelected">
+                <input ref="pfpFileInput" type="file" accept="image/*" style="display:none" @change="onPfpFileSelected" :disabled="pfpUploading">
                 <h4 class="text_blue5 ss_marginbottom_sm">{{ loc.megaMod_betterUI_pfp_url }}</h4>
                 <div class="display-grid grid-column-auto-1 gap-sm">
-                    <input ref="pfpUrlInput" type="text" class="ss_field font-nunito fullwidth" :placeholder="loc.megaMod_betterUI_pfp_url_placeholder" v-model="pfpUrlInput">
-                    <button class="ss_button btn_blue bevel_blue" @click="applyPfpUrl"><i class="fas fa-check"></i></button>
+                    <input ref="pfpUrlInput" type="text" class="ss_field font-nunito fullwidth" :placeholder="loc.megaMod_betterUI_pfp_url_placeholder" v-model="pfpUrlInput" :disabled="pfpUploading">
+                    <button class="ss_button btn_blue bevel_blue" @click="applyPfpUrl" :disabled="pfpUploading">
+                        <i class="fas fa-check"></i>
+                    </button>
                 </div>
-                <button v-show="photoUrl" class="ss_button btn_red bevel_red fullwidth ss_margintop" @click="resetPfp">
+                <button v-show="photoUrl && !pfpUploading" class="ss_button btn_red bevel_red fullwidth ss_margintop" @click="resetPfp">
                     <i class="fas fa-trash"></i> {{ loc.megaMod_betterUI_pfp_reset }}
                 </button>
             </template>
         </small-popup>
-    `;
+        `;
+
+        const serverPopup = `
+            <small-popup id="serverClientPopup" ref="serverClientPopup" @popup-confirm="confirmServerClient" @popup-cancel="cancelServerClient" hide-close="true">
+                <template slot="header">{{ loc.megaMod_serverClientPopup_title }}</template>
+                <template slot="content">
+                    <p v-html="loc.megaMod_serverClientPopup_desc"></p>
+                 </template>
+                <template slot="cancel">{{ loc.gdpr_disagree }}</template>
+                <template slot="confirm">{{ loc.gdpr_agree }}</template>
+            </small-popup>
+        `;
 
         // Add Popups
         const popupInterval = setInterval(() => {
@@ -2825,7 +2958,7 @@ class MegaMod {
             if (!gameDesc) return;
             clearInterval(popupInterval);
             gameDesc.insertAdjacentHTML('afterend', 
-                `${pfpPopup} ${gameLeavePopup} ${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
+                `${serverPopup} ${pfpPopup} ${gameLeavePopup} ${badgeNotifPopup} ${badgePopup} ${challengePopup} ${mapPopup} ${gameHistoryPopup} ${banHistoryPopup} ${errorPopups} ${updatePopups}`
             );
         });
         // CW Popup Theme
@@ -2897,17 +3030,6 @@ class MegaMod {
         const regex = (strings, ...values) => new RegExp(strings.raw.reduce((acc, str, i) => acc + str + (values[i] ?? ""), ""), "g");
         const escSymbols = x => x.replaceAll(/[\$_]/g, '\\$&');
 
-        String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
-            ids = Array.isArray(ids) ? ids : [ids];
-            //MegaMod.log("Replacing:", `${searchStr} --> ${replacement}`);
-            const str = this.toString();
-            if (str.indexOf(searchStr) === -1) {
-                ids.forEach(id => unsafeWindow.megaMod.addRegexErrId(id));
-                MegaMod.error("Match not found for:", searchStr);
-                return str;
-            }
-            return all ? str.replaceAll(searchStr, replacement) : str.replace(searchStr, replacement);
-        };
         String.prototype.safeMatchAll = function(regex, ids, ignoreSymbols = false) {
             ids = Array.isArray(ids) ? ids : [ids];
 
@@ -3138,15 +3260,12 @@ class MegaMod {
         const [mePlayerInit, mePlayerVar, playerInst] = regex`\((${v})\=(${v})\)\.ws`.safeExec(src, "colorSlider");
         if (mePlayerInit && mePlayerVar) {
             const [,meActorVar] = regex`${escSymbols(mePlayerVar)}\.(${v})\.hit\(\)`.safeExec(src, "colorSlider");
-            if (meActorVar) {
-                actorVar = meActorVar;
-                src = src.safeReplace(mePlayerInit, `(extern?.usingSlider?.() && vueApp.equip.colorIdx === 14 && ${playerInst}.${meActorVar}.setShellColor(14)), ${mePlayerInit}`, "colorSlider");
-            }
+            if (meActorVar) actorVar = meActorVar;
         }
         src = src.safeReplace("this.upgradeExpiryDate:", "(this.upgradeExpiryDate || extern?.usingSlider?.() && this.colorIdx === 14):", "colorSlider");
     
         // Freeze Frame
-        const [,freezeVar] = regex`\"\\\\\"\=\=${v}\)\{(${v})\=\!0`.safeExec(src, "specTweaks_freezeKeybind");
+        const [,freezeVar] = regex`\"Backslash\"\=\=${v}\)\{(${v})\=\!0`.safeExec(src, "specTweaks_freezeKeybind");
         // Gamemodes go out of sync
         //const [,freezeVarKotc] = regex`removeAll\(\)\,(${v})\=\!0`.safeExec(src, "specTweaks_freezeKeybind");
         if (freezeVar /*&& freezeVarKotc*/) {
@@ -3200,12 +3319,14 @@ class MegaMod {
         `;
         src = src.safeReplace("resize(){", `${hitIndicatorFunc}resize(){`, "betterUI_hitMarkers");
     
-        const [,hitMarkers] = regex`${v}\.hitMarkers\?(${v})\.show`.safeExec(src, "betterUI_hitMarkers");
-        if (hitMarkers) src = src.safeReplace("catalog:", `switchHitMarkerColor: (enabled) => ${hitMarkers}.switchColor(enabled),catalog:`, "betterUI_hitMarkers");
+        if (src.includes("switchColor(enabled)")) {
+            const [,hitMarkers] = regex`${v}\.hitMarkers\?(${v})\.show`.safeExec(src, "betterUI_hitMarkers");
+            if (hitMarkers) src = src.safeReplace("catalog:", `switchHitMarkerColor: (enabled) => ${hitMarkers}.switchColor(enabled),catalog:`, "betterUI_hitMarkers");
+        }
     
         // Longer Chat
         const [chatLengthMatch] = regex`\}${v}\.length\>4`.safeExec(src, ["betterChat_longerChat", "betterChat_infChat"]);
-        if (chatLengthMatch) src = src.safeReplace(chatLengthMatch, chatLengthMatch.replace(`>4`, `>(extern?.modSettingEnabled?.("betterChat_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterChat_longerChat") ? 6 : 4)`));
+        if (chatLengthMatch) src = src.safeReplace(chatLengthMatch, chatLengthMatch.safeReplace(`>4`, `>(extern?.modSettingEnabled?.("betterChat_infChat") ? Number.MAX_SAFE_INTEGER : extern?.modSettingEnabled?.("betterChat_longerChat") ? 6 : 4)`));
     
         // Chat Events
         const [,playerClickFunc, uniqueIdVar] = regex`onclick\=(${v})\(${v}\.(${v})\,${v}\,${v}\)`.safeExec(src, "betterChat_chatEvents");
@@ -3279,7 +3400,7 @@ class MegaMod {
         }
 
         // Join Game Chat Event
-        const [joinGameMatch, joinPlayerVar] = regex`(${v}).${v}\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterChat_chatEvent_joinGame", "betterEggforce_autoBan"]);
+        const [joinGameMatch, joinPlayerVar, playingVar] = regex`(${v}).(${v})\|\|\1\.${v}\.removeFromPlay\(\)`.safeExec(src, ["betterChat_chatEvent_joinGame", "betterEggforce_autoBan"]);
         const chatEventFuncAdded = src.includes("clientReady = false;");
         if (chatEventFuncAdded) {
             const [gameJoinedMatch] = regex`vueApp\.gameJoined\(${v}`.safeExec(src, "betterChat_chatEvent_joinGame");
@@ -3287,11 +3408,14 @@ class MegaMod {
             src = src.safeReplace(`vueApp.delayInGamePlayButtons`, `clientReady = true;vueApp.delayInGamePlayButtons`, "betterChat_chatEvent_joinGame");
             if (joinGameMatch && joinPlayerVar) src = src.safeReplace(joinGameMatch, `if (clientReady) addChatEvent(ChatEvent.joinGame, ${joinPlayerVar});${joinGameMatch}`, "betterChat_chatEvent_joinGame");
         }
+        // [Server] Join Game
+        const [,gameCodeVar] = regex`shareLinkPopup\.code\=(${v})`.safeExec(src)
+        if (joinGameMatch && joinPlayerVar && uniqueIdVar && gameCodeVar) src = src.safeReplace(joinGameMatch, `if (${joinPlayerVar}.ws) window.megaMod?.serverClient?.joinRoom(${gameCodeVar}?.toUpperCase(), ${joinPlayerVar}.${uniqueIdVar});${joinGameMatch}`, "");
 
         // Leave Game Chat Event
         const [leaveGameMatch, leavePlayerVar] = regex`\b(?!this\b)(${v})\.${v}\.remove\(\)`.safeExec(src, "betterChat_chatEvent_leaveGame");
         if (chatEventFuncAdded && leaveGameMatch && leavePlayerVar) src = src.safeReplace(leaveGameMatch, `${leaveGameMatch},addChatEvent(ChatEvent.leaveGame, ${leavePlayerVar})`, "betterChat_chatEvent_leaveGame");
-    
+
         // Switch Team Chat Event
         const [switchTeamMatch, switchPlayerVar] = regex`(${v})\.stats\.kills\=0`.safeExec(src, "betterChat_chatEvent_switchTeam");
         if (chatEventFuncAdded && switchTeamMatch && switchPlayerVar) src = src.safeReplace(switchTeamMatch, `addChatEvent(ChatEvent.switchTeam, ${switchPlayerVar}),${switchTeamMatch}`, "betterChat_chatEvent_switchTeam");
@@ -3314,7 +3438,7 @@ class MegaMod {
             const [,nameDivVar] = regex`(${v})\.style\.display\=\"inline-block\"(?:\r|\n|.)*\1\.style\.color\=\"#ff0\"`.safeExec(src, "");
             if (nameDivVar) {
                 const chatIcon = `(${iconVar}.classList.add({CLASS}, "ss_marginright_xs", "chat-icon"), ${nameDivVar}.appendChild(${iconVar}))`
-                src = src.safeReplace(`"SERVER: "`, `"SERVER: ",${chatIcon.replace("{CLASS}", `"far6", "fa-globe"`)}`, "");
+                src = src.safeReplace(`"SERVER: "`, `"SERVER: ",${chatIcon.safeReplace("{CLASS}", `"far6", "fa-globe"`)}`, "");
                 src = src.safeReplace(`"MOD: "`, `"MOD: ",${chatIcon.replace("{CLASS}", `"fas", "fa-shield-alt"`)}`, "");
             }
         }
@@ -3322,8 +3446,8 @@ class MegaMod {
         // First-Person Spectate Controls
         const updownKeybinds = `extern?.modSettingEnabled?.('specTweaks_updown')`;
         const spectateControls = "vueApp.settingsUi.controls.keyboard.spectate";
-        src = src.safeReplace(`"ARROWUP"`, `((${updownKeybinds})? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "ascend")].value : "ARROWUP")`, "");
-        src = src.safeReplace(`"ARROWDOWN"`, `((${updownKeybinds}) ? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "descend")].value : "ARROWDOWN")`, "");
+        src = src.safeReplace(`"ArrowUp"`, `((${updownKeybinds})? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "ascend")].value : "ARROWUP")`, "");
+        src = src.safeReplace(`"ArrowDown"`, `((${updownKeybinds}) ? ${spectateControls}[${spectateControls}.findIndex(i => i.id === "descend")].value : "ARROWDOWN")`, "");
         
         // Reconfigure playerAccount dateCreated (for badges) 
         const [,strDate, rawDate] = regex`(${v})\=new\sDate\((${v})\)\.toLocaleDateString`.safeExec(src, "");
@@ -3436,7 +3560,7 @@ class MegaMod {
         const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "betterEggforce_chatBlacklist");
         if (filterFunc && msgElem && msgContent) {
             const [,idVar] = regex`(${v})>253`.safeExec(src, "betterEggforce_chatBlacklist");
-            src = src.safeReplace(filterMatch, filterMatch.replace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`), "betterEggforce_chatBlacklist");
+            src = src.safeReplace(filterMatch, filterMatch.safeReplace(`!${filterFunc}(${filterMsg})`, `(${blacklistDisabled} || !${filterFunc}(${msgContent}))`), "betterEggforce_chatBlacklist");
             src = src.safeReplace(elemMatch, `${elemMatch}${filterFunc}(${msgContent}) && arguments[2] !== null ${idVar ? `&& ${idVar} < 253` : ''} && ${blacklistDisabled} && (${msgElem}.style.color="red") && (${msgElem}.innerHTML = window.megaMod.betterChat.highlightBlacklist(${msgElem}.innerHTML, ${filterFunc})),`, "betterEggforce_chatBlacklist");
         }
         
@@ -3447,12 +3571,10 @@ class MegaMod {
         if (joinGameMatch && joinPlayerVar && uniqueIDVar && packInt8 && packString && sendWS) {
             const [banPlayerFunc, outBufferVar, uniqueId, reason, duration] = regex`var\s(${v})\s*\=\s*${v}\.getBuffer\(\);\s*\1\.${packInt8}\(${v}\.${v}\),\s*\1\.${packString}\((${v})\),\s*\1\.${packString}\((${v})\),\s*\1\.${packInt8}\((${v})\),\s*\1\.${sendWS}\(${v}\)`.safeExec(src, "betterEggforce_autoBan");
             if (banPlayerFunc && uniqueId && reason && duration) {
-                const newBanPlayerFunc = `
-                    const newBanPlayer = (uniqueId, reason, duration) => {
-                        ${banPlayerFunc.replace(`(${uniqueId})`, "(uniqueId)").replace(`(${reason})`, "(reason)").replace(`(${duration})`, "(duration)")}
-                    };
-                `;
                 const autoBanFuncs = `
+                    const newBanPlayer = (uniqueId, reason, duration) => {
+                        ${banPlayerFunc.safeReplace(`(${uniqueId})`, "(uniqueId)").safeReplace(`(${reason})`, "(reason)").safeReplace(`(${duration})`, "(duration)")}
+                    };
                     const normalizeName = (name) => {
                         name = name
                             .toLowerCase()
@@ -3519,17 +3641,19 @@ class MegaMod {
                         window.megaMod.constructor.log("checkAutoBan() -", \`Autobanned \${player.name} (\${player.${uniqueIDVar}})\`);
                     };
                 `;
-                src = src.safeReplace("window.BAWK", `${newBanPlayerFunc}${autoBanFuncs}window.BAWK`, "betterEggforce_autoBan");
+                src = src.safeReplace("window.BAWK", `${autoBanFuncs}window.BAWK`, "betterEggforce_autoBan");
                 src = src.safeReplace(joinGameMatch, `if (!${joinPlayerVar}.ws && [2, 4, 8192].some(role => extern.adminRoles & role) && extern?.modSettingEnabled?.("betterEggforce_autoBan")) checkAutoBan(${joinPlayerVar});${joinGameMatch}`, "betterEggforce_autoBan");
+                const autoBanFuncsAdded = src.includes("const damerauLevenshtein");
                 const autoBanUpdateFunc = `
                     checkAutoBans: list => {
+
                         ${playerArr}.forEach(player => {
                             if(!player) return;
                             checkAutoBan(player, list);
                         });
                     }
                 `;
-                src = src.safeReplace("catalog:", `${autoBanUpdateFunc},catalog:`, "betterEggforce_autoBan");
+                if (autoBanFuncsAdded) src = src.safeReplace("catalog:", `${autoBanUpdateFunc},catalog:`, "betterEggforce_autoBan");
             }
         }
 
@@ -3554,7 +3678,7 @@ class MegaMod {
 
             const [[,,playerA], [,,playerB]] = feedMatches;
             feedMatches.forEach(([match, name, player], idx) => {
-                src = src.safeReplace(match, match.safeReplace(name, `(${player}?.spatula ? \`${spatulaIcon.replace("PLAYER", player)}\` : '') + ${name} + \`${weaponIcon.replace("GUNICON", idx ? weaponTemplateA.replaceAll("PLAYER", player) : `${playerB}.lastDmgType === 8 ? "ico-weapon-grenade" : ${playerB}.lastDmgType === 9 ? "ico-weapon-melee" : ${weaponTemplateA.replaceAll("PLAYER", player)}`)}\``, "betterUI_weapons"), "betterUI_weapons");
+                src = src.safeReplace(match, match.safeReplace(name, `(${player}?.spatula ? \`${spatulaIcon.replaceAll("PLAYER", player)}\` : '') + ${name} + \`${weaponIcon.replaceAll("GUNICON", idx ? weaponTemplateA.replaceAll("PLAYER", player) : `${playerB}.lastDmgType === 8 ? "ico-weapon-grenade" : ${playerB}.lastDmgType === 9 ? "ico-weapon-melee" : ${weaponTemplateA.replaceAll("PLAYER", player)}`)}\``, "betterUI_weapons"), "betterUI_weapons");
                 //src = src.safeReplace(match, match.safeReplace(name, `${name} + \` ${weaponIcon.replace("GUNICON", weaponTemplateA.replaceAll("PLAYER", player))}\``, "betterUI_weapons"), "betterUI_weapons");
             });
             if (playerA && playerB) {
@@ -3574,14 +3698,18 @@ class MegaMod {
             const [nameMatch, playerVar] = regex`${escSymbols(slotVar)}\.innerText\s*\=\s*(${v}).name`.safeExec(src, ["betterUI_weapons", "betterUI_spatula"]);
             if (nameMatch && playerVar) {
                 slotPlayerVar = playerVar;
-                src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replace("GUNICON", weaponTemplateB.replaceAll("PLAYER", playerVar))} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
+                src = src.safeReplace(nameMatch, `${nameMatch}, (${slotVar}.innerHTML = \`${weaponIcon.replaceAll("GUNICON", weaponTemplateB.replaceAll("PLAYER", playerVar))} \${${slotVar}.innerHTML\}\`)`, "betterUI_weapons");
             }
         }
 
+        let playerClassMatch = null;
+        let playerClassVar = null;
         const [,scoreVar] = regex`this\.(${v})\s*\=\s*this\.stats\.streak`.safeExec(src, "");
         if (playerArr && scoreVar) {
-            const [playerClassMatch, playerClassVar] = regex`(${v})\.prototype\.swapWeapon`.safeExec(src, "");
-            if (playerClassMatch && playerClassVar) {
+            const [classMatch, classVar] = regex`(${v})\.prototype\.swapWeapon`.safeExec(src, "");
+            if (classMatch && classVar) {
+                playerClassMatch = classMatch;
+                playerClassVar = classVar;
                 src = src.safeReplace(playerClassMatch, `
                     ${playerClassVar}.prototype.getPlayerSlot = function() {
                         const playerSlots = [...document.querySelectorAll(".playerSlot")].filter(x => x.style.display === "block");
@@ -3637,18 +3765,24 @@ class MegaMod {
         }
 
         // Player List Spatula Icon
+        let iconDiv = null;
+        let iconMatch = null;
         if (slotPlayerVar) {
-            const [,iconDiv] = regex`(${v})\.classList\.add\(\"playerSlot--icons\"\)`.safeExec(src, "betterUI_spatula");
-            if (iconDiv) {
-                const [iconMatch] = regex`${escSymbols(iconDiv)}\.innerText\s*\=\s*\"\"`.safeExec(src, "betterUI_spatula");
-                if (iconMatch) src = src.safeReplace(iconMatch, `${iconMatch},${iconDiv}.insertAdjacentHTML('beforeend', \`${spatulaIcon.replace("PLAYER", slotPlayerVar)}\`)`, "betterUI_spatula");
+            const [,div] = regex`(${v})\.classList\.add\(\"playerSlot--icons\"\)`.safeExec(src, "betterUI_spatula");
+            if (div) {
+                iconDiv = div;
+                const [match] = regex`${escSymbols(iconDiv)}\.innerText\s*\=\s*\"\"`.safeExec(src, "betterUI_spatula");
+                if (match) {
+                    iconMatch = match;
+                    src = src.safeReplace(iconMatch, `${iconMatch},${iconDiv}.insertAdjacentHTML('beforeend', \`${spatulaIcon.replaceAll("PLAYER", slotPlayerVar)}\`)`, "betterUI_spatula");
+                }
             }
         }
 
         // Player Slot Spatula Styling
         const spatulaMatches = Array.from(src.safeMatchAll(regex`(${v})\.team\]\}\``));
         spatulaMatches.forEach(([match, player]) => {
-            src = src.safeReplace(match, `${match.replace("`", "")} \$\{${player}?.spatula ? "playerSlot-spatula" : ""}\``);
+            src = src.safeReplace(match, `${match.safeReplace("`", "")} \$\{${player}?.spatula ? "playerSlot-spatula" : ""}\``);
         });
 
         // Spatula Init
@@ -3678,6 +3812,95 @@ class MegaMod {
             src = src.safeReplace("catalog:", `${autoSpecFunc},catalog:`, "betterEggforce_autoBan");
         }
 
+        // Client-Side Player Color Init
+        let respawnMatch = null;
+        if (actorVar) {
+            const [spawnMatch] = regex`this\.${actorVar}\.restoreToPlay\(\)`.safeExec(src, "colorSlider");
+            if (spawnMatch) {
+                respawnMatch = spawnMatch;
+                const initColor = `(this.ws && extern?.usingSlider?.() && vueApp.equip.colorIdx === 14 && this.${actorVar}.setShellColor(14))`
+                src = src.safeReplace(respawnMatch, `${respawnMatch}, ${initColor}`, "colorSlider");
+            }
+        }
+
+        // [Server] Player List Icons
+        const serverIcon = `<img class="megaMod-icon" style="display: \${PLAYER?.megaMod && !PLAYER?.isAdmin ? "inline-block" : "none"\};" src="${unsafeWindow.rawPath}/img/assets/logos/modServer.png">`
+        const adminIcon = `<i class="admin-icon fas fa-shield-alt text_white \${PLAYER?.isAdmin ? '' : 'hidden'\}"></i>`
+        if (slotPlayerVar && iconDiv && iconMatch) {
+            src = src.safeReplace(iconMatch, `${iconMatch},${iconDiv}.insertAdjacentHTML('beforeend', \`${serverIcon.replaceAll("PLAYER", slotPlayerVar)}${adminIcon.replaceAll("PLAYER", slotPlayerVar)}\`)`, "");
+            const [,vipIconvar] = regex`(${v})\.className\=\"fas fa\-egg`.safeExec(src, "");
+            if (vipIconvar) {
+                const[vipIconMatch] = regex`${escSymbols(vipIconvar)}\.classList\.remove`.safeExec(src, "");
+                if (vipIconMatch) src = src.safeReplace(vipIconMatch, `!${slotPlayerVar}?.isAdmin && ${vipIconMatch}`, "");
+            }
+        }
+
+        if (playerArr && playingVar) {
+            const initFuncs = `
+                initBadges(player) {
+                    const playerSlot = player?.getPlayerSlot();
+                    if (!playerSlot) return;
+                    if (player?.isAdmin) {
+                        const adminIcon = playerSlot.querySelector(".admin-icon");
+                        if (adminIcon) adminIcon.classList.remove('hidden');
+                        const vipIcon = playerSlot.querySelector(".vip-egg");
+                        if (vipIcon) vipIcon.classList.add('hidden');
+                    } else {
+                        const mmIcon = playerSlot.querySelector(".megaMod-icon");
+                        if (mmIcon) mmIcon.style.display = "inline-block";
+                    }
+                },
+                initServerPlayer(uniqueId, isAdmin) {
+                    const player = ${playerArr}.find(p => p?.${uniqueIdVar} === uniqueId);
+                    if (!player) return;
+                    player.megaMod = true;
+                    player.isAdmin = isAdmin;
+                    this.initBadges(player);
+                }
+            `;
+            src = src.safeReplace("catalog:", `${initFuncs},catalog:`, "");
+        }
+
+        // [Server] Player Color
+        if (playerClassMatch && playerClassVar && actorVar) {
+            const setColorFunc = `
+            ${playerClassVar}.prototype.setCustomColor = function(idx, hex) {
+                window.megaMod.constructor.log("player.setCustomColor:", idx, hex);
+                const colorIdx = 15 + idx;
+                shellColors[colorIdx] = hex;
+                this.shellColor = colorIdx;
+                this.${actorVar}.setShellColor(colorIdx);
+            }`;
+            src = src.safeReplace(playerClassMatch, `${setColorFunc},${playerClassMatch}`, "");
+            if (uniqueIdVar) {
+                const tryColorFunc = `
+                ${playerClassVar}.prototype.tryCustomColor = function() {
+                    if (this.ws) return;
+                    const data = window?.megaMod?.serverClient?.getCustomColorData(this.${uniqueIdVar});
+                    if (!data?.customColor) return;
+                    this.setCustomColor(data.idx, data.colorHex);
+                }`;
+                src = src.safeReplace(playerClassMatch, `${tryColorFunc},${playerClassMatch}`, "");
+
+                if (playerArr && playingVar) {
+                    const colorUpdateFunc = `
+                        initPlayerColor(uniqueId, idx, hex) {
+                            const player = ${playerArr}.find(p => p?.${uniqueIdVar} === uniqueId);
+                            if (!player?.${playingVar}) return;
+                            player.setCustomColor(idx, hex);
+                        }
+                    `;
+                    src = src.safeReplace("catalog:", `${colorUpdateFunc},catalog:`, "");
+                }
+            }
+            if (respawnMatch) src = src.safeReplace(respawnMatch, `${respawnMatch}, this.tryCustomColor()`, "");
+        }
+        // Respawn Weapon Icon Init
+        if (respawnMatch && src.includes("prototype.setWeaponIcon")) src = src.safeReplace(respawnMatch, `${respawnMatch}, this.setWeaponIcon()`, "");
+
+        // [Server] PlayerActions megaMod property
+        const [playerActionsMatch, localPlayerVar] = regex`isGameOwner\:(${v})\.isGameOwner`.safeExec(src, "");
+        if (playerActionsMatch && localPlayerVar)  src = src.safeReplace(playerActionsMatch, `megaMod: ${localPlayerVar}?.megaMod, ${playerActionsMatch}`, "")
 
         // All done - yay! :)
         this.setSourceModified(true);
@@ -3691,6 +3914,19 @@ class MegaMod {
             "%c%s%c%s",
             `color: #0a1633; font-weight: bold; background: #1795d2; padding: 2px 6px; border-radius: 5px; margin-right: 5px;`,
             `The MegaMod 🛠️`,
+            "font-weight: bold;",
+            message || "",
+            ...details
+        );
+    }
+
+    static warn(message, ...details) {
+        if (!this.debug) return;
+        
+        console.warn(
+            "%c%s%c%s",
+            "color: #0a1633; font-weight: bold; background: #1795d2; padding: 2px 6px; border-radius: 5px; margin-right: 5px;",
+            "The MegaMod 🛠️",
             "font-weight: bold;",
             message || "",
             ...details
@@ -3922,7 +4158,7 @@ class MegaMod {
 	}
 
 	newTogglerFunc(id, value) {
-		if (this.isModSetting(id)) this.updateModSetting(id, value);
+		if (this.isModSetting(id) && !(id === 'modServerClient' && value)) this.updateModSetting(id, value);
 		const settingEnabled = this.modSettingEnabled(id);
 		switch (id) {
 			case 'hideHUD':
@@ -4047,6 +4283,10 @@ class MegaMod {
                 break;
             case "customCrosshair":
                 this.customCrosshair.getCrosshairTypes().forEach(type => this.customCrosshair.enableCrosshairStyle(type, extern.modSettingEnabled(`${this.customCrosshair.getBaseSetting(type)}_enabled`)));
+                break;
+            case "modServerClient":
+                if (value) vueApp.$refs.serverClientPopup.show();
+                else unsafeWindow?.megaMod?.serverClient.destroy();
                 break;
 		}
 		if (id.startsWith("hideHUD_")) this.hideHUD.disableHideHUD();
@@ -4260,10 +4500,20 @@ class MegaMod {
     addExternFuncs() {
         MegaMod.log("addExternFuncs() -", "Adding extern functions");
 
+        const oldLeaveGame = extern.leaveGame;
+        const oldCheckBalance = extern.api_checkBalance;
         Object.assign(extern, {
             modSettingEnabled: this.modSettingEnabled.bind(this),
             isEggforcer() {
                 return [2, 4, 8192].some(role => this.adminRoles & role);
+            },
+            leaveGame(...args) {
+                unsafeWindow.megaMod?.serverClient?.leaveRoom(vueApp.game.shareLinkPopup.code.toUpperCase());
+                oldLeaveGame.apply(this, args);
+            },
+            api_checkBalance(...args) {
+                unsafeWindow.megaMod?.serverClient.refreshBalance();
+                oldCheckBalance.apply(this, args);
             }
         });
     }
@@ -4323,6 +4573,7 @@ class MegaMod {
         MegaMod.log("addAllModFunctions() -", "Adding all mod functions");
 
         const mods = [
+            { id: "serverClient",   constructor: ModServerClient },
             { id: "specTweaks",     propKey: "spectateTweaks",    constructor: SpectateTweaks },
             { id: "killstreakInfo", propKey: "killstreakStats",   constructor: KillstreakStats },
             { id: "pbSpin",         propKey: "photoboothEggSpin", constructor: PhotoboothEggSpin },
@@ -4589,11 +4840,537 @@ class MegaMod {
     }
 }
 
+class ModServerClient {
+  static SERVER_URL = '';
+
+  // ── Private state ─────────────────────────────────────────────────────────
+
+  #ws             = null;
+  #modToken       = null;
+  #tokenExpiresAt = 0;
+  #refreshTimer   = null;
+
+  #reconnectDelay = 1_000;
+  #reconnecting   = false;
+  #destroyed      = false;
+
+  // Tracks the room we're in so we can rejoin after reconnect
+  #currentRoom    = null; // { gameCode, gameUid }
+
+  // type = Set<fn>
+  #listeners      = new Map();
+
+  #lastSentSettings = {};
+
+  #profileCache = new Map(); // gameUid: { profile, fetchedAt }
+  #profilePending = new Map(); // gameUid -> Promise
+  #PROFILE_TTL  = 30_000;
+
+  // ── Constructor ───────────────────────────────────────────────────────────
+
+  constructor() {
+    MegaMod.log('ModServerClient: initializing');
+    window.addEventListener('beforeunload', () => {
+        this.#listeners.clear();
+        this.destroy();
+    });
+    if (firebase.auth().currentUser) this.init();
+    this.#addHandlers();
+
+    const playerAccount = extern.account.constructor;
+    const { 
+        signedIn: oldSignedIn, loggedOut: oldLoggedOut, 
+        setStats: oldSetStats
+    } = playerAccount.prototype;
+
+    Object.assign(playerAccount.prototype, {
+        signedIn(...args) {
+            oldSignedIn.apply(this, args);
+            unsafeWindow.megaMod?.serverClient.init();
+        },
+        loggedOut(...args) {
+            oldLoggedOut.apply(this, args);
+            unsafeWindow.megaMod?.serverClient.destroy();
+        },
+        setStats(...args) {
+            oldSetStats.apply(this, args);
+            unsafeWindow.megaMod?.serverClient.refreshStats();
+            unsafeWindow.megaMod?.serverClient.refreshBalance();
+        }
+    });
+  }
+  
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+
+  async init() {
+    this.#destroyed    = false;
+    this.#reconnecting = false;
+    this.#reconnectDelay = 1_000;
+    if (!extern.modSettingEnabled("modServerClient")) return;
+    try {
+      await this.#authenticate();
+      this.#connect();
+      this.#updateStatus();
+    } catch (err) {
+      MegaMod.error('ModServerClient: init failed -', err.message);
+      if (err.code === 'NOT_VERIFIED') {
+        vueApp.showGenericPopup('p_resend_email_title', 'megaMod_verifyError_desc', 'ok');
+      } else if (err.code === 'NOT_SIGNED_IN') {
+        vueApp.showGenericPopup('player_not_found_title', 'megaMod_loginError_desc', 'ok');
+      } else {
+        vueApp.showGenericPopup('cannot_connect', 'megaMod_serverError_desc', 'ok');
+      }
+      this.#updateStatus();
+    }
+  }
+
+  // ── Auth ──────────────────────────────────────────────────────────────────
+
+  async #authenticate() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      const err = new Error('Not signed in to Firebase');
+      err.code = 'NOT_SIGNED_IN';
+      throw err;
+    }
+
+    // Always get a fresh ID token cuz Firebase caches and auto-refreshes it
+    const firebaseToken = await user.getIdToken(/* forceRefresh */ true);
+
+    const res = await fetch(`${ModServerClient.SERVER_URL}/auth/exchange`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firebaseToken }),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json().catch(() => ({ error: 'SERVER_ERROR' }));
+      const err = new Error(`Auth failed: ${error}`);
+      err.code = error;
+      throw err;
+    }
+
+    const { modToken, expiresAt, session, avatarUrl } = await res.json();
+    this.#modToken       = modToken;
+    this.#tokenExpiresAt = expiresAt;
+
+    if (session) extern.account.session = session;
+    if (avatarUrl) vueApp.applyPfp(avatarUrl, true, false);
+
+    // Schedule a proactive refresh 2 min before expiry
+    clearTimeout(this.#refreshTimer);
+    const msUntilRefresh = Math.max(0, expiresAt - Date.now() - 2 * 60 * 1_000);
+    this.#refreshTimer = setTimeout(() => {
+      this.#authenticate().catch(() => {});
+    }, msUntilRefresh);
+
+    MegaMod.log('ModServerClient: authenticated, token expires', new Date(expiresAt).toLocaleTimeString());
+  }
+
+  // ── WebSocket ─────────────────────────────────────────────────────────────
+
+  #connect() {
+    if (this.#destroyed) return;
+    if (this.#ws?.readyState === WebSocket.OPEN) return;
+
+    const wsUrl = `${ModServerClient.SERVER_URL.replace(/^http/, 'ws')}?token=${this.#modToken}`;
+    const ws    = new WebSocket(wsUrl);
+    this.#ws    = ws;
+
+    ws.onopen = () => {
+      MegaMod.log('ModServerClient: connected');
+      this.#reconnectDelay = 1_000;
+      this.#reconnecting   = false;
+      this.#updateStatus();
+      this.#emit('connected', {});
+
+      // Rejoin the room transparently after a reconnect
+      if (this.#currentRoom) {
+        this.#sendRaw({
+          type:     'joinRoom',
+          gameCode: this.#currentRoom.gameCode,
+          gameUid:  this.#currentRoom.gameUid,
+        });
+      }
+    };
+
+    ws.onmessage = ({ data }) => {
+      try {
+        const msg = JSON.parse(data);
+        MegaMod.log('ModServerClient ←', msg.type, msg);
+        this.#emit(msg.type, msg);
+        this.#emit('*', msg);
+      } catch {}
+    };
+
+    ws.onclose = () => {
+      if (this.#destroyed) return;
+      MegaMod.log(`ModServerClient: disconnected, retrying in ${this.#reconnectDelay}ms`);
+      this.#emit('disconnected', {});
+      this.#updateStatus();
+      this.#scheduleReconnect();
+    };
+
+    ws.onerror = (err) => {
+      MegaMod.error('ModServerClient: socket error', err);
+    };
+  }
+
+  #isAdmin(adminRoles) {
+    return (adminRoles ?? 0) > 0;
+  }
+
+  #addHandlers() {
+    this.on('roomJoined', ({ members }) => {
+        if (!this.#currentRoom) return;
+        this.#currentRoom.members = members ?? [];
+        this.#currentRoom.members.forEach((member, idx) => {
+            const { game_uid, mod_data, admin_roles } = member;
+            if (mod_data?.custom_color) extern?.initPlayerColor(game_uid, idx, mod_data.color_hex);
+            extern?.initServerPlayer(game_uid, this.#isAdmin(admin_roles));
+        });
+        extern?.initServerPlayer(this.#currentRoom.gameUid, this.#isAdmin(extern.adminRoles)); // Init Self
+    });
+    this.on('memberJoined', ({ gameUid, mod_data, admin_roles }) => {
+        if (!this.#currentRoom) return;
+        if (!this.#currentRoom.members.find(m => m.game_uid === gameUid)) {
+            this.#currentRoom.members.push({ game_uid: gameUid, mod_data: mod_data ?? null, admin_roles: admin_roles ?? 0 });
+        }
+        if (mod_data?.custom_color) extern?.initPlayerColor(gameUid, this.#currentRoom.members.length - 1, mod_data.color_hex);
+        extern?.initServerPlayer(gameUid, this.#isAdmin(admin_roles));
+    });
+    this.on('memberLeft', ({ gameUid }) => {
+        if (!this.#currentRoom) return;
+        this.#currentRoom.members = this.#currentRoom.members.filter(m => m.game_uid !== gameUid);
+    });
+    this.on('memberSettingsUpdated', ({ gameUid, mod_data }) => {
+        if (!this.#currentRoom) return;
+        const member = this.#currentRoom.members.find(m => m.game_uid === gameUid);
+        if (member) Object.assign(member.mod_data, mod_data);
+    });
+  }
+
+  #scheduleReconnect() {
+    if (this.#destroyed || this.#reconnecting) return;
+    this.#reconnecting = true;
+    this.#updateStatus();
+
+    setTimeout(async () => {
+      if (this.#destroyed) return;
+      try {
+        if (Date.now() >= this.#tokenExpiresAt - 60_000) await this.#authenticate();
+        try {
+            this.#connect();
+        } catch (err) {
+            MegaMod.error('ModServerClient: connect threw during reconnect:', err.message);
+            this.#reconnecting = false;
+            this.#updateStatus();
+            this.#scheduleReconnect();
+        }
+      } catch {
+        this.#reconnecting = false;
+        this.#updateStatus();
+        this.#scheduleReconnect();
+      }
+    }, this.#reconnectDelay);
+
+    this.#reconnectDelay = Math.min(this.#reconnectDelay * 2, 30_000);
+  }
+
+  // ── Low-level send ────────────────────────────────────────────────────────
+
+  #sendRaw(data) {
+    if (this.#ws?.readyState === WebSocket.OPEN) {
+      MegaMod.log('ModServerClient →', data.type, data);
+      this.#ws.send(JSON.stringify(data));
+    } else {
+      MegaMod.warn('ModServerClient: not connected, dropped:', data.type);
+    }
+  }
+
+  // ── Event emitter ─────────────────────────────────────────────────────────
+
+  /**
+   * Subscribe to a server message type.
+   * Use '*' to receive every message.
+   * Returns an unsubscribe function.
+   *
+   * @param   {string}   type
+   * @param   {Function} fn
+   * @returns {Function} unsubscribe
+   */
+  on(type, fn) {
+    if (!this.#listeners.has(type)) this.#listeners.set(type, new Set());
+    this.#listeners.get(type).add(fn);
+    return () => this.#listeners.get(type)?.delete(fn);
+  }
+
+  /**
+   * Subscribe to a single occurrence of a server message type.
+   * Returns an unsubscribe function.
+   *
+   * @param   {string}   type
+   * @param   {Function} fn
+   * @returns {Function} unsubscribe
+   */
+  once(type, fn) {
+    const unsub = this.on(type, (msg) => { unsub(); fn(msg); });
+    return unsub;
+  }
+
+  #emit(type, data) {
+    this.#listeners.get(type)?.forEach(fn => { try { fn(data); } catch {} });
+  }
+
+  // ── Room presence ─────────────────────────────────────────────────────────
+
+  /**
+   * Join a game room. gameUid is the player's in-game identifier,
+   * used to broadcast your presence to other mods in the same room.
+   *
+   * @param {string} gameCode
+   * @param {string} gameUid   in-game player UID (visible to other players)
+   */
+  joinRoom(gameCode, gameUid) {
+    this.#currentRoom = { gameCode, gameUid, members: [] };
+    this.#sendRaw({ type: 'joinRoom', gameCode, gameUid });
+  }
+
+  /**
+   * Leave a room. Clears the auto-rejoin state if it matches.
+   *
+   * @param {string} gameCode
+   */
+  leaveRoom(gameCode) {
+    if (this.#currentRoom?.gameCode === gameCode) {
+        this.#currentRoom = null;
+        this.#profileCache.clear();
+        this.#profilePending.clear();
+    }
+    this.#sendRaw({ type: 'leaveRoom', gameCode });
+  }
+
+  /**
+   * Fetch the current member list for a room.
+   * Response fires a 'roomData' event: { gameCode, members }.
+   *
+   * @param {string} gameCode
+   */
+  getRoom(gameCode) {
+    this.#sendRaw({ type: 'getRoom', gameCode });
+  }
+
+  // ── Mod settings ──────────────────────────────────────────────────────────
+
+  /**
+   * Push your egg color to the server so roommates can see it.
+   * Response fires 'modSettingsUpdated': { settings }.
+   * Room members receive 'memberSettingsUpdated': { gameUid, settings }.
+   *
+   * @param {object} settings  key-value pairs of mod settings to update
+   */
+  updateModSettings(settings = {}) {
+    const changes = {};
+    for (const [key, value] of Object.entries(settings)) {
+        if (value !== undefined && value !== this.#lastSentSettings[key]) changes[key] = value;
+    }
+    if (Object.keys(changes).length === 0) return;
+    Object.assign(this.#lastSentSettings, changes);
+    this.#sendRaw({ type: "updateModSettings", ...changes });
+  }
+  /**
+   * Fetch the mod settings of any player by their in-game UID.
+   * Response fires 'modSettingsData': { gameUid, settings }.
+   *
+   * @param {string} gameUid  the target player's in-game UID
+   */
+  getModSettings(gameUid) {
+    if (this.#currentRoom) {
+        const member = this.#currentRoom.members.find(m => m.game_uid === gameUid);
+        if (member) return member.mod_data ?? null;
+    }
+    return null;
+  }
+
+  #getPlayerIdx(gameUid) {
+    return this.#currentRoom.members.findIndex(m => m.game_uid === gameUid)
+  }
+
+  getCustomColorData(gameUid) {
+    if (!this.#currentRoom) return null;
+    const idx = this.#getPlayerIdx(gameUid);
+    if (idx === -1) return null;
+    const { mod_data } = this.#currentRoom.members[idx];
+    return {
+        idx,
+        customColor: mod_data?.custom_color ?? false,
+        colorHex:    mod_data?.color_hex    ?? null,
+    };
+  }
+
+
+  // ── Profile / Stats ─────────────────────────────────────────────────────────────────
+
+  async getProfile(gameUid) {
+    const cached = this.#profileCache.get(gameUid);
+    if (cached && Date.now() - cached.fetchedAt < this.#PROFILE_TTL) return cached.profile;
+
+    if (this.#profilePending.has(gameUid)) return this.#profilePending.get(gameUid);
+
+    const promise = new Promise((resolve, reject) => {
+        const timer = setTimeout(() => { unsub(); reject(new Error('getProfile timed out')); }, 10_000);
+        const unsub = this.on('profileData', (msg) => {
+            if (msg.gameUid !== gameUid) return;
+            clearTimeout(timer);
+            unsub();
+            const { type: _, gameUid: __, ...data } = msg;
+            this.#profileCache.set(gameUid, { profile: data, fetchedAt: Date.now() });
+            this.#profilePending.delete(gameUid);
+            resolve(data);
+        });
+    });
+
+    this.#profilePending.set(gameUid, promise);
+    this.#sendRaw({ type: 'getProfile', gameUid });
+    return promise;
+  }
+
+  refreshStats() {
+    this.#sendRaw({ type: 'refreshStats' });
+  }
+
+  refreshBalance() {
+    this.#sendRaw({ type: 'refreshBalance' });
+  }
+
+  // ── Avatar ────────────────────────────────────────────────────────────────
+
+  setAvatarUrl(url) {
+    this.#sendRaw({ type: 'setAvatarUrl', url });
+  }
+
+  /**
+   * Upload a profile picture end-to-end.
+   * Requests a signed URL, uploads directly to storage, then confirms.
+   * Fires 'avatarConfirmed': { avatarUrl } on success.
+   *
+   * @param   {File|Blob} imageFile
+   * @returns {Promise<string>}        the public avatar URL
+   */
+  async uploadAvatar(imageFile) {
+    this.#sendRaw({ type: 'requestAvatarUpload' });
+    const { signedUrl, path } = await this.#waitFor('avatarUploadUrl');
+
+    const uploadRes = await fetch(signedUrl, {
+        method:  'PUT',
+        body:    imageFile,
+        headers: { 'Content-Type': imageFile.type || 'image/jpeg' },
+    });
+    if (!uploadRes.ok) throw new Error(`Storage upload failed: ${uploadRes.status}`);
+
+    this.#sendRaw({ type: 'confirmAvatar', path });
+
+    // Race confirmed vs error so a validation rejection doesn't hang forever
+    const msg = await Promise.race([
+        this.#waitFor('avatarConfirmed'),
+        this.#waitFor('error').then(m => { throw Object.assign(new Error(m.code), { code: m.code }) }),
+    ]);
+    return msg.avatarUrl;
+  }
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  /**
+   * Permanently close the connection and stop all reconnect attempts.
+   * Call this when the mod is unloaded.
+   */
+  destroy() {
+    if (this.#destroyed) return;
+    this.#destroyed = true;
+    this.#currentRoom = null;
+    this.#lastSentSettings = {};
+    this.#modToken = null;
+    this.#tokenExpiresAt = 0;
+    clearTimeout(this.#refreshTimer);
+    this.#ws?.close();
+    this.#updateStatus();
+    MegaMod.log('ModServerClient: destroyed');
+  }
+
+  // ── Utility ───────────────────────────────────────────────────────────────
+
+  #waitFor(type, timeoutMs = 10_000) {
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(
+        () => { unsub(); reject(new Error(`Timeout waiting for "${type}"`)); },
+        timeoutMs,
+      );
+      const unsub = this.once(type, (msg) => { clearTimeout(timer); resolve(msg); });
+    });
+  }
+
+  /** True when the WebSocket is open and ready. */
+  get connected() {
+    return this.#ws?.readyState === WebSocket.OPEN;
+  }
+
+  get status() {
+    if (!extern.modSettingEnabled("modServerClient") || this.#destroyed) return "disabled";
+    if (!firebase.auth().currentUser) return "signed_out";
+    switch (this.#ws?.readyState) {
+        case WebSocket.OPEN:
+            return "connected";
+
+        case WebSocket.CONNECTING:
+            return "connecting";
+
+        case WebSocket.CLOSED:
+        default:
+            return this.#reconnecting ? "reconnecting" : "disconnected";
+    }
+  }
+
+  #updateStatus() {
+    if (vueApp.$refs.settings?.currentMod?.id === "modServerClient") this.setServerStatus();
+  }
+
+  setServerStatus() {
+    const STATUS = {
+        connected:    { icon: "fa-signal",                  color: "#28a745" },
+        connecting:   { icon: "fa-spinner fa-spin",         color: "#f0ad4e" },
+        reconnecting: { icon: "fa-sync-alt fa-spin",        color: "#ff9800" },
+        disconnected: { icon: "fa-exclamation-triangle",    color: "#dc3545" },
+        signed_out:   { icon: "fa-user-lock",               color: "#6c757d" },
+        disabled:     { icon: "fa-pause-circle",            color: "#6c757d" },
+        error:        { icon: "fa-exclamation-triangle",    color: "#dc3545" }
+    };
+    const statusInterval = setInterval(() => {
+        const statusElem = document.getElementById('serverStatus');
+        if (!statusElem) return;
+        clearInterval(statusInterval);
+        const status = unsafeWindow.megaMod.serverClient.status ?? "disabled";
+        const s = STATUS[status] ?? STATUS.disabled;
+        statusElem.style.color = s.color;
+        statusElem.innerHTML = `
+            <i class="fas ${s.icon}" style="margin-right:6px;filter:brightness(1.2);"></i>
+            ${vueApp.loc["p_settings_mods_modServerClient_status_" + status]}
+        `;
+    }, 50);
+  }
+
+  /** The game room currently joined, or null. */
+  get currentRoom() {
+    return this.#currentRoom ? { ...this.#currentRoom, members: [...this.#currentRoom.members] } : null;
+  }
+}
+
 class BetterUI {   
     static GAME_HISTORY_KEYS = {
         list: "megaMod_gameHistory_list",
         time: "megaMod_gameHistory_time"
     };
+    static PROFILE_PIC_KEY = "megaMod_pfp_{0}";
     constructor(data) {
         MegaMod.log("Initializing Mod:", "Better UI");
 
@@ -4618,7 +5395,6 @@ class BetterUI {
             }
             return Infinity;
         };
-
 
         const oldTryEquipItem = extern.tryEquipItem;
         Object.assign(extern, {
@@ -5364,6 +6140,10 @@ class BetterUI {
         vueApp.gameHistory.filter(game => game?.isOpen).forEach(({ gameCode }) => this.checkGame(gameCode.toLowerCase()));
     }
 
+    getProfilePicKey() {
+        return BetterUI.PROFILE_PIC_KEY.format(extern.account.id);
+    }
+
     initProfileBadges(badgeData) {
         MegaMod.log("Better UI:", "Initializing Profile Badges");
 
@@ -5547,7 +6327,7 @@ class BetterUI {
         Object.assign(playerAccount.prototype, {
             signedIn(...args) {
                 oldSignedIn.apply(this, args);
-                vueApp.photoUrl = localStore.getItem("megaMod_pfp") || extern.firebaseUrl;
+                vueApp.photoUrl = localStore.getItem(unsafeWindow?.megaMod?.betterUI?.getProfilePicKey()) || extern.firebaseUrl;
             },
             loggedOut(...args) {
                 oldLoggedOut.apply(this, args);
@@ -6008,8 +6788,12 @@ class ColorSlider {
             usingSlider() {
                 return this.modSettingEnabled("colorSlider_unlock") || vueApp.isUpgraded;
             },
+            usingCustomColor(colorIdx) {
+                colorIdx ??= this.account.colorIdx;
+                return this.usingSlider() && colorIdx === 14;
+            },
             setShellColor(colorIdx) {
-                document.documentElement.style.setProperty('--slider-accent-color', `var(${(this.usingSlider() && colorIdx === 14) ? "--ss-white" : "--ss-blue3"})`);
+                document.documentElement.style.setProperty('--slider-accent-color', `var(${(this.usingCustomColor(colorIdx)) ? "--ss-white" : "--ss-blue3"})`);
                 oldSetColor.call(this, colorIdx);
             }
         });
@@ -6018,11 +6802,23 @@ class ColorSlider {
             oldAuthCompleted.call(this);
             if (extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
         };
+        const oldSaveEquipment = extern.saveEquipment;
+        extern.saveEquipment = function(...args) {
+            unsafeWindow.megaMod?.colorSlider?.syncToServer();
+            oldSaveEquipment.apply(this, args);
+        }
        if (extern?.account?.colorIdx != null && extern.usingSlider() && extern.modSettingEnabled("colorSlider_autoSave")) extern.useSliderColor();
     }
 
     refreshColorSelect() {
         if (vueApp.showScreen === vueApp.screens.equip) vueApp.$refs.equipScreen.$refs.colorSelect.$forceUpdate(); // Update Color Select
+    }
+
+    syncToServer() {
+        unsafeWindow.megaMod?.serverClient?.updateModSettings({ 
+            customColor: extern.usingCustomColor(),
+            colorHex: shellColors[14] 
+        });
     }
 }
 
@@ -6991,6 +7787,10 @@ HTMLElement.prototype.appendChild = function(child) {
     if (this.tagName === "BODY" && child.tagName === 'SCRIPT' && child?.innerHTML.startsWith('(()=>{')) {
         shellshockJS = child.innerHTML;
         child.innerHTML = MegaMod.editSource(child.innerHTML);
+        if (MegaMod.local && parsedUrl.query.src) {
+            const newWindow = window.open("", "_blank");
+            if (newWindow) newWindow.document.body.textContent = child.textContent; 
+        }
         HTMLElement.prototype.appendChild = oldAppend;
     };
     return oldAppend.call(this, child);

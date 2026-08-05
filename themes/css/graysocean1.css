@@ -286,13 +286,15 @@
 	color: var(--ss-blue3);
 }
 
-.social_icons:after { /* Added Code  */ 
-	content: 'Theme By Infinite Smasher' !important;
-	font-family: 'Sigmar One';
-	color: var(--ss-blue5);
-	margin-left: -16.7em;
-	margin-top: -3.8em;
-	letter-spacing: 0.01em;
+.homescreen-main-wrapper .secondary-aside-wrap::after {
+    content: 'Theme By Infinite Smasher';
+    position: absolute;
+    width: 100%;
+    text-align: center;
+
+    font-family: 'Sigmar One';
+    color: var(--ss-blue5);
+    letter-spacing: 0.01em;
 }
 
 .changelog_content {
