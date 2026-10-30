@@ -29,6 +29,23 @@ class MegaMod {
     static addHTMLEdits() {
         this.log("addHTMLEdits() -", "Adding HTML Edits");
 
+        // Components are precompiled now, rebuild their templates from MEGAMOD_TEMPLATES
+        const comps = {};
+        const addComps = c => Object.entries(c ?? {}).forEach(([name, comp]) => {
+            if (comps[name]) return;
+            comps[name] = comp;
+            addComps(comp.components);
+        });
+        addComps(unsafeWindow.buildRegistry());
+        Object.entries(comps).forEach(([name, comp]) => unsafeWindow[`comp_${name.replaceAll("-", "_")}`] = comp);
+        Object.assign(unsafeWindow, { comp_chickn_winner_popup: comps["chicken-nugget-popup"], STATSPOPUP: comps["stats-content"], StatTemplate: comps["stat-item"], MEDIATABS: comps["media-tabs"], CompPlayerChallengeList: comps["player-challenge-list"], CompPlayerChallengeSingle: comps["player-challenge"], CompPhotoboothUi: comps["photo-booth-ui"], CompChwHomeScreen: comps["chw"], NotifiSlider: comps["notification-slider"] });
+        const templateComps = { "stats-stats": "stats-content", "the-stat": "stat-item", "photoBooth-screen": "photo-booth-ui", "chickn-winner": "chicken-nugget-popup", "player_challenge": "player-challenge", "player_challenge_list": "player-challenge-list" };
+        const templates = {};
+        const getById = document.getElementById;
+        document.getElementById = function(id) {
+            return getById.call(this, id) ?? (id in unsafeWindow.MEGAMOD_TEMPLATES ? templates[id] ??= { innerHTML: unsafeWindow.MEGAMOD_TEMPLATES[id] } : ["changelogPopup", "gameDescription"].includes(id) ? { innerHTML: "" } : null);
+        };
+
         String.prototype.safeReplace = function(searchStr, replacement, ids, all = false) {
             ids = Array.isArray(ids) ? ids : [ids];
             //MegaMod.log("Replacing:", `${searchStr} --> ${replacement}`);
@@ -272,9 +289,8 @@ class MegaMod {
             </div>
 
         `.trim();
-        settings.parentNode.insertBefore(tagInputTemplate, settings.nextSibling);
         unsafeWindow.comp_tag_input = {
-            template: '#tag-input-template',
+            render: MegaMod.compileTemplate(tagInputTemplate.innerHTML),
             props: {
                 loc: {
                     type: Object,
@@ -699,24 +715,20 @@ class MegaMod {
             },
         });
 
-        // Chick'n Winner Popup Overlay Dismiss Disabled
-        // TODO: Set the chwMiniGameComplete variable instead of overriding it
         const betterUIEnabled = `extern?.modSettingEnabled?.('betterUI_ui')`;
         const chlgUpgrades = `extern?.modSettingEnabled?.('betterUI_chlg')`;
         const chicknWinnerUpgrades = `extern?.modSettingEnabled?.('betterUI_cw')`;
-        const chwComplete = "$refs.chickenNugget.isMiniGameComplete";
-        const cwInterval = setInterval(() => {
-            const chicknWinner = document.getElementById("chicknWinner");
-            if (!chicknWinner) return;
-            clearInterval(cwInterval);
-            chicknWinner.outerHTML = chicknWinner.outerHTML.safeReplace(
-                `:overlay-close="chwMiniGameComplete"`, 
-                `:overlay-close="${chicknWinnerUpgrades} && ${chwComplete}"`
-            ).safeReplace(
-                `:hide-close="!chwMiniGameComplete"`, 
-                `:hide-close="${chicknWinnerUpgrades} && !${chwComplete}"`
-            );
+
+        // Chick'n Winner Popup Overlay Dismiss Disabled
+        let chwMiniGameComplete = unsafeWindow.vueData.chwMiniGameComplete;
+        Object.defineProperty(unsafeWindow.vueData, "chwMiniGameComplete", {
+            get: () => {
+                const nugget = extern?.modSettingEnabled?.('betterUI_cw') && vueApp.$refs.chickenNugget;
+                return nugget ? nugget.isMiniGameComplete : chwMiniGameComplete;
+            },
+            set: value => chwMiniGameComplete = value
         });
+        comp_chickn_winner_popup.watch.isMiniGameComplete = () => vueApp.$forceUpdate();
 
         // Better Inventory
         const invEditsEnabled = `extern?.modSettingEnabled?.('betterUI_inventory')`;
@@ -1056,9 +1068,7 @@ class MegaMod {
                 <i :class="typeof lockIconClass !== 'undefined' ? lockIconClass :  ''" class="lock-icon"></i>
             </div> <p v-if="showItemOnly"`
         );
-        SvgIcon.template = SvgIcon.template.safeReplace(`<svg`, `<svg id="test" @click="$emit('click', $event)" @mouseenter="$emit('mouseenter', $event)`);
-        Vue.component('icon', SvgIcon);
-    
+
         // Add Profile Image and Badges
         const profileScreen = document.getElementById("profile-screen-template");
         const badgesEnabled = `extern?.modSettingEnabled?.('betterUI_profile')`;
@@ -1175,7 +1185,7 @@ class MegaMod {
                 
                 const inputs = this.$refs.codeInputs;
                 inputs[index].value = letter;
-                this.$set(this.gameCodeValues, index, letter);
+                this.gameCodeValues[index] = letter;
                 this.applyCode();
                 BAWK.play(this.gameCodeValues.every(x => x?.length === 1) ? "ui_equip" :  "ui_onchange");
                 
@@ -1236,7 +1246,7 @@ class MegaMod {
                 for (let j = 0; j < result.length && index + j < inputs.length; j++) {
                     const i = index + j;
                     inputs[i].value = result[j];
-                    this.$set(this.gameCodeValues, i, result[j]);
+                    this.gameCodeValues[i] = result[j];
                     if (i + 1 < inputs.length) {
                         const nextInput = inputs[i + 1];
                         if (nextInput.disabled) nextInput.disabled = false;
@@ -2527,6 +2537,33 @@ class MegaMod {
             `<item`,
             `<item is-reward="true"`
         );
+
+        Object.entries(templates).forEach(([id, template]) => {
+            const name = id.replace(/-template$/, "");
+            const comp = comps[templateComps[name] ?? name];
+            if (comp) comp.render = MegaMod.compileTemplate(template.innerHTML);
+            else MegaMod.error("Component not found for template:", id);
+        });
+        document.getElementById = getById;
+    }
+
+    static getChildren(vm) {
+        const children = [];
+        const walk = vnode => {
+            if (vnode?.component) children.push(vnode.component.proxy);
+            else if (Array.isArray(vnode?.children)) vnode.children.forEach(walk);
+        };
+        walk(vm.$.subTree);
+        return children;
+    }
+
+    static compileTemplate(template) {
+        const { code } = VueCompilerDOM.compile(template.replace(/<template\s+slot="([^"]+)"/g, "<template #$1").replace(/v-for="(\w+) in ([^"]+)" v-if="([^"]+)"/g, 'v-for="$1 in ($2).filter($1 => $3)"'), {
+            mode: "function",
+            onError: e => MegaMod.warn("Template compile warning:", e.message)
+        });
+        const render = new Function("Vue", code)(unsafeWindow.Vue);
+        return (ctx, cache) => render(new Proxy(ctx, { has: (target, key) => key in target || (typeof key === "string" && key[0] !== "_" && !(key in unsafeWindow)) }), cache);
     }
 
     static addPopups() {
@@ -3556,7 +3593,7 @@ class MegaMod {
         // ty A3+++
         const isEggforcer = "[2, 4, 8192].some(role => extern.adminRoles & role)";
         const blacklistDisabled = `(extern?.modSettingEnabled?.('betterEggforce_chatBlacklist') && ${isEggforcer})`
-        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*\2\.indexOf\("<"\)`.safeExec(src, "betterEggforce_chatBlacklist");
+        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*(?:!function\(${v}\)\{.*?\}\(\2\)\s*&&\s*)?\2\.indexOf\("<"\)`.safeExec(src, "betterEggforce_chatBlacklist");
         const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "betterEggforce_chatBlacklist");
         if (filterFunc && msgElem && msgContent) {
             const [,idVar] = regex`(${v})>253`.safeExec(src, "betterEggforce_chatBlacklist");
@@ -5564,7 +5601,7 @@ class BetterUI {
         extern.clearThemeCache = () => _themeMapCache.clear();
 
         // ─── Shared reactive setting (one read for all items) ────────────────────────
-        const _sharedSettings = Vue.observable({ betterInventory: extern.modSettingEnabled("betterUI_inventory") });
+        const _sharedSettings = Vue.reactive({ betterInventory: extern.modSettingEnabled("betterUI_inventory") });
         this._sharedSettings = _sharedSettings;
 
         // ─── Static lookup tables (allocated once, never recreated) ──────────────────
@@ -6378,7 +6415,7 @@ class BetterUI {
         if (vueApp.showScreen === vueApp.screens.home) {
             vueApp.$refs.homeScreen.$refs.playPanel.$forceUpdate(); // Update Play Buttons
             // Update Challenge Tab
-            [[], vueApp.$refs.homeScreen.$refs.mediaTabs.$children[0].challenges].forEach(x => setTimeout(() => vueApp.$refs.homeScreen.$refs.mediaTabs.$children[0].challenges = x, 0));
+            MegaMod.getChildren(vueApp.$refs.homeScreen.$refs.mediaTabs).forEach(child => child.$forceUpdate());
         }
         vueApp.$refs.accountPanelHome.$forceUpdate();
         [null, vueApp.chw.resets].forEach(x => setTimeout(vueApp.chw.resets = x, 0));
@@ -6484,7 +6521,7 @@ class BetterUI {
         // Update Profile Screen
         if (vueApp.showScreen === vueApp.screens.profile) {
             vueApp.$refs.homeScreen.$refs.profileScreen.$forceUpdate(); 
-            vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer.$children.forEach(child => child.$forceUpdate());
+            MegaMod.getChildren(vueApp.$refs.homeScreen.$refs.profileScreen.$refs.statsContainer).forEach(child => child.$forceUpdate());
         }
     }
 
@@ -6849,7 +6886,7 @@ class LegacyMode {
         const skinsInterval = setInterval(() => {
             if (extern?.account?.colorIdx == null) return;
             clearInterval(skinsInterval);
-            setTimeout(extern.loadAllMeshesOnDemand().then(trySwitchLegacySkins), 500);
+            setTimeout(() => extern.loadAllMeshesOnDemand().then(trySwitchLegacySkins), 500);
         }, 500);
 
         const oldAssetSetup = vueApp.assetSetup;
