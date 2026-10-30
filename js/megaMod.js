@@ -3556,7 +3556,7 @@ class MegaMod {
         // ty A3+++
         const isEggforcer = "[2, 4, 8192].some(role => extern.adminRoles & role)";
         const blacklistDisabled = `(extern?.modSettingEnabled?.('betterEggforce_chatBlacklist') && ${isEggforcer})`
-        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*\2\.indexOf\("<"\)`.safeExec(src, "betterEggforce_chatBlacklist");
+        const [filterMatch, filterFunc, filterMsg] = regex`!(${v})\((${v})\)\s*&&\s*(?:!function\(${v}\)\{.*?\}\(\2\)\s*&&\s*)?\2\.indexOf\("<"\)`.safeExec(src, "betterEggforce_chatBlacklist");
         const [elemMatch, msgElem, msgContent] = regex`\)\),(${v})\.innerHTML=(${v}),`.safeExec(src, "betterEggforce_chatBlacklist");
         if (filterFunc && msgElem && msgContent) {
             const [,idVar] = regex`(${v})>253`.safeExec(src, "betterEggforce_chatBlacklist");
