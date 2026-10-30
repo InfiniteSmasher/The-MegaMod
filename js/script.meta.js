@@ -6,6 +6,8 @@
 // @icon         https://raw.githubusercontent.com/InfiniteSmasher/The-MegaMod/main/img/assets/logos/modServer.png
 // @updateURL    https://infinitesmasher.github.io/The-MegaMod/js/script.meta.js
 // @downloadURL  https://infinitesmasher.github.io/The-MegaMod/js/script.user.js
+// @require      https://cdn.jsdelivr.net/npm/@vue/compiler-dom@3.5.41/dist/compiler-dom.global.prod.js
+// @require      https://infinitesmasher.github.io/The-MegaMod/js/templates.js?v=1.05
 // @require      https://infinitesmasher.github.io/The-MegaMod/js/megaMod.js?v=1.05
 // @match        *://*.shellshock.io/*
 // @match        *://freegames.io/game/shell-shockers*
